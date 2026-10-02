@@ -2835,6 +2835,16 @@ function openTopPriorityAlert() {
 
     }
 
+
+    /*
+     * Also refresh the priority alert list.
+     */
+
+    renderAlerts(
+        allCves,
+        allNews
+    );
+
 }
 
 
@@ -3585,6 +3595,58 @@ function renderAlerts(
                 container.appendChild(
                     div
                 );
+
+
+                /*
+                 * Clicking the actual alert article now
+                 * marks the alert as read before opening
+                 * the external source.
+                 *
+                 * The alert is therefore removed from:
+                 *
+                 * 1. The priority alert list
+                 * 2. The PRIORITY SECURITY ALERT banner
+                 *
+                 * The dismissed state is persisted in
+                 * localStorage.
+                 */
+
+                const alertLink =
+                    div.querySelector(
+                        ".alert-link"
+                    );
+
+
+                if (
+                    alertLink
+                ) {
+
+                    alertLink.addEventListener(
+                        "click",
+                        () => {
+
+                            dismissAlert(
+                                alert
+                            );
+
+
+                            updatePriorityBanner();
+
+
+                            /*
+                             * Remove the alert immediately
+                             * from the visible list.
+                             */
+
+                            renderAlerts(
+                                allCves,
+                                allNews
+                            );
+
+                        }
+                    );
+
+                }
 
             }
         );
