@@ -1,5878 +1,1827 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Security Monitor</title>
 
 <style>
-
 :root {
-
-    --bg:
-        #05080d;
-
-    --surface:
-        #0b1119;
-
-    --surface-2:
-        #101822;
-
-    --surface-3:
-        #141e2a;
-
-    --border:
-        #202938;
-
-    --border-light:
-        #2a3849;
-
-    --text:
-        #e6edf3;
-
-    --muted:
-        #788696;
-
-    --muted-2:
-        #637184;
-
-    --blue:
-        #61b6ff;
-
-    --green:
-        #36d399;
-
-    --red:
-        #ff4654;
-
-    --orange:
-        #ff9f43;
-
-    --yellow:
-        #ffd166;
-
-    --shadow:
-        0 8px 30px rgba(0, 0, 0, 0.22);
-
-    --radius:
-        8px;
-
+    --bg: #05080d;
+    --surface: #0b1119;
+    --surface-2: #101822;
+    --surface-3: #141e2a;
+    --border: #202938;
+    --border-light: #2a3849;
+    --text: #e6edf3;
+    --muted: #788696;
+    --muted-2: #637184;
+    --blue: #61b6ff;
+    --green: #36d399;
+    --red: #ff4654;
+    --orange: #ff9f43;
+    --yellow: #ffd166;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+    --radius: 8px;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-
     margin: 0;
-
-    background:
-        var(--bg);
-
-    color:
-        var(--text);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
-
 }
 
 body.alert-active {
-
-    background:
-        radial-gradient(
-            circle at top,
-            #250b10 0%,
-            #05080d 42%
-        );
-
+    background: radial-gradient(circle at top, #250b10 0%, #05080d 42%);
 }
 
 body.compact-mode .alert,
 body.compact-mode .cve,
 body.compact-mode .news-item {
-
     padding-top: 8px;
     padding-bottom: 8px;
-
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
-
+/* HEADER */
 header {
-
     min-height: 64px;
-
-    padding:
-        10px 22px;
-
-    background:
-        rgba(11, 17, 25, 0.96);
-
-    border-bottom:
-        1px solid var(--border);
-
+    padding: 10px 22px;
+    background: rgba(11, 17, 25, 0.96);
+    border-bottom: 1px solid var(--border);
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 15px;
-
     position: sticky;
-
     top: 0;
-
     z-index: 100;
-
-    backdrop-filter:
-        blur(12px);
-
+    backdrop-filter: blur(12px);
 }
 
 .logo {
-
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     min-width: 0;
-
 }
 
 .status-light {
-
     width: 10px;
-
     height: 10px;
-
     flex: 0 0 auto;
-
     border-radius: 50%;
-
-    background:
-        var(--green);
-
-    box-shadow:
-        0 0 10px
-        rgba(54, 211, 153, 0.7);
-
+    background: var(--green);
+    box-shadow: 0 0 10px rgba(54, 211, 153, 0.7);
 }
 
 .status-light.alert {
-
-    background:
-        var(--red);
-
-    box-shadow:
-        0 0 16px
-        rgba(255, 70, 84, 0.9);
-
-    animation:
-        pulse 1s infinite;
-
+    background: var(--red);
+    box-shadow: 0 0 16px rgba(255, 70, 84, 0.9);
+    animation: pulse 1s infinite;
 }
 
 .status-light.paused {
-
-    background:
-        var(--yellow);
-
-    box-shadow:
-        0 0 10px
-        rgba(255, 209, 102, 0.6);
-
+    background: var(--yellow);
+    box-shadow: 0 0 10px rgba(255, 209, 102, 0.6);
     animation: none;
-
 }
 
 .logo-text {
-
     font-size: 18px;
-
     font-weight: bold;
-
     letter-spacing: 2px;
-
     white-space: nowrap;
-
 }
 
 .header-right {
-
     display: flex;
-
     align-items: center;
-
     gap: 8px;
-
     flex-wrap: wrap;
-
     justify-content: flex-end;
-
 }
 
-.updated {
+.updated { color: var(--muted); font-size: 11px; }
+.live { color: var(--green); font-size: 11px; font-weight: bold; }
+.live.paused { color: var(--yellow); }
+.live.error { color: var(--red); }
 
-    color:
-        var(--muted);
-
-    font-size: 11px;
-
-}
-
-.live {
-
-    color:
-        var(--green);
-
-    font-size: 11px;
-
-    font-weight: bold;
-
-}
-
-.live.paused {
-
-    color:
-        var(--yellow);
-
-}
-
-.live.error {
-
-    color:
-        var(--red);
-
-}
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
+/* BUTTONS */
 button {
-
-    background:
-        var(--surface-2);
-
-    color:
-        #9caabd;
-
-    border:
-        1px solid #273444;
-
-    border-radius:
-        5px;
-
-    padding:
-        6px 10px;
-
+    background: var(--surface-2);
+    color: #9caabd;
+    border: 1px solid #273444;
+    border-radius: 5px;
+    padding: 6px 10px;
     cursor: pointer;
-
     font-size: 10px;
-
     font-weight: bold;
-
-    transition:
-        background 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease,
-        transform 0.12s ease;
-
+    transition: background 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease, transform 0.12s ease;
 }
 
-button:hover {
-
-    background:
-        #182331;
-
-    color:
-        #fff;
-
-}
-
-button:active {
-
-    transform:
-        translateY(1px);
-
-}
+button:hover { background: #182331; color: #fff; }
+button:active { transform: translateY(1px); }
 
 button:focus-visible,
 input:focus-visible,
 a:focus-visible {
-
-    outline:
-        2px solid #3b82bd;
-
-    outline-offset:
-        2px;
-
+    outline: 2px solid #3b82bd;
+    outline-offset: 2px;
 }
 
 button.active {
-
-    background:
-        #245b8a;
-
-    border-color:
-        #3b82bd;
-
-    color:
-        white;
-
+    background: #245b8a;
+    border-color: #3b82bd;
+    color: white;
 }
 
 button.p1-button.active {
-
-    background:
-        #641923;
-
-    border-color:
-        #a93240;
-
-    color:
-        #ff9da6;
-
+    background: #641923;
+    border-color: #a93240;
+    color: #ff9da6;
 }
 
 button.p2-button.active {
-
-    background:
-        #593316;
-
-    border-color:
-        #a86128;
-
-    color:
-        #ffc184;
-
+    background: #593316;
+    border-color: #a86128;
+    color: #ffc184;
 }
 
 .notification-button.enabled {
-
-    color:
-        var(--green);
-
-    border-color:
-        #247957;
-
-    background:
-        #0d211b;
-
+    color: var(--green);
+    border-color: #247957;
+    background: #0d211b;
 }
 
 .notification-button.denied {
-
-    color:
-        #ff6976;
-
-    border-color:
-        #6c2932;
-
-    background:
-        #211015;
-
+    color: #ff6976;
+    border-color: #6c2932;
+    background: #211015;
 }
 
 .toolbar-button {
-
-    display:
-        inline-flex;
-
-    align-items:
-        center;
-
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-
 }
 
-.toolbar-button.danger {
+.toolbar-button.danger { color: #ff8b96; }
+.toolbar-button.success { color: #72dfb5; }
 
-    color:
-        #ff8b96;
-
-}
-
-.toolbar-button.success {
-
-    color:
-        #72dfb5;
-
-}
-
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
+/* CONTAINER */
 .container {
-
-    padding:
-        16px;
-
-    max-width:
-        1800px;
-
-    margin:
-        auto;
-
+    padding: 16px;
+    max-width: 1800px;
+    margin: auto;
 }
 
-
-/* =====================================================
-   STATS
-===================================================== */
-
+/* STATS */
 .stats {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(6, 1fr);
-
+    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
-
-    margin-bottom:
-        14px;
-
+    margin-bottom: 14px;
 }
 
 .stat {
-
-    background:
-        linear-gradient(
-            145deg,
-            #0c131c,
-            #091018
-        );
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        var(--radius);
-
-    padding:
-        13px 15px;
-
-    min-height:
-        82px;
-
-    position:
-        relative;
-
-    overflow:
-        hidden;
-
+    background: linear-gradient(145deg, #0c131c, #091018);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 15px;
+    min-height: 82px;
+    position: relative;
+    overflow: hidden;
 }
 
 .stat::after {
-
     content: "";
-
-    position:
-        absolute;
-
-    inset:
-        auto 0 0 0;
-
-    height:
-        2px;
-
-    background:
-        transparent;
-
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 2px;
+    background: transparent;
 }
 
-.stat-p1-box::after {
-    background: var(--red);
-}
-
-.stat-p2-box::after {
-    background: var(--orange);
-}
-
-.stat-critical-box::after {
-    background: #ff5968;
-}
-
-.stat-high-box::after {
-    background: #ffb05c;
-}
-
-.stat-kev-box::after {
-    background: #ff4654;
-}
-
-.stat-news-box::after {
-    background: var(--blue);
-}
+.stat-p1-box::after { background: var(--red); }
+.stat-p2-box::after { background: var(--orange); }
+.stat-critical-box::after { background: #ff5968; }
+.stat-high-box::after { background: #ffb05c; }
+.stat-kev-box::after { background: #ff4654; }
+.stat-news-box::after { background: var(--blue); }
 
 .stat-title {
-
-    color:
-        #728092;
-
-    font-size:
-        10px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        1px;
-
+    color: #728092;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .stat-value {
-
-    margin-top:
-        6px;
-
-    font-size:
-        27px;
-
-    font-weight:
-        bold;
-
+    margin-top: 6px;
+    font-size: 27px;
+    font-weight: bold;
 }
 
-.stat-p1 {
-    color: var(--red);
-}
+.stat-p1 { color: var(--red); }
+.stat-p2 { color: var(--orange); }
+.stat-critical { color: #ff5968; }
+.stat-high { color: #ffb05c; }
+.stat-kev { color: var(--red); }
+.stat-news { color: var(--blue); }
 
-.stat-p2 {
-    color: var(--orange);
-}
-
-.stat-critical {
-    color: #ff5968;
-}
-
-.stat-high {
-    color: #ffb05c;
-}
-
-.stat-kev {
-    color: var(--red);
-}
-
-.stat-news {
-    color: var(--blue);
-}
-
-
-/* =====================================================
-   PRIORITY BANNER
-===================================================== */
-
+/* PRIORITY BANNER */
 .priority-banner {
-
     display: none;
-
-    background:
-        linear-gradient(
-            90deg,
-            #3b1017,
-            #220c12
-        );
-
-    border:
-        1px solid #7d2531;
-
-    border-radius:
-        var(--radius);
-
-    padding:
-        12px 15px;
-
-    margin-bottom:
-        14px;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        15px;
-
-    animation:
-        bannerPulse 2s infinite;
-
+    background: linear-gradient(90deg, #3b1017, #220c12);
+    border: 1px solid #7d2531;
+    border-radius: var(--radius);
+    padding: 12px 15px;
+    margin-bottom: 14px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    animation: bannerPulse 2s infinite;
+    cursor: pointer;
 }
 
-.priority-banner.visible {
-
-    display:
-        flex;
-
-}
+.priority-banner.visible { display: flex; }
 
 .priority-banner:hover {
-
-    background:
-        linear-gradient(
-            90deg,
-            #50131c,
-            #2d0d14
-        );
-
-    border-color:
-        #b63847;
-
+    background: linear-gradient(90deg, #50131c, #2d0d14);
+    border-color: #b63847;
 }
 
 .priority-left {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        12px;
-
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.priority-icon {
-
-    font-size:
-        20px;
-
-}
-
-.priority-title {
-
-    font-weight:
-        bold;
-
-    color:
-        #ff6874;
-
-}
+.priority-icon { font-size: 20px; }
+.priority-title { font-weight: bold; color: #ff6874; }
 
 .priority-subtitle {
-
-    color:
-        #c28b91;
-
-    font-size:
-        11px;
-
-    margin-top:
-        3px;
-
+    color: #c28b91;
+    font-size: 11px;
+    margin-top: 3px;
 }
 
 .priority-count {
-
-    background:
-        #681923;
-
-    color:
-        #ff9ca5;
-
-    padding:
-        5px 10px;
-
-    border-radius:
-        5px;
-
-    font-weight:
-        bold;
-
-    white-space:
-        nowrap;
-
+    background: #681923;
+    color: #ff9ca5;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-
-/* =====================================================
-   FILTERS
-===================================================== */
-
+/* FILTERS */
 .filters {
-
-    background:
-        rgba(11, 17, 25, 0.96);
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        var(--radius);
-
-    padding:
-        12px;
-
-    margin-bottom:
-        14px;
-
-    position:
-        sticky;
-
-    top:
-        64px;
-
-    z-index:
-        80;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.15);
-
-    backdrop-filter:
-        blur(10px);
-
+    background: rgba(11, 17, 25, 0.96);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-bottom: 14px;
+    position: sticky;
+    top: 64px;
+    z-index: 80;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .filter-row {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    align-items:
-        center;
-
-    gap:
-        6px;
-
-    margin-bottom:
-        7px;
-
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 7px;
 }
 
-.filter-row:last-child {
-
-    margin-bottom:
-        0;
-
-}
+.filter-row:last-child { margin-bottom: 0; }
 
 .filter-label {
-
-    color:
-        #718092;
-
-    font-size:
-        10px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        0.7px;
-
-    width:
-        75px;
-
+    color: #718092;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    width: 75px;
 }
 
 input {
-
-    background:
-        var(--surface-2);
-
-    color:
-        #dbe4ed;
-
-    border:
-        1px solid #273444;
-
-    border-radius:
-        5px;
-
-    padding:
-        7px 10px;
-
-    font-size:
-        11px;
-
-    width:
-        280px;
-
+    background: var(--surface-2);
+    color: #dbe4ed;
+    border: 1px solid #273444;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 11px;
+    width: 280px;
 }
 
 input:focus {
-
-    outline:
-        none;
-
-    border-color:
-        #3b82bd;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(59, 130, 189, 0.12);
-
+    outline: none;
+    border-color: #3b82bd;
+    box-shadow: 0 0 0 2px rgba(59, 130, 189, 0.12);
 }
 
-.search-wrap {
-
-    position:
-        relative;
-
-}
+.search-wrap { position: relative; }
 
 .search-hint {
-
-    color:
-        #526174;
-
-    font-size:
-        9px;
-
-    margin-left:
-        4px;
-
+    color: #526174;
+    font-size: 9px;
+    margin-left: 4px;
 }
 
 .filter-summary {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
-    margin-top:
-        9px;
-
-    padding-top:
-        9px;
-
-    border-top:
-        1px solid #18212d;
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px solid #18212d;
 }
 
-.filter-status {
+.filter-status { color: #687789; font-size: 10px; }
+.filter-status strong { color: #9caabd; }
 
-    color:
-        #687789;
-
-    font-size:
-        10px;
-
-}
-
-.filter-status strong {
-
-    color:
-        #9caabd;
-
-}
-
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
+/* CONTENT */
 .content {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        minmax(0, 2fr)
-        minmax(300px, 1fr);
-
-    gap:
-        14px;
-
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+    gap: 14px;
 }
 
-
-/* =====================================================
-   SECTION TITLE
-===================================================== */
-
+/* SECTION TITLE */
 .section-title {
-
-    color:
-        #667588;
-
-    font-size:
-        10px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        1.2px;
-
-    margin:
-        5px 0 7px 2px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
+    color: #667588;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 5px 0 7px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-
-/* =====================================================
-   PANELS
-===================================================== */
-
+/* PANELS */
 .panel {
-
-    background:
-        var(--surface);
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        var(--radius);
-
-    overflow:
-        hidden;
-
-    box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.12);
-
-    margin-bottom:
-        14px;
-
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    margin-bottom: 14px;
 }
 
 .panel-header {
-
-    min-height:
-        43px;
-
-    padding:
-        8px 14px;
-
-    border-bottom:
-        1px solid var(--border);
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
-    font-size:
-        11px;
-
-    font-weight:
-        bold;
-
-    letter-spacing:
-        1px;
-
+    min-height: 43px;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .panel-header-actions {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        7px;
-
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
 .panel-count {
-
-    color:
-        #657487;
-
-    font-size:
-        10px;
-
-    font-weight:
-        normal;
-
+    color: #657487;
+    font-size: 10px;
+    font-weight: normal;
 }
 
 .collapse-button {
-
-    padding:
-        3px 7px;
-
-    font-size:
-        10px;
-
-    color:
-        #6f8092;
-
+    padding: 3px 7px;
+    font-size: 10px;
+    color: #6f8092;
 }
 
-.panel.collapsed > :not(.panel-header) {
+.panel.collapsed > :not(.panel-header) { display: none; }
 
-    display:
-        none;
-
-}
-
-.panel.collapsed .collapse-icon {
-
-    transform:
-        rotate(-90deg);
-
-}
+.panel.collapsed .collapse-icon { transform: rotate(-90deg); }
 
 .collapse-icon {
-
-    display:
-        inline-block;
-
-    transition:
-        transform 0.15s ease;
-
+    display: inline-block;
+    transition: transform 0.15s ease;
 }
 
-
-/* =====================================================
-   ALERTS
-===================================================== */
-
+/* ALERTS */
 .alert {
-
-    padding:
-        12px 14px;
-
-    border-bottom:
-        1px solid #18212d;
-
-    border-left:
-        3px solid var(--red);
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255, 70, 84, 0.055),
-            transparent
-        );
-
-    transition:
-        background 0.15s ease,
-        opacity 0.15s ease;
-
+    padding: 12px 14px;
+    border-bottom: 1px solid #18212d;
+    border-left: 3px solid var(--red);
+    background: linear-gradient(90deg, rgba(255, 70, 84, 0.055), transparent);
+    transition: background 0.15s ease, opacity 0.15s ease;
 }
 
 .alert:hover {
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255, 70, 84, 0.095),
-            rgba(255, 70, 84, 0.015)
-        );
-
+    background: linear-gradient(90deg, rgba(255, 70, 84, 0.095), rgba(255, 70, 84, 0.015));
 }
 
-.alert:last-child {
-
-    border-bottom:
-        0;
-
-}
+.alert:last-child { border-bottom: 0; }
 
 .alert-p2 {
-
-    border-left-color:
-        var(--orange);
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255, 159, 67, 0.05),
-            transparent
-        );
-
+    border-left-color: var(--orange);
+    background: linear-gradient(90deg, rgba(255, 159, 67, 0.05), transparent);
 }
 
 .alert-title {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        flex-start;
-
-    gap:
-        10px;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .alert-link {
-
-    color:
-        #69b9ff;
-
-    text-decoration:
-        none;
-
-    font-size:
-        12px;
-
-    font-weight:
-        bold;
-
-    line-height:
-        1.35;
-
+    color: #69b9ff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.35;
 }
 
-.alert-link:hover {
-
-    text-decoration:
-        underline;
-
-}
+.alert-link:hover { text-decoration: underline; }
 
 .alert-description {
-
-    color:
-        #8997a7;
-
-    font-size:
-        11px;
-
-    line-height:
-        1.4;
-
-    margin-top:
-        6px;
-
+    color: #8997a7;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 6px;
 }
 
 .alert-meta {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    gap:
-        5px;
-
-    margin-top:
-        7px;
-
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
 }
 
 .alert-actions {
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        5px;
-
-    margin-top:
-        8px;
-
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
 }
 
 .read-button {
-
-    color:
-        #6f8194;
-
-    background:
-        transparent;
-
-    border-color:
-        #253342;
-
-    font-size:
-        9px;
-
-    padding:
-        4px 7px;
-
+    color: #6f8194;
+    background: transparent;
+    border-color: #253342;
+    font-size: 9px;
+    padding: 4px 7px;
 }
 
 .read-button:hover {
-
-    color:
-        var(--green);
-
-    border-color:
-        #247957;
-
-    background:
-        #0d211b;
-
+    color: var(--green);
+    border-color: #247957;
+    background: #0d211b;
 }
 
-
-/* =====================================================
-   BADGES
-===================================================== */
-
+/* BADGES */
 .badge {
-
-    display:
-        inline-block;
-
-    padding:
-        3px 6px;
-
-    border-radius:
-        3px;
-
-    font-size:
-        9px;
-
-    font-weight:
-        bold;
-
-    white-space:
-        nowrap;
-
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-.badge-p1 {
+.badge-p1 { background: #641923; color: #ff8d98; }
+.badge-p2 { background: #593316; color: #ffba73; }
+.badge-p3 { background: #4c4212; color: #ffe18a; }
+.badge-p4 { background: #1b2632; color: #8fa1b5; }
+.badge-critical { background: #501720; color: #ff7481; }
+.badge-high { background: #503015; color: #ffb76e; }
+.badge-medium { background: #49400f; color: #ffdf78; }
+.badge-kev { background: #651721; color: #ff6976; }
+.badge-info { background: #14283a; color: #72b9ed; }
+.badge-source { background: #151e29; color: #8c9bad; }
 
-    background:
-        #641923;
-
-    color:
-        #ff8d98;
-
-}
-
-.badge-p2 {
-
-    background:
-        #593316;
-
-    color:
-        #ffba73;
-
-}
-
-.badge-p3 {
-
-    background:
-        #4c4212;
-
-    color:
-        #ffe18a;
-
-}
-
-.badge-p4 {
-
-    background:
-        #1b2632;
-
-    color:
-        #8fa1b5;
-
-}
-
-.badge-critical {
-
-    background:
-        #501720;
-
-    color:
-        #ff7481;
-
-}
-
-.badge-high {
-
-    background:
-        #503015;
-
-    color:
-        #ffb76e;
-
-}
-
-.badge-medium {
-
-    background:
-        #49400f;
-
-    color:
-        #ffdf78;
-
-}
-
-.badge-kev {
-
-    background:
-        #651721;
-
-    color:
-        #ff6976;
-
-}
-
-.badge-info {
-
-    background:
-        #14283a;
-
-    color:
-        #72b9ed;
-
-}
-
-.badge-source {
-
-    background:
-        #151e29;
-
-    color:
-        #8c9bad;
-
-}
-
-
-/* =====================================================
-   CVE / NEWS
-===================================================== */
-
+/* CVE / NEWS */
 .cve,
 .news-item {
-
-    padding:
-        12px 14px;
-
-    border-bottom:
-        1px solid #18212d;
-
-    transition:
-        background 0.15s ease;
-
+    padding: 12px 14px;
+    border-bottom: 1px solid #18212d;
+    transition: background 0.15s ease;
 }
 
 .cve:hover,
-.news-item:hover {
-
-    background:
-        rgba(255, 255, 255, 0.018);
-
-}
+.news-item:hover { background: rgba(255, 255, 255, 0.018); }
 
 .cve:last-child,
-.news-item:last-child {
-
-    border-bottom:
-        0;
-
-}
+.news-item:last-child { border-bottom: 0; }
 
 .cve-top,
 .news-top {
-
-    display:
-        flex;
-
-    align-items:
-        flex-start;
-
-    justify-content:
-        space-between;
-
-    gap:
-        10px;
-
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .cve-id,
 .news-title {
-
-    color:
-        #62b7ff;
-
-    text-decoration:
-        none;
-
-    font-size:
-        12px;
-
-    font-weight:
-        bold;
-
-    line-height:
-        1.35;
-
+    color: #62b7ff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1.35;
 }
 
 .cve-id:hover,
-.news-title:hover {
+.news-title:hover { text-decoration: underline; }
 
-    text-decoration:
-        underline;
-
-}
-
-.news-title {
-
-    font-size:
-        11px;
-
-}
+.news-title { font-size: 11px; }
 
 .description,
 .news-summary {
-
-    color:
-        #8d9aaa;
-
-    font-size:
-        10px;
-
-    line-height:
-        1.45;
-
-    margin-top:
-        6px;
-
+    color: #8d9aaa;
+    font-size: 10px;
+    line-height: 1.45;
+    margin-top: 6px;
 }
 
 .meta {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    gap:
-        5px;
-
-    margin-top:
-        7px;
-
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
 }
 
 .meta-item {
-
-    background:
-        #111a25;
-
-    color:
-        #687789;
-
-    padding:
-        3px 5px;
-
-    border-radius:
-        3px;
-
-    font-size:
-        9px;
-
+    background: #111a25;
+    color: #687789;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-size: 9px;
 }
 
 .badges {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    justify-content:
-        flex-end;
-
-    gap:
-        4px;
-
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
 }
 
-
-/* =====================================================
-   EMPTY / ERROR
-===================================================== */
-
+/* EMPTY / ERROR */
 .empty {
-
-    padding:
-        32px 20px;
-
-    text-align:
-        center;
-
-    color:
-        #637184;
-
-    font-size:
-        11px;
-
+    padding: 32px 20px;
+    text-align: center;
+    color: #637184;
+    font-size: 11px;
 }
 
 .empty-icon {
-
-    font-size:
-        24px;
-
-    margin-bottom:
-        8px;
-
-    opacity:
-        0.7;
-
+    font-size: 24px;
+    margin-bottom: 8px;
+    opacity: 0.7;
 }
 
 .error {
-
-    padding:
-        20px;
-
-    color:
-        #ff6976;
-
-    font-size:
-        11px;
-
+    padding: 20px;
+    color: #ff6976;
+    font-size: 11px;
 }
 
-
-/* =====================================================
-   BACK TO TOP
-===================================================== */
-
+/* BACK TO TOP */
 .back-to-top {
-
-    position:
-        fixed;
-
-    right:
-        18px;
-
-    bottom:
-        18px;
-
-    width:
-        38px;
-
-    height:
-        38px;
-
-    border-radius:
-        50%;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        #182331;
-
-    border:
-        1px solid #344456;
-
-    color:
-        #9caabd;
-
-    opacity:
-        0;
-
-    pointer-events:
-        none;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
-
-    z-index:
-        200;
-
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #182331;
+    border: 1px solid #344456;
+    color: #9caabd;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 200;
 }
 
 .back-to-top.visible {
-
-    opacity:
-        1;
-
-    pointer-events:
-        auto;
-
-    transform:
-        translateY(0);
-
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
-
-/* =====================================================
-   ANIMATIONS
-===================================================== */
-
+/* ANIMATIONS */
 @keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.35;
-    }
-
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
 }
 
 @keyframes bannerPulse {
-
-    0%,
-    100% {
-        box-shadow:
-            0 0 0
-            rgba(255, 70, 84, 0);
-    }
-
-    50% {
-        box-shadow:
-            0 0 22px
-            rgba(255, 70, 84, 0.12);
-    }
-
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 70, 84, 0); }
+    50% { box-shadow: 0 0 22px rgba(255, 70, 84, 0.12); }
 }
 
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width: 1200px) {
-
-    .stats {
-
-        grid-template-columns:
-            repeat(3, 1fr);
-
-    }
-
-    .content {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .content { grid-template-columns: 1fr; }
 }
 
-@media(max-width: 700px) {
-
+@media (max-width: 700px) {
     header {
-
-        position:
-            relative;
-
-        padding:
-            12px 14px;
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
+        position: relative;
+        padding: 12px 14px;
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .header-right {
-
-        width:
-            100%;
-
-        justify-content:
-            flex-start;
-
+        width: 100%;
+        justify-content: flex-start;
     }
 
-    .filters {
-
-        top:
-            0;
-
-    }
-
-    .stats {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
-    .container {
-
-        padding:
-            10px;
-
-    }
-
-    .filter-label {
-
-        width:
-            100%;
-
-    }
-
-    input {
-
-        width:
-            100%;
-
-    }
-
-    .search-hint {
-
-        display:
-            none;
-
-    }
+    .filters { top: 0; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .container { padding: 10px; }
+    .filter-label { width: 100%; }
+    input { width: 100%; }
+    .search-hint { display: none; }
 
     .filter-summary {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .priority-banner {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
-
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .alert-title,
     .cve-top,
-    .news-top {
+    .news-top { flex-direction: column; }
 
-        flex-direction:
-            column;
-
-    }
-
-    .badges {
-
-        justify-content:
-            flex-start;
-
-    }
-
+    .badges { justify-content: flex-start; }
 }
 
-@media(max-width: 430px) {
-
+@media (max-width: 430px) {
     .stats {
-
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:
-            7px;
-
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
     }
 
     .stat {
-
-        min-height:
-            72px;
-
-        padding:
-            10px;
-
+        min-height: 72px;
+        padding: 10px;
     }
 
-    .stat-value {
-
-        font-size:
-            22px;
-
-    }
-
-    .logo-text {
-
-        font-size:
-            15px;
-
-    }
-
+    .stat-value { font-size: 22px; }
+    .logo-text { font-size: 15px; }
 }
 
-
-/* =====================================================
-   REDUCED MOTION
-===================================================== */
-
-@media(prefers-reduced-motion: reduce) {
-
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
-
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-
-        transition-duration:
-            0.01ms !important;
-
-        scroll-behavior:
-            auto !important;
-
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
-
 }
-
 </style>
-
 </head>
 
-
 <body>
-
-
 <header>
+    <div class="logo">
+        <div id="status-light" class="status-light"></div>
+        <div class="logo-text">SECURITY MONITOR</div>
+    </div>
 
-<div class="logo">
-
-<div
-    id="status-light"
-    class="status-light"
-></div>
-
-<div class="logo-text">
-SECURITY MONITOR
-</div>
-
-</div>
-
-
-<div class="header-right">
-
-<button
-    id="notification-button"
-    class="notification-button"
-    type="button"
->
-🔔 ENABLE NOTIFICATIONS
-</button>
-
-
-<button
-    id="pause-button"
-    class="toolbar-button"
-    type="button"
->
-⏸ PAUSE
-</button>
-
-
-<div
-    id="live-status"
-    class="live"
->
-● LIVE
-</div>
-
-
-<div
-    id="updated"
-    class="updated"
->
-Loading...
-</div>
-
-</div>
-
+    <div class="header-right">
+        <button id="notification-button" class="notification-button" type="button">
+            🔔 ENABLE NOTIFICATIONS
+        </button>
+        <button id="pause-button" class="toolbar-button" type="button">⏸ PAUSE</button>
+        <div id="live-status" class="live">● LIVE</div>
+        <div id="updated" class="updated">Loading...</div>
+    </div>
 </header>
 
-
 <div class="container">
-
-
-<!-- ==================================================
-     STATISTICS
-================================================== -->
-
-<div class="stats">
-
-
-<div class="stat stat-p1-box">
-
-<div class="stat-title">
-P1 Critical
-</div>
-
-<div
-    id="p1"
-    class="stat-value stat-p1"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat stat-p2-box">
-
-<div class="stat-title">
-P2 High Priority
-</div>
-
-<div
-    id="p2"
-    class="stat-value stat-p2"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat stat-critical-box">
-
-<div class="stat-title">
-Critical CVE
-</div>
-
-<div
-    id="critical"
-    class="stat-value stat-critical"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat stat-high-box">
-
-<div class="stat-title">
-High CVE
-</div>
-
-<div
-    id="high"
-    class="stat-value stat-high"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat stat-kev-box">
-
-<div class="stat-title">
-Known Exploited
-</div>
-
-<div
-    id="kev"
-    class="stat-value stat-kev"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat stat-news-box">
-
-<div class="stat-title">
-News / 24H
-</div>
-
-<div
-    id="news-count"
-    class="stat-value stat-news"
->
-0
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ==================================================
-     PRIORITY BANNER
-================================================== -->
-
-<div
-    id="priority-banner"
-    class="priority-banner"
->
-
-<div class="priority-left">
-
-<div class="priority-icon">
-⚠
-</div>
-
-<div>
-
-<div class="priority-title">
-PRIORITY SECURITY ALERT
-</div>
-
-<div
-    id="priority-subtitle"
-    class="priority-subtitle"
->
-Click to open the highest priority unread alert
-</div>
-
-</div>
-
-</div>
-
-
-<div
-    id="priority-count"
-    class="priority-count"
->
-0
-</div>
-
-</div>
-
-
-<!-- ==================================================
-     FILTERS
-================================================== -->
-
-<div class="filters">
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-Priority
-</div>
-
-<button
-    class="priority-filter active"
-    data-priority="ALL"
->
-ALL
-</button>
-
-<button
-    class="priority-filter p1-button"
-    data-priority="P1"
->
-P1
-</button>
-
-<button
-    class="priority-filter p2-button"
-    data-priority="P2"
->
-P2
-</button>
-
-<button
-    class="priority-filter"
-    data-priority="P3"
->
-P3
-</button>
-
-</div>
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-Vendor
-</div>
-
-<button
-    class="vendor-filter active"
-    data-vendor="ALL"
->
-ALL
-</button>
-
-<button
-    class="vendor-filter"
-    data-vendor="Microsoft"
->
-MICROSOFT
-</button>
-
-<button
-    class="vendor-filter"
-    data-vendor="Red Hat"
->
-RED HAT
-</button>
-
-<button
-    class="vendor-filter"
-    data-vendor="Apple"
->
-APPLE
-</button>
-
-</div>
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-Severity
-</div>
-
-<button
-    class="severity-filter active"
-    data-severity="ALL"
->
-ALL
-</button>
-
-<button
-    class="severity-filter"
-    data-severity="CRITICAL"
->
-CRITICAL
-</button>
-
-<button
-    class="severity-filter"
-    data-severity="HIGH"
->
-HIGH
-</button>
-
-<button
-    class="severity-filter"
-    data-severity="MEDIUM"
->
-MEDIUM
-</button>
-
-</div>
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-News
-</div>
-
-<button
-    class="time-filter active"
-    data-hours="0"
->
-ALL
-</button>
-
-<button
-    class="time-filter"
-    data-hours="6"
->
-6H
-</button>
-
-<button
-    class="time-filter"
-    data-hours="24"
->
-24H
-</button>
-
-<button
-    class="time-filter"
-    data-hours="168"
->
-7 DAYS
-</button>
-
-</div>
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-Category
-</div>
-
-<button
-    class="news-category-filter active"
-    data-category="ALL"
->
-ALL
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Ransomware"
->
-RANSOMWARE
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Zero-day"
->
-ZERO-DAY
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Exploit"
->
-EXPLOIT
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Malware"
->
-MALWARE
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="APT"
->
-APT
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Data Breach"
->
-BREACH
-</button>
-
-<button
-    class="news-category-filter"
-    data-category="Vulnerability"
->
-VULNERABILITY
-</button>
-
-</div>
-
-
-<div class="filter-row">
-
-<div class="filter-label">
-Search
-</div>
-
-<div class="search-wrap">
-
-<input
-    id="search"
-    type="text"
-    placeholder="Search CVE, news, vendor..."
-    autocomplete="off"
->
-
-</div>
-
-<span class="search-hint">
-Press / to focus
-</span>
-
-</div>
-
-
-<div class="filter-summary">
-
-<div
-    id="filter-status"
-    class="filter-status"
->
-No active filters
-</div>
-
-
-<div>
-
-<button
-    id="read-filter-button"
-    class="toolbar-button"
-    type="button"
->
-👁 ALL ALERTS
-</button>
-
-
-<button
-    id="mark-all-read-button"
-    class="toolbar-button success"
-    type="button"
->
-✓ MARK ALL AS READ
-</button>
-
-
-<button
-    id="clear-filters-button"
-    class="toolbar-button"
-    type="button"
->
-↺ CLEAR FILTERS
-</button>
-
-
-<button
-    id="density-button"
-    class="toolbar-button"
-    type="button"
->
-▤ COMPACT
-</button>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- ==================================================
-     MAIN CONTENT
-================================================== -->
-
-<div class="content">
-
-
-<div>
-
-
-<div class="section-title">
-Priority Alerts
-</div>
-
-
-<div
-    id="alerts-panel"
-    class="panel"
->
-
-<div class="panel-header">
-
-<span>
-PRIORITY ALERTS
-</span>
-
-
-<div class="panel-header-actions">
-
-<span
-    id="alert-count"
-    class="panel-count"
->
-0 unread
-</span>
-
-
-<button
-    class="collapse-button"
-    data-panel="alerts-panel"
-    type="button"
-    title="Collapse"
->
-<span class="collapse-icon">
-▼
-</span>
-</button>
-
-</div>
-
-</div>
-
-
-<div id="alerts">
-
-<div class="empty">
-
-<div class="empty-icon">
-✓
-</div>
-
-No active priority alerts.
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="section-title">
-CVE Monitor
-</div>
-
-
-<div
-    id="cves-panel"
-    class="panel"
->
-
-<div class="panel-header">
-
-<span>
-CVE MONITOR
-</span>
-
-
-<div class="panel-header-actions">
-
-<span
-    id="result-count"
-    class="panel-count"
->
-0 results
-</span>
-
-
-<button
-    class="collapse-button"
-    data-panel="cves-panel"
-    type="button"
->
-<span class="collapse-icon">
-▼
-</span>
-</button>
-
-</div>
-
-</div>
-
-
-<div id="cves">
-
-<div class="empty">
-Loading...
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<div>
-
-
-<div class="section-title">
-Cybersecurity News
-</div>
-
-
-<div
-    id="news-panel"
-    class="panel"
->
-
-<div class="panel-header">
-
-<span>
-NEWS FEED
-</span>
-
-
-<div class="panel-header-actions">
-
-<span
-    id="news-result-count"
-    class="panel-count"
->
-0 results
-</span>
-
-
-<button
-    class="collapse-button"
-    data-panel="news-panel"
-    type="button"
->
-<span class="collapse-icon">
-▼
-</span>
-</button>
-
-</div>
-
-</div>
-
-
-<div id="news">
-
-<div class="empty">
-Loading...
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<button
-    id="back-to-top"
-    class="back-to-top"
-    type="button"
-    title="Back to top"
->
-↑
-</button>
-
+    <div class="stats">
+        <div class="stat stat-p1-box">
+            <div class="stat-title">P1 Critical</div>
+            <div id="p1" class="stat-value stat-p1">0</div>
+        </div>
+        <div class="stat stat-p2-box">
+            <div class="stat-title">P2 High Priority</div>
+            <div id="p2" class="stat-value stat-p2">0</div>
+        </div>
+        <div class="stat stat-critical-box">
+            <div class="stat-title">Critical CVE</div>
+            <div id="critical" class="stat-value stat-critical">0</div>
+        </div>
+        <div class="stat stat-high-box">
+            <div class="stat-title">High CVE</div>
+            <div id="high" class="stat-value stat-high">0</div>
+        </div>
+        <div class="stat stat-kev-box">
+            <div class="stat-title">Known Exploited</div>
+            <div id="kev" class="stat-value stat-kev">0</div>
+        </div>
+        <div class="stat stat-news-box">
+            <div class="stat-title">News / 24H</div>
+            <div id="news-count" class="stat-value stat-news">0</div>
+        </div>
+    </div>
+
+    <div id="priority-banner" class="priority-banner">
+        <div class="priority-left">
+            <div class="priority-icon">⚠</div>
+            <div>
+                <div class="priority-title">PRIORITY SECURITY ALERT</div>
+                <div id="priority-subtitle" class="priority-subtitle">
+                    Click to open the highest priority unread alert
+                </div>
+            </div>
+        </div>
+        <div id="priority-count" class="priority-count">0</div>
+    </div>
+
+    <div class="filters">
+        <div class="filter-row">
+            <div class="filter-label">Priority</div>
+            <button class="priority-filter active" data-priority="ALL" type="button">ALL</button>
+            <button class="priority-filter p1-button" data-priority="P1" type="button">P1</button>
+            <button class="priority-filter p2-button" data-priority="P2" type="button">P2</button>
+            <button class="priority-filter" data-priority="P3" type="button">P3</button>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-label">Vendor</div>
+            <button class="vendor-filter active" data-vendor="ALL" type="button">ALL</button>
+            <button class="vendor-filter" data-vendor="Microsoft" type="button">MICROSOFT</button>
+            <button class="vendor-filter" data-vendor="Red Hat" type="button">RED HAT</button>
+            <button class="vendor-filter" data-vendor="Apple" type="button">APPLE</button>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-label">Severity</div>
+            <button class="severity-filter active" data-severity="ALL" type="button">ALL</button>
+            <button class="severity-filter" data-severity="CRITICAL" type="button">CRITICAL</button>
+            <button class="severity-filter" data-severity="HIGH" type="button">HIGH</button>
+            <button class="severity-filter" data-severity="MEDIUM" type="button">MEDIUM</button>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-label">News</div>
+            <button class="time-filter active" data-hours="0" type="button">ALL</button>
+            <button class="time-filter" data-hours="6" type="button">6H</button>
+            <button class="time-filter" data-hours="24" type="button">24H</button>
+            <button class="time-filter" data-hours="168" type="button">7 DAYS</button>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-label">Category</div>
+            <button class="news-category-filter active" data-category="ALL" type="button">ALL</button>
+            <button class="news-category-filter" data-category="Ransomware" type="button">RANSOMWARE</button>
+            <button class="news-category-filter" data-category="Zero-day" type="button">ZERO-DAY</button>
+            <button class="news-category-filter" data-category="Exploit" type="button">EXPLOIT</button>
+            <button class="news-category-filter" data-category="Malware" type="button">MALWARE</button>
+            <button class="news-category-filter" data-category="APT" type="button">APT</button>
+            <button class="news-category-filter" data-category="Data Breach" type="button">BREACH</button>
+            <button class="news-category-filter" data-category="Vulnerability" type="button">VULNERABILITY</button>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-label">Search</div>
+            <div class="search-wrap">
+                <input id="search" type="text" placeholder="Search CVE, news, vendor..." autocomplete="off">
+            </div>
+            <span class="search-hint">Press / to focus</span>
+        </div>
+
+        <div class="filter-summary">
+            <div id="filter-status" class="filter-status">No active filters</div>
+            <div>
+                <button id="read-filter-button" class="toolbar-button" type="button">👁 ALL ALERTS</button>
+                <button id="mark-all-read-button" class="toolbar-button success" type="button">✓ MARK ALL AS READ</button>
+                <button id="clear-filters-button" class="toolbar-button" type="button">↺ CLEAR FILTERS</button>
+                <button id="density-button" class="toolbar-button" type="button">▤ COMPACT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div>
+            <div class="section-title">Priority Alerts</div>
+            <div id="alerts-panel" class="panel">
+                <div class="panel-header">
+                    <span>PRIORITY ALERTS</span>
+                    <div class="panel-header-actions">
+                        <span id="alert-count" class="panel-count">0 unread</span>
+                        <button class="collapse-button" data-panel="alerts-panel" type="button" title="Collapse">
+                            <span class="collapse-icon">▼</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="alerts">
+                    <div class="empty">
+                        <div class="empty-icon">✓</div>
+                        No active priority alerts.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">CVE Monitor</div>
+            <div id="cves-panel" class="panel">
+                <div class="panel-header">
+                    <span>CVE MONITOR</span>
+                    <div class="panel-header-actions">
+                        <span id="result-count" class="panel-count">0 results</span>
+                        <button class="collapse-button" data-panel="cves-panel" type="button">
+                            <span class="collapse-icon">▼</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="cves"><div class="empty">Loading...</div></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-title">Cybersecurity News</div>
+            <div id="news-panel" class="panel">
+                <div class="panel-header">
+                    <span>NEWS FEED</span>
+                    <div class="panel-header-actions">
+                        <span id="news-result-count" class="panel-count">0 results</span>
+                        <button class="collapse-button" data-panel="news-panel" type="button">
+                            <span class="collapse-icon">▼</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="news"><div class="empty">Loading...</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="back-to-top" class="back-to-top" type="button" title="Back to top">↑</button>
 
 <script>
+"use strict";
 
-/* =====================================================
-   STATE
-===================================================== */
-
+/* STATE */
 let allCves = [];
-
 let allNews = [];
-
 let autoRefreshPaused = false;
-
 let compactMode = false;
-
 let showUnreadOnly = false;
-
 let refreshTimer = null;
 
-
 let filters = {
-
     priority: "ALL",
-
     vendor: "ALL",
-
     severity: "ALL",
-
     hours: 0,
-
     category: "ALL",
-
     search: ""
-
 };
 
+/* STORAGE */
+const DISMISSED_ALERTS_STORAGE_KEY = "security-monitor-dismissed-priority-alerts-v2";
+const NOTIFICATION_STORAGE_KEY = "security-monitor-notified-alerts-v1";
+const NOTIFICATION_INITIALIZED_KEY = "security-monitor-notification-initialized-v1";
 
-/* =====================================================
-   STORAGE
-===================================================== */
+/* HTML ESCAPING */
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
 
-const DISMISSED_ALERTS_STORAGE_KEY =
-    "security-monitor-dismissed-priority-alerts-v2";
+function escapeAttribute(value) {
+    return escapeHtml(value);
+}
 
-const NOTIFICATION_STORAGE_KEY =
-    "security-monitor-notified-alerts-v1";
-
-const NOTIFICATION_INITIALIZED_KEY =
-    "security-monitor-notification-initialized-v1";
-
-
-/* =====================================================
-   READ STATE
-===================================================== */
-
+/* READ STATE */
 function getDismissedAlerts() {
-
     try {
-
-        const stored =
-            localStorage.getItem(
-                DISMISSED_ALERTS_STORAGE_KEY
-            );
-
-
-        if (!stored) {
-
-            return [];
-
-        }
-
-
-        const parsed =
-            JSON.parse(
-                stored
-            );
-
-
-        return Array.isArray(parsed)
-            ? parsed
-            : [];
-
+        const stored = localStorage.getItem(DISMISSED_ALERTS_STORAGE_KEY);
+        if (!stored) return [];
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
     } catch {
-
         return [];
-
     }
-
 }
 
-
-function saveDismissedAlerts(
-    ids
-) {
-
-    const uniqueIds =
-        [
-            ...new Set(
-                ids
-            )
-        ];
-
-    /*
-     * Keep storage small.
-     */
-
-    const trimmed =
-        uniqueIds.slice(
-            -2000
-        );
-
-    localStorage.setItem(
-        DISMISSED_ALERTS_STORAGE_KEY,
-        JSON.stringify(
-            trimmed
-        )
-    );
-
+function saveDismissedAlerts(ids) {
+    const uniqueIds = [...new Set(ids)].slice(-2000);
+    try {
+        localStorage.setItem(DISMISSED_ALERTS_STORAGE_KEY, JSON.stringify(uniqueIds));
+    } catch (error) {
+        console.warn("Dismissed alerts could not be saved:", error);
+    }
 }
 
-
-function isAlertDismissed(
-    alert
-) {
-
-    if (
-        !alert ||
-        !alert.id
-    ) {
-
-        return false;
-
-    }
-
-
-    return getDismissedAlerts()
-        .includes(
-            alert.id
-        );
-
+function isAlertDismissed(alert) {
+    return Boolean(alert && alert.id && getDismissedAlerts().includes(alert.id));
 }
 
+function dismissAlert(alert) {
+    if (!alert || !alert.id) return;
 
-function dismissAlert(
-    alert
-) {
-
-    if (
-        !alert ||
-        !alert.id
-    ) {
-
-        return;
-
-    }
-
-
-    const dismissed =
-        getDismissedAlerts();
-
-
-    if (
-        !dismissed.includes(
-            alert.id
-        )
-    ) {
-
-        dismissed.push(
-            alert.id
-        );
-
-    }
-
-
-    saveDismissedAlerts(
-        dismissed
-    );
-
+    const dismissed = getDismissedAlerts();
+    if (!dismissed.includes(alert.id)) dismissed.push(alert.id);
+    saveDismissedAlerts(dismissed);
 }
-
 
 function markAllAlertsAsRead() {
+    const alerts = getNotificationAlerts();
+    if (alerts.length === 0) return;
 
-    const alerts =
-        getNotificationAlerts();
-
-
-    if (
-        alerts.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const ids =
-        alerts
-            .map(
-                alert =>
-                    alert.id
-            )
-            .filter(Boolean);
-
-
-    saveDismissedAlerts(
-        [
-            ...getDismissedAlerts(),
-            ...ids
-        ]
-    );
-
-
+    const ids = alerts.map(alert => alert.id).filter(Boolean);
+    saveDismissedAlerts([...getDismissedAlerts(), ...ids]);
     render();
-
 }
 
-
-/* =====================================================
-   NOTIFICATION STATE
-===================================================== */
-
-let notificationInitialized =
-    localStorage.getItem(
-        NOTIFICATION_INITIALIZED_KEY
-    ) === "true";
-
+/* NOTIFICATION STATE */
+let notificationInitialized = false;
+try {
+    notificationInitialized =
+        localStorage.getItem(NOTIFICATION_INITIALIZED_KEY) === "true";
+} catch (error) {
+    console.warn("Notification state could not be read:", error);
+}
 
 function getNotifiedAlerts() {
-
     try {
-
-        const stored =
-            localStorage.getItem(
-                NOTIFICATION_STORAGE_KEY
-            );
-
-
-        if (!stored) {
-
-            return [];
-
-        }
-
-
-        const parsed =
-            JSON.parse(
-                stored
-            );
-
-
-        return Array.isArray(parsed)
-            ? parsed
-            : [];
-
+        const stored = localStorage.getItem(NOTIFICATION_STORAGE_KEY);
+        if (!stored) return [];
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
     } catch {
-
         return [];
-
     }
-
 }
 
-
-function saveNotifiedAlerts(
-    ids
-) {
-
-    const trimmed =
-        [
-            ...new Set(
-                ids
-            )
-        ]
-        .slice(
-            -2000
-        );
-
-
-    localStorage.setItem(
-        NOTIFICATION_STORAGE_KEY,
-        JSON.stringify(
-            trimmed
-        )
-    );
-
+function saveNotifiedAlerts(ids) {
+    const trimmed = [...new Set(ids)].slice(-2000);
+    try {
+        localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(trimmed));
+    } catch (error) {
+        console.warn("Notification state could not be saved:", error);
+    }
 }
 
-
-/* =====================================================
-   NOTIFICATION BUTTON
-===================================================== */
-
+/* NOTIFICATION BUTTON */
 function updateNotificationButton() {
+    const button = document.getElementById("notification-button");
 
-    const button =
-        document.getElementById(
-            "notification-button"
-        );
-
-
-    if (
-        !("Notification" in window)
-    ) {
-
-        button.innerText =
-            "🔕 NOTIFICATIONS UNSUPPORTED";
-
-        button.disabled =
-            true;
-
+    if (!("Notification" in window)) {
+        button.innerText = "🔕 NOTIFICATIONS UNSUPPORTED";
+        button.disabled = true;
         return;
-
     }
 
+    button.disabled = false;
 
-    if (
-        Notification.permission ===
-        "granted"
-    ) {
-
-        button.innerText =
-            "🔔 NOTIFICATIONS ON";
-
-        button.classList
-            .add(
-                "enabled"
-            );
-
-        button.classList
-            .remove(
-                "denied"
-            );
-
+    if (Notification.permission === "granted") {
+        button.innerText = "🔔 NOTIFICATIONS ON";
+        button.classList.add("enabled");
+        button.classList.remove("denied");
         return;
-
     }
 
-
-    if (
-        Notification.permission ===
-        "denied"
-    ) {
-
-        button.innerText =
-            "🔕 NOTIFICATIONS BLOCKED";
-
-        button.classList
-            .add(
-                "denied"
-            );
-
-        button.classList
-            .remove(
-                "enabled"
-            );
-
+    if (Notification.permission === "denied") {
+        button.innerText = "🔕 NOTIFICATIONS BLOCKED";
+        button.classList.add("denied");
+        button.classList.remove("enabled");
         return;
-
     }
 
-
-    button.innerText =
-        "🔔 ENABLE NOTIFICATIONS";
-
-    button.classList
-        .remove(
-            "enabled",
-            "denied"
-        );
-
+    button.innerText = "🔔 ENABLE NOTIFICATIONS";
+    button.classList.remove("enabled", "denied");
 }
-
 
 async function enableNotifications() {
-
-    if (
-        !("Notification" in window)
-    ) {
-
-        alert(
-            "Den här webbläsaren stöder inte desktop-notifikationer."
-        );
-
+    if (!("Notification" in window)) {
+        window.alert("Den här webbläsaren stöder inte desktop-notifikationer.");
         return;
-
     }
 
-
-    if (
-        Notification.permission ===
-        "granted"
-    ) {
-
+    if (Notification.permission === "granted") {
         updateNotificationButton();
-
         return;
-
     }
 
-
-    if (
-        Notification.permission ===
-        "denied"
-    ) {
-
-        alert(
-            "Notifikationer är blockerade för den här sidan. Ändra webbplatsens notification-inställning i webbläsaren om du vill aktivera dem."
-        );
-
+    if (Notification.permission === "denied") {
+        window.alert("Notifikationer är blockerade för den här sidan. Ändra webbplatsens notification-inställning i webbläsaren om du vill aktivera dem.");
         return;
-
     }
-
 
     try {
-
-        const permission =
-            await Notification
-                .requestPermission();
-
-
+        const permission = await Notification.requestPermission();
         updateNotificationButton();
 
-
-        if (
-            permission ===
-            "granted"
-        ) {
-
-            new Notification(
-                "Security Monitor",
-                {
-                    body:
-                        "Security notifications are now enabled."
-                }
-            );
-
+        if (permission === "granted") {
+            new Notification("Security Monitor", {
+                body: "Security notifications are now enabled."
+            });
         }
-
     } catch (error) {
-
-        console.error(
-            "Notification permission error:",
-            error
-        );
-
+        console.error("Notification permission error:", error);
     }
-
 }
 
-
-/* =====================================================
-   BUILD ALERT OBJECTS
-===================================================== */
-
+/* BUILD ALERT OBJECTS */
 function getNotificationAlerts() {
-
     const alerts = [];
 
+    allCves.forEach(cve => {
+        const isP1 = Boolean(cve.kev) || cve.priority === "P1";
+        const isP2 = cve.priority === "P2";
+        if (!isP1 && !isP2) return;
 
-    allCves.forEach(
-        cve => {
+        const id = "CVE:" + (cve.id || cve.url || "");
+        if (id === "CVE:") return;
 
-            const isP1 =
-                Boolean(
-                    cve.kev
-                )
-                ||
-                cve.priority ===
-                "P1";
+        alerts.push({
+            id,
+            priority: isP1 ? "P1" : "P2",
+            type: "CVE",
+            title: cve.id || "New CVE",
+            description: cve.description || "",
+            url: cve.url || "",
+            vendor: (cve.vendors || []).join(", "),
+            severity: cve.cvss?.severity || (cve.kev ? "CRITICAL" : "HIGH")
+        });
+    });
 
+    allNews.forEach(article => {
+        const isP1 = article.priority === "P1" || article.severity === "CRITICAL";
+        const isP2 = article.priority === "P2" || article.severity === "HIGH";
+        if (!isP1 && !isP2) return;
 
-            const isP2 =
-                cve.priority ===
-                "P2";
+        const id = "NEWS:" + (article.id || article.url || article.title || "");
+        if (id === "NEWS:") return;
 
+        alerts.push({
+            id,
+            priority: isP1 ? "P1" : "P2",
+            type: "NEWS",
+            title: article.title || "Security News",
+            description: article.summary || "",
+            url: article.url || "",
+            vendor: (article.vendors || []).join(", "),
+            severity: article.severity || (isP1 ? "CRITICAL" : "HIGH")
+        });
+    });
 
-            if (
-                !isP1 &&
-                !isP2
-            ) {
-
-                return;
-
-            }
-
-
-            const id =
-                "CVE:" +
-                (
-                    cve.id ||
-                    cve.url ||
-                    ""
-                );
-
-
-            if (!id) {
-
-                return;
-
-            }
-
-
-            alerts.push({
-
-                id,
-
-                priority:
-                    isP1
-                    ? "P1"
-                    : "P2",
-
-                type:
-                    "CVE",
-
-                title:
-                    cve.id ||
-                    "New CVE",
-
-                description:
-                    cve.description ||
-                    "",
-
-                url:
-                    cve.url ||
-                    "",
-
-                vendor:
-                    (cve.vendors || [])
-                        .join(", "),
-
-                severity:
-                    cve.cvss?.severity ||
-                    (
-                        cve.kev
-                        ? "CRITICAL"
-                        : "HIGH"
-                    )
-
-            });
-
-        }
-    );
-
-
-    allNews.forEach(
-        article => {
-
-            const isP1 =
-                article.priority === "P1"
-                ||
-                article.severity === "CRITICAL";
-
-
-            const isP2 =
-                article.priority === "P2"
-                ||
-                article.severity === "HIGH";
-
-
-            if (
-                !isP1 &&
-                !isP2
-            ) {
-
-                return;
-
-            }
-
-
-            const id =
-                "NEWS:" +
-                (
-                    article.id ||
-                    article.url ||
-                    article.title ||
-                    ""
-                );
-
-
-            if (!id) {
-
-                return;
-
-            }
-
-
-            alerts.push({
-
-                id,
-
-                priority:
-                    isP1
-                    ? "P1"
-                    : "P2",
-
-                type:
-                    "NEWS",
-
-                title:
-                    article.title ||
-                    "Security News",
-
-                description:
-                    article.summary ||
-                    "",
-
-                url:
-                    article.url ||
-                    "",
-
-                vendor:
-                    (article.vendors || [])
-                        .join(", "),
-
-                severity:
-                    article.severity ||
-                    (
-                        isP1
-                        ? "CRITICAL"
-                        : "HIGH"
-                    )
-
-            });
-
-        }
-    );
-
-
-    alerts.sort(
-        (a, b) => {
-
-            const priority = {
-
-                P1: 1,
-
-                P2: 2
-
-            };
-
-
-            return (
-                priority[a.priority] || 9
-            )
-            -
-            (
-                priority[b.priority] || 9
-            );
-
-        }
-    );
-
+    alerts.sort((a, b) => {
+        const priority = { P1: 1, P2: 2 };
+        return (priority[a.priority] || 9) - (priority[b.priority] || 9);
+    });
 
     return alerts;
-
 }
 
-
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
-
+/* NOTIFICATIONS */
 function checkForNewNotifications() {
+    if (!notificationInitialized) {
+        const currentAlerts = getNotificationAlerts();
+        saveNotifiedAlerts(currentAlerts.map(alert => alert.id));
 
-    if (
-        !notificationInitialized
-    ) {
+        try {
+            localStorage.setItem(NOTIFICATION_INITIALIZED_KEY, "true");
+        } catch (error) {
+            console.warn("Notification initialization state could not be saved:", error);
+        }
 
-        const currentAlerts =
-            getNotificationAlerts();
-
-
-        saveNotifiedAlerts(
-            currentAlerts.map(
-                alert =>
-                    alert.id
-            )
-        );
-
-
-        localStorage.setItem(
-            NOTIFICATION_INITIALIZED_KEY,
-            "true"
-        );
-
-
-        notificationInitialized =
-            true;
-
-
+        notificationInitialized = true;
         return;
-
     }
 
+    const alerts = getNotificationAlerts();
+    if (alerts.length === 0) return;
 
-    const alerts =
-        getNotificationAlerts();
+    const notified = getNotifiedAlerts();
+    const notifiedSet = new Set(notified);
+    const newAlerts = alerts.filter(alert => !notifiedSet.has(alert.id));
+    if (newAlerts.length === 0) return;
 
+    saveNotifiedAlerts([
+        ...notified,
+        ...newAlerts.map(alert => alert.id)
+    ]);
 
-    if (
-        alerts.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const notified =
-        getNotifiedAlerts();
-
-
-    const notifiedSet =
-        new Set(
-            notified
-        );
-
-
-    const newAlerts =
-        alerts.filter(
-            alert =>
-                !notifiedSet.has(
-                    alert.id
-                )
-        );
-
-
-    if (
-        newAlerts.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    saveNotifiedAlerts(
-        [
-            ...notified,
-            ...newAlerts.map(
-                alert =>
-                    alert.id
-            )
-        ]
-    );
-
-
-    if (
-        !("Notification" in window)
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        Notification.permission !==
-        "granted"
-    ) {
-
-        return;
-
-    }
-
-
-    newAlerts
-        .slice(
-            0,
-            5
-        )
-        .forEach(
-            sendSecurityNotification
-        );
-
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    newAlerts.slice(0, 5).forEach(sendSecurityNotification);
 }
 
-
-function sendSecurityNotification(
-    alert
-) {
-
-    const title =
-        alert.priority === "P1"
+function sendSecurityNotification(alert) {
+    const title = alert.priority === "P1"
         ? "🔴 P1 SECURITY ALERT"
         : "🟠 P2 SECURITY ALERT";
 
-
-    const body =
-        alert.type +
-        " • " +
-        alert.title;
-
+    const body = alert.type + " • " + alert.title;
 
     try {
+        const notification = new Notification(title, {
+            body,
+            tag: "security-" + alert.id,
+            renotify: false
+        });
 
-        const notification =
-            new Notification(
-                title,
-                {
-
-                    body,
-
-                    tag:
-                        "security-" +
-                        alert.id,
-
-                    renotify:
-                        false
-
-                }
-            );
-
-
-        notification.onclick =
-            () => {
-
-                window.focus();
-
-
-                if (
-                    alert.url
-                ) {
-
-                    window.open(
-                        alert.url,
-                        "_blank",
-                        "noopener,noreferrer"
-                    );
-
-                }
-
-
-                notification.close();
-
-            };
-
+        notification.onclick = () => {
+            window.focus();
+            if (alert.url) window.open(alert.url, "_blank", "noopener,noreferrer");
+            notification.close();
+        };
     } catch (error) {
-
-        console.error(
-            "Could not create notification:",
-            error
-        );
-
+        console.error("Could not create notification:", error);
     }
-
 }
 
-
-/* =====================================================
-   LOAD DATA
-===================================================== */
-
+/* LOAD DATA */
 async function loadCveData() {
+    const response = await fetch("data/security.json?" + Date.now());
+    if (!response.ok) throw new Error("Could not load security.json");
 
-    const response =
-        await fetch(
-            "data/security.json?" +
-            Date.now()
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Could not load security.json"
-        );
-
-    }
-
-
-    const data =
-        await response.json();
-
-
-    allCves =
-        data.cves || [];
-
+    const data = await response.json();
+    allCves = Array.isArray(data.cves) ? data.cves : [];
 }
-
 
 async function loadNewsData() {
+    const response = await fetch("data/news.json?" + Date.now());
+    if (!response.ok) throw new Error("Could not load news.json");
 
-    const response =
-        await fetch(
-            "data/news.json?" +
-            Date.now()
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Could not load news.json"
-        );
-
-    }
-
-
-    const data =
-        await response.json();
-
-
-    allNews =
-        data.articles || [];
-
+    const data = await response.json();
+    allNews = Array.isArray(data.articles) ? data.articles : [];
 }
-
 
 async function loadData() {
-
-    if (
-        autoRefreshPaused
-    ) {
-
-        return;
-
-    }
-
+    if (autoRefreshPaused) return;
 
     try {
-
-        await Promise.all([
-            loadCveData(),
-            loadNewsData()
-        ]);
-
-
+        await Promise.all([loadCveData(), loadNewsData()]);
         updateStatistics();
-
         render();
-
         checkForNewNotifications();
 
-
-        document
-            .getElementById(
-                "updated"
-            )
-            .innerText =
-                "Updated " +
-                new Date()
-                    .toLocaleTimeString(
-                        "sv-SE",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            second: "2-digit"
-                        }
-                    );
-
-
-        setLiveState(
-            "live"
-        );
-
-    } catch (error) {
-
-        console.error(
-            "SECURITY MONITOR ERROR:",
-            error
-        );
-
-
-        setLiveState(
-            "error"
-        );
-
-
-        document
-            .getElementById(
-                "news"
-            )
-            .innerHTML =
-                `
-                <div class="error">
-
-                    <strong>
-                        Data loading error
-                    </strong>
-
-                    <br><br>
-
-                    ${escapeHtml(
-                        error.message
-                    )}
-
-                </div>
-                `;
-
-    }
-
-}
-
-
-/* =====================================================
-   LIVE STATE
-===================================================== */
-
-function setLiveState(
-    state
-) {
-
-    const status =
-        document.getElementById(
-            "live-status"
-        );
-
-    const light =
-        document.getElementById(
-            "status-light"
-        );
-
-
-    status.classList.remove(
-        "paused",
-        "error"
-    );
-
-
-    if (
-        state === "paused"
-    ) {
-
-        status.innerText =
-            "● PAUSED";
-
-        status.classList
-            .add(
-                "paused"
-            );
-
-        light.classList
-            .remove(
-                "alert"
-            );
-
-        light.classList
-            .add(
-                "paused"
-            );
-
-        return;
-
-    }
-
-
-    if (
-        state === "error"
-    ) {
-
-        status.innerText =
-            "● ERROR";
-
-        status.classList
-            .add(
-                "error"
-            );
-
-        light.classList
-            .remove(
-                "paused"
-            );
-
-        light.classList
-            .add(
-                "alert"
-            );
-
-        return;
-
-    }
-
-
-    status.innerText =
-        "● LIVE";
-
-    light.classList
-        .remove(
-            "paused"
-        );
-
-}
-
-
-/* =====================================================
-   STATISTICS
-===================================================== */
-
-function updateStatistics() {
-
-    let critical = 0;
-
-    let high = 0;
-
-    let kev = 0;
-
-    let p1 = 0;
-
-    let p2 = 0;
-
-
-    allCves.forEach(
-        cve => {
-
-            const severity =
-                String(
-                    cve.cvss?.severity || ""
-                )
-                .toUpperCase();
-
-
-            if (
-                severity ===
-                "CRITICAL"
-            ) {
-
-                critical++;
-
-            }
-
-
-            if (
-                severity ===
-                "HIGH"
-            ) {
-
-                high++;
-
-            }
-
-
-            if (
-                cve.kev
-            ) {
-
-                kev++;
-
-            }
-
-
-            if (
-                cve.priority === "P1"
-                ||
-                cve.kev
-            ) {
-
-                p1++;
-
-            } else if (
-                cve.priority === "P2"
-            ) {
-
-                p2++;
-
-            }
-
-        }
-    );
-
-
-    const news24 =
-        allNews.filter(
-            article => {
-
-                if (
-                    !article.published
-                ) {
-
-                    return false;
-
-                }
-
-
-                const age =
-                    Date.now() -
-                    new Date(
-                        article.published
-                    ).getTime();
-
-
-                return (
-                    age >= 0 &&
-                    age <=
-                    24 *
-                    60 *
-                    60 *
-                    1000
-                );
-
-            }
-        );
-
-
-    document
-        .getElementById("p1")
-        .innerText =
-            p1;
-
-
-    document
-        .getElementById("p2")
-        .innerText =
-            p2;
-
-
-    document
-        .getElementById("critical")
-        .innerText =
-            critical;
-
-
-    document
-        .getElementById("high")
-        .innerText =
-            high;
-
-
-    document
-        .getElementById("kev")
-        .innerText =
-            kev;
-
-
-    document
-        .getElementById("news-count")
-        .innerText =
-            news24.length;
-
-}
-
-
-/* =====================================================
-   ACTIVE ALERTS
-===================================================== */
-
-function getActivePriorityAlerts() {
-
-    return getNotificationAlerts()
-        .filter(
-            alert =>
-                !isAlertDismissed(
-                    alert
-                )
-        );
-
-}
-
-
-/* =====================================================
-   PRIORITY BANNER
-===================================================== */
-
-function updatePriorityBanner() {
-
-    const banner =
-        document.getElementById(
-            "priority-banner"
-        );
-
-
-    const countElement =
-        document.getElementById(
-            "priority-count"
-        );
-
-
-    const alerts =
-        getActivePriorityAlerts();
-
-
-    if (
-        alerts.length === 0
-    ) {
-
-        banner.classList
-            .remove(
-                "visible"
-            );
-
-
-        document
-            .getElementById(
-                "status-light"
-            )
-            .classList
-            .remove(
-                "alert"
-            );
-
-
-        document.body
-            .classList
-            .remove(
-                "alert-active"
-            );
-
-
-        return;
-
-    }
-
-
-    const p1Count =
-        alerts.filter(
-            alert =>
-                alert.priority ===
-                "P1"
-        ).length;
-
-
-    const p2Count =
-        alerts.filter(
-            alert =>
-                alert.priority ===
-                "P2"
-        ).length;
-
-
-    banner.classList
-        .add(
-            "visible"
-        );
-
-
-    countElement.innerText =
-        p1Count > 0
-        ? p1Count + " P1"
-        : p2Count + " P2";
-
-
-    document
-        .getElementById(
-            "status-light"
-        )
-        .classList
-        .add(
-            "alert"
-        );
-
-
-    document.body
-        .classList
-        .add(
-            "alert-active"
-        );
-
-}
-
-
-/* =====================================================
-   OPEN TOP PRIORITY ALERT
-===================================================== */
-
-function openTopPriorityAlert() {
-
-    const alerts =
-        getActivePriorityAlerts();
-
-
-    if (
-        alerts.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const alert =
-        alerts[0];
-
-
-    dismissAlert(
-        alert
-    );
-
-
-    render();
-
-
-    if (
-        alert.url
-    ) {
-
-        window.open(
-            alert.url,
-            "_blank",
-            "noopener,noreferrer"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   FILTER CVES
-===================================================== */
-
-function getFilteredCves() {
-
-    return allCves.filter(
-        cve => {
-
-            if (
-                filters.priority !==
-                "ALL"
-            ) {
-
-                const priority =
-                    cve.kev
-                    ? "P1"
-                    : cve.priority;
-
-
-                if (
-                    priority !==
-                    filters.priority
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            if (
-                filters.vendor !==
-                "ALL"
-            ) {
-
-                const vendors =
-                    cve.vendors || [];
-
-
-                if (
-                    !vendors.includes(
-                        filters.vendor
-                    )
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            if (
-                filters.severity !==
-                "ALL"
-            ) {
-
-                if (
-                    String(
-                        cve.cvss?.severity ||
-                        ""
-                    )
-                    .toUpperCase() !==
-                    filters.severity
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            if (
-                filters.search
-            ) {
-
-                const text =
-                    JSON.stringify(
-                        cve
-                    )
-                    .toLowerCase();
-
-
-                if (
-                    !text.includes(
-                        filters.search
-                    )
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            return true;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   FILTER NEWS
-===================================================== */
-
-function getFilteredNews() {
-
-    return allNews.filter(
-        article => {
-
-            if (
-                filters.hours > 0
-            ) {
-
-                if (
-                    !article.published
-                ) {
-
-                    return false;
-
-                }
-
-
-                const age =
-                    Date.now() -
-                    new Date(
-                        article.published
-                    ).getTime();
-
-
-                if (
-                    age < 0 ||
-                    age >
-                    filters.hours *
-                    60 *
-                    60 *
-                    1000
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            if (
-                filters.category !==
-                "ALL"
-            ) {
-
-                if (
-                    !(article.categories || [])
-                        .includes(
-                            filters.category
-                        )
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            if (
-                filters.search
-            ) {
-
-                const text =
-                    JSON.stringify(
-                        article
-                    )
-                    .toLowerCase();
-
-
-                if (
-                    !text.includes(
-                        filters.search
-                    )
-                ) {
-
-                    return false;
-
-                }
-
-            }
-
-
-            return true;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   FILTER SUMMARY
-===================================================== */
-
-function updateFilterSummary() {
-
-    const active = [];
-
-
-    if (
-        filters.priority !==
-        "ALL"
-    ) {
-
-        active.push(
-            "Priority: " +
-            filters.priority
-        );
-
-    }
-
-
-    if (
-        filters.vendor !==
-        "ALL"
-    ) {
-
-        active.push(
-            "Vendor: " +
-            filters.vendor
-        );
-
-    }
-
-
-    if (
-        filters.severity !==
-        "ALL"
-    ) {
-
-        active.push(
-            "Severity: " +
-            filters.severity
-        );
-
-    }
-
-
-    if (
-        filters.hours > 0
-    ) {
-
-        active.push(
-            "News: " +
-            filters.hours +
-            "h"
-        );
-
-    }
-
-
-    if (
-        filters.category !==
-        "ALL"
-    ) {
-
-        active.push(
-            "Category: " +
-            filters.category
-        );
-
-    }
-
-
-    if (
-        filters.search
-    ) {
-
-        active.push(
-            "Search: " +
-            filters.search
-        );
-
-    }
-
-
-    const element =
-        document.getElementById(
-            "filter-status"
-        );
-
-
-    if (
-        active.length === 0
-    ) {
-
-        element.innerHTML =
-            "No active filters";
-
-        return;
-
-    }
-
-
-    element.innerHTML =
-        "<strong>" +
-        active.length +
-        "</strong> active filter" +
-        (
-            active.length === 1
-            ? ""
-            : "s"
-        ) +
-        " · " +
-        active
-            .map(
-                escapeHtml
-            )
-            .join(
-                " · "
-            );
-
-}
-
-
-/* =====================================================
-   READ FILTER
-===================================================== */
-
-function updateReadFilterButton() {
-
-    const button =
-        document.getElementById(
-            "read-filter-button"
-        );
-
-
-    if (
-        showUnreadOnly
-    ) {
-
-        button.innerText =
-            "● UNREAD ONLY";
-
-        button.classList
-            .add(
-                "active"
-            );
-
-    } else {
-
-        button.innerText =
-            "👁 ALL ALERTS";
-
-        button.classList
-            .remove(
-                "active"
-            );
-
-    }
-
-}
-
-
-/* =====================================================
-   RENDER
-===================================================== */
-
-function render() {
-
-    renderAlerts(
-        allCves,
-        allNews
-    );
-
-
-    renderCves(
-        getFilteredCves()
-    );
-
-
-    renderNews(
-        getFilteredNews()
-    );
-
-
-    updatePriorityBanner();
-
-    updateFilterSummary();
-
-    updateReadFilterButton();
-
-}
-
-
-/* =====================================================
-   RENDER ALERTS
-===================================================== */
-
-function renderAlerts() {
-
-    const alerts =
-        getNotificationAlerts();
-
-
-    const visibleAlerts =
-        alerts.filter(
-            alert => {
-
-                if (
-                    showUnreadOnly &&
-                    isAlertDismissed(
-                        alert
-                    )
-                ) {
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-        );
-
-
-    const unreadCount =
-        alerts.filter(
-            alert =>
-                !isAlertDismissed(
-                    alert
-                )
-        ).length;
-
-
-    const container =
-        document.getElementById(
-            "alerts"
-        );
-
-
-    document
-        .getElementById(
-            "alert-count"
-        )
-        .innerText =
-            unreadCount +
-            " unread";
-
-
-    if (
-        visibleAlerts.length === 0
-    ) {
-
-        container.innerHTML =
-            `
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ✓
-                </div>
-
-                ${
-                    showUnreadOnly
-                    ?
-                    "No unread priority alerts."
-                    :
-                    "No active priority alerts."
-                }
-
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    visibleAlerts
-        .slice(
-            0,
-            100
-        )
-        .forEach(
-            alert => {
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    "alert " +
-                    (
-                        alert.priority === "P2"
-                        ? "alert-p2"
-                        : ""
-                    );
-
-
-                const priorityClass =
-                    alert.priority === "P1"
-                    ? "badge-p1"
-                    : "badge-p2";
-
-
-                const read =
-                    isAlertDismissed(
-                        alert
-                    );
-
-
-                const severityClass =
-                    String(
-                        alert.severity
-                    )
-                    .toLowerCase() ===
-                    "critical"
-                    ? "badge-critical"
-                    : "badge-high";
-
-
-                div.innerHTML = `
-
-                    <div class="alert-title">
-
-                        <a
-                            class="alert-link"
-                            href="${escapeAttribute(
-                                alert.url
-                            )}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            ${escapeHtml(
-                                alert.title
-                            )}
-                        </a>
-
-
-                        <div class="badges">
-
-                            <span
-                                class="badge ${priorityClass}"
-                            >
-                                ${escapeHtml(
-                                    alert.priority
-                                )}
-                            </span>
-
-
-                            <span
-                                class="badge badge-source"
-                            >
-                                ${escapeHtml(
-                                    alert.type
-                                )}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="alert-description">
-
-                        ${escapeHtml(
-                            alert.description
-                        )}
-
-                    </div>
-
-
-                    <div class="alert-meta">
-
-                        <span
-                            class="badge ${severityClass}"
-                        >
-                            ${escapeHtml(
-                                alert.severity
-                            )}
-                        </span>
-
-
-                        ${
-                            alert.vendor
-                            ?
-                            `
-                            <span
-                                class="badge badge-source"
-                            >
-                                ${escapeHtml(
-                                    alert.vendor
-                                )}
-                            </span>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-
-                    <div class="alert-actions">
-
-                        <button
-                            class="read-button"
-                            type="button"
-                        >
-                            ${
-                                read
-                                ? "↩ MARK UNREAD"
-                                : "✓ MARK AS READ"
-                            }
-                        </button>
-
-                    </div>
-
-                `;
-
-
-                container.appendChild(
-                    div
-                );
-
-
-                const link =
-                    div.querySelector(
-                        ".alert-link"
-                    );
-
-
-                const readButton =
-                    div.querySelector(
-                        ".read-button"
-                    );
-
-
-                if (
-                    link
-                ) {
-
-                    link.addEventListener(
-                        "click",
-                        () => {
-
-                            dismissAlert(
-                                alert
-                            );
-
-                            /*
-                             * Do not prevent navigation.
-                             */
-
-                            setTimeout(
-                                render,
-                                0
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                if (
-                    readButton
-                ) {
-
-                    readButton.addEventListener(
-                        "click",
-                        event => {
-
-                            event.preventDefault();
-
-                            event.stopPropagation();
-
-
-                            if (
-                                isAlertDismissed(
-                                    alert
-                                )
-                            ) {
-
-                                const ids =
-                                    getDismissedAlerts()
-                                        .filter(
-                                            id =>
-                                                id !==
-                                                alert.id
-                                        );
-
-
-                                saveDismissedAlerts(
-                                    ids
-                                );
-
-                            } else {
-
-                                dismissAlert(
-                                    alert
-                                );
-
-                            }
-
-
-                            render();
-
-                        }
-                    );
-
-                }
-
-            }
-        );
-
-}
-
-
-/* =====================================================
-   CVES
-===================================================== */
-
-function renderCves(
-    cves
-) {
-
-    const container =
-        document.getElementById(
-            "cves"
-        );
-
-
-    document
-        .getElementById(
-            "result-count"
-        )
-        .innerText =
-            cves.length +
-            " results";
-
-
-    if (
-        cves.length === 0
-    ) {
-
-        container.innerHTML =
-            `
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ◌
-                </div>
-
-                No CVEs match the selected filters.
-
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    const sorted =
-        cves
-            .slice()
-            .sort(
-                (a, b) => {
-
-                    const priority = {
-
-                        P1: 1,
-                        P2: 2,
-                        P3: 3,
-                        P4: 4
-
-                    };
-
-
-                    const pa =
-                        a.kev
-                        ? "P1"
-                        : a.priority;
-
-
-                    const pb =
-                        b.kev
-                        ? "P1"
-                        : b.priority;
-
-
-                    return (
-                        priority[pa] || 9
-                    )
-                    -
-                    (
-                        priority[pb] || 9
-                    );
-
-                }
-            )
-            .slice(
-                0,
-                100
-            );
-
-
-    container.innerHTML = "";
-
-
-    sorted.forEach(
-        cve => {
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "cve";
-
-
-            const severity =
-                String(
-                    cve.cvss?.severity ||
-                    "UNKNOWN"
-                )
-                .toUpperCase();
-
-
-            const priority =
-                cve.kev
-                ? "P1"
-                : cve.priority ||
-                  "P4";
-
-
-            let severityClass =
-                "badge-info";
-
-
-            if (
-                severity === "CRITICAL"
-            ) {
-
-                severityClass =
-                    "badge-critical";
-
-            } else if (
-                severity === "HIGH"
-            ) {
-
-                severityClass =
-                    "badge-high";
-
-            } else if (
-                severity === "MEDIUM"
-            ) {
-
-                severityClass =
-                    "badge-medium";
-
-            }
-
-
-            const priorityClass =
-                priority === "P1"
-                ? "badge-p1"
-                : priority === "P2"
-                ? "badge-p2"
-                : priority === "P3"
-                ? "badge-p3"
-                : "badge-p4";
-
-
-            div.innerHTML = `
-
-                <div class="cve-top">
-
-                    <a
-                        class="cve-id"
-                        href="${escapeAttribute(
-                            cve.url
-                        )}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        ${escapeHtml(
-                            cve.id
-                        )}
-                    </a>
-
-
-                    <div class="badges">
-
-                        <span
-                            class="badge ${priorityClass}"
-                        >
-                            ${escapeHtml(
-                                priority
-                            )}
-                        </span>
-
-
-                        <span
-                            class="badge ${severityClass}"
-                        >
-                            ${escapeHtml(
-                                severity
-                            )}
-                        </span>
-
-
-                        ${
-                            cve.kev
-                            ?
-                            `
-                            <span
-                                class="badge badge-kev"
-                            >
-                                KEV
-                            </span>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-                </div>
-
-
-                <div class="description">
-
-                    ${escapeHtml(
-                        cve.description
-                    )}
-
-                </div>
-
-
-                <div class="meta">
-
-                    ${
-                        cve.cvss?.score
-                        ?
-                        `
-                        <span class="meta-item">
-                            CVSS
-                            ${escapeHtml(
-                                String(
-                                    cve.cvss.score
-                                )
-                            )}
-                        </span>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        (cve.vendors || [])
-                            .map(
-                                vendor =>
-                                    `
-                                    <span class="meta-item">
-                                        ${escapeHtml(
-                                            vendor
-                                        )}
-                                    </span>
-                                    `
-                            )
-                            .join("")
-                    }
-
-                </div>
-
-            `;
-
-
-            container.appendChild(
-                div
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   NEWS
-===================================================== */
-
-function renderNews(
-    articles
-) {
-
-    const container =
-        document.getElementById(
-            "news"
-        );
-
-
-    document
-        .getElementById(
-            "news-result-count"
-        )
-        .innerText =
-            articles.length +
-            " results";
-
-
-    if (
-        articles.length === 0
-    ) {
-
-        container.innerHTML =
-            `
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ◌
-                </div>
-
-                No news matches the selected filters.
-
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    const sorted =
-        articles
-            .slice()
-            .sort(
-                (a, b) =>
-                    new Date(
-                        b.published || 0
-                    ) -
-                    new Date(
-                        a.published || 0
-                    )
-            )
-            .slice(
-                0,
-                100
-            );
-
-
-    container.innerHTML = "";
-
-
-    sorted.forEach(
-        article => {
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "news-item";
-
-
-            let severityClass =
-                "badge-info";
-
-
-            const severity =
-                String(
-                    article.severity ||
-                    "INFO"
-                )
-                .toUpperCase();
-
-
-            if (
-                severity === "CRITICAL"
-            ) {
-
-                severityClass =
-                    "badge-critical";
-
-            } else if (
-                severity === "HIGH"
-            ) {
-
-                severityClass =
-                    "badge-high";
-
-            } else if (
-                severity === "MEDIUM"
-            ) {
-
-                severityClass =
-                    "badge-medium";
-
-            }
-
-
-            const priorityClass =
-                String(
-                    article.priority ||
-                    ""
-                )
-                .toLowerCase();
-
-
-            div.innerHTML = `
-
-                <div class="news-top">
-
-                    <a
-                        class="news-title"
-                        href="${escapeAttribute(
-                            article.url
-                        )}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        ${escapeHtml(
-                            article.title
-                        )}
-                    </a>
-
-
-                    <div class="badges">
-
-                        <span
-                            class="badge ${severityClass}"
-                        >
-                            ${escapeHtml(
-                                severity
-                            )}
-                        </span>
-
-
-                        ${
-                            article.priority
-                            ?
-                            `
-                            <span
-                                class="badge badge-${escapeAttribute(
-                                    priorityClass
-                                )}"
-                            >
-                                ${escapeHtml(
-                                    article.priority
-                                )}
-                            </span>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-                </div>
-
-
-                <div class="news-summary">
-
-                    ${escapeHtml(
-                        article.summary
-                    )}
-
-                </div>
-
-
-                <div class="meta">
-
-                    ${
-                        article.source
-                        ?
-                        `
-                        <span class="meta-item">
-                            ${escapeHtml(
-                                article.source
-                            )}
-                        </span>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        article.published
-                        ?
-                        `
-                        <span class="meta-item">
-                            ${formatDate(
-                                article.published
-                            )}
-                        </span>
-                        `
-                        :
-                        ""
-                    }
-
-
-                    ${
-                        (article.categories || [])
-                            .slice(0, 4)
-                            .map(
-                                category =>
-                                    `
-                                    <span class="meta-item">
-                                        ${escapeHtml(
-                                            category
-                                        )}
-                                    </span>
-                                    `
-                            )
-                            .join("")
-                    }
-
-
-                    ${
-                        (article.vendors || [])
-                            .slice(0, 3)
-                            .map(
-                                vendor =>
-                                    `
-                                    <span class="meta-item">
-                                        ${escapeHtml(
-                                            vendor
-                                        )}
-                                    </span>
-                                    `
-                            )
-                            .join("")
-                    }
-
-                </div>
-
-            `;
-
-
-            container.appendChild(
-                div
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   CLEAR FILTERS
-===================================================== */
-
-function clearFilters() {
-
-    filters = {
-
-        priority: "ALL",
-
-        vendor: "ALL",
-
-        severity: "ALL",
-
-        hours: 0,
-
-        category: "ALL",
-
-        search: ""
-
-    };
-
-
-    document
-        .getElementById(
-            "search"
-        )
-        .value =
-            "";
-
-
-    resetButtonGroup(
-        ".priority-filter",
-        "ALL",
-        "priority"
-    );
-
-
-    resetButtonGroup(
-        ".vendor-filter",
-        "ALL",
-        "vendor"
-    );
-
-
-    resetButtonGroup(
-        ".severity-filter",
-        "ALL",
-        "severity"
-    );
-
-
-    resetButtonGroup(
-        ".time-filter",
-        "0",
-        "hours"
-    );
-
-
-    resetButtonGroup(
-        ".news-category-filter",
-        "ALL",
-        "category"
-    );
-
-
-    render();
-
-}
-
-
-function resetButtonGroup(
-    selector,
-    value,
-    datasetName
-) {
-
-    document
-        .querySelectorAll(
-            selector
-        )
-        .forEach(
-            button => {
-
-                button.classList.toggle(
-                    "active",
-                    String(
-                        button.dataset[
-                            datasetName
-                        ]
-                    ) ===
-                    String(
-                        value
-                    )
-                );
-
-            }
-        );
-
-}
-
-
-/* =====================================================
-   PANEL COLLAPSE
-===================================================== */
-
-function setupCollapsiblePanels() {
-
-    document
-        .querySelectorAll(
-            ".collapse-button"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const panel =
-                            document.getElementById(
-                                button.dataset.panel
-                            );
-
-
-                        if (
-                            !panel
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        panel.classList.toggle(
-                            "collapsed"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-/* =====================================================
-   DENSITY
-===================================================== */
-
-function toggleDensity() {
-
-    compactMode =
-        !compactMode;
-
-
-    document.body.classList.toggle(
-        "compact-mode",
-        compactMode
-    );
-
-
-    const button =
-        document.getElementById(
-            "density-button"
-        );
-
-
-    button.innerText =
-        compactMode
-        ? "▥ COMFORTABLE"
-        : "▤ COMPACT";
-
-}
-
-
-/* =====================================================
-   PAUSE
-===================================================== */
-
-function toggleAutoRefresh() {
-
-    autoRefreshPaused =
-        !autoRefreshPaused;
-
-
-    const button =
-        document.getElementById(
-            "pause-button"
-        );
-
-
-    if (
-        autoRefreshPaused
-    ) {
-
-        button.innerText =
-            "▶ RESUME";
-
-        button.classList
-            .add(
-                "active"
-            );
-
-        setLiveState(
-            "paused"
-        );
-
-    } else {
-
-        button.innerText =
-            "⏸ PAUSE";
-
-        button.classList
-            .remove(
-                "active"
-            );
-
-        loadData();
-
-    }
-
-}
-
-
-/* =====================================================
-   EVENT HELPERS
-===================================================== */
-
-function setupFilterButtons(
-    selector,
-    filterKey,
-    datasetKey,
-    transform = value => value
-) {
-
-    document
-        .querySelectorAll(
-            selector
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        filters[filterKey] =
-                            transform(
-                                button.dataset[
-                                    datasetKey
-                                ]
-                            );
-
-
-                        document
-                            .querySelectorAll(
-                                selector
-                            )
-                            .forEach(
-                                other =>
-                                    other.classList
-                                        .remove(
-                                            "active"
-                                        )
-                            );
-
-
-                        button.classList
-                            .add(
-                                "active"
-                            );
-
-
-                        render();
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-/* =====================================================
-   KEYBOARD SHORTCUTS
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        const tag =
-            document.activeElement?.tagName;
-
-
-        if (
-            event.key === "/" &&
-            tag !== "INPUT" &&
-            tag !== "TEXTAREA"
-        ) {
-
-            event.preventDefault();
-
-
-            document
-                .getElementById(
-                    "search"
-                )
-                .focus();
-
-        }
-
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            const search =
-                document.getElementById(
-                    "search"
-                );
-
-
-            if (
-                document.activeElement ===
-                search
-            ) {
-
-                search.value =
-                    "";
-
-                filters.search =
-                    "";
-
-                render();
-
-                search.blur();
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   BACK TO TOP
-===================================================== */
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        document
-            .getElementById(
-                "back-to-top"
-            )
-            .classList.toggle(
-                "visible",
-                window.scrollY > 500
-            );
-
-    },
-    {
-        passive: true
-    }
-);
-
-
-document
-    .getElementById(
-        "back-to-top"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
+        document.getElementById("updated").innerText =
+            "Updated " + new Date().toLocaleTimeString("sv-SE", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
             });
 
+        setLiveState("live");
+    } catch (error) {
+        console.error("SECURITY MONITOR ERROR:", error);
+        setLiveState("error");
+
+        document.getElementById("news").innerHTML = `
+            <div class="error">
+                <strong>Data loading error</strong>
+                <br><br>
+                ${escapeHtml(error.message)}
+            </div>
+        `;
+    }
+}
+
+/* LIVE STATE */
+function setLiveState(state) {
+    const status = document.getElementById("live-status");
+    const light = document.getElementById("status-light");
+
+    status.classList.remove("paused", "error");
+
+    if (state === "paused") {
+        status.innerText = "● PAUSED";
+        status.classList.add("paused");
+        light.classList.remove("alert");
+        light.classList.add("paused");
+        return;
+    }
+
+    if (state === "error") {
+        status.innerText = "● ERROR";
+        status.classList.add("error");
+        light.classList.remove("paused");
+        light.classList.add("alert");
+        return;
+    }
+
+    status.innerText = "● LIVE";
+    light.classList.remove("paused");
+}
+
+/* STATISTICS */
+function updateStatistics() {
+    let critical = 0;
+    let high = 0;
+    let kev = 0;
+    let p1 = 0;
+    let p2 = 0;
+
+    allCves.forEach(cve => {
+        const severity = String(cve.cvss?.severity || "").toUpperCase();
+
+        if (severity === "CRITICAL") critical++;
+        if (severity === "HIGH") high++;
+        if (cve.kev) kev++;
+
+        if (cve.priority === "P1" || cve.kev) p1++;
+        else if (cve.priority === "P2") p2++;
+    });
+
+    const news24 = allNews.filter(article => {
+        if (!article.published) return false;
+        const timestamp = new Date(article.published).getTime();
+        if (!Number.isFinite(timestamp)) return false;
+        const age = Date.now() - timestamp;
+        return age >= 0 && age <= 24 * 60 * 60 * 1000;
+    });
+
+    document.getElementById("p1").innerText = p1;
+    document.getElementById("p2").innerText = p2;
+    document.getElementById("critical").innerText = critical;
+    document.getElementById("high").innerText = high;
+    document.getElementById("kev").innerText = kev;
+    document.getElementById("news-count").innerText = news24.length;
+}
+
+/* ACTIVE ALERTS */
+function getActivePriorityAlerts() {
+    return getNotificationAlerts().filter(alert => !isAlertDismissed(alert));
+}
+
+/* PRIORITY BANNER */
+function updatePriorityBanner() {
+    const banner = document.getElementById("priority-banner");
+    const countElement = document.getElementById("priority-count");
+    const alerts = getActivePriorityAlerts();
+
+    if (alerts.length === 0) {
+        banner.classList.remove("visible");
+        document.getElementById("status-light").classList.remove("alert");
+        document.body.classList.remove("alert-active");
+        return;
+    }
+
+    const p1Count = alerts.filter(alert => alert.priority === "P1").length;
+    const p2Count = alerts.filter(alert => alert.priority === "P2").length;
+
+    banner.classList.add("visible");
+    countElement.innerText = p1Count > 0 ? p1Count + " P1" : p2Count + " P2";
+    document.getElementById("status-light").classList.add("alert");
+    document.body.classList.add("alert-active");
+}
+
+/* OPEN TOP PRIORITY ALERT */
+function openTopPriorityAlert() {
+    const alerts = getActivePriorityAlerts();
+    if (alerts.length === 0) return;
+
+    const alert = alerts[0];
+    dismissAlert(alert);
+    render();
+
+    if (alert.url) window.open(alert.url, "_blank", "noopener,noreferrer");
+}
+
+/* FILTER CVES */
+function getFilteredCves() {
+    return allCves.filter(cve => {
+        if (filters.priority !== "ALL") {
+            const priority = cve.kev ? "P1" : cve.priority;
+            if (priority !== filters.priority) return false;
         }
+
+        if (filters.vendor !== "ALL") {
+            const vendors = Array.isArray(cve.vendors) ? cve.vendors : [];
+            if (!vendors.includes(filters.vendor)) return false;
+        }
+
+        if (filters.severity !== "ALL") {
+            if (String(cve.cvss?.severity || "").toUpperCase() !== filters.severity) {
+                return false;
+            }
+        }
+
+        if (filters.search) {
+            const text = JSON.stringify(cve).toLowerCase();
+            if (!text.includes(filters.search)) return false;
+        }
+
+        return true;
+    });
+}
+
+/* FILTER NEWS */
+function getFilteredNews() {
+    return allNews.filter(article => {
+        if (filters.hours > 0) {
+            if (!article.published) return false;
+
+            const timestamp = new Date(article.published).getTime();
+            if (!Number.isFinite(timestamp)) return false;
+
+            const age = Date.now() - timestamp;
+            if (age < 0 || age > filters.hours * 60 * 60 * 1000) return false;
+        }
+
+        if (filters.category !== "ALL") {
+            const categories = Array.isArray(article.categories) ? article.categories : [];
+            if (!categories.includes(filters.category)) return false;
+        }
+
+        if (filters.search) {
+            const text = JSON.stringify(article).toLowerCase();
+            if (!text.includes(filters.search)) return false;
+        }
+
+        return true;
+    });
+}
+
+/* FILTER SUMMARY */
+function updateFilterSummary() {
+    const active = [];
+
+    if (filters.priority !== "ALL") active.push("Priority: " + filters.priority);
+    if (filters.vendor !== "ALL") active.push("Vendor: " + filters.vendor);
+    if (filters.severity !== "ALL") active.push("Severity: " + filters.severity);
+    if (filters.hours > 0) active.push("News: " + filters.hours + "h");
+    if (filters.category !== "ALL") active.push("Category: " + filters.category);
+    if (filters.search) active.push("Search: " + filters.search);
+
+    const element = document.getElementById("filter-status");
+
+    if (active.length === 0) {
+        element.innerHTML = "No active filters";
+        return;
+    }
+
+    element.innerHTML =
+        "<strong>" + active.length + "</strong> active filter" +
+        (active.length === 1 ? "" : "s") +
+        " · " + active.map(escapeHtml).join(" · ");
+}
+
+/* READ FILTER */
+function updateReadFilterButton() {
+    const button = document.getElementById("read-filter-button");
+
+    if (showUnreadOnly) {
+        button.innerText = "● UNREAD ONLY";
+        button.classList.add("active");
+    } else {
+        button.innerText = "👁 ALL ALERTS";
+        button.classList.remove("active");
+    }
+}
+
+/* RENDER */
+function render() {
+    renderAlerts();
+    renderCves(getFilteredCves());
+    renderNews(getFilteredNews());
+    updatePriorityBanner();
+    updateFilterSummary();
+    updateReadFilterButton();
+}
+
+/* RENDER ALERTS */
+function renderAlerts() {
+    const alerts = getNotificationAlerts();
+
+    const visibleAlerts = alerts.filter(alert =>
+        !showUnreadOnly || !isAlertDismissed(alert)
     );
 
+    const unreadCount = alerts.filter(alert => !isAlertDismissed(alert)).length;
+    const container = document.getElementById("alerts");
 
-/* =====================================================
-   PRIORITY BANNER CLICK
-===================================================== */
+    document.getElementById("alert-count").innerText = unreadCount + " unread";
 
-document
-    .getElementById(
-        "priority-banner"
-    )
-    .addEventListener(
-        "click",
-        openTopPriorityAlert
-    );
+    if (visibleAlerts.length === 0) {
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">✓</div>
+                ${showUnreadOnly ? "No unread priority alerts." : "No active priority alerts."}
+            </div>
+        `;
+        return;
+    }
 
+    container.innerHTML = "";
 
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
+    visibleAlerts.slice(0, 100).forEach(alert => {
+        const div = document.createElement("div");
+        div.className = "alert " + (alert.priority === "P2" ? "alert-p2" : "");
 
-document
-    .getElementById(
-        "notification-button"
-    )
-    .addEventListener(
-        "click",
-        enableNotifications
-    );
+        const priorityClass = alert.priority === "P1" ? "badge-p1" : "badge-p2";
+        const read = isAlertDismissed(alert);
+        const severityClass =
+            String(alert.severity).toLowerCase() === "critical"
+                ? "badge-critical"
+                : "badge-high";
 
+        div.innerHTML = `
+            <div class="alert-title">
+                <a class="alert-link"
+                   href="${escapeAttribute(alert.url)}"
+                   target="_blank"
+                   rel="noopener noreferrer">${escapeHtml(alert.title)}</a>
+                <div class="badges">
+                    <span class="badge ${priorityClass}">${escapeHtml(alert.priority)}</span>
+                    <span class="badge badge-source">${escapeHtml(alert.type)}</span>
+                </div>
+            </div>
 
-/* =====================================================
-   MARK ALL READ
-===================================================== */
+            <div class="alert-description">${escapeHtml(alert.description)}</div>
 
-document
-    .getElementById(
-        "mark-all-read-button"
-    )
-    .addEventListener(
-        "click",
-        () => {
+            <div class="alert-meta">
+                <span class="badge ${severityClass}">${escapeHtml(alert.severity)}</span>
+                ${alert.vendor ? `<span class="badge badge-source">${escapeHtml(alert.vendor)}</span>` : ""}
+            </div>
 
-            const unread =
-                getActivePriorityAlerts();
+            <div class="alert-actions">
+                <button class="read-button" type="button">
+                    ${read ? "↩ MARK UNREAD" : "✓ MARK AS READ"}
+                </button>
+            </div>
+        `;
 
+        container.appendChild(div);
 
-            if (
-                unread.length === 0
-            ) {
+        const link = div.querySelector(".alert-link");
+        const readButton = div.querySelector(".read-button");
 
-                return;
+        link.addEventListener("click", () => {
+            dismissAlert(alert);
+            setTimeout(render, 0);
+        });
 
+        readButton.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (isAlertDismissed(alert)) {
+                saveDismissedAlerts(getDismissedAlerts().filter(id => id !== alert.id));
+            } else {
+                dismissAlert(alert);
             }
 
-
-            markAllAlertsAsRead();
-
-        }
-    );
-
-
-/* =====================================================
-   READ FILTER
-===================================================== */
-
-document
-    .getElementById(
-        "read-filter-button"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            showUnreadOnly =
-                !showUnreadOnly;
-
             render();
+        });
+    });
+}
 
-        }
-    );
+/* CVES */
+function renderCves(cves) {
+    const container = document.getElementById("cves");
+    document.getElementById("result-count").innerText = cves.length + " results";
 
+    if (cves.length === 0) {
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">◌</div>
+                No CVEs match the selected filters.
+            </div>
+        `;
+        return;
+    }
 
-/* =====================================================
-   CLEAR FILTERS
-===================================================== */
+    const priorityOrder = { P1: 1, P2: 2, P3: 3, P4: 4 };
 
-document
-    .getElementById(
-        "clear-filters-button"
-    )
-    .addEventListener(
-        "click",
-        clearFilters
-    );
+    const sorted = cves.slice().sort((a, b) => {
+        const pa = a.kev ? "P1" : a.priority;
+        const pb = b.kev ? "P1" : b.priority;
+        return (priorityOrder[pa] || 9) - (priorityOrder[pb] || 9);
+    }).slice(0, 100);
 
+    container.innerHTML = "";
 
-/* =====================================================
-   DENSITY
-===================================================== */
+    sorted.forEach(cve => {
+        const div = document.createElement("div");
+        div.className = "cve";
 
-document
-    .getElementById(
-        "density-button"
-    )
-    .addEventListener(
-        "click",
-        toggleDensity
-    );
+        const severity = String(cve.cvss?.severity || "UNKNOWN").toUpperCase();
+        const priority = cve.kev ? "P1" : (cve.priority || "P4");
 
+        let severityClass = "badge-info";
+        if (severity === "CRITICAL") severityClass = "badge-critical";
+        else if (severity === "HIGH") severityClass = "badge-high";
+        else if (severity === "MEDIUM") severityClass = "badge-medium";
 
-/* =====================================================
-   PAUSE
-===================================================== */
+        const priorityClass = {
+            P1: "badge-p1",
+            P2: "badge-p2",
+            P3: "badge-p3",
+            P4: "badge-p4"
+        }[priority] || "badge-p4";
 
-document
-    .getElementById(
-        "pause-button"
-    )
-    .addEventListener(
-        "click",
-        toggleAutoRefresh
-    );
+        const vendors = Array.isArray(cve.vendors) ? cve.vendors : [];
 
+        div.innerHTML = `
+            <div class="cve-top">
+                <a class="cve-id"
+                   href="${escapeAttribute(cve.url)}"
+                   target="_blank"
+                   rel="noopener noreferrer">${escapeHtml(cve.id || "Unknown CVE")}</a>
+                <div class="badges">
+                    <span class="badge ${priorityClass}">${escapeHtml(priority)}</span>
+                    <span class="badge ${severityClass}">${escapeHtml(severity)}</span>
+                    ${cve.kev ? `<span class="badge badge-kev">KEV</span>` : ""}
+                </div>
+            </div>
 
-/* =====================================================
-   SEARCH
-===================================================== */
+            <div class="description">${escapeHtml(cve.description || "")}</div>
 
-document
-    .getElementById(
-        "search"
-    )
-    .addEventListener(
-        "input",
-        event => {
+            <div class="meta">
+                ${cve.cvss?.score ? `
+                    <span class="meta-item">CVSS ${escapeHtml(String(cve.cvss.score))}</span>
+                ` : ""}
+                ${vendors.map(vendor => `
+                    <span class="meta-item">${escapeHtml(vendor)}</span>
+                `).join("")}
+            </div>
+        `;
 
-            filters.search =
-                event.target.value
-                    .trim()
-                    .toLowerCase();
+        container.appendChild(div);
+    });
+}
 
+/* NEWS */
+function formatDate(value) {
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return "";
+    return date.toLocaleString("sv-SE");
+}
 
+function renderNews(articles) {
+    const container = document.getElementById("news");
+    document.getElementById("news-result-count").innerText = articles.length + " results";
+
+    if (articles.length === 0) {
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">◌</div>
+                No news matches the selected filters.
+            </div>
+        `;
+        return;
+    }
+
+    const sorted = articles.slice().sort((a, b) => {
+        const aDate = new Date(a.published || 0).getTime();
+        const bDate = new Date(b.published || 0).getTime();
+        return (Number.isFinite(bDate) ? bDate : 0) -
+            (Number.isFinite(aDate) ? aDate : 0);
+    }).slice(0, 100);
+
+    container.innerHTML = "";
+
+    sorted.forEach(article => {
+        const div = document.createElement("div");
+        div.className = "news-item";
+
+        const severity = String(article.severity || "INFO").toUpperCase();
+        let severityClass = "badge-info";
+        if (severity === "CRITICAL") severityClass = "badge-critical";
+        else if (severity === "HIGH") severityClass = "badge-high";
+        else if (severity === "MEDIUM") severityClass = "badge-medium";
+
+        const priority = String(article.priority || "").toUpperCase();
+        const priorityClass = ["P1", "P2", "P3", "P4"].includes(priority)
+            ? "badge-" + priority.toLowerCase()
+            : "";
+
+        const categories = Array.isArray(article.categories) ? article.categories : [];
+        const vendors = Array.isArray(article.vendors) ? article.vendors : [];
+
+        div.innerHTML = `
+            <div class="news-top">
+                <a class="news-title"
+                   href="${escapeAttribute(article.url)}"
+                   target="_blank"
+                   rel="noopener noreferrer">${escapeHtml(article.title || "Untitled article")}</a>
+                <div class="badges">
+                    <span class="badge ${severityClass}">${escapeHtml(severity)}</span>
+                    ${priorityClass ? `
+                        <span class="badge ${priorityClass}">${escapeHtml(priority)}</span>
+                    ` : ""}
+                </div>
+            </div>
+
+            <div class="news-summary">${escapeHtml(article.summary || "")}</div>
+
+            <div class="meta">
+                ${article.source ? `<span class="meta-item">${escapeHtml(article.source)}</span>` : ""}
+                ${article.published ? `<span class="meta-item">${escapeHtml(formatDate(article.published))}</span>` : ""}
+                ${categories.slice(0, 4).map(category => `
+                    <span class="meta-item">${escapeHtml(category)}</span>
+                `).join("")}
+                ${vendors.slice(0, 3).map(vendor => `
+                    <span class="meta-item">${escapeHtml(vendor)}</span>
+                `).join("")}
+            </div>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+/* CLEAR FILTERS */
+function clearFilters() {
+    filters = {
+        priority: "ALL",
+        vendor: "ALL",
+        severity: "ALL",
+        hours: 0,
+        category: "ALL",
+        search: ""
+    };
+
+    document.getElementById("search").value = "";
+
+    resetButtonGroup(".priority-filter", "ALL", "priority");
+    resetButtonGroup(".vendor-filter", "ALL", "vendor");
+    resetButtonGroup(".severity-filter", "ALL", "severity");
+    resetButtonGroup(".time-filter", "0", "hours");
+    resetButtonGroup(".news-category-filter", "ALL", "category");
+
+    render();
+}
+
+function resetButtonGroup(selector, value, datasetName) {
+    document.querySelectorAll(selector).forEach(button => {
+        button.classList.toggle(
+            "active",
+            String(button.dataset[datasetName]) === String(value)
+        );
+    });
+}
+
+/* PANEL COLLAPSE */
+function setupCollapsiblePanels() {
+    document.querySelectorAll(".collapse-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const panel = document.getElementById(button.dataset.panel);
+            if (panel) panel.classList.toggle("collapsed");
+        });
+    });
+}
+
+/* DENSITY */
+function toggleDensity() {
+    compactMode = !compactMode;
+    document.body.classList.toggle("compact-mode", compactMode);
+
+    document.getElementById("density-button").innerText =
+        compactMode ? "▥ COMFORTABLE" : "▤ COMPACT";
+}
+
+/* PAUSE */
+function toggleAutoRefresh() {
+    autoRefreshPaused = !autoRefreshPaused;
+
+    const button = document.getElementById("pause-button");
+
+    if (autoRefreshPaused) {
+        button.innerText = "▶ RESUME";
+        button.classList.add("active");
+        setLiveState("paused");
+    } else {
+        button.innerText = "⏸ PAUSE";
+        button.classList.remove("active");
+        loadData();
+    }
+}
+
+/* FILTER EVENTS */
+function setupFilterButtons(selector, filterKey, datasetKey, transform = value => value) {
+    document.querySelectorAll(selector).forEach(button => {
+        button.addEventListener("click", () => {
+            filters[filterKey] = transform(button.dataset[datasetKey]);
+
+            document.querySelectorAll(selector).forEach(other => {
+                other.classList.remove("active");
+            });
+
+            button.classList.add("active");
             render();
+        });
+    });
+}
 
+/* KEYBOARD SHORTCUTS */
+document.addEventListener("keydown", event => {
+    const tag = document.activeElement?.tagName;
+
+    if (event.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA") {
+        event.preventDefault();
+        document.getElementById("search").focus();
+    }
+
+    if (event.key === "Escape") {
+        const search = document.getElementById("search");
+
+        if (document.activeElement === search) {
+            search.value = "";
+            filters.search = "";
+            render();
+            search.blur();
         }
+    }
+});
+
+/* BACK TO TOP */
+window.addEventListener("scroll", () => {
+    document.getElementById("back-to-top").classList.toggle(
+        "visible",
+        window.scrollY > 500
     );
+}, { passive: true });
 
+document.getElementById("back-to-top").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
-/* =====================================================
-   FILTER EVENTS
-===================================================== */
+/* PRIORITY BANNER CLICK */
+document.getElementById("priority-banner").addEventListener("click", openTopPriorityAlert);
 
-setupFilterButtons(
-    ".priority-filter",
-    "priority",
-    "priority"
-);
+/* NOTIFICATIONS */
+document.getElementById("notification-button").addEventListener("click", enableNotifications);
 
+/* MARK ALL READ */
+document.getElementById("mark-all-read-button").addEventListener("click", () => {
+    if (getActivePriorityAlerts().length > 0) markAllAlertsAsRead();
+});
 
-setupFilterButtons(
-    ".vendor-filter",
-    "vendor",
-    "vendor"
-);
+/* READ FILTER */
+document.getElementById("read-filter-button").addEventListener("click", () => {
+    showUnreadOnly = !showUnreadOnly;
+    render();
+});
 
+/* CLEAR FILTERS */
+document.getElementById("clear-filters-button").addEventListener("click", clearFilters);
 
-setupFilterButtons(
-    ".severity-filter",
-    "severity",
-    "severity"
-);
+/* DENSITY */
+document.getElementById("density-button").addEventListener("click", toggleDensity);
 
+/* PAUSE */
+document.getElementById("pause-button").addEventListener("click", toggleAutoRefresh);
 
-setupFilterButtons(
-    ".time-filter",
-    "hours",
-    "hours",
-    Number
-);
+/* SEARCH */
+document.getElementById("search").addEventListener("input", event => {
+    filters.search = event.target.value.trim().toLowerCase();
+    render();
+});
 
+/* FILTER EVENTS */
+setupFilterButtons(".priority-filter", "priority", "priority");
+setupFilterButtons(".vendor-filter", "vendor", "vendor");
+setupFilterButtons(".severity-filter", "severity", "severity");
+setupFilterButtons(".time-filter", "hours", "hours", Number);
+setupFilterButtons(".news-category-filter", "category", "category");
 
-setupFilterButtons(
-    ".news-category-filter",
-    "category",
-    "category"
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
+/* START */
 updateNotificationButton();
-
 setupCollapsiblePanels();
-
 loadData();
 
-
-refreshTimer =
-    setInterval(
-        () => {
-
-            if (
-                !autoRefreshPaused
-            ) {
-
-                loadData();
-
-            }
-
-        },
-        60 * 1000
-    );
-
-
+refreshTimer = setInterval(() => {
+    if (!autoRefreshPaused) loadData();
+}, 60 * 1000);
 </script>
-
 </body>
-
 </html>
