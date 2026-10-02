@@ -1,6 +1,110 @@
 {
-  "updated": "2026-10-02T13:15:12.895801+00:00",
+  "updated": "2026-10-02T13:36:58.445394+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-94541",
+      "published": "2026-10-02T10:17:09.313",
+      "modified": "2026-10-02T13:18:55.613",
+      "description": "The WPMobile.App – Android and iOS App Builder plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 11.82 This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to exfiltrate password-reset URLs for arbitrary users, including administrators, mirrored into the push queue by the mail-to-push feature, and use those URLs to take over the targeted accounts. This exploit chain requires the plugin's mail-to-push feature (wpmobile_auto_mail=1) to be enabled, as that setting is what causes outbound WordPress password-reset emails — including the reset URL and key — to be mirrored into the push row queue where they become accessible to the attacker.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-94541"
+    },
+    {
+      "id": "CVE-2026-85492",
+      "published": "2026-10-02T10:17:08.707",
+      "modified": "2026-10-02T13:18:55.613",
+      "description": "The All in One SEO – AI SEO Plugin to Boost SEO Rankings & Traffic (Schema, Local SEO, Sitemap & SEO Insights) plugin for WordPress is vulnerable to DOM-Based Cross-Site Scripting via URL Pathname in all versions up to, and including, 5.0.1.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user visits a crafted URL. Exploitation requires the victim to hold the aioseo_manage_seo capability and to open the SEO Preview panel in the WordPress admin toolbar while visiting a page with a malicious payload embedded in the URL pathname.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85492"
+    },
+    {
+      "id": "CVE-2026-15896",
+      "published": "2026-10-02T06:16:40.773",
+      "modified": "2026-10-02T13:18:55.613",
+      "description": "The Super Forms – Drag & Drop Form Builder plugin for WordPress is vulnerable to Directory Traversal in all versions up to, and including, 6.3.316 via the parse_request function. This makes it possible for unauthenticated attackers to read the contents of arbitrary files on the server, which can contain sensitive information. The optional 'file_upload_auth' setting defaults to empty, meaning no authentication is required in the default configuration; enabling this setting mitigates unauthenticated exploitation but does not remediate the path traversal itself. Exploitation on Linux requires a real 13-digit timestamp directory to exist, whereas on Windows the traversal works with any hardcoded 13-digit prefix. However, the plugin's file upload response returns the name of the created directory, which means the vulnerability is exploitable as long as file upload is enabled on the form.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15896"
+    },
+    {
+      "id": "CVE-2026-95385",
+      "published": "2026-09-29T18:17:32.287",
+      "modified": "2026-10-02T13:18:04.747",
+      "description": "Inappropriate implementation in PlatformIntegration in Google Chrome on on Windows prior to 154.0.8037.57 allowed a remote attacker leveraging social engineering to bypass system access restrictions via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95385"
+    },
+    {
+      "id": "CVE-2026-102937",
+      "published": "2026-09-29T21:17:18.893",
+      "modified": "2026-10-02T13:17:35.440",
+      "description": "virtualenv is a tool for creating isolated virtual python environments. Prior to 21.7.12, BatchActivator.quote() returns prompt text unchanged before activate.bat inserts it into a cmd.exe set \"VAR=value\" statement. An attacker who influences --prompt, VIRTUALENV_PROMPT, or the corresponding configuration value can include a double quote that closes the assignment and leaves following cmd.exe operators as executable syntax. When a user activates the generated Windows environment, the injected commands run with that user's privileges. This issue is fixed in version 21.7.12.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102937"
+    },
     {
       "id": "CVE-2015-3246",
       "published": "2015-08-11T14:59:07.040",
@@ -49,46 +153,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3246"
     },
     {
-      "id": "CVE-2026-94541",
-      "published": "2026-10-02T10:17:09.313",
-      "modified": "2026-10-02T10:17:09.313",
-      "description": "The WPMobile.App – Android and iOS App Builder plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 11.82 This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to exfiltrate password-reset URLs for arbitrary users, including administrators, mirrored into the push queue by the mail-to-push feature, and use those URLs to take over the targeted accounts. This exploit chain requires the plugin's mail-to-push feature (wpmobile_auto_mail=1) to be enabled, as that setting is what causes outbound WordPress password-reset emails — including the reset URL and key — to be mirrored into the push row queue where they become accessible to the attacker.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-94541"
-    },
-    {
-      "id": "CVE-2026-85492",
-      "published": "2026-10-02T10:17:08.707",
-      "modified": "2026-10-02T10:17:08.707",
-      "description": "The All in One SEO – AI SEO Plugin to Boost SEO Rankings & Traffic (Schema, Local SEO, Sitemap & SEO Insights) plugin for WordPress is vulnerable to DOM-Based Cross-Site Scripting via URL Pathname in all versions up to, and including, 5.0.1.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user visits a crafted URL. Exploitation requires the victim to hold the aioseo_manage_seo capability and to open the SEO Preview panel in the WordPress admin toolbar while visiting a page with a malicious payload embedded in the URL pathname.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85492"
-    },
-    {
       "id": "CVE-2026-103600",
       "published": "2026-10-02T08:17:00.363",
       "modified": "2026-10-02T08:17:00.363",
@@ -109,28 +173,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
-    },
-    {
-      "id": "CVE-2026-15896",
-      "published": "2026-10-02T06:16:40.773",
-      "modified": "2026-10-02T06:16:40.773",
-      "description": "The Super Forms – Drag & Drop Form Builder plugin for WordPress is vulnerable to Directory Traversal in all versions up to, and including, 6.3.316 via the parse_request function. This makes it possible for unauthenticated attackers to read the contents of arbitrary files on the server, which can contain sensitive information. The optional 'file_upload_auth' setting defaults to empty, meaning no authentication is required in the default configuration; enabling this setting mitigates unauthenticated exploitation but does not remediate the path traversal itself. Exploitation on Linux requires a real 13-digit timestamp directory to exist, whereas on Windows the traversal works with any hardcoded 13-digit prefix. However, the plugin's file upload response returns the name of the created directory, which means the vulnerability is exploitable as long as file upload is enabled on the form.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15896"
     },
     {
       "id": "CVE-2026-47594",
@@ -2076,12 +2118,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 18,
+    "total_relevant_cves": 20,
     "critical": 3,
-    "high": 11,
-    "medium": 4,
+    "high": 12,
+    "medium": 5,
     "kev": 2,
     "p1": 1,
-    "p2": 3
+    "p2": 4
   }
 }
