@@ -2,6 +2,7 @@
 <html lang="sv">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -19,7 +20,7 @@
 
 body {
     margin: 0;
-    background: #070b12;
+    background: #05080d;
     color: #e6edf3;
     font-family:
         Arial,
@@ -27,99 +28,268 @@ body {
         sans-serif;
 }
 
-header {
-    padding: 18px 24px;
-    background: #0d131d;
-    border-bottom: 1px solid #202938;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+body.alert-active {
+    background:
+        radial-gradient(
+            circle at top,
+            #250b10 0%,
+            #05080d 45%
+        );
 }
 
-h1 {
-    margin: 0;
-    font-size: 22px;
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+    height: 64px;
+    padding: 0 22px;
+
+    background: #0b1119;
+
+    border-bottom:
+        1px solid #202938;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-light {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #36d399;
+
+    box-shadow:
+        0 0 10px
+        rgba(54, 211, 153, 0.7);
+}
+
+.status-light.alert {
+    background: #ff4654;
+
+    box-shadow:
+        0 0 16px
+        rgba(255, 70, 84, 0.9);
+
+    animation:
+        pulse 1s infinite;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: bold;
     letter-spacing: 2px;
 }
 
-#updated {
-    color: #7d8998;
-    font-size: 13px;
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
 }
 
-.container {
-    padding: 20px;
+.updated {
+    color: #788696;
+    font-size: 11px;
 }
+
+.live {
+    color: #36d399;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+.container {
+    padding: 16px;
+    max-width: 1800px;
+    margin: auto;
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
 
 .stats {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 14px;
 }
 
 .stat {
-    background: #0d131d;
-    border: 1px solid #202938;
-    border-radius: 8px;
-    padding: 16px;
+    background: #0b1119;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 7px;
+
+    padding: 13px 15px;
+
+    min-height: 82px;
 }
 
 .stat-title {
-    color: #7d8998;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #728092;
+
+    font-size: 10px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        1px;
 }
 
 .stat-value {
-    font-size: 28px;
+    margin-top: 6px;
+
+    font-size: 27px;
+
     font-weight: bold;
-    margin-top: 7px;
 }
 
-.critical {
-    color: #ff4d5a;
+.stat-p1 {
+    color: #ff4654;
 }
 
-.high {
+.stat-p2 {
     color: #ff9f43;
 }
 
-.medium {
-    color: #ffd166;
+.stat-critical {
+    color: #ff5968;
 }
 
-.kev {
-    color: #ff4d5a;
+.stat-high {
+    color: #ffb05c;
 }
 
-.p1 {
-    color: #ff4d5a;
+.stat-kev {
+    color: #ff4654;
 }
 
-.p2 {
-    color: #ff9f43;
+.stat-news {
+    color: #61b6ff;
 }
 
-.news {
-    color: #65b7ff;
+
+/* =====================================================
+   PRIORITY BANNER
+===================================================== */
+
+.priority-banner {
+    display: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b1017,
+            #220c12
+        );
+
+    border:
+        1px solid #7d2531;
+
+    border-radius: 7px;
+
+    padding: 12px 15px;
+
+    margin-bottom: 14px;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    animation:
+        bannerPulse 2s infinite;
 }
+
+.priority-banner.visible {
+    display: flex;
+}
+
+.priority-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.priority-icon {
+    font-size: 20px;
+}
+
+.priority-title {
+    font-weight: bold;
+    color: #ff6874;
+}
+
+.priority-subtitle {
+    color: #c28b91;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.priority-count {
+    background: #681923;
+    color: #ff9ca5;
+
+    padding:
+        5px 10px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
 
 .filters {
-    background: #0d131d;
-    border: 1px solid #202938;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 18px;
+    background: #0b1119;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 7px;
+
+    padding: 12px;
+
+    margin-bottom: 14px;
 }
 
 .filter-row {
     display: flex;
+
     flex-wrap: wrap;
-    gap: 8px;
+
     align-items: center;
-    margin-bottom: 10px;
+
+    gap: 6px;
+
+    margin-bottom: 7px;
 }
 
 .filter-row:last-child {
@@ -127,248 +297,526 @@ h1 {
 }
 
 .filter-label {
-    color: #7d8998;
-    font-size: 12px;
-    width: 80px;
-}
+    color: #718092;
 
-input,
-select {
-    background: #121a26;
-    color: #dce5ee;
-    border: 1px solid #283445;
-    border-radius: 5px;
-    padding: 7px 9px;
-    font-size: 12px;
-}
+    font-size: 10px;
 
-input {
-    min-width: 220px;
+    text-transform:
+        uppercase;
+
+    letter-spacing: 0.7px;
+
+    width: 75px;
 }
 
 button {
-    background: #121a26;
-    color: #b9c4d0;
-    border: 1px solid #283445;
-    border-radius: 5px;
-    padding: 7px 12px;
+    background: #101822;
+
+    color: #9caabd;
+
+    border:
+        1px solid #273444;
+
+    border-radius: 4px;
+
+    padding:
+        6px 10px;
+
     cursor: pointer;
-    font-size: 12px;
+
+    font-size: 10px;
+
+    font-weight: bold;
 }
 
 button:hover {
-    background: #192434;
-    color: white;
+    background: #182331;
+
+    color: #fff;
 }
 
 button.active {
     background: #245b8a;
-    border-color: #3b82bd;
+
+    border-color:
+        #3b82bd;
+
     color: white;
 }
 
-button.active-danger {
-    background: #6b2029;
-    border-color: #a83a46;
-    color: white;
+button.p1-button.active {
+    background: #641923;
+
+    border-color:
+        #a93240;
+
+    color: #ff9da6;
 }
+
+button.p2-button.active {
+    background: #593316;
+
+    border-color:
+        #a86128;
+
+    color: #ffc184;
+}
+
+input {
+    background: #101822;
+
+    color: #dbe4ed;
+
+    border:
+        1px solid #273444;
+
+    border-radius: 4px;
+
+    padding:
+        6px 9px;
+
+    font-size: 11px;
+
+    width: 280px;
+}
+
+input:focus {
+    outline: none;
+
+    border-color:
+        #3b82bd;
+}
+
+
+/* =====================================================
+   MAIN GRID
+===================================================== */
 
 .content {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 18px;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 14px;
 }
 
+
+/* =====================================================
+   PANELS
+===================================================== */
+
 .panel {
-    background: #0d131d;
-    border: 1px solid #202938;
-    border-radius: 8px;
+    background: #0b1119;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 7px;
+
     overflow: hidden;
 }
 
 .panel-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid #202938;
-    font-weight: bold;
-    letter-spacing: 1px;
+    height: 43px;
+
+    padding:
+        0 14px;
+
+    border-bottom:
+        1px solid #202938;
+
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
+
+    justify-content: space-between;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing:
+        1px;
 }
 
 .panel-count {
-    color: #7d8998;
-    font-size: 12px;
+    color: #657487;
+
+    font-size: 10px;
+
     font-weight: normal;
 }
 
-.cve,
-.news-item,
-.alert {
-    padding: 14px 16px;
-    border-bottom: 1px solid #18202d;
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title {
+    color: #667588;
+
+    font-size: 10px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        1.2px;
+
+    margin:
+        5px 0 7px 2px;
 }
 
-.cve:last-child,
-.news-item:last-child,
+
+/* =====================================================
+   ALERTS
+===================================================== */
+
+.alert {
+    padding: 12px 14px;
+
+    border-bottom:
+        1px solid #18212d;
+
+    border-left:
+        3px solid #ff4654;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 70, 84, 0.055),
+            transparent
+        );
+}
+
 .alert:last-child {
     border-bottom: 0;
 }
 
-.cve-top,
-.news-top,
+.alert-p2 {
+    border-left-color:
+        #ff9f43;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 159, 67, 0.05),
+            transparent
+        );
+}
+
 .alert-title {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+    justify-content:
+        space-between;
+
+    gap: 10px;
+}
+
+.alert-link {
+    color: #69b9ff;
+
+    text-decoration:
+        none;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.alert-link:hover {
+    text-decoration:
+        underline;
+}
+
+.alert-description {
+    color: #8997a7;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+    margin-top: 6px;
+}
+
+.alert-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    margin-top: 7px;
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge {
+    display: inline-block;
+
+    padding:
+        3px 6px;
+
+    border-radius: 3px;
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+.badge-p1 {
+    background: #641923;
+
+    color: #ff8d98;
+}
+
+.badge-p2 {
+    background: #593316;
+
+    color: #ffba73;
+}
+
+.badge-p3 {
+    background: #4c4212;
+
+    color: #ffe18a;
+}
+
+.badge-critical {
+    background: #501720;
+
+    color: #ff7481;
+}
+
+.badge-high {
+    background: #503015;
+
+    color: #ffb76e;
+}
+
+.badge-medium {
+    background: #49400f;
+
+    color: #ffdf78;
+}
+
+.badge-kev {
+    background: #651721;
+
+    color: #ff6976;
+}
+
+.badge-info {
+    background: #14283a;
+
+    color: #72b9ed;
+}
+
+.badge-source {
+    background: #151e29;
+
+    color: #8c9bad;
+}
+
+
+/* =====================================================
+   CVE / NEWS
+===================================================== */
+
+.cve,
+.news-item {
+    padding:
+        12px 14px;
+
+    border-bottom:
+        1px solid #18212d;
+}
+
+.cve:last-child,
+.news-item:last-child {
+    border-bottom: 0;
+}
+
+.cve-top,
+.news-top {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
     gap: 10px;
 }
 
 .cve-id,
 .news-title {
+    color: #62b7ff;
+
+    text-decoration:
+        none;
+
+    font-size: 12px;
+
     font-weight: bold;
-    color: #65b7ff;
-    text-decoration: none;
-    font-size: 14px;
 }
 
 .cve-id:hover,
 .news-title:hover {
-    text-decoration: underline;
+    text-decoration:
+        underline;
 }
 
 .news-title {
-    font-size: 13px;
+    font-size: 11px;
 }
 
-.news-summary,
 .description,
-.alert-description {
-    color: #9aa7b6;
-    font-size: 12px;
-    margin-top: 8px;
+.news-summary {
+    color: #8d9aaa;
+
+    font-size: 10px;
+
     line-height: 1.45;
+
+    margin-top: 6px;
 }
 
 .meta {
     display: flex;
+
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 9px;
-    color: #6f7d8d;
-    font-size: 11px;
+
+    gap: 5px;
+
+    margin-top: 7px;
 }
 
 .meta-item {
-    background: #111925;
-    padding: 3px 6px;
+    background: #111a25;
+
+    color: #687789;
+
+    padding:
+        3px 5px;
+
     border-radius: 3px;
+
+    font-size: 9px;
 }
 
 .badges {
     display: flex;
-    gap: 5px;
+
     flex-wrap: wrap;
-    justify-content: flex-end;
+
+    justify-content:
+        flex-end;
+
+    gap: 4px;
 }
 
-.badge {
-    padding: 3px 7px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: bold;
-    white-space: nowrap;
-}
 
-.badge-critical {
-    background: #4b1720;
-    color: #ff6b78;
-}
-
-.badge-high {
-    background: #4b2c12;
-    color: #ffad5c;
-}
-
-.badge-medium {
-    background: #4a4012;
-    color: #ffe083;
-}
-
-.badge-info {
-    background: #152d43;
-    color: #70b9ee;
-}
-
-.badge-kev {
-    background: #641b24;
-    color: #ff5968;
-}
-
-.badge-p1 {
-    background: #641b24;
-    color: #ff5968;
-}
-
-.badge-p2 {
-    background: #4b2c12;
-    color: #ffad5c;
-}
-
-.badge-p3 {
-    background: #4a4012;
-    color: #ffe083;
-}
-
-.badge-source {
-    background: #17202d;
-    color: #9daabd;
-}
+/* =====================================================
+   EMPTY / ERROR
+===================================================== */
 
 .empty {
-    padding: 30px;
-    color: #6f7d8d;
+    padding: 28px;
+
     text-align: center;
-    font-size: 13px;
+
+    color: #637184;
+
+    font-size: 11px;
 }
 
 .error {
     padding: 20px;
-    color: #ff6b78;
+
+    color: #ff6976;
+
+    font-size: 11px;
 }
 
-.section-title {
-    margin-top: 22px;
-    margin-bottom: 10px;
-    color: #8c9aaa;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
+
 }
+
+@keyframes bannerPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0
+            rgba(255, 70, 84, 0);
+    }
+
+    50% {
+        box-shadow:
+            0 0 22px
+            rgba(255, 70, 84, 0.12);
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media(max-width: 1100px) {
 
     .stats {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns:
+            repeat(3, 1fr);
     }
 
     .content {
         grid-template-columns: 1fr;
     }
+
 }
 
 @media(max-width: 650px) {
 
     .stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     header {
-        display: block;
+        height: auto;
+
+        padding:
+            14px;
     }
 
-    #updated {
-        margin-top: 7px;
+    .header-right {
+        margin-top: 8px;
     }
 
     .filter-label {
@@ -377,8 +825,8 @@ button.active-danger {
 
     input {
         width: 100%;
-        min-width: 0;
     }
+
 }
 
 </style>
@@ -391,12 +839,36 @@ button.active-danger {
 
 <header>
 
-<h1>
-SECURITY MONITOR
-</h1>
+<div class="logo">
 
-<div id="updated">
+<div
+    id="status-light"
+    class="status-light"
+></div>
+
+<div class="logo-text">
+SECURITY MONITOR
+</div>
+
+</div>
+
+
+<div class="header-right">
+
+<div
+    id="live-status"
+    class="live"
+>
+● LIVE
+</div>
+
+<div
+    id="updated"
+    class="updated"
+>
 Loading...
+</div>
+
 </div>
 
 </header>
@@ -405,62 +877,228 @@ Loading...
 <div class="container">
 
 
+<!-- ==================================================
+     STATISTICS
+================================================== -->
+
 <div class="stats">
 
 <div class="stat">
-<div class="stat-title">Critical CVE</div>
-<div id="critical" class="stat-value critical">0</div>
+
+<div class="stat-title">
+P1 Critical
 </div>
+
+<div
+    id="p1"
+    class="stat-value stat-p1"
+>
+0
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-title">High CVE</div>
-<div id="high" class="stat-value high">0</div>
+
+<div class="stat-title">
+P2 High Priority
 </div>
+
+<div
+    id="p2"
+    class="stat-value stat-p2"
+>
+0
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-title">Medium CVE</div>
-<div id="medium" class="stat-value medium">0</div>
+
+<div class="stat-title">
+Critical CVE
 </div>
+
+<div
+    id="critical"
+    class="stat-value stat-critical"
+>
+0
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-title">Known Exploited</div>
-<div id="kev" class="stat-value kev">0</div>
+
+<div class="stat-title">
+High CVE
 </div>
+
+<div
+    id="high"
+    class="stat-value stat-high"
+>
+0
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-title">P1 Alerts</div>
-<div id="p1" class="stat-value p1">0</div>
+
+<div class="stat-title">
+Known Exploited
 </div>
+
+<div
+    id="kev"
+    class="stat-value stat-kev"
+>
+0
+</div>
+
+</div>
+
 
 <div class="stat">
-<div class="stat-title">News</div>
-<div id="news-count" class="stat-value news">0</div>
+
+<div class="stat-title">
+News / 24H
+</div>
+
+<div
+    id="news-count"
+    class="stat-value stat-news"
+>
+0
 </div>
 
 </div>
 
+</div>
+
+
+<!-- ==================================================
+     PRIORITY BANNER
+================================================== -->
+
+<div
+    id="priority-banner"
+    class="priority-banner"
+>
+
+<div class="priority-left">
+
+<div class="priority-icon">
+⚠
+</div>
+
+<div>
+
+<div class="priority-title">
+PRIORITY SECURITY ALERT
+</div>
+
+<div
+    id="priority-subtitle"
+    class="priority-subtitle"
+>
+Immediate attention recommended
+</div>
+
+</div>
+
+</div>
+
+
+<div
+    id="priority-count"
+    class="priority-count"
+>
+0 P1
+</div>
+
+</div>
+
+
+<!-- ==================================================
+     FILTERS
+================================================== -->
 
 <div class="filters">
+
 
 <div class="filter-row">
 
 <div class="filter-label">
-CVE Vendor
+Priority
 </div>
 
-<button class="vendor-filter active" data-vendor="ALL">
+<button
+    class="priority-filter active"
+    data-priority="ALL"
+>
 ALL
 </button>
 
-<button class="vendor-filter" data-vendor="Microsoft">
+<button
+    class="priority-filter p1-button"
+    data-priority="P1"
+>
+P1
+</button>
+
+<button
+    class="priority-filter p2-button"
+    data-priority="P2"
+>
+P2
+</button>
+
+<button
+    class="priority-filter"
+    data-priority="P3"
+>
+P3
+</button>
+
+</div>
+
+
+<div class="filter-row">
+
+<div class="filter-label">
+Vendor
+</div>
+
+<button
+    class="vendor-filter active"
+    data-vendor="ALL"
+>
+ALL
+</button>
+
+<button
+    class="vendor-filter"
+    data-vendor="Microsoft"
+>
 MICROSOFT
 </button>
 
-<button class="vendor-filter" data-vendor="Red Hat">
+<button
+    class="vendor-filter"
+    data-vendor="Red Hat"
+>
 RED HAT
 </button>
 
-<button class="vendor-filter" data-vendor="Apple">
+<button
+    class="vendor-filter"
+    data-vendor="Apple"
+>
 APPLE
 </button>
 
@@ -470,22 +1108,34 @@ APPLE
 <div class="filter-row">
 
 <div class="filter-label">
-CVE Severity
+Severity
 </div>
 
-<button class="severity-filter active" data-severity="ALL">
+<button
+    class="severity-filter active"
+    data-severity="ALL"
+>
 ALL
 </button>
 
-<button class="severity-filter" data-severity="CRITICAL">
+<button
+    class="severity-filter"
+    data-severity="CRITICAL"
+>
 CRITICAL
 </button>
 
-<button class="severity-filter" data-severity="HIGH">
+<button
+    class="severity-filter"
+    data-severity="HIGH"
+>
 HIGH
 </button>
 
-<button class="severity-filter" data-severity="MEDIUM">
+<button
+    class="severity-filter"
+    data-severity="MEDIUM"
+>
 MEDIUM
 </button>
 
@@ -495,22 +1145,34 @@ MEDIUM
 <div class="filter-row">
 
 <div class="filter-label">
-News Time
+News
 </div>
 
-<button class="time-filter active" data-hours="0">
+<button
+    class="time-filter active"
+    data-hours="0"
+>
 ALL
 </button>
 
-<button class="time-filter" data-hours="6">
+<button
+    class="time-filter"
+    data-hours="6"
+>
 6H
 </button>
 
-<button class="time-filter" data-hours="24">
+<button
+    class="time-filter"
+    data-hours="24"
+>
 24H
 </button>
 
-<button class="time-filter" data-hours="168">
+<button
+    class="time-filter"
+    data-hours="168"
+>
 7 DAYS
 </button>
 
@@ -520,38 +1182,62 @@ ALL
 <div class="filter-row">
 
 <div class="filter-label">
-News Type
+Category
 </div>
 
-<button class="news-category-filter active" data-category="ALL">
+<button
+    class="news-category-filter active"
+    data-category="ALL"
+>
 ALL
 </button>
 
-<button class="news-category-filter" data-category="Ransomware">
+<button
+    class="news-category-filter"
+    data-category="Ransomware"
+>
 RANSOMWARE
 </button>
 
-<button class="news-category-filter" data-category="Zero-day">
+<button
+    class="news-category-filter"
+    data-category="Zero-day"
+>
 ZERO-DAY
 </button>
 
-<button class="news-category-filter" data-category="Exploit">
+<button
+    class="news-category-filter"
+    data-category="Exploit"
+>
 EXPLOIT
 </button>
 
-<button class="news-category-filter" data-category="Malware">
+<button
+    class="news-category-filter"
+    data-category="Malware"
+>
 MALWARE
 </button>
 
-<button class="news-category-filter" data-category="APT">
+<button
+    class="news-category-filter"
+    data-category="APT"
+>
 APT
 </button>
 
-<button class="news-category-filter" data-category="Data Breach">
+<button
+    class="news-category-filter"
+    data-category="Data Breach"
+>
 BREACH
 </button>
 
-<button class="news-category-filter" data-category="Vulnerability">
+<button
+    class="news-category-filter"
+    data-category="Vulnerability"
+>
 VULNERABILITY
 </button>
 
@@ -567,18 +1253,57 @@ Search
 <input
     id="search"
     type="text"
-    placeholder="Search CVE, news, vendor, keyword..."
+    placeholder="Search CVE, news, vendor..."
 >
 
 </div>
 
+
 </div>
 
+
+<!-- ==================================================
+     MAIN CONTENT
+================================================== -->
 
 <div class="content">
 
 
 <div>
+
+
+<div class="section-title">
+Priority Alerts
+</div>
+
+
+<div class="panel">
+
+<div class="panel-header">
+
+<span>
+PRIORITY ALERTS
+</span>
+
+<span
+    id="alert-count"
+    class="panel-count"
+>
+0
+</span>
+
+</div>
+
+
+<div id="alerts">
+
+<div class="empty">
+No active priority alerts.
+</div>
+
+</div>
+
+</div>
 
 
 <div class="section-title">
@@ -613,6 +1338,12 @@ Loading...
 </div>
 
 </div>
+
+
+</div>
+
+
+<div>
 
 
 <div class="section-title">
@@ -652,46 +1383,6 @@ Loading...
 </div>
 
 
-<div>
-
-
-<div class="section-title">
-Priority Alerts
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-
-<span>
-ALERTS
-</span>
-
-<span
-    id="alert-count"
-    class="panel-count"
->
-0
-</span>
-
-</div>
-
-
-<div id="alerts">
-
-<div class="empty">
-Loading...
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-
-
 </div>
 
 
@@ -700,12 +1391,19 @@ Loading...
 
 <script>
 
+
+/* =====================================================
+   STATE
+===================================================== */
+
 let allCves = [];
 
 let allNews = [];
 
 
 let filters = {
+
+    priority: "ALL",
 
     vendor: "ALL",
 
@@ -721,7 +1419,7 @@ let filters = {
 
 
 /* =====================================================
-   LOAD CVE DATA
+   LOAD CVE
 ===================================================== */
 
 async function loadCveData() {
@@ -756,7 +1454,7 @@ async function loadCveData() {
 
 
 /* =====================================================
-   LOAD NEWS DATA
+   LOAD NEWS
 ===================================================== */
 
 async function loadNewsData() {
@@ -784,46 +1482,20 @@ async function loadNewsData() {
     allNews =
         data.articles || [];
 
-
-    document
-        .getElementById(
-            "news-count"
-        )
-        .innerText =
-            allNews.length;
-
 }
 
 
 /* =====================================================
-   LOAD EVERYTHING
+   LOAD
 ===================================================== */
 
 async function loadData() {
 
     try {
 
-        console.log("Loading security.json...");
-
         await loadCveData();
 
-        console.log(
-            "security.json loaded:",
-            allCves.length,
-            "CVEs"
-        );
-
-
-        console.log("Loading news.json...");
-
         await loadNewsData();
-
-        console.log(
-            "news.json loaded:",
-            allNews.length,
-            "articles"
-        );
-
 
         render();
 
@@ -840,12 +1512,48 @@ async function loadData() {
                     );
 
 
+        document
+            .getElementById(
+                "live-status"
+            )
+            .innerText =
+                "● LIVE";
+
+
+        document
+            .getElementById(
+                "status-light"
+            )
+            .classList
+            .remove(
+                "alert"
+            );
+
+
     } catch (error) {
 
         console.error(
             "SECURITY MONITOR ERROR:",
             error
         );
+
+
+        document
+            .getElementById(
+                "live-status"
+            )
+            .innerText =
+                "● ERROR";
+
+
+        document
+            .getElementById(
+                "status-light"
+            )
+            .classList
+            .add(
+                "alert"
+            );
 
 
         document
@@ -866,18 +1574,12 @@ async function loadData() {
                         error.message
                     )}
 
-                    <br><br>
-
-                    Open browser developer tools
-                    (F12) for details.
-
                 </div>
                 `;
 
     }
 
 }
-
 
 
 /* =====================================================
@@ -890,18 +1592,22 @@ function updateStatistics() {
 
     let high = 0;
 
-    let medium = 0;
-
     let kev = 0;
 
     let p1 = 0;
+
+    let p2 = 0;
 
 
     allCves.forEach(
         cve => {
 
             const severity =
-                cve.cvss?.severity;
+                String(
+                    cve.cvss?.severity ||
+                    ""
+                )
+                .toUpperCase();
 
 
             if (
@@ -925,16 +1631,6 @@ function updateStatistics() {
 
 
             if (
-                severity ===
-                "MEDIUM"
-            ) {
-
-                medium++;
-
-            }
-
-
-            if (
                 cve.kev
             ) {
 
@@ -946,14 +1642,71 @@ function updateStatistics() {
             if (
                 cve.priority ===
                 "P1"
+                ||
+                cve.kev
             ) {
 
                 p1++;
+
+            } else if (
+                cve.priority ===
+                "P2"
+            ) {
+
+                p2++;
 
             }
 
         }
     );
+
+
+    const news24 =
+        allNews.filter(
+            article => {
+
+                if (
+                    !article.published
+                ) {
+
+                    return false;
+
+                }
+
+
+                const age =
+                    Date.now() -
+                    new Date(
+                        article.published
+                    ).getTime();
+
+
+                return (
+                    age <=
+                    24 *
+                    60 *
+                    60 *
+                    1000
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "p1"
+        )
+        .innerText =
+            p1;
+
+
+    document
+        .getElementById(
+            "p2"
+        )
+        .innerText =
+            p2;
 
 
     document
@@ -974,14 +1727,6 @@ function updateStatistics() {
 
     document
         .getElementById(
-            "medium"
-        )
-        .innerText =
-            medium;
-
-
-    document
-        .getElementById(
             "kev"
         )
         .innerText =
@@ -990,10 +1735,72 @@ function updateStatistics() {
 
     document
         .getElementById(
-            "p1"
+            "news-count"
         )
         .innerText =
-            p1;
+            news24.length;
+
+
+    updatePriorityBanner(
+        p1
+    );
+
+}
+
+
+/* =====================================================
+   PRIORITY BANNER
+===================================================== */
+
+function updatePriorityBanner(
+    count
+) {
+
+    const banner =
+        document.getElementById(
+            "priority-banner"
+        );
+
+
+    const countElement =
+        document.getElementById(
+            "priority-count"
+        );
+
+
+    if (
+        count > 0
+    ) {
+
+        banner.classList
+            .add(
+                "visible"
+            );
+
+
+        countElement
+            .innerText =
+                count +
+                " P1";
+
+
+        document
+            .getElementById(
+                "status-light"
+            )
+            .classList
+            .add(
+                "alert"
+            );
+
+    } else {
+
+        banner.classList
+            .remove(
+                "visible"
+            );
+
+    }
 
 }
 
@@ -1008,15 +1815,42 @@ function getFilteredCves() {
         cve => {
 
             if (
+                filters.priority !==
+                "ALL"
+            ) {
+
+                const priority =
+                    cve.kev
+                    ? "P1"
+                    : cve.priority;
+
+
+                if (
+                    priority !==
+                    filters.priority
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            if (
                 filters.vendor !==
                 "ALL"
             ) {
 
+                const vendors =
+                    cve.vendors ||
+                    [];
+
+
                 if (
-                    !(cve.vendors || [])
-                        .includes(
-                            filters.vendor
-                        )
+                    !vendors.includes(
+                        filters.vendor
+                    )
                 ) {
 
                     return false;
@@ -1032,7 +1866,11 @@ function getFilteredCves() {
             ) {
 
                 if (
-                    cve.cvss?.severity !==
+                    String(
+                        cve.cvss?.severity ||
+                        ""
+                    )
+                    .toUpperCase() !==
                     filters.severity
                 ) {
 
@@ -1081,10 +1919,6 @@ function getFilteredCves() {
 
 function getFilteredNews() {
 
-    const now =
-        Date.now();
-
-
     return allNews.filter(
         article => {
 
@@ -1101,16 +1935,11 @@ function getFilteredNews() {
                 }
 
 
-                const published =
+                const age =
+                    Date.now() -
                     new Date(
                         article.published
-                    )
-                    .getTime();
-
-
-                const age =
-                    now -
-                    published;
+                    ).getTime();
 
 
                 if (
@@ -1193,6 +2022,12 @@ function render() {
         getFilteredNews();
 
 
+    renderAlerts(
+        allCves,
+        allNews
+    );
+
+
     renderCves(
         cves
     );
@@ -1202,17 +2037,381 @@ function render() {
         news
     );
 
+}
 
-    renderAlerts(
-        cves,
-        news
+
+/* =====================================================
+   PRIORITY ALERTS
+===================================================== */
+
+function renderAlerts(
+    cves,
+    news
+) {
+
+    const alerts = [];
+
+
+    cves.forEach(
+        cve => {
+
+            if (
+                cve.kev
+                ||
+                cve.priority ===
+                "P1"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P1",
+
+                    type:
+                        "CVE",
+
+                    title:
+                        cve.id,
+
+                    description:
+                        cve.description,
+
+                    url:
+                        cve.url,
+
+                    vendor:
+                        (cve.vendors || [])
+                            .join(
+                                ", "
+                            ),
+
+                    severity:
+                        cve.cvss?.severity ||
+                        "UNKNOWN"
+
+                });
+
+            } else if (
+                cve.priority ===
+                "P2"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P2",
+
+                    type:
+                        "CVE",
+
+                    title:
+                        cve.id,
+
+                    description:
+                        cve.description,
+
+                    url:
+                        cve.url,
+
+                    vendor:
+                        (cve.vendors || [])
+                            .join(
+                                ", "
+                            ),
+
+                    severity:
+                        cve.cvss?.severity ||
+                        "UNKNOWN"
+
+                });
+
+            }
+
+        }
     );
+
+
+    news.forEach(
+        article => {
+
+            if (
+                article.priority ===
+                "P1"
+                ||
+                article.severity ===
+                "CRITICAL"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P1",
+
+                    type:
+                        "NEWS",
+
+                    title:
+                        article.title,
+
+                    description:
+                        article.summary,
+
+                    url:
+                        article.url,
+
+                    vendor:
+                        (article.vendors || [])
+                            .join(
+                                ", "
+                            ),
+
+                    severity:
+                        article.severity ||
+                        "CRITICAL"
+
+                });
+
+            } else if (
+                article.priority ===
+                "P2"
+                ||
+                article.severity ===
+                "HIGH"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P2",
+
+                    type:
+                        "NEWS",
+
+                    title:
+                        article.title,
+
+                    description:
+                        article.summary,
+
+                    url:
+                        article.url,
+
+                    vendor:
+                        (article.vendors || [])
+                            .join(
+                                ", "
+                            ),
+
+                    severity:
+                        article.severity ||
+                        "HIGH"
+
+                });
+
+            }
+
+        }
+    );
+
+
+    alerts.sort(
+        (a, b) => {
+
+            const priority = {
+
+                P1: 1,
+
+                P2: 2,
+
+                P3: 3
+
+            };
+
+
+            return (
+                priority[
+                    a.priority
+                ] || 9
+            ) -
+            (
+                priority[
+                    b.priority
+                ] || 9
+            );
+
+        }
+    );
+
+
+    const container =
+        document.getElementById(
+            "alerts"
+        );
+
+
+    document
+        .getElementById(
+            "alert-count"
+        )
+        .innerText =
+            alerts.length;
+
+
+    if (
+        alerts.length ===
+        0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No active priority alerts.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    alerts
+        .slice(
+            0,
+            50
+        )
+        .forEach(
+            alert => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "alert " +
+                    (
+                        alert.priority ===
+                        "P2"
+                        ?
+                        "alert-p2"
+                        :
+                        ""
+                    );
+
+
+                const priorityClass =
+                    alert.priority ===
+                    "P1"
+                    ?
+                    "badge-p1"
+                    :
+                    "badge-p2";
+
+
+                div.innerHTML = `
+
+                    <div class="alert-title">
+
+                        <a
+                            class="alert-link"
+                            href="${escapeAttribute(
+                                alert.url
+                            )}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            ${escapeHtml(
+                                alert.title
+                            )}
+                        </a>
+
+
+                        <div class="badges">
+
+                            <span
+                                class="badge ${priorityClass}"
+                            >
+                                ${escapeHtml(
+                                    alert.priority
+                                )}
+                            </span>
+
+
+                            <span
+                                class="badge badge-source"
+                            >
+                                ${escapeHtml(
+                                    alert.type
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="alert-description">
+
+                        ${escapeHtml(
+                            alert.description
+                        )}
+
+                    </div>
+
+
+                    <div class="alert-meta">
+
+                        <span class="badge badge-${String(
+                            alert.severity
+                        ).toLowerCase() === "critical"
+                            ? "critical"
+                            : "high"
+                        }">
+
+                            ${escapeHtml(
+                                alert.severity
+                            )}
+
+                        </span>
+
+
+                        ${
+                            alert.vendor
+                            ?
+                            `
+                            <span
+                                class="badge badge-source"
+                            >
+                                ${escapeHtml(
+                                    alert.vendor
+                                )}
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    div
+                );
+
+            }
+        );
 
 }
 
 
 /* =====================================================
-   RENDER CVES
+   CVES
 ===================================================== */
 
 function renderCves(
@@ -1230,11 +2429,13 @@ function renderCves(
             "result-count"
         )
         .innerText =
-            `${cves.length} results`;
+            cves.length +
+            " results";
 
 
     if (
-        cves.length === 0
+        cves.length ===
+        0
     ) {
 
         container.innerHTML =
@@ -1258,22 +2459,41 @@ function renderCves(
                     const priority = {
 
                         P1: 1,
+
                         P2: 2,
+
                         P3: 3,
+
                         P4: 4
 
                     };
 
 
+                    const pa =
+                        a.kev
+                        ?
+                        "P1"
+                        :
+                        a.priority;
+
+
+                    const pb =
+                        b.kev
+                        ?
+                        "P1"
+                        :
+                        b.priority;
+
+
                     return (
                         priority[
-                            a.priority
-                        ] || 5
+                            pa
+                        ] || 9
                     ) -
                     (
                         priority[
-                            b.priority
-                        ] || 5
+                            pb
+                        ] || 9
                     );
 
                 }
@@ -1301,8 +2521,20 @@ function renderCves(
 
 
             const severity =
-                cve.cvss?.severity ||
-                "UNKNOWN";
+                String(
+                    cve.cvss?.severity ||
+                    "UNKNOWN"
+                )
+                .toUpperCase();
+
+
+            const priority =
+                cve.kev
+                ?
+                "P1"
+                :
+                cve.priority ||
+                "P4";
 
 
             let severityClass =
@@ -1342,57 +2574,6 @@ function renderCves(
             }
 
 
-            let badges = `
-
-                <span
-                    class="badge ${severityClass}"
-                >
-                    ${escapeHtml(
-                        severity
-                    )}
-                </span>
-
-            `;
-
-
-            if (
-                cve.priority
-            ) {
-
-                badges += `
-
-                    <span
-                        class="badge badge-${escapeHtml(
-                            cve.priority.toLowerCase()
-                        )}"
-                    >
-                        ${escapeHtml(
-                            cve.priority
-                        )}
-                    </span>
-
-                `;
-
-            }
-
-
-            if (
-                cve.kev
-            ) {
-
-                badges += `
-
-                    <span
-                        class="badge badge-kev"
-                    >
-                        KEV
-                    </span>
-
-                `;
-
-            }
-
-
             div.innerHTML = `
 
                 <div class="cve-top">
@@ -1410,8 +2591,41 @@ function renderCves(
                         )}
                     </a>
 
+
                     <div class="badges">
-                        ${badges}
+
+                        <span
+                            class="badge badge-${priority.toLowerCase()}"
+                        >
+                            ${escapeHtml(
+                                priority
+                            )}
+                        </span>
+
+
+                        <span
+                            class="badge ${severityClass}"
+                        >
+                            ${escapeHtml(
+                                severity
+                            )}
+                        </span>
+
+
+                        ${
+                            cve.kev
+                            ?
+                            `
+                            <span
+                                class="badge badge-kev"
+                            >
+                                KEV
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
                     </div>
 
                 </div>
@@ -1445,12 +2659,15 @@ function renderCves(
                         ""
                     }
 
+
                     ${
                         (cve.vendors || [])
                             .map(
                                 vendor =>
                                     `
-                                    <span class="meta-item">
+                                    <span
+                                        class="meta-item"
+                                    >
                                         ${escapeHtml(
                                             vendor
                                         )}
@@ -1476,7 +2693,7 @@ function renderCves(
 
 
 /* =====================================================
-   RENDER NEWS
+   NEWS
 ===================================================== */
 
 function renderNews(
@@ -1494,11 +2711,13 @@ function renderNews(
             "news-result-count"
         )
         .innerText =
-            `${articles.length} results`;
+            articles.length +
+            " results";
 
 
     if (
-        articles.length === 0
+        articles.length ===
+        0
     ) {
 
         container.innerHTML =
@@ -1547,65 +2766,33 @@ function renderNews(
                 "news-item";
 
 
-            let badges = "";
-
-
-            const severity =
-                article.severity ||
-                "INFO";
+            let severityClass =
+                "badge-info";
 
 
             if (
-                severity ===
+                article.severity ===
                 "CRITICAL"
             ) {
 
-                badges += `
-                    <span class="badge badge-critical">
-                        CRITICAL
-                    </span>
-                `;
+                severityClass =
+                    "badge-critical";
 
             } else if (
-                severity ===
+                article.severity ===
                 "HIGH"
             ) {
 
-                badges += `
-                    <span class="badge badge-high">
-                        HIGH
-                    </span>
-                `;
+                severityClass =
+                    "badge-high";
 
             } else if (
-                severity ===
+                article.severity ===
                 "MEDIUM"
             ) {
 
-                badges += `
-                    <span class="badge badge-medium">
-                        MEDIUM
-                    </span>
-                `;
-
-            }
-
-
-            if (
-                article.priority
-            ) {
-
-                badges += `
-
-                    <span
-                        class="badge badge-source"
-                    >
-                        ${escapeHtml(
-                            article.priority
-                        )}
-                    </span>
-
-                `;
+                severityClass =
+                    "badge-medium";
 
             }
 
@@ -1627,8 +2814,37 @@ function renderNews(
                         )}
                     </a>
 
+
                     <div class="badges">
-                        ${badges}
+
+                        <span
+                            class="badge ${severityClass}"
+                        >
+                            ${escapeHtml(
+                                article.severity ||
+                                "INFO"
+                            )}
+                        </span>
+
+
+                        ${
+                            article.priority
+                            ?
+                            `
+                            <span
+                                class="badge badge-${String(
+                                    article.priority
+                                ).toLowerCase()}"
+                            >
+                                ${escapeHtml(
+                                    article.priority
+                                )}
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
                     </div>
 
                 </div>
@@ -1676,7 +2892,9 @@ function renderNews(
                             .map(
                                 category =>
                                     `
-                                    <span class="meta-item">
+                                    <span
+                                        class="meta-item"
+                                    >
                                         ${escapeHtml(
                                             category
                                         )}
@@ -1696,7 +2914,9 @@ function renderNews(
                             .map(
                                 vendor =>
                                     `
-                                    <span class="meta-item">
+                                    <span
+                                        class="meta-item"
+                                    >
                                         ${escapeHtml(
                                             vendor
                                         )}
@@ -1722,190 +2942,6 @@ function renderNews(
 
 
 /* =====================================================
-   ALERTS
-===================================================== */
-
-function renderAlerts(
-    cves,
-    news
-) {
-
-    const alerts = [];
-
-
-    cves.forEach(
-        cve => {
-
-            if (
-                cve.priority ===
-                "P1"
-                ||
-                cve.kev
-            ) {
-
-                alerts.push({
-
-                    type:
-                        "CVE",
-
-                    priority:
-                        "P1",
-
-                    title:
-                        cve.id,
-
-                    description:
-                        cve.description,
-
-                    url:
-                        cve.url
-
-                });
-
-            }
-
-        }
-    );
-
-
-    news.forEach(
-        article => {
-
-            if (
-                article.priority ===
-                "P1"
-                ||
-                article.severity ===
-                "CRITICAL"
-            ) {
-
-                alerts.push({
-
-                    type:
-                        "NEWS",
-
-                    priority:
-                        "P1",
-
-                    title:
-                        article.title,
-
-                    description:
-                        article.summary,
-
-                    url:
-                        article.url
-
-                });
-
-            }
-
-        }
-    );
-
-
-    const container =
-        document.getElementById(
-            "alerts"
-        );
-
-
-    document
-        .getElementById(
-            "alert-count"
-        )
-        .innerText =
-            alerts.length;
-
-
-    if (
-        alerts.length === 0
-    ) {
-
-        container.innerHTML =
-            `
-            <div class="empty">
-                No active priority alerts.
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    alerts
-        .slice(
-            0,
-            50
-        )
-        .forEach(
-            alert => {
-
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    "alert";
-
-
-                div.innerHTML = `
-
-                    <div class="alert-title">
-
-                        <a
-                            class="news-title"
-                            href="${escapeAttribute(
-                                alert.url
-                            )}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            ${escapeHtml(
-                                alert.title
-                            )}
-                        </a>
-
-
-                        <span
-                            class="badge badge-p1"
-                        >
-                            ${escapeHtml(
-                                alert.type
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="alert-description">
-
-                        ${escapeHtml(
-                            alert.description
-                        )}
-
-                    </div>
-
-                `;
-
-
-                container.appendChild(
-                    div
-                );
-
-            }
-        );
-
-}
-
-
-/* =====================================================
    HELPERS
 ===================================================== */
 
@@ -1917,7 +2953,8 @@ function formatDate(
 
         return new Date(
             value
-        ).toLocaleString(
+        )
+        .toLocaleString(
             "sv-SE"
         );
 
@@ -1956,22 +2993,22 @@ function escapeAttribute(
     return String(
         value || ""
     )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        );
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    );
 
 }
 
@@ -1979,6 +3016,49 @@ function escapeAttribute(
 /* =====================================================
    FILTER EVENTS
 ===================================================== */
+
+document
+    .querySelectorAll(
+        ".priority-filter"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    filters.priority =
+                        button.dataset.priority;
+
+
+                    document
+                        .querySelectorAll(
+                            ".priority-filter"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList
+                                    .remove(
+                                        "active"
+                                    )
+                        );
+
+
+                    button.classList
+                        .add(
+                            "active"
+                        );
+
+
+                    render();
+
+                }
+            );
+
+        }
+    );
+
 
 document
     .querySelectorAll(
