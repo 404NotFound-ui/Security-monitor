@@ -1,6 +1,28 @@
 {
-  "updated": "2026-10-02T14:21:00.799962+00:00",
+  "updated": "2026-10-02T14:46:32.236622+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-103600",
+      "published": "2026-10-02T08:17:00.363",
+      "modified": "2026-10-02T14:44:52.247",
+      "description": "Uncontrolled recursion in the ASN.1 parser (Asn1InputStream, Asn1StreamParser) in Legion of the Bouncy Castle Inc. bc-csharp before 2.7.0 allows a remote unauthenticated attacker to cause a denial of service via a crafted ASN.1 encoding of deeply nested constructed elements (for example SEQUENCE inside SEQUENCE, in definite-length DER or indefinite-length BER form), because each nesting level is parsed by a further recursive call with no bound on depth. About 2,000 levels (8 KB of DER) are enough to exhaust a 1.5 MB thread stack, the .NET main-thread default on Windows, and raise a StackOverflowException, which .NET cannot catch and which terminates the whole process; on threads with larger stacks, parse time instead grows quadratically with depth (about 9 seconds of CPU for a 64 KB input). Any path that parses untrusted ASN.1 is exposed, including X.509 certificates and CRLs, CMS/PKCS#7, PKCS#8/PKCS#12, OCSP and TLS Certificate messages.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
+    },
     {
       "id": "CVE-2026-19617",
       "published": "2026-08-14T06:17:14.410",
@@ -224,28 +246,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-3246"
-    },
-    {
-      "id": "CVE-2026-103600",
-      "published": "2026-10-02T08:17:00.363",
-      "modified": "2026-10-02T08:17:00.363",
-      "description": "Uncontrolled recursion in the ASN.1 parser (Asn1InputStream, Asn1StreamParser) in Legion of the Bouncy Castle Inc. bc-csharp before 2.7.0 allows a remote unauthenticated attacker to cause a denial of service via a crafted ASN.1 encoding of deeply nested constructed elements (for example SEQUENCE inside SEQUENCE, in definite-length DER or indefinite-length BER form), because each nesting level is parsed by a further recursive call with no bound on depth. About 2,000 levels (8 KB of DER) are enough to exhaust a 1.5 MB thread stack, the .NET main-thread default on Windows, and raise a StackOverflowException, which .NET cannot catch and which terminates the whole process; on threads with larger stacks, parse time instead grows quadratically with depth (about 9 seconds of CPU for a 64 KB input). Any path that parses untrusted ASN.1 is exposed, including X.509 certificates and CRLs, CMS/PKCS#7, PKCS#8/PKCS#12, OCSP and TLS Certificate messages.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
     },
     {
       "id": "CVE-2026-47594",
