@@ -223,6 +223,33 @@ header {
 
     animation:
         bannerPulse 2s infinite;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.priority-banner:hover {
+    background:
+        linear-gradient(
+            90deg,
+            #50131c,
+            #2d0d14
+        );
+
+    border-color:
+        #b63847;
+
+    transform:
+        translateY(-1px);
+}
+
+.priority-banner:active {
+    transform:
+        translateY(0);
 }
 
 .priority-banner.visible {
@@ -988,6 +1015,8 @@ News / 24H
 <div
     id="priority-banner"
     class="priority-banner"
+    onclick="openTopPriorityAlert()"
+    title="Open highest priority security alert"
 >
 
 <div class="priority-left">
@@ -1003,10 +1032,9 @@ PRIORITY SECURITY ALERT
 </div>
 
 <div
-    id="priority-subtitle"
     class="priority-subtitle"
 >
-Immediate attention recommended
+Click to open the highest priority alert
 </div>
 
 </div>
@@ -1749,6 +1777,146 @@ function updateStatistics() {
 
 
 /* =====================================================
+   OPEN TOP PRIORITY ALERT
+===================================================== */
+
+function openTopPriorityAlert() {
+
+    const alerts = [];
+
+
+    allCves.forEach(
+        cve => {
+
+            if (
+                cve.kev ||
+                cve.priority ===
+                "P1"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P1",
+
+                    url:
+                        cve.url
+
+                });
+
+            } else if (
+                cve.priority ===
+                "P2"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P2",
+
+                    url:
+                        cve.url
+
+                });
+
+            }
+
+        }
+    );
+
+
+    allNews.forEach(
+        article => {
+
+            if (
+                article.priority ===
+                "P1"
+                ||
+                article.severity ===
+                "CRITICAL"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P1",
+
+                    url:
+                        article.url
+
+                });
+
+            } else if (
+                article.priority ===
+                "P2"
+                ||
+                article.severity ===
+                "HIGH"
+            ) {
+
+                alerts.push({
+
+                    priority:
+                        "P2",
+
+                    url:
+                        article.url
+
+                });
+
+            }
+
+        }
+    );
+
+
+    alerts.sort(
+        (a, b) => {
+
+            const priority = {
+
+                P1: 1,
+
+                P2: 2
+
+            };
+
+
+            return (
+                (
+                    priority[
+                        a.priority
+                    ] || 9
+                )
+                -
+                (
+                    priority[
+                        b.priority
+                    ] || 9
+                )
+            );
+
+        }
+    );
+
+
+    if (
+        alerts.length > 0 &&
+        alerts[0].url
+    ) {
+
+        window.open(
+            alerts[0].url,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
    PRIORITY BANNER
 ===================================================== */
 
@@ -2365,11 +2533,15 @@ function renderAlerts(
 
                     <div class="alert-meta">
 
-                        <span class="badge badge-${String(
-                            alert.severity
-                        ).toLowerCase() === "critical"
-                            ? "critical"
-                            : "high"
+                        <span class="badge ${
+                            String(
+                                alert.severity
+                            ).toLowerCase() ===
+                            "critical"
+                            ?
+                            "badge-critical"
+                            :
+                            "badge-high"
                         }">
 
                             ${escapeHtml(
