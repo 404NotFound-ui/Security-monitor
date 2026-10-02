@@ -111,7 +111,7 @@ header {
 
     align-items: center;
 
-    gap: 8px;
+    gap: 12px;
 
     flex-wrap: wrap;
 
@@ -134,11 +134,10 @@ header {
 
 
 /* =====================================================
-   NOTIFICATION BUTTONS
+   NOTIFICATION BUTTON
 ===================================================== */
 
-.notification-button,
-.sound-button {
+.notification-button {
     background: #101822;
 
     color: #9caabd;
@@ -163,8 +162,7 @@ header {
         color 0.15s ease;
 }
 
-.notification-button:hover,
-.sound-button:hover {
+.notification-button:hover {
     background: #182331;
 
     color: white;
@@ -173,8 +171,7 @@ header {
         #3b82bd;
 }
 
-.notification-button.enabled,
-.sound-button.enabled {
+.notification-button.enabled {
     color: #36d399;
 
     border-color:
@@ -378,32 +375,6 @@ header {
     border-radius: 5px;
 
     font-weight: bold;
-}
-
-
-/* =====================================================
-   NEW ALERT INDICATOR
-===================================================== */
-
-.new-badge {
-    background: #183b58;
-
-    color: #69c0ff;
-
-    border:
-        1px solid #275d85;
-
-    padding:
-        3px 6px;
-
-    border-radius: 3px;
-
-    font-size: 8px;
-
-    font-weight: bold;
-
-    animation:
-        newPulse 1.5s infinite;
 }
 
 
@@ -933,19 +904,6 @@ input:focus {
 
 }
 
-@keyframes newPulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.55;
-    }
-
-}
-
 
 /* =====================================================
    RESPONSIVE
@@ -1025,15 +983,6 @@ SECURITY MONITOR
     type="button"
 >
 🔔 ENABLE NOTIFICATIONS
-</button>
-
-
-<button
-    id="sound-button"
-    class="sound-button"
-    type="button"
->
-🔇 SOUND OFF
 </button>
 
 
@@ -1604,17 +1553,156 @@ let filters = {
 
 
 /* =====================================================
+   READ / DISMISSED ALERT STATE
+===================================================== */
+
+const DISMISSED_ALERTS_STORAGE_KEY =
+    "security-monitor-dismissed-priority-alerts-v1";
+
+
+function getDismissedAlerts() {
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                DISMISSED_ALERTS_STORAGE_KEY
+            );
+
+
+        if (!stored) {
+
+            return [];
+
+        }
+
+
+        const parsed =
+            JSON.parse(
+                stored
+            );
+
+
+        if (
+            !Array.isArray(
+                parsed
+            )
+        ) {
+
+            return [];
+
+        }
+
+
+        return parsed;
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+function saveDismissedAlerts(
+    ids
+) {
+
+    const uniqueIds =
+        [
+            ...new Set(
+                ids
+            )
+        ];
+
+
+    /*
+     * Keep the browser storage reasonably small.
+     */
+
+    const trimmed =
+        uniqueIds.slice(
+            -2000
+        );
+
+
+    localStorage.setItem(
+        DISMISSED_ALERTS_STORAGE_KEY,
+        JSON.stringify(
+            trimmed
+        )
+    );
+
+}
+
+
+function isAlertDismissed(
+    alert
+) {
+
+    if (!alert || !alert.id) {
+
+        return false;
+
+    }
+
+
+    const dismissed =
+        getDismissedAlerts();
+
+
+    return dismissed.includes(
+        alert.id
+    );
+
+}
+
+
+function dismissAlert(
+    alert
+) {
+
+    if (!alert || !alert.id) {
+
+        return;
+
+    }
+
+
+    const dismissed =
+        getDismissedAlerts();
+
+
+    if (
+        !dismissed.includes(
+            alert.id
+        )
+    ) {
+
+        dismissed.push(
+            alert.id
+        );
+
+    }
+
+
+    saveDismissedAlerts(
+        dismissed
+    );
+
+}
+
+
+/* =====================================================
    NOTIFICATION STATE
 ===================================================== */
 
 const NOTIFICATION_STORAGE_KEY =
-    "security-monitor-notified-alerts-v2";
+    "security-monitor-notified-alerts-v1";
 
 const NOTIFICATION_INITIALIZED_KEY =
-    "security-monitor-notification-initialized-v2";
-
-const SOUND_STORAGE_KEY =
-    "security-monitor-sound-enabled-v1";
+    "security-monitor-notification-initialized-v1";
 
 
 let notificationInitialized =
@@ -1622,19 +1710,6 @@ let notificationInitialized =
         NOTIFICATION_INITIALIZED_KEY
     ) === "true";
 
-
-let soundEnabled =
-    localStorage.getItem(
-        SOUND_STORAGE_KEY
-    ) === "true";
-
-
-let audioContext = null;
-
-
-/* =====================================================
-   NOTIFIED ALERT STORAGE
-===================================================== */
 
 function getNotifiedAlerts() {
 
@@ -1696,88 +1771,6 @@ function saveNotifiedAlerts(
         JSON.stringify(
             trimmed
         )
-    );
-
-}
-
-
-/* =====================================================
-   NEW ALERT STORAGE
-===================================================== */
-
-function getNewAlertIds() {
-
-    try {
-
-        const stored =
-            localStorage.getItem(
-                "security-monitor-new-alerts-v1"
-            );
-
-
-        if (!stored) {
-
-            return [];
-
-        }
-
-
-        const parsed =
-            JSON.parse(
-                stored
-            );
-
-
-        return Array.isArray(
-            parsed
-        )
-        ?
-        parsed
-        :
-        [];
-
-    } catch {
-
-        return [];
-
-    }
-
-}
-
-
-function saveNewAlertIds(
-    ids
-) {
-
-    localStorage.setItem(
-        "security-monitor-new-alerts-v1",
-        JSON.stringify(
-            ids.slice(
-                -500
-            )
-        )
-    );
-
-}
-
-
-function markAlertAsViewed(
-    id
-) {
-
-    const ids =
-        getNewAlertIds();
-
-
-    const filtered =
-        ids.filter(
-            existingId =>
-                existingId !== id
-        );
-
-
-    saveNewAlertIds(
-        filtered
     );
 
 }
@@ -1946,256 +1939,6 @@ async function enableNotifications() {
 }
 
 
-/* =====================================================
-   SOUND
-===================================================== */
-
-function updateSoundButton() {
-
-    const button =
-        document.getElementById(
-            "sound-button"
-        );
-
-
-    if (
-        soundEnabled
-    ) {
-
-        button.innerText =
-            "🔊 SOUND ON";
-
-        button.classList
-            .add(
-                "enabled"
-            );
-
-    } else {
-
-        button.innerText =
-            "🔇 SOUND OFF";
-
-        button.classList
-            .remove(
-                "enabled"
-            );
-
-    }
-
-}
-
-
-function toggleSound() {
-
-    soundEnabled =
-        !soundEnabled;
-
-
-    localStorage.setItem(
-        SOUND_STORAGE_KEY,
-        String(
-            soundEnabled
-        )
-    );
-
-
-    updateSoundButton();
-
-
-    if (
-        soundEnabled
-    ) {
-
-        playP2Sound();
-
-    }
-
-}
-
-
-function getAudioContext() {
-
-    if (
-        audioContext
-    ) {
-
-        return audioContext;
-
-    }
-
-
-    const AudioContext =
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-
-    if (
-        !AudioContext
-    ) {
-
-        return null;
-
-    }
-
-
-    audioContext =
-        new AudioContext();
-
-
-    return audioContext;
-
-}
-
-
-function playTone(
-    frequency,
-    duration,
-    volume
-) {
-
-    if (
-        !soundEnabled
-    ) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const context =
-            getAudioContext();
-
-
-        if (
-            !context
-        ) {
-
-            return;
-
-        }
-
-
-        if (
-            context.state ===
-            "suspended"
-        ) {
-
-            context.resume();
-
-        }
-
-
-        const oscillator =
-            context.createOscillator();
-
-
-        const gain =
-            context.createGain();
-
-
-        oscillator.type =
-            "sine";
-
-
-        oscillator.frequency.value =
-            frequency;
-
-
-        gain.gain.setValueAtTime(
-            volume,
-            context.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            context.currentTime +
-            duration
-        );
-
-
-        oscillator.connect(
-            gain
-        );
-
-
-        gain.connect(
-            context.destination
-        );
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-            context.currentTime +
-            duration
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Audio error:",
-            error
-        );
-
-    }
-
-}
-
-
-function playP2Sound() {
-
-    playTone(
-        520,
-        0.16,
-        0.06
-    );
-
-}
-
-
-function playP1Sound() {
-
-    playTone(
-        740,
-        0.18,
-        0.09
-    );
-
-
-    setTimeout(
-        () => {
-
-            playTone(
-                620,
-                0.18,
-                0.09
-            );
-
-        },
-        220
-    );
-
-
-    setTimeout(
-        () => {
-
-            playTone(
-                740,
-                0.22,
-                0.09
-            );
-
-        },
-        440
-    );
-
-}
-
-
 document
     .getElementById(
         "notification-button"
@@ -2203,16 +1946,6 @@ document
     .addEventListener(
         "click",
         enableNotifications
-    );
-
-
-document
-    .getElementById(
-        "sound-button"
-    )
-    .addEventListener(
-        "click",
-        toggleSound
     );
 
 
@@ -2444,14 +2177,10 @@ function getNotificationAlerts() {
 
 
 /* =====================================================
-   CHECK FOR NEW ALERTS
+   CHECK FOR NEW NOTIFICATIONS
 ===================================================== */
 
 function checkForNewNotifications() {
-
-    const alerts =
-        getNotificationAlerts();
-
 
     if (
         !notificationInitialized
@@ -2459,13 +2188,18 @@ function checkForNewNotifications() {
 
         /*
          * First run:
-         * remember existing alerts.
+         * mark existing alerts as known.
          *
-         * We do NOT notify about old data.
+         * This prevents a flood of notifications
+         * when the dashboard is first enabled.
          */
 
+        const currentAlerts =
+            getNotificationAlerts();
+
+
         const currentIds =
-            alerts.map(
+            currentAlerts.map(
                 alert =>
                     alert.id
             );
@@ -2485,6 +2219,20 @@ function checkForNewNotifications() {
         notificationInitialized =
             true;
 
+
+        return;
+
+    }
+
+
+    const alerts =
+        getNotificationAlerts();
+
+
+    if (
+        alerts.length ===
+        0
+    ) {
 
         return;
 
@@ -2539,43 +2287,9 @@ function checkForNewNotifications() {
     );
 
 
-    /*
-     * Store new alert IDs so the dashboard
-     * can visually mark them.
-     */
-
-    const existingNew =
-        getNewAlertIds();
-
-
-    const combinedNew =
-        [
-            ...existingNew,
-            ...newAlerts.map(
-                alert =>
-                    alert.id
-            )
-        ];
-
-
-    saveNewAlertIds(
-        [
-            ...new Set(
-                combinedNew
-            )
-        ]
-    );
-
-
-    /*
-     * Browser notifications.
-     */
-
     if (
         !("Notification" in window)
     ) {
-
-        render();
 
         return;
 
@@ -2587,136 +2301,64 @@ function checkForNewNotifications() {
         "granted"
     ) {
 
-        render();
-
         return;
 
     }
 
 
-    sendGroupedNotification(
-        newAlerts
-    );
+    /*
+     * Limit notifications per polling cycle.
+     */
 
+    newAlerts
+        .slice(
+            0,
+            5
+        )
+        .forEach(
+            alert => {
 
-    const hasP1 =
-        newAlerts.some(
-            alert =>
-                alert.priority ===
-                "P1"
+                sendSecurityNotification(
+                    alert
+                );
+
+            }
         );
-
-
-    if (
-        hasP1
-    ) {
-
-        playP1Sound();
-
-    } else {
-
-        playP2Sound();
-
-    }
-
-
-    render();
 
 }
 
 
 /* =====================================================
-   GROUPED DESKTOP NOTIFICATION
+   SEND SECURITY NOTIFICATION
 ===================================================== */
 
-function sendGroupedNotification(
-    alerts
+function sendSecurityNotification(
+    alert
 ) {
 
-    if (
-        alerts.length ===
-        0
-    ) {
-
-        return;
-
-    }
-
-
-    const p1 =
-        alerts.filter(
-            alert =>
-                alert.priority ===
-                "P1"
-        ).length;
-
-
-    const p2 =
-        alerts.filter(
-            alert =>
-                alert.priority ===
-                "P2"
-        ).length;
-
-
-    let title =
-        "🟠 NEW SECURITY ALERT";
+    let title;
 
 
     if (
-        p1 > 0
+        alert.priority ===
+        "P1"
     ) {
 
         title =
-            "🔴 NEW P1 SECURITY ALERT";
-
-    }
-
-
-    let body;
-
-
-    if (
-        alerts.length ===
-        1
-    ) {
-
-        body =
-            alerts[0].type +
-            " • " +
-            alerts[0].title;
+            "🔴 P1 SECURITY ALERT";
 
     } else {
 
-        body =
-            alerts.length +
-            " new security alerts";
-
-
-        if (
-            p1 > 0
-        ) {
-
-            body +=
-                " • " +
-                p1 +
-                " P1";
-
-        }
-
-
-        if (
-            p2 > 0
-        ) {
-
-            body +=
-                " • " +
-                p2 +
-                " P2";
-
-        }
+        title =
+            "🟠 P2 SECURITY ALERT";
 
     }
+
+
+    const body =
+        alert.type +
+        " • " +
+        alert.title;
 
 
     try {
@@ -2730,11 +2372,11 @@ function sendGroupedNotification(
                         body,
 
                     tag:
-                        "security-monitor-group-" +
-                        Date.now(),
+                        "security-" +
+                        alert.id,
 
                     renotify:
-                        true
+                        false
 
                 }
             );
@@ -2747,14 +2389,11 @@ function sendGroupedNotification(
 
 
                 if (
-                    alerts.length ===
-                    1
-                    &&
-                    alerts[0].url
+                    alert.url
                 ) {
 
                     window.open(
-                        alerts[0].url,
+                        alert.url,
                         "_blank",
                         "noopener,noreferrer"
                     );
@@ -2857,7 +2496,6 @@ async function loadData() {
         await loadCveData();
 
         await loadNewsData();
-
 
         render();
 
@@ -3106,9 +2744,31 @@ function updateStatistics() {
             news24.length;
 
 
-    updatePriorityBanner(
-        p1
-    );
+    updatePriorityBanner();
+
+}
+
+
+/* =====================================================
+   GET ACTIVE PRIORITY ALERTS
+===================================================== */
+
+function getActivePriorityAlerts() {
+
+    const alerts =
+        getNotificationAlerts();
+
+
+    const activeAlerts =
+        alerts.filter(
+            alert =>
+                !isAlertDismissed(
+                    alert
+                )
+        );
+
+
+    return activeAlerts;
 
 }
 
@@ -3120,16 +2780,55 @@ function updateStatistics() {
 function openTopPriorityAlert() {
 
     const alerts =
-        getNotificationAlerts();
+        getActivePriorityAlerts();
 
 
     if (
-        alerts.length > 0 &&
-        alerts[0].url
+        alerts.length ===
+        0
+    ) {
+
+        updatePriorityBanner();
+
+        return;
+
+    }
+
+
+    const alert =
+        alerts[0];
+
+
+    /*
+     * Mark the alert as read immediately.
+     *
+     * This means clicking the banner acknowledges
+     * the alert even if the external article opens
+     * in another tab.
+     */
+
+    dismissAlert(
+        alert
+    );
+
+
+    /*
+     * Refresh the banner before opening the article.
+     */
+
+    updatePriorityBanner();
+
+
+    /*
+     * Open the original source/article.
+     */
+
+    if (
+        alert.url
     ) {
 
         window.open(
-            alerts[0].url,
+            alert.url,
             "_blank",
             "noopener,noreferrer"
         );
@@ -3143,9 +2842,7 @@ function openTopPriorityAlert() {
    PRIORITY BANNER
 ===================================================== */
 
-function updatePriorityBanner(
-    count
-) {
+function updatePriorityBanner() {
 
     const banner =
         document.getElementById(
@@ -3159,9 +2856,29 @@ function updatePriorityBanner(
         );
 
 
+    const alerts =
+        getActivePriorityAlerts();
+
+
     if (
-        count > 0
+        alerts.length > 0
     ) {
+
+        const p1Count =
+            alerts.filter(
+                alert =>
+                    alert.priority ===
+                    "P1"
+            ).length;
+
+
+        const p2Count =
+            alerts.filter(
+                alert =>
+                    alert.priority ===
+                    "P2"
+            ).length;
+
 
         banner.classList
             .add(
@@ -3169,10 +2886,23 @@ function updatePriorityBanner(
             );
 
 
-        countElement
-            .innerText =
-                count +
-                " P1";
+        if (
+            p1Count > 0
+        ) {
+
+            countElement
+                .innerText =
+                    p1Count +
+                    " P1";
+
+        } else {
+
+            countElement
+                .innerText =
+                    p2Count +
+                    " P2";
+
+        }
 
 
         document
@@ -3185,12 +2915,6 @@ function updatePriorityBanner(
             );
 
 
-        document.body
-            .classList
-            .add(
-                "alert-active"
-            );
-
     } else {
 
         banner.classList
@@ -3199,10 +2923,13 @@ function updatePriorityBanner(
             );
 
 
-        document.body
+        document
+            .getElementById(
+                "status-light"
+            )
             .classList
             .remove(
-                "alert-active"
+                "alert"
             );
 
     }
@@ -3441,6 +3168,9 @@ function render() {
     renderNews(
         news
     );
+
+
+    updatePriorityBanner();
 
 }
 
@@ -3688,16 +3418,25 @@ function renderAlerts(
         );
 
 
+    const activeAlerts =
+        alerts.filter(
+            alert =>
+                !isAlertDismissed(
+                    alert
+                )
+        );
+
+
     document
         .getElementById(
             "alert-count"
         )
         .innerText =
-            alerts.length;
+            activeAlerts.length;
 
 
     if (
-        alerts.length ===
+        activeAlerts.length ===
         0
     ) {
 
@@ -3713,16 +3452,10 @@ function renderAlerts(
     }
 
 
-    const newIds =
-        new Set(
-            getNewAlertIds()
-        );
-
-
     container.innerHTML = "";
 
 
-    alerts
+    activeAlerts
         .slice(
             0,
             50
@@ -3757,12 +3490,6 @@ function renderAlerts(
                     "badge-p2";
 
 
-                const isNew =
-                    newIds.has(
-                        alert.id
-                    );
-
-
                 div.innerHTML = `
 
                     <div class="alert-title">
@@ -3774,9 +3501,6 @@ function renderAlerts(
                             )}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            data-alert-id="${escapeAttribute(
-                                alert.id
-                            )}"
                         >
                             ${escapeHtml(
                                 alert.title
@@ -3785,19 +3509,6 @@ function renderAlerts(
 
 
                         <div class="badges">
-
-                            ${
-                                isNew
-                                ?
-                                `
-                                <span class="new-badge">
-                                    NEW
-                                </span>
-                                `
-                                :
-                                ""
-                            }
-
 
                             <span
                                 class="badge ${priorityClass}"
@@ -3869,30 +3580,6 @@ function renderAlerts(
                     </div>
 
                 `;
-
-
-                const link =
-                    div.querySelector(
-                        ".alert-link"
-                    );
-
-
-                if (
-                    link
-                ) {
-
-                    link.addEventListener(
-                        "click",
-                        () => {
-
-                            markAlertAsViewed(
-                                alert.id
-                            );
-
-                        }
-                    );
-
-                }
 
 
                 container.appendChild(
@@ -4246,12 +3933,6 @@ function renderNews(
     }
 
 
-    const newIds =
-        new Set(
-            getNewAlertIds()
-        );
-
-
     const sorted =
         articles
             .slice()
@@ -4284,22 +3965,6 @@ function renderNews(
 
             div.className =
                 "news-item";
-
-
-            const articleId =
-                "NEWS:" +
-                (
-                    article.id ||
-                    article.url ||
-                    article.title ||
-                    ""
-                );
-
-
-            const isNew =
-                newIds.has(
-                    articleId
-                );
 
 
             let severityClass =
@@ -4344,9 +4009,6 @@ function renderNews(
                         )}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-news-id="${escapeAttribute(
-                            articleId
-                        )}"
                     >
                         ${escapeHtml(
                             article.title
@@ -4355,19 +4017,6 @@ function renderNews(
 
 
                     <div class="badges">
-
-                        ${
-                            isNew
-                            ?
-                            `
-                            <span class="new-badge">
-                                NEW
-                            </span>
-                            `
-                            :
-                            ""
-                        }
-
 
                         <span
                             class="badge ${severityClass}"
@@ -4481,30 +4130,6 @@ function renderNews(
                 </div>
 
             `;
-
-
-            const link =
-                div.querySelector(
-                    ".news-title"
-                );
-
-
-            if (
-                link
-            ) {
-
-                link.addEventListener(
-                    "click",
-                    () => {
-
-                        markAlertAsViewed(
-                            articleId
-                        );
-
-                    }
-                );
-
-            }
 
 
             container.appendChild(
@@ -4836,14 +4461,8 @@ document
 
 updateNotificationButton();
 
-updateSoundButton();
-
 loadData();
 
-
-/*
- * Refresh dashboard every minute.
- */
 
 setInterval(
     loadData,
