@@ -20,8 +20,11 @@
 
 body {
     margin: 0;
+
     background: #05080d;
+
     color: #e6edf3;
+
     font-family:
         Arial,
         Helvetica,
@@ -43,8 +46,10 @@ body.alert-active {
 ===================================================== */
 
 header {
-    height: 64px;
-    padding: 0 22px;
+    min-height: 64px;
+
+    padding:
+        10px 22px;
 
     background: #0b1119;
 
@@ -52,18 +57,25 @@ header {
         1px solid #202938;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
+    gap: 15px;
 }
 
 .logo {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 }
 
 .status-light {
     width: 10px;
+
     height: 10px;
 
     border-radius: 50%;
@@ -88,35 +100,105 @@ header {
 
 .logo-text {
     font-size: 18px;
+
     font-weight: bold;
+
     letter-spacing: 2px;
 }
 
 .header-right {
     display: flex;
+
     align-items: center;
-    gap: 18px;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
 }
 
 .updated {
     color: #788696;
+
     font-size: 11px;
 }
 
 .live {
     color: #36d399;
+
     font-size: 11px;
+
     font-weight: bold;
 }
 
 
 /* =====================================================
-   LAYOUT
+   NOTIFICATION BUTTON
+===================================================== */
+
+.notification-button {
+    background: #101822;
+
+    color: #9caabd;
+
+    border:
+        1px solid #273444;
+
+    border-radius: 4px;
+
+    padding:
+        7px 11px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.notification-button:hover {
+    background: #182331;
+
+    color: white;
+
+    border-color:
+        #3b82bd;
+}
+
+.notification-button.enabled {
+    color: #36d399;
+
+    border-color:
+        #247957;
+
+    background: #0d211b;
+}
+
+.notification-button.denied {
+    color: #ff6976;
+
+    border-color:
+        #6c2932;
+
+    background: #211015;
+}
+
+
+/* =====================================================
+   CONTAINER
 ===================================================== */
 
 .container {
     padding: 16px;
+
     max-width: 1800px;
+
     margin: auto;
 }
 
@@ -258,7 +340,9 @@ header {
 
 .priority-left {
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
@@ -268,17 +352,21 @@ header {
 
 .priority-title {
     font-weight: bold;
+
     color: #ff6874;
 }
 
 .priority-subtitle {
     color: #c28b91;
+
     font-size: 11px;
+
     margin-top: 3px;
 }
 
 .priority-count {
     background: #681923;
+
     color: #ff9ca5;
 
     padding:
@@ -617,6 +705,12 @@ input:focus {
     color: #ffe18a;
 }
 
+.badge-p4 {
+    background: #1b2632;
+
+    color: #8fa1b5;
+}
+
 .badge-critical {
     background: #501720;
 
@@ -882,6 +976,16 @@ SECURITY MONITOR
 
 <div class="header-right">
 
+
+<button
+    id="notification-button"
+    class="notification-button"
+    type="button"
+>
+🔔 ENABLE NOTIFICATIONS
+</button>
+
+
 <div
     id="live-status"
     class="live"
@@ -889,12 +993,14 @@ SECURITY MONITOR
 ● LIVE
 </div>
 
+
 <div
     id="updated"
     class="updated"
 >
 Loading...
 </div>
+
 
 </div>
 
@@ -1016,7 +1122,7 @@ News / 24H
     id="priority-banner"
     class="priority-banner"
     onclick="openTopPriorityAlert()"
-    title="Open highest priority security alert"
+    title="Open highest priority alert"
 >
 
 <div class="priority-left">
@@ -1447,6 +1553,740 @@ let filters = {
 
 
 /* =====================================================
+   NOTIFICATION STATE
+===================================================== */
+
+const NOTIFICATION_STORAGE_KEY =
+    "security-monitor-notified-alerts-v1";
+
+const NOTIFICATION_INITIALIZED_KEY =
+    "security-monitor-notification-initialized-v1";
+
+
+let notificationInitialized =
+    localStorage.getItem(
+        NOTIFICATION_INITIALIZED_KEY
+    ) === "true";
+
+
+function getNotifiedAlerts() {
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                NOTIFICATION_STORAGE_KEY
+            );
+
+
+        if (!stored) {
+
+            return [];
+
+        }
+
+
+        const parsed =
+            JSON.parse(
+                stored
+            );
+
+
+        if (
+            !Array.isArray(
+                parsed
+            )
+        ) {
+
+            return [];
+
+        }
+
+
+        return parsed;
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+function saveNotifiedAlerts(
+    ids
+) {
+
+    const trimmed =
+        ids.slice(
+            -2000
+        );
+
+
+    localStorage.setItem(
+        NOTIFICATION_STORAGE_KEY,
+        JSON.stringify(
+            trimmed
+        )
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICATION BUTTON
+===================================================== */
+
+function updateNotificationButton() {
+
+    const button =
+        document.getElementById(
+            "notification-button"
+        );
+
+
+    if (
+        !("Notification" in window)
+    ) {
+
+        button.innerText =
+            "🔕 NOTIFICATIONS UNSUPPORTED";
+
+        button.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    if (
+        Notification.permission ===
+        "granted"
+    ) {
+
+        button.innerText =
+            "🔔 NOTIFICATIONS ON";
+
+        button.classList
+            .add(
+                "enabled"
+            );
+
+        button.classList
+            .remove(
+                "denied"
+            );
+
+        return;
+
+    }
+
+
+    if (
+        Notification.permission ===
+        "denied"
+    ) {
+
+        button.innerText =
+            "🔕 NOTIFICATIONS BLOCKED";
+
+        button.classList
+            .add(
+                "denied"
+            );
+
+        button.classList
+            .remove(
+                "enabled"
+            );
+
+        return;
+
+    }
+
+
+    button.innerText =
+        "🔔 ENABLE NOTIFICATIONS";
+
+    button.classList
+        .remove(
+            "enabled",
+            "denied"
+        );
+
+}
+
+
+async function enableNotifications() {
+
+    if (
+        !("Notification" in window)
+    ) {
+
+        alert(
+            "Den här webbläsaren stöder inte desktop-notifikationer."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Notification.permission ===
+        "granted"
+    ) {
+
+        updateNotificationButton();
+
+        return;
+
+    }
+
+
+    if (
+        Notification.permission ===
+        "denied"
+    ) {
+
+        alert(
+            "Notifikationer är blockerade för den här sidan. Ändra webbplatsens notification-inställning i webbläsaren om du vill aktivera dem."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const permission =
+            await Notification
+                .requestPermission();
+
+
+        updateNotificationButton();
+
+
+        if (
+            permission ===
+            "granted"
+        ) {
+
+            new Notification(
+                "Security Monitor",
+                {
+                    body:
+                        "Security notifications are now enabled."
+                }
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Notification permission error:",
+            error
+        );
+
+    }
+
+}
+
+
+document
+    .getElementById(
+        "notification-button"
+    )
+    .addEventListener(
+        "click",
+        enableNotifications
+    );
+
+
+/* =====================================================
+   BUILD ALERT OBJECTS
+===================================================== */
+
+function getNotificationAlerts() {
+
+    const alerts = [];
+
+
+    allCves.forEach(
+        cve => {
+
+            const isP1 =
+                Boolean(
+                    cve.kev
+                )
+                ||
+                cve.priority ===
+                "P1";
+
+
+            const isP2 =
+                cve.priority ===
+                "P2";
+
+
+            if (
+                !isP1 &&
+                !isP2
+            ) {
+
+                return;
+
+            }
+
+
+            const id =
+                "CVE:" +
+                (
+                    cve.id ||
+                    cve.url ||
+                    ""
+                );
+
+
+            if (!id) {
+
+                return;
+
+            }
+
+
+            alerts.push({
+
+                id: id,
+
+                priority:
+                    isP1
+                    ?
+                    "P1"
+                    :
+                    "P2",
+
+                type:
+                    "CVE",
+
+                title:
+                    cve.id ||
+                    "New CVE",
+
+                description:
+                    cve.description ||
+                    "",
+
+                url:
+                    cve.url ||
+                    "",
+
+                vendor:
+                    (cve.vendors || [])
+                        .join(
+                            ", "
+                        ),
+
+                severity:
+                    cve.cvss?.severity ||
+                    (
+                        cve.kev
+                        ?
+                        "CRITICAL"
+                        :
+                        "HIGH"
+                    )
+
+            });
+
+        }
+    );
+
+
+    allNews.forEach(
+        article => {
+
+            const isP1 =
+                article.priority ===
+                "P1"
+                ||
+                article.severity ===
+                "CRITICAL";
+
+
+            const isP2 =
+                article.priority ===
+                "P2"
+                ||
+                article.severity ===
+                "HIGH";
+
+
+            if (
+                !isP1 &&
+                !isP2
+            ) {
+
+                return;
+
+            }
+
+
+            const id =
+                "NEWS:" +
+                (
+                    article.id ||
+                    article.url ||
+                    article.title ||
+                    ""
+                );
+
+
+            if (!id) {
+
+                return;
+
+            }
+
+
+            alerts.push({
+
+                id: id,
+
+                priority:
+                    isP1
+                    ?
+                    "P1"
+                    :
+                    "P2",
+
+                type:
+                    "NEWS",
+
+                title:
+                    article.title ||
+                    "Security News",
+
+                description:
+                    article.summary ||
+                    "",
+
+                url:
+                    article.url ||
+                    "",
+
+                vendor:
+                    (article.vendors || [])
+                        .join(
+                            ", "
+                        ),
+
+                severity:
+                    article.severity ||
+                    (
+                        isP1
+                        ?
+                        "CRITICAL"
+                        :
+                        "HIGH"
+                    )
+
+            });
+
+        }
+    );
+
+
+    alerts.sort(
+        (a, b) => {
+
+            const priority = {
+
+                P1: 1,
+
+                P2: 2
+
+            };
+
+
+            return (
+                priority[
+                    a.priority
+                ] || 9
+            )
+            -
+            (
+                priority[
+                    b.priority
+                ] || 9
+            );
+
+        }
+    );
+
+
+    return alerts;
+
+}
+
+
+/* =====================================================
+   CHECK FOR NEW ALERTS
+===================================================== */
+
+function checkForNewNotifications() {
+
+    if (
+        !notificationInitialized
+    ) {
+
+        /*
+         * First run:
+         * mark existing alerts as known.
+         *
+         * This prevents a flood of notifications
+         * when the dashboard is first enabled.
+         */
+
+        const currentAlerts =
+            getNotificationAlerts();
+
+
+        const currentIds =
+            currentAlerts.map(
+                alert =>
+                    alert.id
+            );
+
+
+        saveNotifiedAlerts(
+            currentIds
+        );
+
+
+        localStorage.setItem(
+            NOTIFICATION_INITIALIZED_KEY,
+            "true"
+        );
+
+
+        notificationInitialized =
+            true;
+
+
+        return;
+
+    }
+
+
+    const alerts =
+        getNotificationAlerts();
+
+
+    if (
+        alerts.length ===
+        0
+    ) {
+
+        return;
+
+    }
+
+
+    const notified =
+        getNotifiedAlerts();
+
+
+    const notifiedSet =
+        new Set(
+            notified
+        );
+
+
+    const newAlerts =
+        alerts.filter(
+            alert =>
+                !notifiedSet.has(
+                    alert.id
+                )
+        );
+
+
+    if (
+        newAlerts.length ===
+        0
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Always remember the alerts even if
+     * browser notifications are disabled.
+     *
+     * This prevents a backlog from being
+     * fired later all at once.
+     */
+
+    const allKnownIds =
+        [
+            ...notified,
+            ...newAlerts.map(
+                alert =>
+                    alert.id
+            )
+        ];
+
+
+    saveNotifiedAlerts(
+        [
+            ...new Set(
+                allKnownIds
+            )
+        ]
+    );
+
+
+    if (
+        !("Notification" in window)
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        Notification.permission !==
+        "granted"
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Limit notifications per polling cycle.
+     * If multiple alerts arrive at once,
+     * the user receives at most 5.
+     */
+
+    newAlerts
+        .slice(
+            0,
+            5
+        )
+        .forEach(
+            alert => {
+
+                sendSecurityNotification(
+                    alert
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   SEND SECURITY NOTIFICATION
+===================================================== */
+
+function sendSecurityNotification(
+    alert
+) {
+
+    let title;
+
+
+    if (
+        alert.priority ===
+        "P1"
+    ) {
+
+        title =
+            "🔴 P1 SECURITY ALERT";
+
+    } else {
+
+        title =
+            "🟠 P2 SECURITY ALERT";
+
+    }
+
+
+    const body =
+        alert.type +
+        " • " +
+        alert.title;
+
+
+    try {
+
+        const notification =
+            new Notification(
+                title,
+                {
+
+                    body:
+                        body,
+
+                    tag:
+                        "security-" +
+                        alert.id,
+
+                    renotify:
+                        false
+
+                }
+            );
+
+
+        notification.onclick =
+            () => {
+
+                window.focus();
+
+
+                if (
+                    alert.url
+                ) {
+
+                    window.open(
+                        alert.url,
+                        "_blank",
+                        "noopener,noreferrer"
+                    );
+
+                }
+
+
+                notification.close();
+
+            };
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not create notification:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
    LOAD CVE
 ===================================================== */
 
@@ -1526,6 +2366,9 @@ async function loadData() {
         await loadNewsData();
 
         render();
+
+
+        checkForNewNotifications();
 
 
         document
@@ -1782,122 +2625,8 @@ function updateStatistics() {
 
 function openTopPriorityAlert() {
 
-    const alerts = [];
-
-
-    allCves.forEach(
-        cve => {
-
-            if (
-                cve.kev ||
-                cve.priority ===
-                "P1"
-            ) {
-
-                alerts.push({
-
-                    priority:
-                        "P1",
-
-                    url:
-                        cve.url
-
-                });
-
-            } else if (
-                cve.priority ===
-                "P2"
-            ) {
-
-                alerts.push({
-
-                    priority:
-                        "P2",
-
-                    url:
-                        cve.url
-
-                });
-
-            }
-
-        }
-    );
-
-
-    allNews.forEach(
-        article => {
-
-            if (
-                article.priority ===
-                "P1"
-                ||
-                article.severity ===
-                "CRITICAL"
-            ) {
-
-                alerts.push({
-
-                    priority:
-                        "P1",
-
-                    url:
-                        article.url
-
-                });
-
-            } else if (
-                article.priority ===
-                "P2"
-                ||
-                article.severity ===
-                "HIGH"
-            ) {
-
-                alerts.push({
-
-                    priority:
-                        "P2",
-
-                    url:
-                        article.url
-
-                });
-
-            }
-
-        }
-    );
-
-
-    alerts.sort(
-        (a, b) => {
-
-            const priority = {
-
-                P1: 1,
-
-                P2: 2
-
-            };
-
-
-            return (
-                (
-                    priority[
-                        a.priority
-                    ] || 9
-                )
-                -
-                (
-                    priority[
-                        b.priority
-                    ] || 9
-                )
-            );
-
-        }
-    );
+    const alerts =
+        getNotificationAlerts();
 
 
     if (
@@ -2255,7 +2984,7 @@ function renderAlerts(
 
                     severity:
                         cve.cvss?.severity ||
-                        "UNKNOWN"
+                        "CRITICAL"
 
                 });
 
@@ -2289,7 +3018,7 @@ function renderAlerts(
 
                     severity:
                         cve.cvss?.severity ||
-                        "UNKNOWN"
+                        "HIGH"
 
                 });
 
@@ -2746,6 +3475,25 @@ function renderCves(
             }
 
 
+            const priorityClass =
+                priority ===
+                "P1"
+                ?
+                "badge-p1"
+                :
+                priority ===
+                "P2"
+                ?
+                "badge-p2"
+                :
+                priority ===
+                "P3"
+                ?
+                "badge-p3"
+                :
+                "badge-p4";
+
+
             div.innerHTML = `
 
                 <div class="cve-top">
@@ -2767,7 +3515,7 @@ function renderCves(
                     <div class="badges">
 
                         <span
-                            class="badge badge-${priority.toLowerCase()}"
+                            class="badge ${priorityClass}"
                         >
                             ${escapeHtml(
                                 priority
@@ -3429,6 +4177,8 @@ document
 /* =====================================================
    START
 ===================================================== */
+
+updateNotificationButton();
 
 loadData();
 
