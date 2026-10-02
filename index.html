@@ -2,7 +2,6 @@
 <html lang="sv">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -19,21 +18,18 @@
 }
 
 body {
-
     margin: 0;
-
     background: #070b12;
-
     color: #e6edf3;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
 }
 
-header {
+/* HEADER */
 
+header {
     padding: 18px 24px;
 
     background: #0d131d;
@@ -50,7 +46,6 @@ header {
 }
 
 h1 {
-
     margin: 0;
 
     font-size: 22px;
@@ -59,32 +54,33 @@ h1 {
 }
 
 #updated {
-
     color: #7d8998;
 
     font-size: 13px;
 }
 
+
+/* MAIN */
+
 .container {
-
     padding: 20px;
-
 }
 
-.stats {
 
+/* STATISTICS */
+
+.stats {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(6, 1fr);
 
-    gap: 14px;
+    gap: 12px;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .stat {
-
     background: #0d131d;
 
     border:
@@ -92,55 +88,146 @@ h1 {
 
     border-radius: 8px;
 
-    padding: 18px;
+    padding: 16px;
 }
 
 .stat-title {
-
     color: #7d8998;
 
-    font-size: 12px;
+    font-size: 11px;
 
     text-transform:
         uppercase;
+
+    letter-spacing:
+        0.5px;
 }
 
 .stat-value {
-
-    font-size: 32px;
+    font-size: 28px;
 
     font-weight: bold;
 
-    margin-top: 8px;
+    margin-top: 7px;
 }
 
 .critical {
-
     color: #ff4d5a;
 }
 
 .high {
-
     color: #ff9f43;
 }
 
 .medium {
-
     color: #ffd166;
 }
 
-.content {
+.kev {
+    color: #ff4d5a;
+}
 
+.p1 {
+    color: #ff4d5a;
+}
+
+.p2 {
+    color: #ff9f43;
+}
+
+
+/* FILTERS */
+
+.filters {
+    background: #0d131d;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 8px;
+
+    padding: 15px;
+
+    margin-bottom: 18px;
+}
+
+.filter-row {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.filter-row:last-child {
+    margin-bottom: 0;
+}
+
+.filter-label {
+    color: #7d8998;
+
+    font-size: 12px;
+
+    width: 80px;
+}
+
+button {
+    background: #121a26;
+
+    color: #b9c4d0;
+
+    border:
+        1px solid #283445;
+
+    border-radius: 5px;
+
+    padding:
+        7px 12px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+button:hover {
+    background: #192434;
+
+    color: white;
+}
+
+button.active {
+    background: #245b8a;
+
+    border-color: #3b82bd;
+
+    color: white;
+}
+
+button.active-danger {
+    background: #6b2029;
+
+    border-color: #a83a46;
+
+    color: white;
+}
+
+
+/* CONTENT */
+
+.content {
     display: grid;
 
     grid-template-columns:
-        1fr 1fr;
+        2fr 1fr;
 
-    gap: 20px;
+    gap: 18px;
 }
 
 .panel {
-
     background: #0d131d;
 
     border:
@@ -152,8 +239,7 @@ h1 {
 }
 
 .panel-header {
-
-    padding: 15px;
+    padding: 14px 16px;
 
     border-bottom:
         1px solid #202938;
@@ -161,124 +247,281 @@ h1 {
     font-weight: bold;
 
     letter-spacing: 1px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
 }
 
-.cve {
+.panel-count {
+    color: #7d8998;
 
-    padding: 14px;
+    font-size: 12px;
+
+    font-weight: normal;
+}
+
+
+/* CVE */
+
+.cve {
+    padding: 14px 16px;
 
     border-bottom:
         1px solid #18202d;
 }
 
 .cve:last-child {
-
     border-bottom: 0;
 }
 
 .cve-top {
-
     display: flex;
 
     justify-content:
         space-between;
+
+    align-items: center;
+
+    gap: 10px;
 }
 
 .cve-id {
-
     font-weight: bold;
 
     color: #65b7ff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.cve-id:hover {
+    text-decoration:
+        underline;
+}
+
+.badges {
+    display: flex;
+
+    gap: 5px;
+
+    flex-wrap: wrap;
+
+    justify-content:
+        flex-end;
 }
 
 .badge {
-
     padding:
         3px 7px;
 
     border-radius: 4px;
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: bold;
+
+    white-space:
+        nowrap;
 }
 
 .badge-critical {
-
     background: #4b1720;
 
     color: #ff6b78;
 }
 
 .badge-high {
-
     background: #4b2c12;
 
     color: #ffad5c;
 }
 
 .badge-medium {
-
     background: #4a4012;
 
     color: #ffe083;
 }
 
 .badge-kev {
-
     background: #641b24;
 
     color: #ff5968;
+}
 
-    margin-left: 5px;
+.badge-p1 {
+    background: #641b24;
+
+    color: #ff5968;
+}
+
+.badge-p2 {
+    background: #4b2c12;
+
+    color: #ffad5c;
+}
+
+.badge-product {
+    background: #152d43;
+
+    color: #70b9ee;
 }
 
 .description {
-
     color: #9aa7b6;
-
-    font-size: 13px;
-
-    margin-top: 8px;
-
-    line-height: 1.4;
-}
-
-.vendor {
-
-    color: #68d391;
 
     font-size: 12px;
 
     margin-top: 8px;
+
+    line-height: 1.45;
 }
 
-@media(max-width: 900px) {
+.meta {
+    display: flex;
 
-    .content {
+    flex-wrap: wrap;
 
-        grid-template-columns: 1fr;
+    gap: 8px;
 
-    }
+    margin-top: 9px;
+
+    color: #6f7d8d;
+
+    font-size: 11px;
+}
+
+.meta-item {
+    background: #111925;
+
+    padding:
+        3px 6px;
+
+    border-radius: 3px;
+}
+
+.signal {
+    color: #d2a8ff;
+}
+
+
+/* ALERTS */
+
+.alert {
+    padding: 14px;
+
+    border-bottom:
+        1px solid #18202d;
+}
+
+.alert:last-child {
+    border-bottom: 0;
+}
+
+.alert-title {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.alert-id {
+    color: #65b7ff;
+
+    font-weight: bold;
+
+    font-size: 13px;
+}
+
+.alert-description {
+    color: #9aa7b6;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+    margin-top: 7px;
+}
+
+
+/* EMPTY */
+
+.empty {
+    padding: 30px;
+
+    color: #6f7d8d;
+
+    text-align: center;
+
+    font-size: 13px;
+}
+
+
+/* ERROR */
+
+.error {
+    padding: 20px;
+
+    color: #ff6b78;
+}
+
+
+/* MOBILE */
+
+@media(max-width: 1100px) {
 
     .stats {
-
         grid-template-columns:
-            repeat(2, 1fr);
-
+            repeat(3, 1fr);
     }
 
+    .content {
+        grid-template-columns:
+            1fr;
+    }
+}
+
+@media(max-width: 650px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    header {
+        display: block;
+    }
+
+    #updated {
+        margin-top: 7px;
+    }
+
+    .filter-label {
+        width: 100%;
+    }
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
-<h1>SECURITY MONITOR</h1>
+<h1>
+SECURITY MONITOR
+</h1>
 
 <div id="updated">
 Loading...
@@ -286,9 +529,14 @@ Loading...
 
 </header>
 
+
 <div class="container">
 
+
+<!-- STATISTICS -->
+
 <div class="stats">
+
 
 <div class="stat">
 
@@ -305,6 +553,7 @@ Critical
 
 </div>
 
+
 <div class="stat">
 
 <div class="stat-title">
@@ -319,6 +568,7 @@ High
 </div>
 
 </div>
+
 
 <div class="stat">
 
@@ -335,6 +585,7 @@ Medium
 
 </div>
 
+
 <div class="stat">
 
 <div class="stat-title">
@@ -343,294 +594,1372 @@ Known Exploited
 
 <div
     id="kev"
-    class="stat-value critical"
+    class="stat-value kev"
 >
 0
 </div>
 
 </div>
 
+
+<div class="stat">
+
+<div class="stat-title">
+P1 Alerts
 </div>
+
+<div
+    id="p1"
+    class="stat-value p1"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+P2 Alerts
+</div>
+
+<div
+    id="p2"
+    class="stat-value p2"
+>
+0
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- FILTERS -->
+
+<div class="filters">
+
+
+<div class="filter-row">
+
+<div class="filter-label">
+Vendor
+</div>
+
+
+<button
+    class="vendor-filter active"
+    data-vendor="ALL"
+>
+ALL
+</button>
+
+
+<button
+    class="vendor-filter"
+    data-vendor="Microsoft"
+>
+MICROSOFT
+</button>
+
+
+<button
+    class="vendor-filter"
+    data-vendor="Red Hat"
+>
+RED HAT
+</button>
+
+
+<button
+    class="vendor-filter"
+    data-vendor="Apple"
+>
+APPLE
+</button>
+
+</div>
+
+
+<div class="filter-row">
+
+<div class="filter-label">
+Severity
+</div>
+
+
+<button
+    class="severity-filter active"
+    data-severity="ALL"
+>
+ALL
+</button>
+
+
+<button
+    class="severity-filter"
+    data-severity="CRITICAL"
+>
+CRITICAL
+</button>
+
+
+<button
+    class="severity-filter"
+    data-severity="HIGH"
+>
+HIGH
+</button>
+
+
+<button
+    class="severity-filter"
+    data-severity="MEDIUM"
+>
+MEDIUM
+</button>
+
+</div>
+
+
+<div class="filter-row">
+
+<div class="filter-label">
+Priority
+</div>
+
+
+<button
+    class="priority-filter active"
+    data-priority="ALL"
+>
+ALL
+</button>
+
+
+<button
+    class="priority-filter"
+    data-priority="P1"
+>
+P1
+</button>
+
+
+<button
+    class="priority-filter"
+    data-priority="P2"
+>
+P2
+</button>
+
+
+<button
+    class="priority-filter"
+    data-priority="P3"
+>
+P3
+</button>
+
+
+<button
+    id="kev-filter"
+    data-active="false"
+>
+KEV ONLY
+</button>
+
+</div>
+
+
+</div>
+
+
+<!-- CONTENT -->
 
 <div class="content">
 
-<div class="panel">
 
-<div class="panel-header">
-LATEST CVEs
-</div>
-
-<div id="cves"></div>
-
-</div>
+<!-- CVES -->
 
 <div class="panel">
 
+
 <div class="panel-header">
+
+<span>
+CVE MONITOR
+</span>
+
+<span
+    id="result-count"
+    class="panel-count"
+>
+0 results
+</span>
+
+</div>
+
+
+<div id="cves">
+
+<div class="empty">
+Loading...
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ALERTS -->
+
+<div class="panel">
+
+
+<div class="panel-header">
+
+<span>
 PRIORITY ALERTS
+</span>
+
+<span
+    id="alert-count"
+    class="panel-count"
+>
+0
+</span>
+
 </div>
 
-<div id="alerts"></div>
 
+<div id="alerts">
+
+<div class="empty">
+Loading...
 </div>
 
 </div>
 
+
 </div>
+
+
+</div>
+
+
+</div>
+
 
 <script>
 
+
+let allCves = [];
+
+
+let filters = {
+
+    vendor: "ALL",
+
+    severity: "ALL",
+
+    priority: "ALL",
+
+    kev: false
+
+};
+
+
+/* -------------------------------------------------------
+   LOAD DATA
+------------------------------------------------------- */
+
 async function loadData() {
 
-    const response =
-        await fetch(
-            "data/security.json?" +
-            Date.now()
-        );
+    try {
 
-    const data =
-        await response.json();
-
-    const cves =
-        data.cves || [];
-
-    document
-        .getElementById("updated")
-        .innerText =
-        "Updated: " +
-        new Date(
-            data.updated
-        ).toLocaleString(
-            "sv-SE"
-        );
-
-    let critical = 0;
-    let high = 0;
-    let medium = 0;
-    let kev = 0;
-
-    cves.forEach(cve => {
-
-        const severity =
-            cve.cvss?.severity;
-
-        if (severity === "CRITICAL")
-            critical++;
-
-        if (severity === "HIGH")
-            high++;
-
-        if (severity === "MEDIUM")
-            medium++;
-
-        if (cve.kev)
-            kev++;
-
-    });
-
-    document
-        .getElementById("critical")
-        .innerText = critical;
-
-    document
-        .getElementById("high")
-        .innerText = high;
-
-    document
-        .getElementById("medium")
-        .innerText = medium;
-
-    document
-        .getElementById("kev")
-        .innerText = kev;
-
-    const latest =
-        cves
-            .slice()
-            .sort(
-                (a,b) =>
-                new Date(b.modified) -
-                new Date(a.modified)
-            )
-            .slice(0, 15);
-
-    const container =
-        document
-        .getElementById("cves");
-
-    container.innerHTML = "";
-
-    latest.forEach(cve => {
-
-        const severity =
-            cve.cvss?.severity ||
-            "UNKNOWN";
-
-        const severityClass =
-            severity === "CRITICAL"
-            ? "badge-critical"
-            : severity === "HIGH"
-            ? "badge-high"
-            : "badge-medium";
-
-        const div =
-            document.createElement(
-                "div"
+        const response =
+            await fetch(
+                "data/security.json?" +
+                Date.now()
             );
 
-        div.className = "cve";
 
-        div.innerHTML = `
+        if (!response.ok) {
 
-            <div class="cve-top">
+            throw new Error(
+                "Could not load security.json"
+            );
 
-                <a
-                    class="cve-id"
-                    href="${cve.url}"
-                    target="_blank"
-                >
-                    ${cve.id}
-                </a>
+        }
 
-                <div>
 
-                    <span
-                        class="badge ${severityClass}"
-                    >
-                        ${severity}
-                    </span>
+        const data =
+            await response.json();
 
-                    ${
-                        cve.kev
-                        ?
-                        '<span class="badge badge-kev">KEV</span>'
-                        :
-                        ''
-                    }
 
+        allCves =
+            data.cves || [];
+
+
+        updateStatistics(
+            allCves
+        );
+
+
+        render();
+
+
+        document
+            .getElementById("updated")
+            .innerText =
+                "Updated: " +
+                new Date(
+                    data.updated
+                ).toLocaleString(
+                    "sv-SE"
+                );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        document
+            .getElementById("cves")
+            .innerHTML =
+                `
+                <div class="error">
+                    Unable to load security data.
                 </div>
+                `;
 
-            </div>
-
-            <div class="description">
-
-                ${escapeHtml(
-                    cve.description
-                )}
-
-            </div>
-
-            <div class="vendor">
-
-                ${cve.vendors.join(
-                    " · "
-                )}
-
-                ${
-                    cve.cvss?.score
-                    ?
-                    " · CVSS " +
-                    cve.cvss.score
-                    :
-                    ""
-                }
-
-            </div>
-
-        `;
-
-        container.appendChild(div);
-
-    });
-
-    const alerts =
-        cves
-        .filter(cve =>
-            cve.kev ||
-            cve.cvss?.severity ===
-                "CRITICAL"
-        )
-        .slice(0, 10);
-
-    const alertContainer =
-        document
-        .getElementById("alerts");
-
-    alertContainer.innerHTML = "";
-
-    alerts.forEach(cve => {
-
-        const div =
-            document.createElement(
-                "div"
-            );
-
-        div.className = "cve";
-
-        div.innerHTML = `
-
-            <div class="cve-top">
-
-                <span class="cve-id">
-                    ${cve.id}
-                </span>
-
-                <span class="badge badge-critical">
-
-                    ${
-                        cve.kev
-                        ?
-                        "KNOWN EXPLOITED"
-                        :
-                        "CRITICAL"
-                    }
-
-                </span>
-
-            </div>
-
-            <div class="description">
-
-                ${
-                    escapeHtml(
-                        cve.description
-                    )
-                }
-
-            </div>
-
-        `;
-
-        alertContainer
-            .appendChild(div);
-
-    });
+    }
 
 }
 
 
-function escapeHtml(text) {
+/* -------------------------------------------------------
+   STATISTICS
+------------------------------------------------------- */
+
+function updateStatistics(
+    cves
+) {
+
+    let critical = 0;
+
+    let high = 0;
+
+    let medium = 0;
+
+    let kev = 0;
+
+    let p1 = 0;
+
+    let p2 = 0;
+
+
+    cves.forEach(
+        cve => {
+
+            const severity =
+                cve.cvss?.severity;
+
+
+            if (
+                severity ===
+                "CRITICAL"
+            ) {
+                critical++;
+            }
+
+
+            if (
+                severity ===
+                "HIGH"
+            ) {
+                high++;
+            }
+
+
+            if (
+                severity ===
+                "MEDIUM"
+            ) {
+                medium++;
+            }
+
+
+            if (
+                cve.kev
+            ) {
+                kev++;
+            }
+
+
+            if (
+                cve.priority ===
+                "P1"
+            ) {
+                p1++;
+            }
+
+
+            if (
+                cve.priority ===
+                "P2"
+            ) {
+                p2++;
+            }
+
+        }
+    );
+
+
+    document
+        .getElementById(
+            "critical"
+        )
+        .innerText =
+            critical;
+
+
+    document
+        .getElementById(
+            "high"
+        )
+        .innerText =
+            high;
+
+
+    document
+        .getElementById(
+            "medium"
+        )
+        .innerText =
+            medium;
+
+
+    document
+        .getElementById(
+            "kev"
+        )
+        .innerText =
+            kev;
+
+
+    document
+        .getElementById(
+            "p1"
+        )
+        .innerText =
+            p1;
+
+
+    document
+        .getElementById(
+            "p2"
+        )
+        .innerText =
+            p2;
+
+}
+
+
+/* -------------------------------------------------------
+   FILTERING
+------------------------------------------------------- */
+
+function getFilteredCves() {
+
+    return allCves.filter(
+        cve => {
+
+
+            if (
+                filters.vendor !==
+                "ALL"
+            ) {
+
+                if (
+                    !(cve.vendors || [])
+                        .includes(
+                            filters.vendor
+                        )
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            if (
+                filters.severity !==
+                "ALL"
+            ) {
+
+                if (
+                    cve.cvss?.severity !==
+                    filters.severity
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            if (
+                filters.priority !==
+                "ALL"
+            ) {
+
+                if (
+                    cve.priority !==
+                    filters.priority
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            if (
+                filters.kev &&
+                !cve.kev
+            ) {
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+    );
+
+}
+
+
+/* -------------------------------------------------------
+   RENDER
+------------------------------------------------------- */
+
+function render() {
+
+    const filtered =
+        getFilteredCves();
+
+
+    renderCves(
+        filtered
+    );
+
+
+    renderAlerts(
+        filtered
+    );
+
+}
+
+
+/* -------------------------------------------------------
+   CVE LIST
+------------------------------------------------------- */
+
+function renderCves(
+    cves
+) {
+
+    const container =
+        document.getElementById(
+            "cves"
+        );
+
+
+    document
+        .getElementById(
+            "result-count"
+        )
+        .innerText =
+            `${cves.length} results`;
+
+
+    if (
+        cves.length === 0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No CVEs match the selected filters.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        cves
+            .slice()
+            .sort(
+                (a, b) => {
+
+                    const priority = {
+
+                        "P1": 1,
+
+                        "P2": 2,
+
+                        "P3": 3,
+
+                        "P4": 4
+
+                    };
+
+
+                    const pa =
+                        priority[
+                            a.priority
+                        ] || 5;
+
+
+                    const pb =
+                        priority[
+                            b.priority
+                        ] || 5;
+
+
+                    if (
+                        pa !== pb
+                    ) {
+
+                        return pa - pb;
+
+                    }
+
+
+                    return new Date(
+                        b.modified || 0
+                    ) -
+                    new Date(
+                        a.modified || 0
+                    );
+
+                }
+            )
+            .slice(
+                0,
+                100
+            );
+
+
+    container.innerHTML = "";
+
+
+    sorted.forEach(
+        cve => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "cve";
+
+
+            const severity =
+                cve.cvss?.severity ||
+                "UNKNOWN";
+
+
+            const severityClass =
+                severity ===
+                "CRITICAL"
+
+                ? "badge-critical"
+
+                : severity ===
+                  "HIGH"
+
+                ? "badge-high"
+
+                : "badge-medium";
+
+
+            const productNames =
+                (cve.products || [])
+                    .slice(
+                        0,
+                        3
+                    )
+                    .map(
+                        p =>
+                            `${p.vendor}: ${formatProduct(p.product)}`
+                    );
+
+
+            const signals =
+                (cve.signals || [])
+                    .slice(
+                        0,
+                        5
+                    );
+
+
+            let badges = `
+
+                <span
+                    class="badge ${severityClass}"
+                >
+                    ${escapeHtml(
+                        severity
+                    )}
+                </span>
+
+            `;
+
+
+            if (
+                cve.priority ===
+                "P1"
+            ) {
+
+                badges += `
+
+                    <span
+                        class="badge badge-p1"
+                    >
+                        P1
+                    </span>
+
+                `;
+
+            }
+
+
+            if (
+                cve.priority ===
+                "P2"
+            ) {
+
+                badges += `
+
+                    <span
+                        class="badge badge-p2"
+                    >
+                        P2
+                    </span>
+
+                `;
+
+            }
+
+
+            if (
+                cve.kev
+            ) {
+
+                badges += `
+
+                    <span
+                        class="badge badge-kev"
+                    >
+                        KEV
+                    </span>
+
+                `;
+
+            }
+
+
+            let productHtml = "";
+
+
+            productNames.forEach(
+                product => {
+
+                    productHtml += `
+
+                        <span
+                            class="meta-item"
+                        >
+                            ${escapeHtml(
+                                product
+                            )}
+                        </span>
+
+                    `;
+
+                }
+            );
+
+
+            let signalHtml = "";
+
+
+            signals.forEach(
+                signal => {
+
+                    signalHtml += `
+
+                        <span
+                            class="meta-item signal"
+                        >
+                            ${escapeHtml(
+                                signal
+                            )}
+                        </span>
+
+                    `;
+
+                }
+            );
+
+
+            div.innerHTML = `
+
+                <div class="cve-top">
+
+                    <a
+                        class="cve-id"
+                        href="${escapeAttribute(
+                            cve.url
+                        )}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ${escapeHtml(
+                            cve.id
+                        )}
+                    </a>
+
+
+                    <div class="badges">
+
+                        ${badges}
+
+                    </div>
+
+                </div>
+
+
+                <div class="description">
+
+                    ${escapeHtml(
+                        cve.description
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    ${productHtml}
+
+                    ${
+                        cve.cvss?.score
+                        ?
+                        `
+                        <span
+                            class="meta-item"
+                        >
+                            CVSS
+                            ${escapeHtml(
+                                String(
+                                    cve.cvss.score
+                                )
+                            )}
+                        </span>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${signalHtml}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+/* -------------------------------------------------------
+   ALERTS
+------------------------------------------------------- */
+
+function renderAlerts(
+    cves
+) {
+
+    const container =
+        document.getElementById(
+            "alerts"
+        );
+
+
+    const alerts =
+        cves
+            .filter(
+                cve =>
+                    cve.priority ===
+                    "P1"
+                    ||
+                    cve.priority ===
+                    "P2"
+                    ||
+                    cve.kev
+            )
+            .sort(
+                (a, b) => {
+
+                    const priority = {
+
+                        "P1": 1,
+
+                        "P2": 2,
+
+                        "P3": 3,
+
+                        "P4": 4
+
+                    };
+
+
+                    return (
+                        priority[
+                            a.priority
+                        ] || 5
+                    ) -
+                    (
+                        priority[
+                            b.priority
+                        ] || 5
+                    );
+
+                }
+            )
+            .slice(
+                0,
+                30
+            );
+
+
+    document
+        .getElementById(
+            "alert-count"
+        )
+        .innerText =
+            alerts.length;
+
+
+    if (
+        alerts.length === 0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No active priority alerts.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    alerts.forEach(
+        cve => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "alert";
+
+
+            let badge = "";
+
+
+            if (
+                cve.kev
+            ) {
+
+                badge = `
+
+                    <span
+                        class="badge badge-kev"
+                    >
+                        KEV
+                    </span>
+
+                `;
+
+            } else if (
+                cve.priority ===
+                "P1"
+            ) {
+
+                badge = `
+
+                    <span
+                        class="badge badge-p1"
+                    >
+                        P1
+                    </span>
+
+                `;
+
+            } else {
+
+                badge = `
+
+                    <span
+                        class="badge badge-p2"
+                    >
+                        P2
+                    </span>
+
+                `;
+
+            }
+
+
+            div.innerHTML = `
+
+                <div class="alert-title">
+
+                    <span
+                        class="alert-id"
+                    >
+                        ${escapeHtml(
+                            cve.id
+                        )}
+                    </span>
+
+                    ${badge}
+
+                </div>
+
+
+                <div
+                    class="alert-description"
+                >
+
+                    ${escapeHtml(
+                        cve.description
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+/* -------------------------------------------------------
+   PRODUCT FORMATTING
+------------------------------------------------------- */
+
+function formatProduct(
+    product
+) {
+
+    if (
+        !product
+    ) {
+
+        return "";
+
+    }
+
+
+    return product
+        .replace(
+            /_/g,
+            " "
+        )
+        .replace(
+            /\b\w/g,
+            c =>
+                c.toUpperCase()
+        );
+
+}
+
+
+/* -------------------------------------------------------
+   HTML SAFETY
+------------------------------------------------------- */
+
+function escapeHtml(
+    value
+) {
 
     const div =
         document.createElement(
             "div"
         );
 
+
     div.textContent =
-        text || "";
+        value || "";
+
 
     return div.innerHTML;
+
 }
 
 
+function escapeAttribute(
+    value
+) {
+
+    return String(
+        value || ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+
+}
+
+
+/* -------------------------------------------------------
+   FILTER BUTTONS
+------------------------------------------------------- */
+
+document
+    .querySelectorAll(
+        ".vendor-filter"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    filters.vendor =
+                        button.dataset.vendor;
+
+
+                    document
+                        .querySelectorAll(
+                            ".vendor-filter"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList
+                                    .remove(
+                                        "active"
+                                    )
+                        );
+
+
+                    button.classList
+                        .add(
+                            "active"
+                        );
+
+
+                    render();
+
+                }
+            );
+
+        }
+    );
+
+
+document
+    .querySelectorAll(
+        ".severity-filter"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    filters.severity =
+                        button.dataset.severity;
+
+
+                    document
+                        .querySelectorAll(
+                            ".severity-filter"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList
+                                    .remove(
+                                        "active"
+                                    )
+                        );
+
+
+                    button.classList
+                        .add(
+                            "active"
+                        );
+
+
+                    render();
+
+                }
+            );
+
+        }
+    );
+
+
+document
+    .querySelectorAll(
+        ".priority-filter"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    filters.priority =
+                        button.dataset.priority;
+
+
+                    document
+                        .querySelectorAll(
+                            ".priority-filter"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList
+                                    .remove(
+                                        "active"
+                                    )
+                        );
+
+
+                    button.classList
+                        .add(
+                            "active"
+                        );
+
+
+                    render();
+
+                }
+            );
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "kev-filter"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            filters.kev =
+                !filters.kev;
+
+
+            const button =
+                document.getElementById(
+                    "kev-filter"
+                );
+
+
+            button.dataset.active =
+                String(
+                    filters.kev
+                );
+
+
+            button.classList.toggle(
+                "active-danger",
+                filters.kev
+            );
+
+
+            render();
+
+        }
+    );
+
+
+/* -------------------------------------------------------
+   AUTO REFRESH
+------------------------------------------------------- */
+
 loadData();
+
 
 setInterval(
     loadData,
     60 * 1000
 );
 
+
 </script>
+
 
 </body>
 
