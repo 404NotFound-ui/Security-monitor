@@ -803,10 +803,26 @@ async function loadData() {
 
     try {
 
-        await Promise.all([
-            loadCveData(),
-            loadNewsData()
-        ]);
+        console.log("Loading security.json...");
+
+        await loadCveData();
+
+        console.log(
+            "security.json loaded:",
+            allCves.length,
+            "CVEs"
+        );
+
+
+        console.log("Loading news.json...");
+
+        await loadNewsData();
+
+        console.log(
+            "news.json loaded:",
+            allNews.length,
+            "articles"
+        );
 
 
         render();
@@ -827,6 +843,7 @@ async function loadData() {
     } catch (error) {
 
         console.error(
+            "SECURITY MONITOR ERROR:",
             error
         );
 
@@ -838,14 +855,29 @@ async function loadData() {
             .innerHTML =
                 `
                 <div class="error">
-                    Unable to load security data.
-                    Check GitHub Actions.
+
+                    <strong>
+                        Data loading error
+                    </strong>
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
+                    <br><br>
+
+                    Open browser developer tools
+                    (F12) for details.
+
                 </div>
                 `;
 
     }
 
 }
+
 
 
 /* =====================================================
