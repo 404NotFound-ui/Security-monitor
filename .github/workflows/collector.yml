@@ -2,6 +2,9 @@ name: Security Data Collector
 
 on:
   workflow_dispatch:
+concurrency:
+  group: security-data-collector
+  cancel-in-progress: false
 
   schedule:
     - cron: "*/15 * * * *"
