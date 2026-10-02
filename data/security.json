@@ -1,6 +1,131 @@
 {
-  "updated": "2026-10-02T18:17:32.803952+00:00",
+  "updated": "2026-10-02T18:46:38.179556+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-104843",
+      "published": "2026-10-02T16:16:46.760",
+      "modified": "2026-10-02T18:44:11.270",
+      "description": "uv is a Python package and project manager written in Rust. From 0.12.7 until 0.12.18, uv wheel extraction on Windows can process a malicious wheel in a way that writes a file outside the installation prefix, including an executable in a directory already present on the user's PATH. Non-Windows hosts are not affected. This issue is fixed in version 0.12.18.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104843"
+    },
+    {
+      "id": "CVE-2026-103922",
+      "published": "2026-10-01T18:17:12.840",
+      "modified": "2026-10-02T18:44:11.270",
+      "description": "Capacitor is a cross-platform native runtime for web applications. From 6.0.0 until 6.2.2, 7.6.9, 8.3.5, 8.4.3, and 8.5.1, the Android and iOS WebView navigation guard validates a target URL's host and scheme but not its path, allowing a victim who activates an untrusted link to navigate a frame to /_capacitor_http_interceptor_. The native proxy can fetch an attacker-selected URL and return the response as a document at the application's own origin, allowing script in that response to access same-origin storage, cookies, and registered Capacitor plugin capabilities. Applications remain affected when CapacitorHttp is disabled because affected releases serve the proxy path regardless of that setting. This issue is fixed in versions 6.2.2, 7.6.9, 8.3.5, 8.4.3, and 8.5.1.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103922"
+    },
+    {
+      "id": "CVE-2026-102514",
+      "published": "2026-10-01T21:17:18.307",
+      "modified": "2026-10-02T18:44:11.270",
+      "description": "Out-of-bounds Write (CWE-787) in the PEA archive extraction routine (pea.pas, unpea_procedure) of the first-party pea component in PeaZip 11.2.0 and earlier allows an attacker who convinces a victim to open or extract a crafted .pea archive to execute arbitrary code as the user running PeaZip. While decompressing a PCOMPRESS1 stream, the 32-bit compressed-block-size field of the first block (compsize) is read directly from the archive and used without validation as the length of a blockread into the fixed-size global buffers wbuf1/wbuf2 (1,114,112 bytes) and as the bound of the subsequent copy loop. The existing check \"compsize > WBUFSIZE\" is applied only to the size of each following block, so the first block escapes it; the same unvalidated value is also used to index wbuf1[compsize], an out-of-bounds read at an attacker-chosen offset. The copy loop additionally copies the requested length instead of the number of bytes actually read, and terminates on equality rather than on an upper bound. Because the project is built without range checking and no archive password, integrity tag or non-default configuration is required, the overflow overwrites adjacent global data; code execution was demonstrated by two independent researchers against the official Linux x86-64 and Windows x64 builds, and the denial-of-service and memory-corruption primitive is cross-platform (Windows, macOS, Linux, BSD).",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102514"
+    },
+    {
+      "id": "CVE-2026-93304",
+      "published": "2026-09-27T10:16:59.563",
+      "modified": "2026-10-02T18:41:59.093",
+      "description": "A (D)TLS 1.2 client can accept a ChangeCipherSpec message before it has sent its ClientKeyExchange. No master secret has been derived at that point, so the client installs read keys derived from a known (deterministic) key and checks the server's Finished against that same key. An out-of-order ChangeCipherSpec can therefore be used by an attacker to complete the handshake in place of the server and send data the client accepts as authentic. The client's own traffic still uses correctly derived keys, so the attacker cannot read it, and the genuine server never completes the handshake. DTLS 1.2 clients are exposed because a datagram read can deliver the out-of-order records on its own. TLS 1.2 clients are exposed when the application supplies received bytes with wolfSSL_inject() or enables read ahead. For certificate suites, the attacker must be in a man-in-the-middle position. For PSK (Pre Shared Key) connections, any fake server can succeed without knowing the PSK.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:wolfssl:wolfssl:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93304"
+    },
+    {
+      "id": "CVE-2026-59265",
+      "published": "2026-10-02T18:17:03.917",
+      "modified": "2026-10-02T18:33:20.487",
+      "description": "A code execution issue in the Java integration in Apache OpenOffice v4.1.16 and earlier allows a crafted untrusted document to trigger executing arbitrary (even remote) code when opened by the user.\n\n\n\nThis issue is expected to be fixed in version 4.1.17, which is in the release candidate phase.\n\n\n\nUntil then, users can mitigate this issue by disabling Java runtime integration in the Preferences dialog. This prevents the attack. If this is not possible, or as an extra precaution, you can avoid opening open untrusted files entirely. Once 4.1.17 is released, upgrade to that version to fix the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59265"
+    },
+    {
+      "id": "CVE-2026-5782",
+      "published": "2026-10-02T15:17:10.180",
+      "modified": "2026-10-02T18:30:40.097",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Loglama.net TurkHotspot allows Reflected XSS.\n\nThis issue affects TurkHotspot: through 2026-10-02. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5782"
+    },
     {
       "id": "CVE-2026-94541",
       "published": "2026-10-02T10:17:09.313",
@@ -20,26 +145,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-94541"
-    },
-    {
-      "id": "CVE-2026-59265",
-      "published": "2026-10-02T18:17:03.917",
-      "modified": "2026-10-02T18:17:03.917",
-      "description": "A code execution issue in the Java integration in Apache OpenOffice v4.1.16 and earlier allows a crafted untrusted document to trigger executing arbitrary (even remote) code when opened by the user.\n\n\n\nThis issue is expected to be fixed in version 4.1.17, which is in the release candidate phase.\n\n\n\nUntil then, users can mitigate this issue by disabling Java runtime integration in the Preferences dialog. This prevents the attack. If this is not possible, or as an extra precaution, you can avoid opening open untrusted files entirely. Once 4.1.17 is released, upgrade to that version to fix the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59265"
     },
     {
       "id": "CVE-2026-56097",
@@ -400,26 +505,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103624"
     },
     {
-      "id": "CVE-2026-5782",
-      "published": "2026-10-02T15:17:10.180",
-      "modified": "2026-10-02T17:17:06.823",
-      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Loglama.net TurkHotspot allows Reflected XSS.\n\nThis issue affects TurkHotspot: through 2026-10-02. NOTE: The vendor was contacted and it was learned that the product is not supported.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5782"
-    },
-    {
       "id": "CVE-2026-12423",
       "published": "2026-10-01T17:17:19.887",
       "modified": "2026-10-02T17:17:05.383",
@@ -522,26 +607,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101879"
-    },
-    {
-      "id": "CVE-2026-104843",
-      "published": "2026-10-02T16:16:46.760",
-      "modified": "2026-10-02T16:16:46.760",
-      "description": "uv is a Python package and project manager written in Rust. From 0.12.7 until 0.12.18, uv wheel extraction on Windows can process a malicious wheel in a way that writes a file outside the installation prefix, including an executable in a directory already present on the user's PATH. Non-Windows hosts are not affected. This issue is fixed in version 0.12.18.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104843"
     },
     {
       "id": "CVE-2026-84386",
@@ -2933,12 +2998,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 48,
-    "critical": 5,
-    "high": 17,
-    "medium": 21,
+    "total_relevant_cves": 51,
+    "critical": 6,
+    "high": 18,
+    "medium": 22,
     "kev": 5,
     "p1": 4,
-    "p2": 9
+    "p2": 11
   }
 }
