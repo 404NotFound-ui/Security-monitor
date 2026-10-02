@@ -2,187 +2,170 @@ import json
 import os
 import re
 from datetime import datetime, timedelta, timezone
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 NVD_API = "https://services.nvd.nist.gov/rest/json/cves/2.0"
-KEV_URL = "https://raw.githubusercontent.com/cisagov/kev-data/main/known_exploited_vulnerabilities.json"
+
+KEV_URL = (
+    "https://raw.githubusercontent.com/"
+    "cisagov/kev-data/develop/"
+    "known_exploited_vulnerabilities.json"
+)
 
 OUTPUT_DIR = "data"
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "security.json")
+OUTPUT_FILE = os.path.join(
+    OUTPUT_DIR,
+    "security.json"
+)
 
-# Vår initiala bevakning
+
+# ---------------------------------------------------------
+# BEVAKADE LEVERANTÖRER
+# ---------------------------------------------------------
+
 VENDORS = {
-    "Microsoft": [
-        "microsoft",
-        "windows",
-        "office",
-        "exchange",
-        "sharepoint",
-        "azure",
-        "defender",
-        "active directory",
-        "edge",
-        "visual studio",
-        ".net",
-    ],
-    "Red Hat": [
-        "redhat",
-        "red hat",
-        "rhel",
-        "enterprise linux",
-        "openshift",
-    ],
-    "Apple": [
-        "apple",
-        "ios",
-        "ipados",
-        "macos",
-        "webkit",
-        "iphone",
-        "ipad",
-        "safari",
-    ],
+
+    "Microsoft": {
+        "cpe_vendors": [
+            "microsoft"
+        ],
+
+        "keywords": [
+            "microsoft",
+            "windows",
+            "office",
+            "exchange",
+            "sharepoint",
+            "azure",
+            "defender",
+            "active directory",
+            "edge",
+            "visual studio",
+            ".net",
+            "sql server"
+        ]
+    },
+
+    "Red Hat": {
+        "cpe_vendors": [
+            "redhat"
+        ],
+
+        "keywords": [
+            "red hat",
+            "redhat",
+            "rhel",
+            "enterprise linux",
+            "openshift"
+        ]
+    },
+
+    "Apple": {
+        "cpe_vendors": [
+            "apple"
+        ],
+
+        "keywords": [
+            "apple",
+            "ios",
+            "ipados",
+            "macos",
+            "webkit",
+            "iphone",
+            "ipad",
+            "safari"
+        ]
+    }
 }
 
 
+# ---------------------------------------------------------
+# HTTP
+# ---------------------------------------------------------
+
 def fetch_json(url, headers=None):
+
+    default_headers = {
+        "User-Agent": "SecurityMonitor/1.0"
+    }
+
+    if headers:
+        default_headers.update(headers)
+
     request = Request(
         url,
-        headers=headers or {
-            "User-Agent": "SecurityMonitor/1.0"
-        }
+        headers=default_headers
     )
 
-    with urlopen(request, timeout=60) as response:
-        return json.loads(response.read().decode("utf-8"))
+    with urlopen(
+        request,
+        timeout=60
+    ) as response:
 
+        return json.loads(
+            response.read()
+            .decode("utf-8")
+        )
+
+
+# ---------------------------------------------------------
+# TIME
+# ---------------------------------------------------------
 
 def iso_time(dt):
-    return dt.strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
-
-def get_nvd():
-    now = datetime.now(timezone.utc)
-
-    # Vi hämtar de senaste 3 timmarna.
-    # Det ger marginal om GitHub Actions startar försenat.
-    start = now - timedelta(hours=3)
-
-    params = (
-        f"?lastModStartDate={iso_time(start)}"
-        f"&lastModEndDate={iso_time(now)}"
-        f"&resultsPerPage=2000"
+    return dt.strftime(
+        "%Y-%m-%dT%H:%M:%S.000Z"
     )
 
-    data = fetch_json(NVD_API + params)
 
-    return data.get("vulnerabilities", [])
+# ---------------------------------------------------------
+# NVD
+# ---------------------------------------------------------
 
+def get_nvd():
 
-def get_text(cve):
-    descriptions = cve.get("descriptions", [])
+    now = datetime.now(
+        timezone.utc
+    )
 
-    texts = []
+    # Tre timmar ger marginal om en
+    # GitHub Actions-körning blir försenad.
 
-    for description in descriptions:
-        value = description.get("value", "")
-        texts.append(value)
+    start = now - timedelta(
+        hours=3
+    )
 
-    return " ".join(texts).lower()
+    params = urlencode({
+        "lastModStartDate": iso_time(start),
+        "lastModEndDate": iso_time(now),
+        "resultsPerPage": 2000
+    })
 
+    url = (
+        NVD_API
+        + "?"
+        + params
+    )
 
-def detect_vendor(cve):
-    text = get_text(cve)
+    data = fetch_json(url)
 
-    configurations = cve.get("configurations", [])
-
-    # CPE-information
-    cpe_text = json.dumps(configurations).lower()
-
-    combined = text + " " + cpe_text
-
-    matches = []
-
-    for vendor, keywords in VENDORS.items():
-        for keyword in keywords:
-            if keyword.lower() in combined:
-                matches.append(vendor)
-                break
-
-    return sorted(set(matches))
-
-
-def get_cvss(cve):
-    metrics = cve.get("metrics", {})
-
-    # Försök CVSS v3.1
-    for key in ["cvssMetricV31", "cvssMetricV30"]:
-        values = metrics.get(key, [])
-
-        if values:
-            metric = values[0]
-            cvss = metric.get("cvssData", {})
-
-            return {
-                "score": cvss.get("baseScore"),
-                "severity": cvss.get("baseSeverity"),
-                "vector": cvss.get("vectorString"),
-            }
-
-    # Fallback CVSS v2
-    values = metrics.get("cvssMetricV2", [])
-
-    if values:
-        cvss = values[0].get("cvssData", {})
-
-        return {
-            "score": cvss.get("baseScore"),
-            "severity": values[0].get(
-                "baseSeverity",
-                "UNKNOWN"
-            ),
-            "vector": cvss.get("vectorString"),
-        }
-
-    return {
-        "score": None,
-        "severity": "UNKNOWN",
-        "vector": None,
-    }
+    return data.get(
+        "vulnerabilities",
+        []
+    )
 
 
-def normalize_cve(item):
-    cve = item.get("cve", {})
-
-    cve_id = cve.get("id")
-
-    description = ""
-
-    for d in cve.get("descriptions", []):
-        if d.get("lang") == "en":
-            description = d.get("value", "")
-            break
-
-    vendors = detect_vendor(cve)
-    cvss = get_cvss(cve)
-
-    published = cve.get("published")
-    modified = cve.get("lastModified")
-
-    return {
-        "id": cve_id,
-        "published": published,
-        "modified": modified,
-        "description": description,
-        "vendors": vendors,
-        "cvss": cvss,
-        "kev": False,
-        "url": f"https://nvd.nist.gov/vuln/detail/{cve_id}",
-    }
-
+# ---------------------------------------------------------
+# KEV
+# ---------------------------------------------------------
 
 def get_kev():
-    data = fetch_json(KEV_URL)
+
+    data = fetch_json(
+        KEV_URL
+    )
 
     vulnerabilities = data.get(
         "vulnerabilities",
@@ -196,29 +179,534 @@ def get_kev():
     }
 
 
+# ---------------------------------------------------------
+# TEXT
+# ---------------------------------------------------------
+
+def get_description(cve):
+
+    for item in cve.get(
+        "descriptions",
+        []
+    ):
+
+        if item.get("lang") == "en":
+
+            return item.get(
+                "value",
+                ""
+            )
+
+    return ""
+
+
+def get_all_text(cve):
+
+    text = get_description(cve)
+
+    return text.lower()
+
+
+# ---------------------------------------------------------
+# CPE EXTRACTION
+# ---------------------------------------------------------
+
+def extract_cpes(obj):
+
+    found = []
+
+    if isinstance(
+        obj,
+        dict
+    ):
+
+        # Modern NVD data uses cpeMatch
+        if "cpeMatch" in obj:
+
+            for match in obj.get(
+                "cpeMatch",
+                []
+            ):
+
+                cpe = (
+                    match.get("criteria")
+                    or match.get("cpe23Uri")
+                )
+
+                if cpe:
+                    found.append(cpe)
+
+        # Recursively search configuration tree
+        for value in obj.values():
+
+            found.extend(
+                extract_cpes(value)
+            )
+
+    elif isinstance(
+        obj,
+        list
+    ):
+
+        for item in obj:
+
+            found.extend(
+                extract_cpes(item)
+            )
+
+    return list(
+        dict.fromkeys(found)
+    )
+
+
+# ---------------------------------------------------------
+# CPE PARSING
+# ---------------------------------------------------------
+
+def parse_cpe(cpe):
+
+    """
+    Basic CPE 2.3 parser.
+
+    Example:
+
+    cpe:2.3:o:microsoft:windows_server_2022:...
+    """
+
+    if not cpe.startswith(
+        "cpe:2.3:"
+    ):
+
+        return None
+
+    parts = cpe.split(":")
+
+    if len(parts) < 6:
+        return None
+
+    return {
+        "part": parts[2],
+        "vendor": parts[3].lower(),
+        "product": parts[4].lower(),
+        "version": (
+            parts[5]
+            if len(parts) > 5
+            else "*"
+        ),
+        "raw": cpe
+    }
+
+
+# ---------------------------------------------------------
+# PRODUCT NAME
+# ---------------------------------------------------------
+
+def clean_product_name(product):
+
+    product = product.replace(
+        "_",
+        " "
+    )
+
+    product = product.replace(
+        "-",
+        " "
+    )
+
+    return product.strip()
+
+
+def detect_products(cpes):
+
+    products = []
+
+    for cpe in cpes:
+
+        parsed = parse_cpe(
+            cpe
+        )
+
+        if not parsed:
+            continue
+
+        vendor = parsed[
+            "vendor"
+        ]
+
+        product = clean_product_name(
+            parsed["product"]
+        )
+
+        for name, config in VENDORS.items():
+
+            if vendor in [
+                x.lower()
+                for x in config[
+                    "cpe_vendors"
+                ]
+            ]:
+
+                products.append({
+                    "vendor": name,
+                    "product": product,
+                    "version": parsed[
+                        "version"
+                    ],
+                    "cpe": cpe
+                })
+
+    # Deduplicate
+    unique = {}
+
+    for item in products:
+
+        key = (
+            item["vendor"],
+            item["product"],
+            item["version"]
+        )
+
+        unique[key] = item
+
+    return list(
+        unique.values()
+    )
+
+
+# ---------------------------------------------------------
+# FALLBACK TEXT MATCHING
+# ---------------------------------------------------------
+
+def detect_vendor_from_text(
+    description
+):
+
+    text = description.lower()
+
+    matches = []
+
+    for name, config in VENDORS.items():
+
+        for keyword in config[
+            "keywords"
+        ]:
+
+            if keyword in text:
+
+                matches.append(
+                    name
+                )
+
+                break
+
+    return sorted(
+        set(matches)
+    )
+
+
+# ---------------------------------------------------------
+# CVSS
+# ---------------------------------------------------------
+
+def get_cvss(cve):
+
+    metrics = cve.get(
+        "metrics",
+        {}
+    )
+
+    for key in [
+        "cvssMetricV40",
+        "cvssMetricV31",
+        "cvssMetricV30"
+    ]:
+
+        values = metrics.get(
+            key,
+            []
+        )
+
+        if values:
+
+            metric = values[0]
+
+            cvss = metric.get(
+                "cvssData",
+                {}
+            )
+
+            return {
+                "score": cvss.get(
+                    "baseScore"
+                ),
+
+                "severity": (
+                    cvss.get(
+                        "baseSeverity"
+                    )
+                    or metric.get(
+                        "baseSeverity"
+                    )
+                    or "UNKNOWN"
+                ),
+
+                "vector": cvss.get(
+                    "vectorString"
+                )
+            }
+
+    return {
+        "score": None,
+        "severity": "UNKNOWN",
+        "vector": None
+    }
+
+
+# ---------------------------------------------------------
+# SECURITY SIGNALS
+# ---------------------------------------------------------
+
+def detect_signals(
+    description
+):
+
+    text = description.lower()
+
+    signals = []
+
+    patterns = {
+
+        "RCE": [
+            "remote code execution",
+            "arbitrary code execution"
+        ],
+
+        "PRIVILEGE_ESCALATION": [
+            "privilege escalation",
+            "elevation of privilege"
+        ],
+
+        "REMOTE": [
+            "remote attacker",
+            "remotely",
+            "network"
+        ],
+
+        "AUTH_BYPASS": [
+            "authentication bypass",
+            "bypass authentication"
+        ],
+
+        "DOS": [
+            "denial of service",
+            "denial-of-service"
+        ],
+
+        "INFORMATION_DISCLOSURE": [
+            "information disclosure",
+            "sensitive information"
+        ]
+    }
+
+    for signal, words in patterns.items():
+
+        for word in words:
+
+            if word in text:
+
+                signals.append(
+                    signal
+                )
+
+                break
+
+    return signals
+
+
+# ---------------------------------------------------------
+# PRIORITY
+# ---------------------------------------------------------
+
+def calculate_priority(
+    cvss,
+    kev,
+    signals
+):
+
+    severity = (
+        cvss.get("severity")
+        or "UNKNOWN"
+    )
+
+    if kev:
+
+        return "P1"
+
+    if (
+        severity == "CRITICAL"
+        and (
+            "RCE" in signals
+            or "REMOTE" in signals
+        )
+    ):
+
+        return "P1"
+
+    if severity == "CRITICAL":
+
+        return "P2"
+
+    if severity == "HIGH":
+
+        return "P2"
+
+    if severity == "MEDIUM":
+
+        return "P3"
+
+    return "P4"
+
+
+# ---------------------------------------------------------
+# NORMALIZATION
+# ---------------------------------------------------------
+
+def normalize_cve(
+    item,
+    kev_ids
+):
+
+    cve = item.get(
+        "cve",
+        {}
+    )
+
+    cve_id = cve.get(
+        "id"
+    )
+
+    description = get_description(
+        cve
+    )
+
+    cpes = extract_cpes(
+        cve.get(
+            "configurations",
+            []
+        )
+    )
+
+    products = detect_products(
+        cpes
+    )
+
+    vendors = sorted(
+        set(
+            item["vendor"]
+            for item in products
+        )
+    )
+
+    # Text fallback only if CPE
+    # information did not identify
+    # a monitored vendor.
+
+    if not vendors:
+
+        vendors = detect_vendor_from_text(
+            description
+        )
+
+    cvss = get_cvss(
+        cve
+    )
+
+    kev = (
+        cve_id in kev_ids
+    )
+
+    signals = detect_signals(
+        description
+    )
+
+    priority = calculate_priority(
+        cvss,
+        kev,
+        signals
+    )
+
+    return {
+
+        "id": cve_id,
+
+        "published": cve.get(
+            "published"
+        ),
+
+        "modified": cve.get(
+            "lastModified"
+        ),
+
+        "description": description,
+
+        "vendors": vendors,
+
+        "products": products,
+
+        "cpes": cpes[:100],
+
+        "cvss": cvss,
+
+        "kev": kev,
+
+        "signals": signals,
+
+        "priority": priority,
+
+        "url":
+            f"https://nvd.nist.gov/"
+            f"vuln/detail/{cve_id}"
+    }
+
+
+# ---------------------------------------------------------
+# DATABASE FILE
+# ---------------------------------------------------------
+
 def load_existing():
-    if not os.path.exists(OUTPUT_FILE):
+
+    if not os.path.exists(
+        OUTPUT_FILE
+    ):
+
         return {
             "updated": None,
             "cves": [],
-            "kev": [],
+            "kev": []
         }
 
     try:
+
         with open(
             OUTPUT_FILE,
             "r",
             encoding="utf-8"
         ) as f:
+
             return json.load(f)
 
     except Exception:
+
         return {
             "updated": None,
             "cves": [],
-            "kev": [],
+            "kev": []
         }
 
+
+# ---------------------------------------------------------
+# MAIN
+# ---------------------------------------------------------
 
 def main():
 
@@ -229,80 +717,161 @@ def main():
 
     existing = load_existing()
 
-    print("Downloading NVD data...")
+    print(
+        "Downloading NVD..."
+    )
+
     nvd_items = get_nvd()
 
-    print(f"NVD returned {len(nvd_items)} entries")
+    print(
+        f"NVD entries: "
+        f"{len(nvd_items)}"
+    )
+
+    print(
+        "Downloading CISA KEV..."
+    )
+
+    kev_ids = get_kev()
+
+    print(
+        f"KEV entries: "
+        f"{len(kev_ids)}"
+    )
 
     new_cves = []
 
     for item in nvd_items:
 
-        normalized = normalize_cve(item)
+        normalized = normalize_cve(
+            item,
+            kev_ids
+        )
 
-        # Vi bryr oss initialt bara om vår stack
-        if not normalized["vendors"]:
-            continue
+        if normalized[
+            "vendors"
+        ]:
 
-        new_cves.append(normalized)
-
-    print(
-        f"Relevant CVEs found: {len(new_cves)}"
-    )
-
-    # Hämta KEV
-    print("Downloading CISA KEV...")
-    kev_ids = get_kev()
+            new_cves.append(
+                normalized
+            )
 
     print(
-        f"KEV contains {len(kev_ids)} CVEs"
+        "Relevant CVEs: "
+        f"{len(new_cves)}"
     )
 
-    # Markera KEV
-    for cve in new_cves:
-        if cve["id"] in kev_ids:
-            cve["kev"] = True
-
-    # Slå ihop med tidigare data
     combined = {}
 
-    for cve in existing.get("cves", []):
-        combined[cve["id"]] = cve
+    # Existing
+    for cve in existing.get(
+        "cves",
+        []
+    ):
 
+        combined[
+            cve["id"]
+        ] = cve
+
+    # New
     for cve in new_cves:
-        combined[cve["id"]] = cve
 
-    # Sortera nyast först
+        combined[
+            cve["id"]
+        ] = cve
+
     cves = sorted(
         combined.values(),
-        key=lambda x: x.get("modified") or "",
-        reverse=True,
+        key=lambda x:
+            x.get("modified")
+            or "",
+        reverse=True
     )
 
-    # Behåll de senaste 1000
+    # Keep last 1000
     cves = cves[:1000]
 
+    # Statistics
+    statistics = {
+
+        "total_relevant_cves":
+            len(cves),
+
+        "critical":
+            len([
+                x for x in cves
+                if x.get(
+                    "cvss",
+                    {}
+                ).get(
+                    "severity"
+                ) == "CRITICAL"
+            ]),
+
+        "high":
+            len([
+                x for x in cves
+                if x.get(
+                    "cvss",
+                    {}
+                ).get(
+                    "severity"
+                ) == "HIGH"
+            ]),
+
+        "medium":
+            len([
+                x for x in cves
+                if x.get(
+                    "cvss",
+                    {}
+                ).get(
+                    "severity"
+                ) == "MEDIUM"
+            ]),
+
+        "kev":
+            len([
+                x for x in cves
+                if x.get(
+                    "kev"
+                )
+            ]),
+
+        "p1":
+            len([
+                x for x in cves
+                if x.get(
+                    "priority"
+                ) == "P1"
+            ]),
+
+        "p2":
+            len([
+                x for x in cves
+                if x.get(
+                    "priority"
+                ) == "P2"
+            ])
+    }
+
     output = {
-        "updated": datetime.now(
-            timezone.utc
-        ).isoformat(),
 
-        "cves": cves,
+        "updated":
+            datetime.now(
+                timezone.utc
+            ).isoformat(),
 
-        "kev": sorted(
-            kev_ids
-        ),
+        "cves":
+            cves,
 
-        "statistics": {
-            "total_relevant_cves": len(cves),
-            "kev_count": len(
-                [
-                    x
-                    for x in cves
-                    if x.get("kev")
-                ]
+        "kev":
+            sorted(
+                kev_ids
             ),
-        },
+
+        "statistics":
+            statistics
     }
 
     with open(
@@ -315,13 +884,21 @@ def main():
             output,
             f,
             indent=2,
-            ensure_ascii=False,
+            ensure_ascii=False
         )
 
     print(
-        f"Saved {len(cves)} CVEs"
+        "Saved security data."
+    )
+
+    print(
+        json.dumps(
+            statistics,
+            indent=2
+        )
     )
 
 
 if __name__ == "__main__":
+
     main()
