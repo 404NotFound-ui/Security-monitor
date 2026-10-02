@@ -1,6 +1,360 @@
 {
-  "updated": "2026-10-02T17:55:08.766559+00:00",
+  "updated": "2026-10-02T18:17:32.803952+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-94541",
+      "published": "2026-10-02T10:17:09.313",
+      "modified": "2026-10-02T18:17:07.870",
+      "description": "The WPMobile.App – Android and iOS App Builder plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 11.82 This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to exfiltrate password-reset URLs for arbitrary users, including administrators, mirrored into the push queue by the mail-to-push feature, and use those URLs to take over the targeted accounts. This exploit chain requires the plugin's mail-to-push feature (wpmobile_auto_mail=1) to be enabled, as that setting is what causes outbound WordPress password-reset emails — including the reset URL and key — to be mirrored into the push row queue where they become accessible to the attacker.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-94541"
+    },
+    {
+      "id": "CVE-2026-59265",
+      "published": "2026-10-02T18:17:03.917",
+      "modified": "2026-10-02T18:17:03.917",
+      "description": "A code execution issue in the Java integration in Apache OpenOffice v4.1.16 and earlier allows a crafted untrusted document to trigger executing arbitrary (even remote) code when opened by the user.\n\n\n\nThis issue is expected to be fixed in version 4.1.17, which is in the release candidate phase.\n\n\n\nUntil then, users can mitigate this issue by disabling Java runtime integration in the Preferences dialog. This prevents the attack. If this is not possible, or as an extra precaution, you can avoid opening open untrusted files entirely. Once 4.1.17 is released, upgrade to that version to fix the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59265"
+    },
+    {
+      "id": "CVE-2026-56097",
+      "published": "2026-10-01T18:17:19.597",
+      "modified": "2026-10-02T18:17:03.647",
+      "description": "A flaw was found in rubygem-katello. An SQL injection vulnerability exists in the Red Hat Satellite Katello Registry Proxy. The application fails to sanitize input parameters used in database queries within the RegistryProxiesController. The methods check_blob_push_org_label and get_matching_products_from_org take user-supplied labels directly from the request path and interpolate them into raw SQL fragments. This flaw is accessible to a user with only the create_personal_access_tokens permission, even if the user access is restricted, with no Organization or Location assigned.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56097"
+    },
+    {
+      "id": "CVE-2026-103600",
+      "published": "2026-10-02T08:17:00.363",
+      "modified": "2026-10-02T18:17:00.147",
+      "description": "Uncontrolled recursion in the ASN.1 parser (Asn1InputStream, Asn1StreamParser) in Legion of the Bouncy Castle Inc. bc-csharp before 2.7.0 allows a remote unauthenticated attacker to cause a denial of service via a crafted ASN.1 encoding of deeply nested constructed elements (for example SEQUENCE inside SEQUENCE, in definite-length DER or indefinite-length BER form), because each nesting level is parsed by a further recursive call with no bound on depth. About 2,000 levels (8 KB of DER) are enough to exhaust a 1.5 MB thread stack, the .NET main-thread default on Windows, and raise a StackOverflowException, which .NET cannot catch and which terminates the whole process; on threads with larger stacks, parse time instead grows quadratically with depth (about 9 seconds of CPU for a 64 KB input). Any path that parses untrusted ASN.1 is exposed, including X.509 certificates and CRLs, CMS/PKCS#7, PKCS#8/PKCS#12, OCSP and TLS Certificate messages.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
+    },
+    {
+      "id": "CVE-2026-51888",
+      "published": "2026-10-01T22:17:03.527",
+      "modified": "2026-10-02T18:04:10.850",
+      "description": "langflow-ai langflow v1.8.4 is affected by: Directory Traversal. The impact is: Arbitrary file write outside the intended workspace or storage boundary.. The component is: src/backend/base/langflow/api/v1/knowledge_bases.py:knowledge_bases-create_knowledge_base-a-live-http-post-to-create-knowledge-base. The attack vector is: Attack surface: HTTP or browser-backed service path. A public-facing upload or HTTP route handler forwards an attacker-controlled path or filename into host file creation without any visible boundary enforcement. ¶¶ A weakness has been identified in langflow-ai langflow up to 1.8.4. langflow contains an absolute path traversal vulnerability in knowledge_bases-create_knowledge_base-a-live-http-post-to-create-knowledge-base (src/backend/base/langflow/api/v1/knowledge_bases.py:51). An attacker can write or overwrite files outside the intended working directory by providing absolute paths in the knowledge base creation endpoint.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51888"
+    },
+    {
+      "id": "CVE-2026-69562",
+      "published": "2026-09-08T18:19:25.067",
+      "modified": "2026-10-02T18:03:15.963",
+      "description": "Out-of-bounds read in SQL Server allows an unauthorized attacker to disclose information over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2017",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69562"
+    },
+    {
+      "id": "CVE-2026-67630",
+      "published": "2026-09-08T18:18:23.347",
+      "modified": "2026-10-02T18:02:25.453",
+      "description": "Out-of-bounds read in SQL Server allows an authorized attacker to disclose information over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2017",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67630"
+    },
+    {
+      "id": "CVE-2026-67629",
+      "published": "2026-09-08T18:18:23.183",
+      "modified": "2026-10-02T18:01:21.340",
+      "description": "Out-of-bounds read in SQL Server allows an authorized attacker to disclose information over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2017",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67629"
+    },
+    {
+      "id": "CVE-2026-67624",
+      "published": "2026-09-08T18:18:23.037",
+      "modified": "2026-10-02T18:00:15.950",
+      "description": "Out-of-bounds read in SQL Server allows an authorized attacker to disclose information over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67624"
+    },
+    {
+      "id": "CVE-2026-47297",
+      "published": "2026-09-08T18:17:37.960",
+      "modified": "2026-10-02T17:59:16.560",
+      "description": "Deserialization of untrusted data in SQL Server allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47297"
+    },
+    {
+      "id": "CVE-2026-51916",
+      "published": "2026-10-02T16:16:50.763",
+      "modified": "2026-10-02T17:59:09.430",
+      "description": "TransformerOptimus SuperAGI v0.0.14 contains an incorrect access control vulnerability in delete_user_knowledge in superagi/controllers/knowledges.py. In affected source snapshots, POST /knowledges/delete/{knowledge_id} deletes the selected knowledge object without requiring authentication in the route and without verifying organization ownership of the supplied knowledge_id.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51916"
+    },
     {
       "id": "CVE-2026-103626",
       "published": "2026-10-02T16:16:43.717",
@@ -168,26 +522,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101879"
-    },
-    {
-      "id": "CVE-2026-51916",
-      "published": "2026-10-02T16:16:50.763",
-      "modified": "2026-10-02T16:16:50.763",
-      "description": "TransformerOptimus SuperAGI v0.0.14 contains an incorrect access control vulnerability in delete_user_knowledge in superagi/controllers/knowledges.py. In affected source snapshots, POST /knowledges/delete/{knowledge_id} deletes the selected knowledge object without requiring authentication in the route and without verifying organization ownership of the supplied knowledge_id.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51916"
     },
     {
       "id": "CVE-2026-104843",
@@ -474,28 +808,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34175"
     },
     {
-      "id": "CVE-2026-103600",
-      "published": "2026-10-02T08:17:00.363",
-      "modified": "2026-10-02T14:44:52.247",
-      "description": "Uncontrolled recursion in the ASN.1 parser (Asn1InputStream, Asn1StreamParser) in Legion of the Bouncy Castle Inc. bc-csharp before 2.7.0 allows a remote unauthenticated attacker to cause a denial of service via a crafted ASN.1 encoding of deeply nested constructed elements (for example SEQUENCE inside SEQUENCE, in definite-length DER or indefinite-length BER form), because each nesting level is parsed by a further recursive call with no bound on depth. About 2,000 levels (8 KB of DER) are enough to exhaust a 1.5 MB thread stack, the .NET main-thread default on Windows, and raise a StackOverflowException, which .NET cannot catch and which terminates the whole process; on threads with larger stacks, parse time instead grows quadratically with depth (about 9 seconds of CPU for a 64 KB input). Any path that parses untrusted ASN.1 is exposed, including X.509 certificates and CRLs, CMS/PKCS#7, PKCS#8/PKCS#12, OCSP and TLS Certificate messages.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
-    },
-    {
       "id": "CVE-2026-19617",
       "published": "2026-08-14T06:17:14.410",
       "modified": "2026-10-02T14:17:10.317",
@@ -567,26 +879,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19617"
-    },
-    {
-      "id": "CVE-2026-94541",
-      "published": "2026-10-02T10:17:09.313",
-      "modified": "2026-10-02T13:18:55.613",
-      "description": "The WPMobile.App – Android and iOS App Builder plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 11.82 This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to exfiltrate password-reset URLs for arbitrary users, including administrators, mirrored into the push queue by the mail-to-push feature, and use those URLs to take over the targeted accounts. This exploit chain requires the plugin's mail-to-push feature (wpmobile_auto_mail=1) to be enabled, as that setting is what causes outbound WordPress password-reset emails — including the reset URL and key — to be mirrored into the push row queue where they become accessible to the attacker.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-94541"
     },
     {
       "id": "CVE-2026-85492",
@@ -2641,12 +2933,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 40,
+    "total_relevant_cves": 48,
     "critical": 5,
-    "high": 16,
-    "medium": 16,
+    "high": 17,
+    "medium": 21,
     "kev": 5,
     "p1": 4,
-    "p2": 8
+    "p2": 9
   }
 }
