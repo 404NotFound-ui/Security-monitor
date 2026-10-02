@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Security Monitor</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    background: #070b12;
+
+    color: #e6edf3;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+header {
+
+    padding: 18px 24px;
+
+    background: #0d131d;
+
+    border-bottom:
+        1px solid #202938;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+}
+
+h1 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+    letter-spacing: 2px;
+}
+
+#updated {
+
+    color: #7d8998;
+
+    font-size: 13px;
+}
+
+.container {
+
+    padding: 20px;
+
+}
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+}
+
+.stat {
+
+    background: #0d131d;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 8px;
+
+    padding: 18px;
+}
+
+.stat-title {
+
+    color: #7d8998;
+
+    font-size: 12px;
+
+    text-transform:
+        uppercase;
+}
+
+.stat-value {
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    margin-top: 8px;
+}
+
+.critical {
+
+    color: #ff4d5a;
+}
+
+.high {
+
+    color: #ff9f43;
+}
+
+.medium {
+
+    color: #ffd166;
+}
+
+.content {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+.panel {
+
+    background: #0d131d;
+
+    border:
+        1px solid #202938;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.panel-header {
+
+    padding: 15px;
+
+    border-bottom:
+        1px solid #202938;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+.cve {
+
+    padding: 14px;
+
+    border-bottom:
+        1px solid #18202d;
+}
+
+.cve:last-child {
+
+    border-bottom: 0;
+}
+
+.cve-top {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+}
+
+.cve-id {
+
+    font-weight: bold;
+
+    color: #65b7ff;
+}
+
+.badge {
+
+    padding:
+        3px 7px;
+
+    border-radius: 4px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+.badge-critical {
+
+    background: #4b1720;
+
+    color: #ff6b78;
+}
+
+.badge-high {
+
+    background: #4b2c12;
+
+    color: #ffad5c;
+}
+
+.badge-medium {
+
+    background: #4a4012;
+
+    color: #ffe083;
+}
+
+.badge-kev {
+
+    background: #641b24;
+
+    color: #ff5968;
+
+    margin-left: 5px;
+}
+
+.description {
+
+    color: #9aa7b6;
+
+    font-size: 13px;
+
+    margin-top: 8px;
+
+    line-height: 1.4;
+}
+
+.vendor {
+
+    color: #68d391;
+
+    font-size: 12px;
+
+    margin-top: 8px;
+}
+
+@media(max-width: 900px) {
+
+    .content {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>SECURITY MONITOR</h1>
+
+<div id="updated">
+Loading...
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-title">
+Critical
+</div>
+
+<div
+    id="critical"
+    class="stat-value critical"
+>
+0
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+High
+</div>
+
+<div
+    id="high"
+    class="stat-value high"
+>
+0
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Medium
+</div>
+
+<div
+    id="medium"
+    class="stat-value medium"
+>
+0
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Known Exploited
+</div>
+
+<div
+    id="kev"
+    class="stat-value critical"
+>
+0
+</div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="panel">
+
+<div class="panel-header">
+LATEST CVEs
+</div>
+
+<div id="cves"></div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-header">
+PRIORITY ALERTS
+</div>
+
+<div id="alerts"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadData() {
+
+    const response =
+        await fetch(
+            "data/security.json?" +
+            Date.now()
+        );
+
+    const data =
+        await response.json();
+
+    const cves =
+        data.cves || [];
+
+    document
+        .getElementById("updated")
+        .innerText =
+        "Updated: " +
+        new Date(
+            data.updated
+        ).toLocaleString(
+            "sv-SE"
+        );
+
+    let critical = 0;
+    let high = 0;
+    let medium = 0;
+    let kev = 0;
+
+    cves.forEach(cve => {
+
+        const severity =
+            cve.cvss?.severity;
+
+        if (severity === "CRITICAL")
+            critical++;
+
+        if (severity === "HIGH")
+            high++;
+
+        if (severity === "MEDIUM")
+            medium++;
+
+        if (cve.kev)
+            kev++;
+
+    });
+
+    document
+        .getElementById("critical")
+        .innerText = critical;
+
+    document
+        .getElementById("high")
+        .innerText = high;
+
+    document
+        .getElementById("medium")
+        .innerText = medium;
+
+    document
+        .getElementById("kev")
+        .innerText = kev;
+
+    const latest =
+        cves
+            .slice()
+            .sort(
+                (a,b) =>
+                new Date(b.modified) -
+                new Date(a.modified)
+            )
+            .slice(0, 15);
+
+    const container =
+        document
+        .getElementById("cves");
+
+    container.innerHTML = "";
+
+    latest.forEach(cve => {
+
+        const severity =
+            cve.cvss?.severity ||
+            "UNKNOWN";
+
+        const severityClass =
+            severity === "CRITICAL"
+            ? "badge-critical"
+            : severity === "HIGH"
+            ? "badge-high"
+            : "badge-medium";
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className = "cve";
+
+        div.innerHTML = `
+
+            <div class="cve-top">
+
+                <a
+                    class="cve-id"
+                    href="${cve.url}"
+                    target="_blank"
+                >
+                    ${cve.id}
+                </a>
+
+                <div>
+
+                    <span
+                        class="badge ${severityClass}"
+                    >
+                        ${severity}
+                    </span>
+
+                    ${
+                        cve.kev
+                        ?
+                        '<span class="badge badge-kev">KEV</span>'
+                        :
+                        ''
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="description">
+
+                ${escapeHtml(
+                    cve.description
+                )}
+
+            </div>
+
+            <div class="vendor">
+
+                ${cve.vendors.join(
+                    " · "
+                )}
+
+                ${
+                    cve.cvss?.score
+                    ?
+                    " · CVSS " +
+                    cve.cvss.score
+                    :
+                    ""
+                }
+
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+    const alerts =
+        cves
+        .filter(cve =>
+            cve.kev ||
+            cve.cvss?.severity ===
+                "CRITICAL"
+        )
+        .slice(0, 10);
+
+    const alertContainer =
+        document
+        .getElementById("alerts");
+
+    alertContainer.innerHTML = "";
+
+    alerts.forEach(cve => {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className = "cve";
+
+        div.innerHTML = `
+
+            <div class="cve-top">
+
+                <span class="cve-id">
+                    ${cve.id}
+                </span>
+
+                <span class="badge badge-critical">
+
+                    ${
+                        cve.kev
+                        ?
+                        "KNOWN EXPLOITED"
+                        :
+                        "CRITICAL"
+                    }
+
+                </span>
+
+            </div>
+
+            <div class="description">
+
+                ${
+                    escapeHtml(
+                        cve.description
+                    )
+                }
+
+            </div>
+
+        `;
+
+        alertContainer
+            .appendChild(div);
+
+    });
+
+}
+
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text || "";
+
+    return div.innerHTML;
+}
+
+
+loadData();
+
+setInterval(
+    loadData,
+    60 * 1000
+);
+
+</script>
+
+</body>
+
+</html>
