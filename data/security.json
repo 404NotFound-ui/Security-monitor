@@ -1,6 +1,143 @@
 {
-  "updated": "2026-10-03T10:33:12.818535+00:00",
+  "updated": "2026-10-03T11:17:40.979877+00:00",
   "cves": [
+    {
+      "id": "CVE-2024-41082",
+      "published": "2024-07-29T15:15:15.670",
+      "modified": "2026-10-03T11:17:30.583",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme-fabrics: use reserved tag for reg read/write command\n\nIn some scenarios, if too many commands are issued by nvme command in\nthe same time by user tasks, this may exhaust all tags of admin_q. If\na reset (nvme reset or IO timeout) occurs before these commands finish,\nreconnect routine may fail to update nvme regs due to insufficient tags,\nwhich will cause kernel hang forever. In order to workaround this issue,\nmaybe we can let reg_read32()/reg_read64()/reg_write32() use reserved\ntags. This maybe safe for nvmf:\n\n1. For the disable ctrl path,  we will not issue connect command\n2. For the enable ctrl / fw activate path, since connect and reg_xx()\n   are called serially.\n\nSo the reserved tags may still be enough while reg_xx() use reserved tags.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.10:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.10:rc2:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-41082"
+    },
+    {
+      "id": "CVE-2023-53857",
+      "published": "2025-12-09T16:17:26.403",
+      "modified": "2026-10-03T11:17:29.117",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbpf: bpf_sk_storage: Fix invalid wait context lockdep report\n\n'./test_progs -t test_local_storage' reported a splat:\n\n[   27.137569] =============================\n[   27.138122] [ BUG: Invalid wait context ]\n[   27.138650] 6.5.0-03980-gd11ae1b16b0a #247 Tainted: G           O\n[   27.139542] -----------------------------\n[   27.140106] test_progs/1729 is trying to lock:\n[   27.140713] ffff8883ef047b88 (stock_lock){-.-.}-{3:3}, at: local_lock_acquire+0x9/0x130\n[   27.141834] other info that might help us debug this:\n[   27.142437] context-{5:5}\n[   27.142856] 2 locks held by test_progs/1729:\n[   27.143352]  #0: ffffffff84bcd9c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x40\n[   27.144492]  #1: ffff888107deb2c0 (&storage->lock){..-.}-{2:2}, at: bpf_local_storage_update+0x39e/0x8e0\n[   27.145855] stack backtrace:\n[   27.146274] CPU: 0 PID: 1729 Comm: test_progs Tainted: G           O       6.5.0-03980-gd11ae1b16b0a #247\n[   27.147550] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014\n[   27.149127] Call Trace:\n[   27.149490]  <TASK>\n[   27.149867]  dump_stack_lvl+0x130/0x1d0\n[   27.152609]  dump_stack+0x14/0x20\n[   27.153131]  __lock_acquire+0x1657/0x2220\n[   27.153677]  lock_acquire+0x1b8/0x510\n[   27.157908]  local_lock_acquire+0x29/0x130\n[   27.159048]  obj_cgroup_charge+0xf4/0x3c0\n[   27.160794]  slab_pre_alloc_hook+0x28e/0x2b0\n[   27.161931]  __kmem_cache_alloc_node+0x51/0x210\n[   27.163557]  __kmalloc+0xaa/0x210\n[   27.164593]  bpf_map_kzalloc+0xbc/0x170\n[   27.165147]  bpf_selem_alloc+0x130/0x510\n[   27.166295]  bpf_local_storage_update+0x5aa/0x8e0\n[   27.167042]  bpf_fd_sk_storage_update_elem+0xdb/0x1a0\n[   27.169199]  bpf_map_update_value+0x415/0x4f0\n[   27.169871]  map_update_elem+0x413/0x550\n[   27.170330]  __sys_bpf+0x5e9/0x640\n[   27.174065]  __x64_sys_bpf+0x80/0x90\n[   27.174568]  do_syscall_64+0x48/0xa0\n[   27.175201]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8\n[   27.175932] RIP: 0033:0x7effb40e41ad\n[   27.176357] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d8\n[   27.179028] RSP: 002b:00007ffe64c21fc8 EFLAGS: 00000202 ORIG_RAX: 0000000000000141\n[   27.180088] RAX: ffffffffffffffda RBX: 00007ffe64c22768 RCX: 00007effb40e41ad\n[   27.181082] RDX: 0000000000000020 RSI: 00007ffe64c22008 RDI: 0000000000000002\n[   27.182030] RBP: 00007ffe64c21ff0 R08: 0000000000000000 R09: 00007ffe64c22788\n[   27.183038] R10: 0000000000000064 R11: 0000000000000202 R12: 0000000000000000\n[   27.184006] R13: 00007ffe64c22788 R14: 00007effb42a1000 R15: 0000000000000000\n[   27.184958]  </TASK>\n\nIt complains about acquiring a local_lock while holding a raw_spin_lock.\nIt means it should not allocate memory while holding a raw_spin_lock\nsince it is not safe for RT.\n\nraw_spin_lock is needed because bpf_local_storage supports tracing\ncontext. In particular for task local storage, it is easy to\nget a \"current\" task PTR_TO_BTF_ID in tracing bpf prog.\nHowever, task (and cgroup) local storage has already been moved to\nbpf mem allocator which can be used after raw_spin_lock.\n\nThe splat is for the sk storage. For sk (and inode) storage,\nit has not been moved to bpf mem allocator. Using raw_spin_lock or not,\nkzalloc(GFP_ATOMIC) could theoretically be unsafe in tracing context.\nHowever, the local storage helper requires a verifier accepted\nsk pointer (PTR_TO_BTF_ID), it is hypothetical if that (mean running\na bpf prog in a kzalloc unsafe context and also able to hold a verifier\naccepted sk pointer) could happen.\n\nThis patch avoids kzalloc after raw_spin_lock to silent the splat.\nThere is an existing kzalloc before the raw_spin_lock. At that point,\na kzalloc is very likely required because a lookup has just been done\nbefore. Thus, this patch always does the kzalloc before acq\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53857"
+    },
+    {
+      "id": "CVE-2023-53762",
+      "published": "2025-12-08T02:15:52.043",
+      "modified": "2026-10-03T11:17:28.767",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nBluetooth: hci_sync: Fix UAF in hci_disconnect_all_sync\n\nUse-after-free can occur in hci_disconnect_all_sync if a connection is\ndeleted by concurrent processing of a controller event.\n\nTo prevent this the code now tries to iterate over the list backwards\nto ensure the links are cleanup before its parents, also it no longer\nrelies on a cursor, instead it always uses the last element since\nhci_abort_conn_sync is guaranteed to call hci_conn_del.\n\nUAF crash log:\n==================================================================\nBUG: KASAN: slab-use-after-free in hci_set_powered_sync\n(net/bluetooth/hci_sync.c:5424) [bluetooth]\nRead of size 8 at addr ffff888009d9c000 by task kworker/u9:0/124\n\nCPU: 0 PID: 124 Comm: kworker/u9:0 Tainted: G        W\n6.5.0-rc1+ #10\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS\n1.16.2-1.fc38 04/01/2014\nWorkqueue: hci0 hci_cmd_sync_work [bluetooth]\nCall Trace:\n <TASK>\n dump_stack_lvl+0x5b/0x90\n print_report+0xcf/0x670\n ? __virt_addr_valid+0xdd/0x160\n ? hci_set_powered_sync+0x2c9/0x4a0 [bluetooth]\n kasan_report+0xa6/0xe0\n ? hci_set_powered_sync+0x2c9/0x4a0 [bluetooth]\n ? __pfx_set_powered_sync+0x10/0x10 [bluetooth]\n hci_set_powered_sync+0x2c9/0x4a0 [bluetooth]\n ? __pfx_hci_set_powered_sync+0x10/0x10 [bluetooth]\n ? __pfx_lock_release+0x10/0x10\n ? __pfx_set_powered_sync+0x10/0x10 [bluetooth]\n hci_cmd_sync_work+0x137/0x220 [bluetooth]\n process_one_work+0x526/0x9d0\n ? __pfx_process_one_work+0x10/0x10\n ? __pfx_do_raw_spin_lock+0x10/0x10\n ? mark_held_locks+0x1a/0x90\n worker_thread+0x92/0x630\n ? __pfx_worker_thread+0x10/0x10\n kthread+0x196/0x1e0\n ? __pfx_kthread+0x10/0x10\n ret_from_fork+0x2c/0x50\n </TASK>\n\nAllocated by task 1782:\n kasan_save_stack+0x33/0x60\n kasan_set_track+0x25/0x30\n __kasan_kmalloc+0x8f/0xa0\n hci_conn_add+0xa5/0xa80 [bluetooth]\n hci_bind_cis+0x881/0x9b0 [bluetooth]\n iso_connect_cis+0x121/0x520 [bluetooth]\n iso_sock_connect+0x3f6/0x790 [bluetooth]\n __sys_connect+0x109/0x130\n __x64_sys_connect+0x40/0x50\n do_syscall_64+0x60/0x90\n entry_SYSCALL_64_after_hwframe+0x6e/0xd8\n\nFreed by task 695:\n kasan_save_stack+0x33/0x60\n kasan_set_track+0x25/0x30\n kasan_save_free_info+0x2b/0x50\n __kasan_slab_free+0x10a/0x180\n __kmem_cache_free+0x14d/0x2e0\n device_release+0x5d/0xf0\n kobject_put+0xdf/0x270\n hci_disconn_complete_evt+0x274/0x3a0 [bluetooth]\n hci_event_packet+0x579/0x7e0 [bluetooth]\n hci_rx_work+0x287/0xaa0 [bluetooth]\n process_one_work+0x526/0x9d0\n worker_thread+0x92/0x630\n kthread+0x196/0x1e0\n ret_from_fork+0x2c/0x50\n==================================================================",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53762"
+    },
+    {
+      "id": "CVE-2023-53538",
+      "published": "2025-10-04T16:15:48.813",
+      "modified": "2026-10-03T11:17:28.147",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: insert tree mod log move in push_node_left\n\nThere is a fairly unlikely race condition in tree mod log rewind that\ncan result in a kernel panic which has the following trace:\n\n  [530.569] BTRFS critical (device sda3): unable to find logical 0 length 4096\n  [530.585] BTRFS critical (device sda3): unable to find logical 0 length 4096\n  [530.602] BUG: kernel NULL pointer dereference, address: 0000000000000002\n  [530.618] #PF: supervisor read access in kernel mode\n  [530.629] #PF: error_code(0x0000) - not-present page\n  [530.641] PGD 0 P4D 0\n  [530.647] Oops: 0000 [#1] SMP\n  [530.654] CPU: 30 PID: 398973 Comm: below Kdump: loaded Tainted: G S         O  K   5.12.0-0_fbk13_clang_7455_gb24de3bdb045 #1\n  [530.680] Hardware name: Quanta Mono Lake-M.2 SATA 1HY9U9Z001G/Mono Lake-M.2 SATA, BIOS F20_3A15 08/16/2017\n  [530.703] RIP: 0010:__btrfs_map_block+0xaa/0xd00\n  [530.755] RSP: 0018:ffffc9002c2f7600 EFLAGS: 00010246\n  [530.767] RAX: ffffffffffffffea RBX: ffff888292e41000 RCX: f2702d8b8be15100\n  [530.784] RDX: ffff88885fda6fb8 RSI: ffff88885fd973c8 RDI: ffff88885fd973c8\n  [530.800] RBP: ffff888292e410d0 R08: ffffffff82fd7fd0 R09: 00000000fffeffff\n  [530.816] R10: ffffffff82e57fd0 R11: ffffffff82e57d70 R12: 0000000000000000\n  [530.832] R13: 0000000000001000 R14: 0000000000001000 R15: ffffc9002c2f76f0\n  [530.848] FS:  00007f38d64af000(0000) GS:ffff88885fd80000(0000) knlGS:0000000000000000\n  [530.866] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  [530.880] CR2: 0000000000000002 CR3: 00000002b6770004 CR4: 00000000003706e0\n  [530.896] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n  [530.912] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n  [530.928] Call Trace:\n  [530.934]  ? btrfs_printk+0x13b/0x18c\n  [530.943]  ? btrfs_bio_counter_inc_blocked+0x3d/0x130\n  [530.955]  btrfs_map_bio+0x75/0x330\n  [530.963]  ? kmem_cache_alloc+0x12a/0x2d0\n  [530.973]  ? btrfs_submit_metadata_bio+0x63/0x100\n  [530.984]  btrfs_submit_metadata_bio+0xa4/0x100\n  [530.995]  submit_extent_page+0x30f/0x360\n  [531.004]  read_extent_buffer_pages+0x49e/0x6d0\n  [531.015]  ? submit_extent_page+0x360/0x360\n  [531.025]  btree_read_extent_buffer_pages+0x5f/0x150\n  [531.037]  read_tree_block+0x37/0x60\n  [531.046]  read_block_for_search+0x18b/0x410\n  [531.056]  btrfs_search_old_slot+0x198/0x2f0\n  [531.066]  resolve_indirect_ref+0xfe/0x6f0\n  [531.076]  ? ulist_alloc+0x31/0x60\n  [531.084]  ? kmem_cache_alloc_trace+0x12e/0x2b0\n  [531.095]  find_parent_nodes+0x720/0x1830\n  [531.105]  ? ulist_alloc+0x10/0x60\n  [531.113]  iterate_extent_inodes+0xea/0x370\n  [531.123]  ? btrfs_previous_extent_item+0x8f/0x110\n  [531.134]  ? btrfs_search_path_in_tree+0x240/0x240\n  [531.146]  iterate_inodes_from_logical+0x98/0xd0\n  [531.157]  ? btrfs_search_path_in_tree+0x240/0x240\n  [531.168]  btrfs_ioctl_logical_to_ino+0xd9/0x180\n  [531.179]  btrfs_ioctl+0xe2/0x2eb0\n\nThis occurs when logical inode resolution takes a tree mod log sequence\nnumber, and then while backref walking hits a rewind on a busy node\nwhich has the following sequence of tree mod log operations (numbers\nfilled in from a specific example, but they are somewhat arbitrary)\n\n  REMOVE_WHILE_FREEING slot 532\n  REMOVE_WHILE_FREEING slot 531\n  REMOVE_WHILE_FREEING slot 530\n  ...\n  REMOVE_WHILE_FREEING slot 0\n  REMOVE slot 455\n  REMOVE slot 454\n  REMOVE slot 453\n  ...\n  REMOVE slot 0\n  ADD slot 455\n  ADD slot 454\n  ADD slot 453\n  ...\n  ADD slot 0\n  MOVE src slot 0 -> dst slot 456 nritems 533\n  REMOVE slot 455\n  REMOVE slot 454\n  REMOVE slot 453\n  ...\n  REMOVE slot 0\n\nWhen this sequence gets applied via btrfs_tree_mod_log_rewind, it\nallocates a fresh rewind eb, and first inserts the correct key info for\nthe 533 elements, then overwrites the first 456 of them, then decrements\nthe count by 456 via the add ops, then rewinds the move by doing a\nmemmove from 456:988->0:532. We have never written anything past 532,\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:-:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc5:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc6:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc7:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.7:rc8:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53538"
+    },
+    {
+      "id": "CVE-2022-50406",
+      "published": "2025-09-18T16:15:43.760",
+      "modified": "2026-10-03T11:17:26.647",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\niomap: iomap: fix memory corruption when recording errors during writeback\n\nEvery now and then I see this crash on arm64:\n\nUnable to handle kernel NULL pointer dereference at virtual address 00000000000000f8\nBuffer I/O error on dev dm-0, logical block 8733687, async page read\nMem abort info:\n  ESR = 0x0000000096000006\n  EC = 0x25: DABT (current EL), IL = 32 bits\n  SET = 0, FnV = 0\n  EA = 0, S1PTW = 0\n  FSC = 0x06: level 2 translation fault\nData abort info:\n  ISV = 0, ISS = 0x00000006\n  CM = 0, WnR = 0\nuser pgtable: 64k pages, 42-bit VAs, pgdp=0000000139750000\n[00000000000000f8] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000, pmd=0000000000000000\nInternal error: Oops: 96000006 [#1] PREEMPT SMP\nBuffer I/O error on dev dm-0, logical block 8733688, async page read\nDumping ftrace buffer:\nBuffer I/O error on dev dm-0, logical block 8733689, async page read\n   (ftrace buffer empty)\nXFS (dm-0): log I/O error -5\nModules linked in: dm_thin_pool dm_persistent_data\nXFS (dm-0): Metadata I/O Error (0x1) detected at xfs_trans_read_buf_map+0x1ec/0x590 [xfs] (fs/xfs/xfs_trans_buf.c:296).\n dm_bio_prison\nXFS (dm-0): Please unmount the filesystem and rectify the problem(s)\nXFS (dm-0): xfs_imap_lookup: xfs_ialloc_read_agi() returned error -5, agno 0\n dm_bufio dm_log_writes xfs nft_chain_nat xt_REDIRECT nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 ip6t_REJECT\npotentially unexpected fatal signal 6.\n nf_reject_ipv6\npotentially unexpected fatal signal 6.\n ipt_REJECT nf_reject_ipv4\nCPU: 1 PID: 122166 Comm: fsstress Tainted: G        W          6.0.0-rc5-djwa #rc5 3004c9f1de887ebae86015f2677638ce51ee7\n rpcsec_gss_krb5 auth_rpcgss xt_tcpudp ip_set_hash_ip ip_set_hash_net xt_set nft_compat ip_set_hash_mac ip_set nf_tables\nHardware name: QEMU KVM Virtual Machine, BIOS 1.5.1 06/16/2021\npstate: 60001000 (nZCv daif -PAN -UAO -TCO -DIT +SSBS BTYPE=--)\n ip_tables\npc : 000003fd6d7df200\n x_tables\nlr : 000003fd6d7df1ec\n overlay nfsv4\nCPU: 0 PID: 54031 Comm: u4:3 Tainted: G        W          6.0.0-rc5-djwa #rc5 3004c9f1de887ebae86015f2677638ce51ee7405\nHardware name: QEMU KVM Virtual Machine, BIOS 1.5.1 06/16/2021\nWorkqueue: writeback wb_workfn\nsp : 000003ffd9522fd0\n (flush-253:0)\npstate: 60401005 (nZCv daif +PAN -UAO -TCO -DIT +SSBS BTYPE=--)\npc : errseq_set+0x1c/0x100\nx29: 000003ffd9522fd0 x28: 0000000000000023 x27: 000002acefeb6780\nx26: 0000000000000005 x25: 0000000000000001 x24: 0000000000000000\nx23: 00000000ffffffff x22: 0000000000000005\nlr : __filemap_set_wb_err+0x24/0xe0\n x21: 0000000000000006\nsp : fffffe000f80f760\nx29: fffffe000f80f760 x28: 0000000000000003 x27: fffffe000f80f9f8\nx26: 0000000002523000 x25: 00000000fffffffb x24: fffffe000f80f868\nx23: fffffe000f80fbb0 x22: fffffc0180c26a78 x21: 0000000002530000\nx20: 0000000000000000 x19: 0000000000000000 x18: 0000000000000000\n\nx17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000\nx14: 0000000000000001 x13: 0000000000470af3 x12: fffffc0058f70000\nx11: 0000000000000040 x10: 0000000000001b20 x9 : fffffe000836b288\nx8 : fffffc00eb9fd480 x7 : 0000000000f83659 x6 : 0000000000000000\nx5 : 0000000000000869 x4 : 0000000000000005 x3 : 00000000000000f8\nx20: 000003fd6d740020 x19: 000000000001dd36 x18: 0000000000000001\nx17: 000003fd6d78704c x16: 0000000000000001 x15: 000002acfac87668\nx2 : 0000000000000ffa x1 : 00000000fffffffb x0 : 00000000000000f8\nCall trace:\n errseq_set+0x1c/0x100\n __filemap_set_wb_err+0x24/0xe0\n iomap_do_writepage+0x5e4/0xd5c\n write_cache_pages+0x208/0x674\n iomap_writepages+0x34/0x60\n xfs_vm_writepages+0x8c/0xcc [xfs 7a861f39c43631f15d3a5884246ba5035d4ca78b]\nx14: 0000000000000000 x13: 2064656e72757465 x12: 0000000000002180\nx11: 000003fd6d8a82d0 x10: 0000000000000000 x9 : 000003fd6d8ae288\nx8 : 0000000000000083 x7 : 00000000ffffffff x6 : 00000000ffffffee\nx5 : 00000000fbad2887 x4 : 000003fd6d9abb58 x3 : 000003fd6d740020\nx2 : 0000000000000006 x1 : 000000000001dd36 x0 : 0000000000000000\nCPU: \n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-50406"
+    },
+    {
+      "id": "CVE-2022-49142",
+      "published": "2025-02-26T07:00:51.420",
+      "modified": "2026-10-03T11:17:26.413",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: preserve skb_end_offset() in skb_unclone_keeptruesize()\n\nsyzbot found another way to trigger the infamous WARN_ON_ONCE(delta < len)\nin skb_try_coalesce() [1]\n\nI was able to root cause the issue to kfence.\n\nWhen kfence is in action, the following assertion is no longer true:\n\nint size = xxxx;\nvoid *ptr1 = kmalloc(size, gfp);\nvoid *ptr2 = kmalloc(size, gfp);\n\nif (ptr1 && ptr2)\n\tASSERT(ksize(ptr1) == ksize(ptr2));\n\nWe attempted to fix these issues in the blamed commits, but forgot\nthat TCP was possibly shifting data after skb_unclone_keeptruesize()\nhas been used, notably from tcp_retrans_try_collapse().\n\nSo we not only need to keep same skb->truesize value,\nwe also need to make sure TCP wont fill new tailroom\nthat pskb_expand_head() was able to get from a\naddr = kmalloc(...) followed by ksize(addr)\n\nSplit skb_unclone_keeptruesize() into two parts:\n\n1) Inline skb_unclone_keeptruesize() for the common case,\n   when skb is not cloned.\n\n2) Out of line __skb_unclone_keeptruesize() for the 'slow path'.\n\nWARNING: CPU: 1 PID: 6490 at net/core/skbuff.c:5295 skb_try_coalesce+0x1235/0x1560 net/core/skbuff.c:5295\nModules linked in:\nCPU: 1 PID: 6490 Comm: syz-executor161 Not tainted 5.17.0-rc4-syzkaller-00229-g4f12b742eb2b #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011\nRIP: 0010:skb_try_coalesce+0x1235/0x1560 net/core/skbuff.c:5295\nCode: bf 01 00 00 00 0f b7 c0 89 c6 89 44 24 20 e8 62 24 4e fa 8b 44 24 20 83 e8 01 0f 85 e5 f0 ff ff e9 87 f4 ff ff e8 cb 20 4e fa <0f> 0b e9 06 f9 ff ff e8 af b2 95 fa e9 69 f0 ff ff e8 95 b2 95 fa\nRSP: 0018:ffffc900063af268 EFLAGS: 00010293\nRAX: 0000000000000000 RBX: 00000000ffffffd5 RCX: 0000000000000000\nRDX: ffff88806fc05700 RSI: ffffffff872abd55 RDI: 0000000000000003\nRBP: ffff88806e675500 R08: 00000000ffffffd5 R09: 0000000000000000\nR10: ffffffff872ab659 R11: 0000000000000000 R12: ffff88806dd554e8\nR13: ffff88806dd9bac0 R14: ffff88806dd9a2c0 R15: 0000000000000155\nFS:  00007f18014f9700(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 0000000020002000 CR3: 000000006be7a000 CR4: 00000000003506f0\nDR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\nDR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\nCall Trace:\n <TASK>\n tcp_try_coalesce net/ipv4/tcp_input.c:4651 [inline]\n tcp_try_coalesce+0x393/0x920 net/ipv4/tcp_input.c:4630\n tcp_queue_rcv+0x8a/0x6e0 net/ipv4/tcp_input.c:4914\n tcp_data_queue+0x11fd/0x4bb0 net/ipv4/tcp_input.c:5025\n tcp_rcv_established+0x81e/0x1ff0 net/ipv4/tcp_input.c:5947\n tcp_v4_do_rcv+0x65e/0x980 net/ipv4/tcp_ipv4.c:1719\n sk_backlog_rcv include/net/sock.h:1037 [inline]\n __release_sock+0x134/0x3b0 net/core/sock.c:2779\n release_sock+0x54/0x1b0 net/core/sock.c:3311\n sk_wait_data+0x177/0x450 net/core/sock.c:2821\n tcp_recvmsg_locked+0xe28/0x1fd0 net/ipv4/tcp.c:2457\n tcp_recvmsg+0x137/0x610 net/ipv4/tcp.c:2572\n inet_recvmsg+0x11b/0x5e0 net/ipv4/af_inet.c:850\n sock_recvmsg_nosec net/socket.c:948 [inline]\n sock_recvmsg net/socket.c:966 [inline]\n sock_recvmsg net/socket.c:962 [inline]\n ____sys_recvmsg+0x2c4/0x600 net/socket.c:2632\n ___sys_recvmsg+0x127/0x200 net/socket.c:2674\n __sys_recvmsg+0xe2/0x1a0 net/socket.c:2704\n do_syscall_x64 arch/x86/entry/common.c:50 [inline]\n do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80\n entry_SYSCALL_64_after_hwframe+0x44/0xae",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-49142"
+    },
     {
       "id": "CVE-2026-103421",
       "published": "2026-10-03T07:16:46.880",
@@ -4178,12 +4315,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 73,
+    "total_relevant_cves": 79,
     "critical": 9,
-    "high": 30,
-    "medium": 28,
+    "high": 33,
+    "medium": 30,
     "kev": 5,
     "p1": 4,
-    "p2": 26
+    "p2": 29
   }
 }
