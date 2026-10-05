@@ -1,10 +1,74 @@
 {
-  "updated": "2026-10-05T18:36:40.691328+00:00",
+  "updated": "2026-10-05T21:34:04.722886+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-93354",
+      "published": "2026-09-24T20:17:34.613",
+      "modified": "2026-10-05T21:16:38.037",
+      "description": "Taskview Community before 1.56.0 contains a missing authentication vulnerability that allows unauthenticated attackers to register arbitrary OAuth clients and take over user accounts by exploiting the OAuth 2.0 Dynamic Client Registration endpoint, which is enabled by default and requires no authentication. Attackers can send a POST request to the registration endpoint to obtain a client_id and client_secret, then craft a malicious authorization link pointing to an attacker-controlled redirect URI to capture authorization codes and exchange them for access tokens granting full API access to victim account data.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93354"
+    },
+    {
+      "id": "CVE-2026-105444",
+      "published": "2026-10-05T21:16:34.470",
+      "modified": "2026-10-05T21:16:34.470",
+      "description": "A security flaw has been discovered in dotnet eShop .NET 8. The impacted element is the function GetOrderAsync of the file src/Ordering.API/Apis/OrdersApi.cs of the component Ordering API. Performing a manipulation of the argument OrderNumber results in improper control of resource identifiers. The attack is possible to be carried out remotely. The project was informed of the problem early through an issue report but has not responded yet.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105444"
+    },
+    {
+      "id": "CVE-2026-105131",
+      "published": "2026-10-04T02:16:33.600",
+      "modified": "2026-10-05T21:16:33.570",
+      "description": "ezBookkeeping 1.2.0 before 2.0.1 contains a privilege escalation vulnerability that allows attackers holding an API token to obtain a full session token via /api/v1/tokens/refresh.json. Because TokenRefreshHandler never checks token type, attackers can exchange short-lived or IP-restricted API tokens for 30-day normal session tokens that bypass API token expiry and allowlists.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105131"
+    },
     {
       "id": "CVE-2026-78413",
       "published": "2026-10-05T18:17:37.383",
-      "modified": "2026-10-05T18:17:37.383",
+      "modified": "2026-10-05T20:17:27.143",
       "description": "Velociraptor allows collection of VQL queries packaged into Artifacts from endpoints. These artifacts can be used to do anything and usually run with elevated permissions. To limit access to some dangerous artifact, Velociraptor allows for those to require high permissions like EXECVE to launch.\n\nThe `Windows.Sysinternals.SysmonLogForward` is a monitoring artifact used to forward sysmon events to the server. The artifact allows the user to specify an arbitrary binary path as a parameter, and did not enforce an additional required permission, allowing users with COLLECT_CLIENT permissions (normally given by the \"Investigator\" role) to collect it from endpoints and run a different binary program than the installed sysmon binary.\nTo successfully exploit this vulnerability the user must already have access to collect artifacts from the endpoint (i.e. have the COLLECT_CLIENT given typically by the \"Investigator\" role).",
       "vendors": [
         "Microsoft"
@@ -24,7 +88,7 @@
     {
       "id": "CVE-2025-56365",
       "published": "2026-07-14T23:17:27.593",
-      "modified": "2026-10-05T18:17:30.713",
+      "modified": "2026-10-05T19:36:22.723",
       "description": "A reachable assertion vulnerability exists in the Matter SDK (connectedhomeip) before 1.4.0, in the interaction model command processing logic. When an InvokeCommandRequest is sent to a nonexistent endpoint and cluster (e.g., 0x34), the code incorrectly treats the endpoint as valid due to missing checks in CodegenDataModelProvider::Invoke. This causes a VerifyOrDie failure in ProcessCommandDataIB and results in a crash (SIGABRT). The issue has been acknowledged and fixed in a later revision (PR #37207).",
       "vendors": [
         "Microsoft"
@@ -42,6 +106,211 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-56365"
+    },
+    {
+      "id": "CVE-2026-51884",
+      "published": "2026-10-01T22:17:03.257",
+      "modified": "2026-10-05T19:17:21.813",
+      "description": "The /knowledge_base/upload_temp_docs temporary document upload endpoint in Langchain Chatchat 0.3.1 is vulnerable to path traversal. By crafting malicious filenames, an attacker can write files to arbitrary locations on the server, bypassing the intended restrictions on the temporary directory.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51884"
+    },
+    {
+      "id": "CVE-2026-51883",
+      "published": "2026-10-01T22:17:03.127",
+      "modified": "2026-10-05T19:17:21.630",
+      "description": "The knowledge base creation and document upload interfaces in Langchain-Chatchat 0.3.0;0.3.1 is vulnerable to path traversal. An attacker can inject path traversal sequences (such as `..\\`) into the `knowledge_base_name` parameter to write knowledge base content to arbitrary locations outside the configured knowledge base root directory.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51883"
+    },
+    {
+      "id": "CVE-2026-105641",
+      "published": "2026-10-05T19:17:18.560",
+      "modified": "2026-10-05T19:17:18.693",
+      "description": "Plane is an open-source project management tool. Prior to 1.4.0, the deployments/aio/community/ and deployments/cli/community/ manifests provide fixed, publicly known SECRET_KEY and LIVE_SERVER_SECRET_KEY defaults that remain active when operators do not override them. The top-level setup.sh randomizes secrets only for the development Docker Compose path, leaving unchanged aio and cli community deployments with shared production secrets. Knowledge of SECRET_KEY enables attackers to forge Django-signed values and compromise accounts or sessions. Knowledge of LIVE_SERVER_SECRET_KEY bypasses live-service authentication on unchanged community deployments. This issue is fixed in 1.4.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105641"
+    },
+    {
+      "id": "CVE-2025-6170",
+      "published": "2025-06-16T16:15:20.430",
+      "modified": "2026-10-05T19:17:11.510",
+      "description": "A flaw was found in the interactive shell of the xmllint command-line tool, used for parsing XML files. When a user inputs an overly long command, the program does not check the input size properly, which can cause it to crash. This issue might allow attackers to run harmful code in rare configurations without modern protections.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "jboss core services",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_core_services:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:jboss_core_services:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:xmlsoft:libxml2:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 2.5,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6170"
+    },
+    {
+      "id": "CVE-2025-15227",
+      "published": "2025-12-29T08:15:51.650",
+      "modified": "2026-10-05T19:10:00.210",
+      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Read vulnerability, allowing unauthenticated remote attackers to exploit Absolute Path Traversal to download arbitrary system files.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15227"
+    },
+    {
+      "id": "CVE-2025-15228",
+      "published": "2025-12-29T08:15:51.820",
+      "modified": "2026-10-05T19:10:00.210",
+      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Upload vulnerability, allowing unauthenticated remote attackers to upload and execute web shell backdoors, thereby enabling arbitrary code execution on the server.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15228"
+    },
+    {
+      "id": "CVE-2025-53627",
+      "published": "2025-12-29T17:15:45.287",
+      "modified": "2026-10-05T19:10:00.210",
+      "description": "Meshtastic is an open source mesh networking solution. The Meshtastic firmware (starting from version 2.5) introduces asymmetric encryption (PKI) for direct messages, but when the `pki_encrypted` flag is missing, the firmware silently falls back to legacy AES-256-CTR channel encryption. This was an intentional decision to maintain backwards compatibility. However, the end-user applications, like Web app, iOS/Android app, and applications built on top of Meshtastic using the SDK, did not have a way to differentiate between end-to-end encrypted DMs and the legacy DMs. This creates a downgrade attack path where adversaries who know a shared channel key can craft and inject spoofed direct messages that are displayed as if they were PKC encrypted. Users are not given any feedback of whether a direct message was decrypted with PKI or with legacy symmetric encryption, undermining the expected security guarantees of the PKI rollout. Version 2.7.15 fixes this issue.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:meshtastic:meshtastic_firmware:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53627"
     },
     {
       "id": "CVE-2026-86938",
@@ -2220,100 +2489,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58010"
     },
     {
-      "id": "CVE-2025-6170",
-      "published": "2025-06-16T16:15:20.430",
-      "modified": "2026-10-05T11:16:45.510",
-      "description": "A flaw was found in the interactive shell of the xmllint command-line tool, used for parsing XML files. When a user inputs an overly long command, the program does not check the input size properly, which can cause it to crash. This issue might allow attackers to run harmful code in rare configurations without modern protections.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "jboss core services",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:jboss_core_services:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:jboss_core_services:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:xmlsoft:libxml2:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 2.5,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6170"
-    },
-    {
-      "id": "CVE-2026-105131",
-      "published": "2026-10-04T02:16:33.600",
-      "modified": "2026-10-04T02:16:33.600",
-      "description": "ezBookkeeping 1.2.0 before 2.0.1 contains a privilege escalation vulnerability that allows attackers holding an API token to obtain a full session token via /api/v1/tokens/refresh.json. Because TokenRefreshHandler never checks token type, attackers can exchange short-lived or IP-restricted API tokens for 30-day normal session tokens that bypass API token expiry and allowlists.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105131"
-    },
-    {
       "id": "CVE-2026-94592",
       "published": "2026-10-02T22:16:56.187",
       "modified": "2026-10-03T16:16:45.720",
@@ -3669,46 +3844,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89134"
-    },
-    {
-      "id": "CVE-2026-51883",
-      "published": "2026-10-01T22:17:03.127",
-      "modified": "2026-10-02T18:47:49.947",
-      "description": "The knowledge base creation and document upload interfaces in Langchain-Chatchat 0.3.0;0.3.1 is vulnerable to path traversal. An attacker can inject path traversal sequences (such as `..\\`) into the `knowledge_base_name` parameter to write knowledge base content to arbitrary locations outside the configured knowledge base root directory.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51883"
-    },
-    {
-      "id": "CVE-2026-51884",
-      "published": "2026-10-01T22:17:03.257",
-      "modified": "2026-10-02T18:47:49.947",
-      "description": "The /knowledge_base/upload_temp_docs temporary document upload endpoint in Langchain Chatchat 0.3.1 is vulnerable to path traversal. By crafting malicious filenames, an attacker can write files to arbitrary locations on the server, bypassing the intended restrictions on the temporary directory.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51884"
     },
     {
       "id": "CVE-2026-104843",
@@ -6584,12 +6719,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 166,
-    "critical": 18,
-    "high": 63,
-    "medium": 75,
+    "total_relevant_cves": 172,
+    "critical": 22,
+    "high": 65,
+    "medium": 76,
     "kev": 5,
-    "p1": 5,
-    "p2": 67
+    "p1": 6,
+    "p2": 72
   }
 }
