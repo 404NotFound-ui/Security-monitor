@@ -1,6 +1,154 @@
 {
-  "updated": "2026-10-05T16:58:20.484268+00:00",
+  "updated": "2026-10-05T17:18:41.571069+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-15218",
+      "published": "2026-08-17T14:20:19.357",
+      "modified": "2026-10-05T17:17:14.697",
+      "description": "A flaw was found in the maas-api and maas-controller ServiceAccounts within Red Hat OpenShift AI. These ServiceAccounts are granted cluster-wide permissions that exceed their operational requirements. An attacker who compromises the identity of these ServiceAccounts, either through a remote code execution vulnerability or by creating a malicious pod in the same namespace, could exploit these excessive permissions. This could lead to full cluster administrator privileges through the creation of new ClusterRoleBindings or the disclosure of sensitive information by accessing all secrets across the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.9,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15218"
+    },
+    {
+      "id": "CVE-2026-105125",
+      "published": "2026-10-04T00:16:35.990",
+      "modified": "2026-10-05T17:17:13.810",
+      "description": "LaraDashboard before 1.4.8 contains a path traversal vulnerability that allows unauthenticated attackers to read JSON files by manipulating the {lang} route segment. On Windows hosts, attackers can send URL-encoded backslash sequences like ..%5C to escape resources/lang and read composer.json or other application JSON files.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105125"
+    },
+    {
+      "id": "CVE-2026-55007",
+      "published": "2026-09-08T18:17:41.820",
+      "modified": "2026-10-05T17:11:46.140",
+      "description": "Double free in Microsoft Exchange Server allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "exchange server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:exchange_server:2019:cumulative_update_15:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "exchange server subscription edition",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:exchange_server_subscription_edition:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:exchange_server:2019:cumulative_update_14:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:exchange_server:2019:cumulative_update_15:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:exchange_server_subscription_edition:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55007"
+    },
+    {
+      "id": "CVE-2025-61781",
+      "published": "2026-01-05T18:15:44.077",
+      "modified": "2026-10-05T17:10:00.237",
+      "description": "OpenCTI is an open source platform for managing cyber threat intelligence knowledge and observables. Prior to version 6.8.1, the GraphQL mutation \"WorkspacePopoverDeletionMutation\" allows users to delete workspace-related objects such as dashboards and investigation cases. However, the mutation lacks proper authorization checks to verify ownership of the targeted resources.\nAn attacker can exploit this by supplying an active UUID of another user. Since the API does not validate whether the requester owns the resource, the mutation executes successfully, resulting in unauthorized deletion of the entire workspace. Version 6.8.1 fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:citeum:opencti:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61781"
+    },
+    {
+      "id": "CVE-2025-61782",
+      "published": "2026-01-07T18:15:51.223",
+      "modified": "2026-10-05T17:10:00.237",
+      "description": "OpenCTI is an open source platform for managing cyber threat intelligence knowledge and observables. Prior to version 6.8.3, an open redirect vulnerability exists in the OpenCTI platform's SAML authentication endpoint (/auth/saml/callback). By manipulating the RelayState parameter, an attacker can force the server to issue a 302 redirect to any external URL, enabling phishing, credential theft, and arbitrary site redirection. This issue has been patched in version 6.8.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:citeum:opencti:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61782"
+    },
+    {
+      "id": "CVE-2026-86853",
+      "published": "2026-09-08T16:18:37.703",
+      "modified": "2026-10-05T17:09:24.730",
+      "description": "A malicious webpage could repeatedly trigger external URL schemes, causing system prompts or external application launches. This could make Firefox for iOS temporarily unusable until the page is closed. This vulnerability was fixed in Firefox for iOS 155.1.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mozilla:firefox_mobile:*:*:*:*:*:iphone_os:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86853"
+    },
     {
       "id": "CVE-2026-77805",
       "published": "2026-10-05T13:16:54.740",
@@ -1861,26 +2009,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105131"
-    },
-    {
-      "id": "CVE-2026-105125",
-      "published": "2026-10-04T00:16:35.990",
-      "modified": "2026-10-04T00:16:36.130",
-      "description": "LaraDashboard before 1.4.8 contains a path traversal vulnerability that allows unauthenticated attackers to read JSON files by manipulating the {lang} route segment. On Windows hosts, attackers can send URL-encoded backslash sequences like ..%5C to escape resources/lang and read composer.json or other application JSON files.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105125"
     },
     {
       "id": "CVE-2026-94592",
@@ -6153,12 +6281,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 149,
+    "total_relevant_cves": 154,
     "critical": 15,
-    "high": 56,
-    "medium": 68,
+    "high": 59,
+    "medium": 70,
     "kev": 5,
     "p1": 5,
-    "p2": 57
+    "p2": 60
   }
 }
