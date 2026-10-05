@@ -1,6 +1,264 @@
 {
-  "updated": "2026-10-05T13:47:53.705219+00:00",
+  "updated": "2026-10-05T14:17:58.584627+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-104808",
+      "published": "2026-10-05T09:17:09.870",
+      "modified": "2026-10-05T14:17:16.450",
+      "description": "DigitalCanion has discovered a stored Cross-Site Scripting (XSS) vulnerability that allows an authenticated malicious user to inject persistent JavaScript or HTML content, resulting in a denial-of-service condition within the web application.\n\n\n\n\nThe specific flaw exists within the web portal listening on TCP port 443, under Configuration → Users → Users List. The vulnerability occurs in the “Microsoft Exchange mailbox” field, which fails to properly validate or sanitize user-supplied input before storing and rendering it.\n\n\n\n\nBy injecting malicious JavaScript into this field, an attacker can cause the payload to execute whenever the affected user properties are accessed. This can prevent access to the affected user properties and result in a denial-of-service condition within the application's user-management functionality.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 1.9,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:A/V:D/RE:L/U:Amber"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104808"
+    },
+    {
+      "id": "CVE-2026-104807",
+      "published": "2026-10-05T09:17:09.690",
+      "modified": "2026-10-05T14:17:16.313",
+      "description": "DigitalCanion has discovered a stored Cross-Site Scripting (XSS) vulnerability that allows an authenticated malicious user to inject persistent JavaScript or HTML content into the web application.\n\n\n\n\nThe specific flaw exists within the web portal listening on TCP port 443, under Configuration → Domains, specifically in the “Description” field. The application fails to properly validate or sanitize user-supplied input before storing and subsequently rendering the field.\n\n\n\n\nBy injecting malicious JavaScript into the Description field, an attacker can modify the content and behavior of the affected page when it is viewed by other users. This could allow an attacker to alter the page's appearance, display attacker-controlled content, or construct convincing phishing scenarios within the application's trusted web context.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 1.9,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:A/V:D/RE:L/U:Amber"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104807"
+    },
+    {
+      "id": "CVE-2026-73512",
+      "published": "2026-09-21T20:17:27.647",
+      "modified": "2026-10-05T14:12:31.367",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's HttpDatagramHandler caches the current RequestDecoder when Capsule Protocol is enabled. Stream recreation, including an internal redirect, replaces the ActiveStream and updates EnvoyQuicServerStream but does not update the handler's cached pointer. A subsequent HTTP/3 datagram can call decodeData through the freed decoder, causing invalid virtual dispatch and a process crash. The relevant scope boundary is that hTTP/3 datagrams and Capsule Protocol must be enabled, and the request must enter a stream-recreation path such as an internal redirect. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73512"
+    },
+    {
+      "id": "CVE-2026-50572",
+      "published": "2026-09-21T20:17:25.970",
+      "modified": "2026-10-05T14:12:02.027",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's HTTP external-authorization client can retain a stale request callback after a request is rejected. When RawHttpClientImpl::onSuccess later processes the authorization response, it can invoke callbacks_ after the callback owner has been destroyed, causing a use-after-free and process crash under production traffic. The relevant scope boundary is that the vulnerable path uses the HTTP ext_authz client; the advisory does not establish the same trigger for unrelated filters. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50572"
+    },
+    {
+      "id": "CVE-2025-67918",
+      "published": "2026-01-08T10:15:50.720",
+      "modified": "2026-10-05T14:10:00.267",
+      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WofficeIO Woffice woffice allows Reflected XSS.This issue affects Woffice: from n/a through <= 5.4.30.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67918"
+    },
+    {
+      "id": "CVE-2025-67919",
+      "published": "2026-01-08T10:15:50.840",
+      "modified": "2026-10-05T14:10:00.267",
+      "description": "Authorization Bypass Through User-Controlled Key vulnerability in WofficeIO Woffice Core woffice-core allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Woffice Core: from n/a through <= 5.4.30.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67919"
+    },
+    {
+      "id": "CVE-2026-48521",
+      "published": "2026-09-21T20:17:25.463",
+      "modified": "2026-10-05T14:09:45.933",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's ProdClusterManagerFactory::allocateConnPool dereferences transport_socket_options while selecting an HTTP/3 connection pool without first checking whether the pointer is null. LoadBalancerContext implementations used by synthetic, mirror, health-check, and async-client calls can return no transport-socket options. With auto_config and HTTP/3 enabled, routine traffic reaching one of those contexts can crash an Envoy worker. The relevant scope boundary is that the affected branch requires HTTP/3 in the protocol set and a context that supplies no transport-socket options. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48521"
+    },
+    {
+      "id": "CVE-2026-73549",
+      "published": "2026-09-21T20:17:28.567",
+      "modified": "2026-10-05T14:09:22.283",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's Utility::copyInternetAddressAndPort and QUIC client-address paths reconstruct scoped IPv6 addresses through addressAsString and Ipv6Instance. The string includes a percent scope identifier that inet_pton cannot parse, causing an exception or abort. Kernel-provided scoped IPv6 destinations in ORIGINAL_DST transparent-proxy deployments, and affected QUIC connection paths, can therefore terminate the process. The relevant scope boundary is that the HTTP use_http_header override rejects scoped addresses earlier; the advisory's crash path requires a kernel-provided original destination or the affected QUIC path. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73549"
+    },
+    {
+      "id": "CVE-2026-73553",
+      "published": "2026-09-21T21:17:09.637",
+      "modified": "2026-10-05T14:08:59.577",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, When ignore_path_parameters_in_path_matching is enabled, Envoy's router strips the semicolon suffix before matching but the RBAC url_path matcher evaluates the raw path. A downstream request such as /admin;x can therefore miss a DENY rule for /admin while the router still selects the protected /admin backend. The inconsistent canonicalization allows an unauthenticated client to bypass path-based authorization. The relevant scope boundary is that the route option and a path-based RBAC rule must both be present, and the protected route must match after stripping. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73553"
+    },
+    {
+      "id": "CVE-2026-73513",
+      "published": "2026-09-21T20:17:27.820",
+      "modified": "2026-10-05T14:08:23.107",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's optional oghttp2 upstream HTTP/2 codec accepts a response trailer HEADERS frame without END_STREAM. Envoy completes and deferred-deletes the ActiveRequest while oghttp2 keeps the stream open, leaving ClientStreamImpl with a dangling response_decoder_ reference. A later frame on the stream can dispatch through the freed object and crash the process. The relevant scope boundary is that the default nghttp2 codec rejects the malformed trailers, and the trigger is upstream-only with oghttp2 enabled. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73513"
+    },
+    {
+      "id": "CVE-2026-73550",
+      "published": "2026-09-21T20:17:28.733",
+      "modified": "2026-10-05T14:07:45.770",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy copies every decoded HTTP/2 Host header value before discarding it when :authority is already present. The discarded value bypasses saveHeader, so its bytes and count are not charged against request header limits. An unauthenticated client can use HPACK indexing to submit many references to a large Host value across a bounded number of streams, forcing extreme header-copy allocation and causing the proxy to be out-of-memory killed. The relevant scope boundary is that the demonstrated amplification uses HTTP/2 HPACK and the duplicate Host discard behavior. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73550"
+    },
+    {
+      "id": "CVE-2026-73551",
+      "published": "2026-09-21T21:17:09.473",
+      "modified": "2026-10-05T14:06:32.380",
+      "description": "Envoy is an open source edge and service proxy designed for cloud-native applications. Prior to 1.36.10, 1.37.6, 1.38.4, and 1.39.1, Envoy's URL normalization does not recognize dot and dotdot path segments when they carry semicolon parameters. A request such as /user/..;foo=bar/admin is therefore not canonicalized to /admin even when path normalization is enabled. If an upstream interprets the segment according to RFC 3986 while Envoy applies routing or RBAC to the uncollapsed path, a remote client can cause path confusion and bypass path-based security policy. The relevant scope boundary is that the security consequence depends on a downstream/upstream path interpretation mismatch or a path-based Envoy decision. This issue is fixed in versions 1.36.10, 1.37.6, 1.38.4, and 1.39.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:envoyproxy:envoy:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73551"
+    },
     {
       "id": "CVE-2026-73546",
       "published": "2026-09-21T20:17:28.040",
@@ -685,48 +943,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6170"
-    },
-    {
-      "id": "CVE-2026-104808",
-      "published": "2026-10-05T09:17:09.870",
-      "modified": "2026-10-05T09:17:09.870",
-      "description": "DigitalCanion has discovered a stored Cross-Site Scripting (XSS) vulnerability that allows an authenticated malicious user to inject persistent JavaScript or HTML content, resulting in a denial-of-service condition within the web application.\n\n\n\n\nThe specific flaw exists within the web portal listening on TCP port 443, under Configuration → Users → Users List. The vulnerability occurs in the “Microsoft Exchange mailbox” field, which fails to properly validate or sanitize user-supplied input before storing and rendering it.\n\n\n\n\nBy injecting malicious JavaScript into this field, an attacker can cause the payload to execute whenever the affected user properties are accessed. This can prevent access to the affected user properties and result in a denial-of-service condition within the application's user-management functionality.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 1.9,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:A/V:D/RE:L/U:Amber"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104808"
-    },
-    {
-      "id": "CVE-2026-104807",
-      "published": "2026-10-05T09:17:09.690",
-      "modified": "2026-10-05T09:17:09.690",
-      "description": "DigitalCanion has discovered a stored Cross-Site Scripting (XSS) vulnerability that allows an authenticated malicious user to inject persistent JavaScript or HTML content into the web application.\n\n\n\n\nThe specific flaw exists within the web portal listening on TCP port 443, under Configuration → Domains, specifically in the “Description” field. The application fails to properly validate or sanitize user-supplied input before storing and subsequently rendering the field.\n\n\n\n\nBy injecting malicious JavaScript into the Description field, an attacker can modify the content and behavior of the affected page when it is viewed by other users. This could allow an attacker to alter the page's appearance, display attacker-controlled content, or construct convincing phishing scenarios within the application's trusted web context.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 1.9,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:A/V:D/RE:L/U:Amber"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104807"
     },
     {
       "id": "CVE-2026-105250",
@@ -5127,12 +5343,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 104,
+    "total_relevant_cves": 114,
     "critical": 10,
-    "high": 40,
-    "medium": 45,
+    "high": 45,
+    "medium": 50,
     "kev": 5,
     "p1": 5,
-    "p2": 36
+    "p2": 41
   }
 }
