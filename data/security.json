@@ -1,6 +1,46 @@
 {
-  "updated": "2026-10-06T09:57:25.228605+00:00",
+  "updated": "2026-10-06T10:18:36.653014+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-84854",
+      "published": "2026-10-06T10:16:54.230",
+      "modified": "2026-10-06T10:16:54.230",
+      "description": "In the WibuKey driver for Windows below Version 6.72, insufficient validation of user input when calculating the size of a kernel buffer could cause small amounts of data to be written outside the intended kernel buffer. This can lead to a system crash. Under unfavorable circumstances, adjacent kernel memory may be modified.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84854"
+    },
+    {
+      "id": "CVE-2026-49329",
+      "published": "2026-09-01T16:16:57.760",
+      "modified": "2026-10-06T10:16:47.340",
+      "description": "A flaw was found in openshift/oauth-server. The OAuth login and error page endpoints pass the unauthenticated Accept-Language header to golang.org/x/text/language.ParseAcceptLanguage() without input validation. A bypass of the CVE-2022-32149 mitigation exists: the upstream guard counts only '-' characters but the internal BCP 47 scanner aliases '_' to '-' after the guard check. An unauthenticated attacker can send a crafted Accept-Language header using '_' separators to trigger quadratic-time parsing, consuming excessive CPU and denying authentication to all cluster users.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
+    },
     {
       "id": "CVE-2026-98358",
       "published": "2026-10-06T09:18:29.477",
@@ -7414,12 +7454,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 195,
+    "total_relevant_cves": 197,
     "critical": 25,
-    "high": 72,
+    "high": 74,
     "medium": 80,
     "kev": 5,
     "p1": 8,
-    "p2": 80
+    "p2": 82
   }
 }
