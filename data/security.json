@@ -1,6 +1,206 @@
 {
-  "updated": "2026-10-06T09:14:07.026822+00:00",
+  "updated": "2026-10-06T09:36:35.992132+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-98358",
+      "published": "2026-10-06T09:18:29.477",
+      "modified": "2026-10-06T09:18:29.477",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nIB/iser: reject a remote invalidation of an unregistered direction\n\nA write command whose data is sent entirely as immediate data is not\nregistered.  iser_reg_mem_fastreg() takes the DMA key path and leaves\nrdma_reg[ISER_DIR_OUT].desc at NULL, while iser_dma_map_task_data() has\nalready set dir[ISER_DIR_OUT].\n\niser_check_remote_inv() looks at dir[] alone and hands the descriptor to\niser_inv_desc(), which reads desc->sig_protected.  A target that answers\nsuch a command with IB_WR_SEND_WITH_INV faults the initiator.\nLeaving those commands unregistered is deliberate.\n\nThe same function already terminates the connection when a target sends\na remote invalidation the initiator did not ask for.  A target that\ninvalidates a direction that was never registered is in the same class,\nso give it the same answer.\n\n  Oops: general protection fault, probably for non-canonical address 0xdffffc0000000004: 0000 [#1] SMP KASAN NOPTI\n  KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]\n  CPU: 0 UID: 0 PID: 40 Comm: kworker/u8:2 Not tainted 7.2.0-rc5-ISERHOST-gf5098b6bae76-dirty #3 PREEMPT(lazy)\n  Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  Workqueue: rxe_wq do_work\n  RIP: 0010:iser_task_rsp+0x6d6/0xec0\n  Code: 48 c1 ea 03 80 3c 02 00 0f 85 ba 06 00 00 48 8b 9b 78 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 8d 7b 20 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 06 0f 8e 76 06 00 00 80 7b 20 00 0f 84 3d 04\n  RSP: 0018:ffff88811b008db8 EFLAGS: 00010202\n  RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000001848\n  RDX: 0000000000000004 RSI: 1ffff11021587b12 RDI: 0000000000000020\n  RBP: ffff88810adc1ae4 R08: ffff888109b7f860 R09: ffffffff90a922c0\n  R10: ffff88810adc1a1c R11: 000000000000003c R12: ffff888109b7f800\n  R13: ffff88810adc1acc R14: ffff888109b7f820 R15: 0000000000000000\n  FS:  0000000000000000(0000) GS:ffff88818a676000(0000) knlGS:0000000000000000\n  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  CR2: 00000000005afe2b CR3: 000000010af23005 CR4: 0000000000770ef0\n  PKRU: 55555554\n  Call Trace:\n   <IRQ>\n   __ib_process_cq+0xe1/0x390\n   ib_poll_handler+0x6e/0x200\n   irq_poll_softirq+0x1df/0x480\n   ? clockevents_program_event+0x2ba/0x860\n   ? __pfx_irq_poll_softirq+0x10/0x10\n   handle_softirqs+0x18e/0x590\n   ? __pfx_handle_softirqs+0x10/0x10\n   ? __hrtimer_rearm_deferred+0x156/0x450\n   do_softirq+0x3b/0x60\n   </IRQ>\n   <TASK>\n   __local_bh_enable_ip+0x61/0x70\n   __alloc_skb+0x732/0x890\n   ? _raw_spin_lock_irqsave+0x85/0xe0\n   ? __pfx___alloc_skb+0x10/0x10\n   ? _raw_read_unlock_irqrestore+0x16/0x50\n   rxe_init_packet+0x16b/0x4f0\n   prepare_ack_packet+0xb8/0x830\n   rxe_receiver+0x499/0x9980\n   ? __pfx_rxe_receiver+0x10/0x10\n   ? rxe_completer+0x29e5/0x38c0\n   ? hrtimer_start_range_ns_common+0x75f/0x1730\n   ? hrtimer_start_range_ns+0xa6/0x2c0\n   ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n   ? __pfx_rxe_receiver+0x10/0x10\n   do_work+0x144/0x470\n   process_one_work+0x633/0x1030\n   ? assign_work+0x11d/0x370\n   worker_thread+0x45b/0xd10\n   ? __pfx_worker_thread+0x10/0x10\n   kthread+0x2c6/0x3b0\n   ? recalc_sigpending+0x15c/0x1e0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork+0x36e/0x5a0\n   ? __pfx_ret_from_fork+0x10/0x10\n   ? __switch_to+0x572/0xdd0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork_asm+0x1a/0x30\n   </TASK>\n  Modules linked in:\n  ---[ end trace 0000000000000000 ]---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98358"
+    },
+    {
+      "id": "CVE-2026-98357",
+      "published": "2026-10-06T09:18:29.293",
+      "modified": "2026-10-06T09:18:29.293",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nIB/isert: wait for deferred control PDU completions before releasing the connection\n\nisert_send_done() hands ISTATE_SEND_TASKMGTRSP, ISTATE_SEND_REJECT and\nISTATE_SEND_TEXTRSP completions off to isert_comp_wq and returns.  The work\nitem then runs isert_completion_put() -> isert_put_cmd(), which reads\nisert_conn->conn and takes conn->cmd_lock.\n\nNothing orders that work item against teardown.  isert_wait_conn() queues\nisert_release_work, which frees isert_conn, and iscsit_close_connection()\nfrees the iscsit_conn right after it returns, so the queued work can run\nagainst freed memory.\n\nCount the deferred control PDU completions per connection and let\nisert_wait_conn() wait for them before the release work is queued.\n\nISTATE_SEND_LOGOUTRSP is deliberately not counted: that branch runs\niscsit_logout_post_handler(), which ends up waiting for\nconn->conn_wait_comp, and that completion is only sent by\niscsit_close_connection() after it has called iscsit_wait_conn().\nWaiting for it here would deadlock.  Its wait stays the existing\nisert_wait4logout().\n\nThe splat below is from a kernel with tracing printk()s and an msleep(200)\ninjected into isert_do_control_comp() to widen the window:\n\n  BUG: KASAN: slab-use-after-free in isert_put_cmd+0x53d/0x620\n  Read of size 8 at addr ffff8881054f1038 by task kworker/u17:1/182\n\n  CPU: 0 UID: 0 PID: 182 Comm: kworker/u17:1 Tainted: G    B               7.2.0-rc5-TWIDE-gb8babf08acc7 #1 PREEMPT(lazy)\n  Tainted: [B]=BAD_PAGE\n  Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  Workqueue: isert_comp_wq isert_do_control_comp\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x53/0x70\n   print_report+0xd0/0x630\n   ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n   ? _raw_spin_unlock_irqrestore+0x3e/0x70\n   ? isert_put_cmd+0x53d/0x620\n   kasan_report+0xce/0x100\n   ? isert_put_cmd+0x53d/0x620\n   isert_put_cmd+0x53d/0x620\n   ? isert_completion_put+0x305/0x330\n   ? isert_do_control_comp+0x2ef/0x310\n   process_one_work+0x633/0x1030\n   ? assign_work+0x11d/0x370\n   worker_thread+0x45b/0xd10\n   ? __pfx_worker_thread+0x10/0x10\n   ? __pfx_worker_thread+0x10/0x10\n   kthread+0x2c6/0x3b0\n   ? recalc_sigpending+0x15c/0x1e0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork+0x36e/0x5a0\n   ? __pfx_ret_from_fork+0x10/0x10\n   ? __switch_to+0x572/0xdd0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork_asm+0x1a/0x30\n   </TASK>\n\n  Allocated by task 48:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   __kasan_kmalloc+0x8f/0xa0\n   __kmalloc_cache_noprof+0x158/0x370\n   isert_cma_handler+0x1e3/0x2ae0\n   cma_cm_event_handler+0x3e/0x240\n   cma_ib_req_handler+0x17d9/0x4490\n   cm_process_work+0x41/0x330\n   cm_work_handler+0x5727/0xc160\n   process_one_work+0x633/0x1030\n   worker_thread+0x45b/0xd10\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30\n\n  Freed by task 184:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   kasan_save_free_info+0x3b/0x60\n   __kasan_slab_free+0x43/0x70\n   kfree+0x121/0x380\n   iscsit_close_connection+0x7cf/0x1e60\n   iscsit_take_action_for_connection_exit+0x1b6/0x360\n   iscsi_target_tx_thread+0x472/0x690\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98357"
+    },
+    {
+      "id": "CVE-2026-98300",
+      "published": "2026-10-06T09:18:20.867",
+      "modified": "2026-10-06T09:18:20.867",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ntcp: Don't call skb_clone_and_charge_r() for close()d listener in tcp_v6_do_rcv().\n\ntcp_v6_do_rcv() no longer calls skb_clone_and_charge_r() for\nTCP_LISTEN since commit 073d89808c06 (\"net: fix data-races around\nsk->sk_forward_alloc\").\n\nHowever, there is still a small race window between tcp_v6_rcv()\nand tcp_v6_do_rcv(), where concurrent close() changes TCP_LISTEN\nto TCP_CLOSE, causing skb_clone_and_charge_r() to be called\nlocklessly and resulting in the splat below. [0]\n\nLet's avoid calling skb_clone_and_charge_r() for TCP_CLOSE as well.\n\nThis is fine for non-listeners because tcp_rcv_state_process()\ndrops skb for TCP_CLOSE and opt_skb was freed immediately anyway.\n\n[0]:\nsk->sk_forward_alloc\nWARNING: net/ipv4/af_inet.c:162 at inet_sock_destruct+0x64d/0x810 net/ipv4/af_inet.c:162, CPU#1: ksoftirqd/1/28\nModules linked in:\nCPU: 1 UID: 0 PID: 28 Comm: ksoftirqd/1 Not tainted 7.2.0 #17 PREEMPT(full)\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.17.0-debian-1.17.0-1 04/01/2014\nRIP: 0010:inet_sock_destruct+0x64d/0x810 net/ipv4/af_inet.c:162\nCode: 3d 49 ff e9 06 fd ff ff e8 d0 5b 83 f8 90 0f 0b 90 e9 35 fe ff ff e8 c2 5b 83 f8 90 0f 0b 90 e9 c5 fe ff ff e8 b4 5b 83 f8 90 <0f> 0b 90 e9 04 ff ff ff e8 a6 5b 83 f8 90 0f 0b 90 e9 65 fe ff ff\nRSP: 0018:ffffc90000677bb8 EFLAGS: 00010246\nRAX: 0000000000000000 RBX: ffff8880117bde80 RCX: ffffffff8957eb41\nRDX: ffff88801dad5d00 RSI: ffffffff8957ec3c RDI: 0000000000000005\nRBP: 00000000fffff000 R08: ffffffff8957eb41 R09: 00000000fffff000\nR10: 0000000000000005 R11: 0000000000000000 R12: dffffc0000000000\nR13: ffff8880117bdf10 R14: ffffffff81c08eb7 R15: 0000000000000003\nFS:  0000000000000000(0000) GS:ffff8880d7ae5000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007f93a1021138 CR3: 00000000207a9000 CR4: 0000000000350ef0\nCall Trace:\n <TASK>\n __sk_destruct+0x82/0xae0 net/core/sock.c:2356\n rcu_do_batch kernel/rcu/tree.c:2645 [inline]\n rcu_core+0x59c/0x1100 kernel/rcu/tree.c:2897\n handle_softirqs+0x1e4/0x9b0 kernel/softirq.c:622\n run_ksoftirqd kernel/softirq.c:1076 [inline]\n run_ksoftirqd+0x38/0x60 kernel/softirq.c:1068\n smpboot_thread_fn+0x458/0xc80 kernel/smpboot.c:160\n kthread+0x396/0x4a0 kernel/kthread.c:436\n ret_from_fork+0x8e0/0xe40 arch/x86/kernel/process.c:158\n ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245\n </TASK>",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98300"
+    },
+    {
+      "id": "CVE-2026-98294",
+      "published": "2026-10-06T09:18:19.887",
+      "modified": "2026-10-06T09:18:19.887",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nBluetooth: hci_qca: Do not write to the serial port after it is closed\n\nhci_uart_close() closes the serdev port if HCI_QUIRK_NON_PERSISTENT_SETUP\nis set (for example, for the WCN399x family). A failed hci_dev_open_sync()\nfollowing a successful qca_setup() calls hdev->close() but not\nhdev->shutdown(), so the port is closed while power->vregs_on is left true.\nqca_serdev_remove() then passes its power->vregs_on test and calls\nqca_power_off(), which writes to the closed port unconditionally.\n\nSeen on a WCN3988 by unbinding the driver after a controller failure. The\ntrace below is from a 7.0.0 based kernel, where qca_power_off() was still\nnamed qca_power_shutdown():\n\n  Unable to handle kernel NULL pointer dereference at virtual address\n  0000000000000038\n  Call trace:\n   tty_set_termios+0x50/0x238 (P)\n   ttyport_set_baudrate+0x84/0xc0\n   serdev_device_set_baudrate+0x24/0x40\n   qca_power_shutdown+0x158/0x1fc [hci_uart]\n   qca_serdev_remove+0x54/0x68 [hci_uart]\n   serdev_drv_remove+0x1c/0x2c\n   device_remove+0x4c/0x80\n   device_release_driver_internal+0x1cc/0x224\n   device_driver_detach+0x18/0x24\n   unbind_store+0xb4/0xc0\n\nCheck HCI_UART_PROTO_READY, which hci_uart_close() clears in the same place\nit closes the port, before writing to it. The regulator disable is left\nunconditional so the controller is still powered down.\n\nThe dangling serport->tty that turns this into a use-after-free is\naddressed in a separate patch.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98294"
+    },
+    {
+      "id": "CVE-2026-98289",
+      "published": "2026-10-06T09:18:19.177",
+      "modified": "2026-10-06T09:18:19.177",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\naf_unix: Unify scc_index when finalising SCC in __unix_walk_scc().\n\nCommit bfdb01283ee8 (\"af_unix: Assign a unique index to SCC.\")\nchanged Tarjan's algorithm to update lowlink with lowlink,\nwhich is called lowpoint (unix_vertex.scc_index).\n\nunix_vertex_dead() assumes all vertices in an SCC share the same\nlowpoint, but this is not always true if an SCC has two or more\nback edges, depending on the order of DFS.\n\nFor example, the graph below has two back edges from B to A\nand from C to B.\n\n  A --> B --> C\n  ^    | ^    |\n  `----' `----'\n\nIf DFS walks through A -> B -> C -> B (-> C -> B) -> A (-> B -> A),\neach index and scc_index will be updated as follows.\n\n  A --> B --> C    C = (3, 3)  (index, scc_index)\n                   B = (2, 2)\n                   A = (1, 1)\n\n  A ... B ... C    C = (3, 2)<-.\n         ^    |    B = (2, 2) -'\n         `----'    A = (1, 1)\n\n  A ... B ... C    C = (3, 2)\n  ^    | .    .    B = (2, 1)<-.\n  `----'  ....     A = (1, 1) -'\n\nThen, unix_vertex_dead() thinks that B is passed to another\nSCC with scc_index 2, and the SCC is not garbage-collected.\n\nThis does not happen if DFS walks in a different order below\nor starts from B.\n\n    1      3\n  A --> B --> C\n  ^    | ^    |\n  `----' `----'\n     2      4\n\nLet's unify scc_index across the SCC when finalising it.\n\nNote that updating v->index was previously done in unix_scc_dead(),\nwhen called from __unix_walk_scc(), just to save one loop.  Since\n__unix_walk_scc() now iterates over the SCC anyway, the update is\nmoved back to __unix_walk_scc() and 'fast' argument is dropped.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98289"
+    },
+    {
+      "id": "CVE-2026-98275",
+      "published": "2026-10-06T09:18:17.203",
+      "modified": "2026-10-06T09:18:17.203",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: ethernet: cortina: Ack RX overrun interrupt correctly\n\nThe RX overrun interrupt is reported in interrupt status register 4, but\ngmac_irq() acknowledges it using the RX descriptor error bit from status\nregister 0. For GMAC0 this writes the GMAC1 overrun bit, while for GMAC1\nthe shift leaves no bit in the 32-bit register.\n\nAcknowledge the same per-port RX overrun bit that was detected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98275"
+    },
+    {
+      "id": "CVE-2026-98260",
+      "published": "2026-10-06T09:18:15.040",
+      "modified": "2026-10-06T09:18:15.040",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nexec: Cleanup POSIX timers right after de_thread()\n\nA per-thread CPU timer holds a reference to the PID of the thread it is\nattached to and, while it is armed, its node is queued in that thread's\nposix_cputimers. The task is looked up by that PID.\n\nWhen a non-leader thread exec()s, de_thread() changes which task owns\nthat PID. pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL,\nbut the node is still queued on tsk, which is alive. timer_lock_sighand()\ntakes a failed lookup to mean that the node is already dequeued, so it\nhas nothing to undo.\n\nbegin_new_exec() calls posix_cpu_timers_exit(me) right after\nexec_task_namespaces() and that removes the leftover node, so the state\nnormally stays invisible. But bprm->point_of_no_return is set before\nde_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or\nexec_task_namespaces() fails, the task dies before it gets there.\nexit_itimers() then frees the k_itimer while its node is still queued,\nand reaping tsk later erases that freed node from the rbtree.\n\nIn short:\n\n      the non-leader thread B           the parent\n\n  timer_create(CLOCK_THREAD_CPUTIME_ID)\n  timer_settime()\n    arm_timer()            // the node is queued on B\n  execve()\n    de_thread(B)\n      exchange_tids(B, leader)  // B's PID now belongs to the leader\n      release_task(leader)\n        __exit_signal(leader)\n          posix_cpu_timers_exit(leader)  // cleans leader's queue, not B's\n          __unhash_process(leader)  // that PID has no task anymore\n    exec_mmap()\n      mmap_read_lock_killable(old_mm)\n                                kill(B, SIGKILL)\n      // -EINTR\n  get_signal()\n    do_exit()\n      exit_itimers()\n        posix_timer_delete()\n          posix_cpu_timer_del()\n        posix_timer_unhash_and_free()  // freed while still queued\n                                wait4()\n                                  release_task(B)\n                                    posix_cpu_timers_exit(B)\n                                      cleanup_timerqueue()\n                                        timerqueue_del()  // use-after-free\n\nMove the POSIX timer cleanup right after de_thread() before any of the\nlater failure conditions brings the task into do_exit().\n\n[ tglx: Move the cleanup right after de_thread() ]",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98260"
+    },
+    {
+      "id": "CVE-2026-98256",
+      "published": "2026-10-06T09:18:14.373",
+      "modified": "2026-10-06T09:18:14.373",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsignal: Prevent exec() race\n\nHyunwoo debugged the following KASAN UAF splat:\n\n  BUG: KASAN: slab-use-after-free in __send_signal_locked+0xb27/0xba0\n  Write of size 8 at addr ffff888007ed80c8 by task poc/79\n  ...\n  Call Trace:\n   __send_signal_locked+0xb27/0xba0\n   do_send_sig_info+0xa7/0x160\n   do_send_specific+0x76/0xa0\n   __x64_sys_tgkill+0x193/0x270\n  ...\n  Allocated by task 80:\n   do_timer_create+0x1a4/0x1030\n   __x64_sys_timer_create+0x145/0x190\n  ...\n  Freed by task 12:\n   kmem_cache_free_bulk+0x1f8/0x4a0\n   kvfree_rcu_bulk+0x14f/0x1c0\n   kfree_rcu_work+0x128/0x1a0\n  ...\n  Last potentially related work creation:\n   kvfree_call_rcu+0x39/0x390\n   __flush_itimer_signals+0x211/0x320\n   flush_itimer_signals+0x47/0x90\n   begin_new_exec+0xa6b/0x28c0\n\nIt turned out that this happens with a non-leader exec() as Hyunwoo\nexplained:\n\nde_thread() calls exchange_tids() before release_task(leader), so the\nstruct pid held by a SIGEV_THREAD_ID timer created against the leader's tid\nnow points to the thread which called execve(). pid_task() returns that\nthread and lock_task_sighand() on it succeeds.\n\nIf the timer signal is blocked, its sigqueue stays queued on the leader's\ntask::pending. The next expiry of that timer can then run while\nrelease_task() flushes the queue.\n\nposixtimer_send_sigqueue() checks whether the sigqueue is already queued\nwith a plain list_empty(), which only reads list_head::next.\nlist_del_init() is not atomic and INIT_LIST_HEAD() stores list_head::next\nbefore list_head::prev, so the check can pass in between. list_add_tail()\nqueues the entry on the task::pending of the live thread, and the\nlist_head::prev store from the flush then overwrites the list_head::prev\nlink that list_add_tail() has just set.\n\n__flush_itimer_signals() does not undo that either. With list_head::prev\npointing at the entry itself, its list_del_init() only stores the same\nvalues again, so the entry is not removed from the list. It is still there\nafter the last reference is dropped and the timer is freed by RCU, and the\nlist_add_tail() of a later tgkill() follows that list_head::prev into the\nfreed timer.\n\nThis problem surfaced with the recent commit which moved the sigqueue flush\nout of the sighand lock held region.\n\nHyonwoo proposed to fix this by using list_del_init_careful(), but that\njust papers over the problem. After some disucssions and various attempts\nto solve it, Eric pointed out that there is no reason to flush\ntask::pending late in release_task() and it should be done in\nexit_signals() already.\n\nAs nothing can collect and deliver signals which are queued in a dying\ntask's pending queue, there is no reason to delay it further.\n\nBut it has to be ensured that no signals can be queued into it after that\npoint. exit_signals() sets PF_EXITING in task::flags, which can be used as\nan indicator for this.\n\nCure it by:\n\n  - Preventing signal queueing for task private signals (PIDTYPE_PID) when\n    the task has PF_EXITING set in __send_signal_locked() and in\n    posixtimer_send_sigqueue().\n\n  - Protecting the unlocked setting of PF_EXITING in exit_signals() for the\n    task group empty and the group exit case with sighand lock\n\n  - Flushing task::pending signals right there.\n\n    Optimize that by moving the whole pending list to an on-stack list head\n    under sighand lock and free the signals without the lock held.\n\nThere has been quite some discussion about the lockless flush and the\nnon-leader exec case on weakly ordered systems. The problem is that a third\nparty which tries to send a posix timer signal relies on the PID lookup to\nfind the target task and that lookup might result in the new leader when\nthe signal was originaly directed to the old leader. In case that the\nsignal was queued on the old leader then the lockless flush raised a\nconcern over the following situation:\n\n   old_leader\t\tnew_leader              third party\n\nA: flush_list()\t// list_del_in\n---truncated---",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98256"
+    },
+    {
+      "id": "CVE-2026-98223",
+      "published": "2026-10-06T09:18:09.290",
+      "modified": "2026-10-06T09:18:09.290",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm: filemap: retain mapped dropbehind folios\n\nFault-around can map ready dropbehind folios without going through the\nnormal page-cache lookup that clears dropbehind.  A mapping represents a\ncompeting cached user, so retain the folio instead of forcibly unmapping\nit when writeback completes.\n\nFor a mapped folio, folio_unmap_invalidate() can call\nunmap_mapping_folio(), which takes i_mmap_rwsem and may sleep.  Retaining\nmapped folios avoids this path when folio_end_dropbehind() runs in\nnon-preemptible task context.\n\nTal was able to trigger a sleeping-in-atomic warning due to this [1].\n\nUnmapped dropbehind folios continue through the existing invalidation path.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98223"
+    },
+    {
+      "id": "CVE-2026-39747",
+      "published": "2026-10-06T09:17:46.033",
+      "modified": "2026-10-06T09:17:46.033",
+      "description": "Subscriber SQL Injection in Woffice <= 5.4.35 versions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-39747"
+    },
     {
       "id": "CVE-2026-59357",
       "published": "2026-10-06T07:16:59.253",
@@ -7214,12 +7414,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 185,
+    "total_relevant_cves": 195,
     "critical": 25,
-    "high": 71,
+    "high": 72,
     "medium": 80,
     "kev": 5,
     "p1": 8,
-    "p2": 79
+    "p2": 80
   }
 }
