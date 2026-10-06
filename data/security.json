@@ -1,6 +1,192 @@
 {
-  "updated": "2026-10-06T18:16:58.214917+00:00",
+  "updated": "2026-10-06T18:48:36.789846+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-88371",
+      "published": "2026-09-24T16:17:14.100",
+      "modified": "2026-10-06T18:16:57.523",
+      "description": "ZBar commit 2ea2ca58 contains an undefined-behavior vulnerability in the Code 128 decode6() function. When processing specially crafted Code 128 input, decode_e() can return -1 for an invalid edge pattern, and decode6() subsequently left-shifts this negative signed value while constructing the edge signature. The operation invokes undefined behavior and can terminate trap-mode UBSan builds with SIGILL, resulting in denial of service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88371"
+    },
+    {
+      "id": "CVE-2026-77804",
+      "published": "2026-10-05T13:16:54.590",
+      "modified": "2026-10-06T18:16:56.393",
+      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, a time-of-check time-of-use (TOCTOU) race condition exists in the installation of the HTTPS interception root certificate into the Local Computer certificate store. Fiddler writes the certificate to a temporary file in a user-writable location and then launches the external TrustCert helper application, which elevates and imports the certificate from that file. A local threat actor with low privileges who replaces the temporary file between the time it is written and the time the elevated helper reads it can cause an attacker-supplied root certificate to be installed in the Local Computer Trusted Root Certification Authorities store, enabling subsequent interception and modification of TLS-protected traffic on the machine. Successful exploitation requires the user to initiate the certificate trust operation and approve the elevation prompt.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77804"
+    },
+    {
+      "id": "CVE-2026-77803",
+      "published": "2026-10-05T13:16:54.453",
+      "modified": "2026-10-06T18:16:56.270",
+      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, front-end request desynchronization is possible in the proxy request forwarding component. A request that contains both a Content-Length and a Transfer-Encoding header is forwarded with both headers present, while Fiddler frames the body using Transfer-Encoding only. The remaining bytes on the reused client connection are then parsed as a separate pipelined request, so a local threat actor with low privileges can cause a single malformed request to be split into two requests forwarded to the origin server and receive an additional smuggled response, without requiring a vulnerable server.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.6,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77803"
+    },
+    {
+      "id": "CVE-2026-77802",
+      "published": "2026-10-05T13:16:54.293",
+      "modified": "2026-10-06T18:16:56.153",
+      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, HTTP request smuggling is possible in the proxy request forwarding component. Requests containing multiple Content-Length headers with conflicting values are forwarded verbatim to the origin server, while Fiddler frames the request body using only the first Content-Length value. A local threat actor with low privileges who is able to send requests through the same Fiddler proxy instance as another user can exploit this desynchronization against a non-RFC-9110-compliant origin server that keeps the connection alive to smuggle an additional request. Because Fiddler returns the server connection to its pipe pool after reading only the first response, the unread smuggled response remains buffered on the socket and is served to the next session that reuses that connection, allowing the attacker to poison responses delivered to other users and to obtain responses intended for them.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77802"
+    },
+    {
+      "id": "CVE-2026-4948",
+      "published": "2026-03-27T06:16:39.543",
+      "modified": "2026-10-06T18:16:54.367",
+      "description": "A flaw was found in firewalld. A local unprivileged user can exploit this vulnerability by mis-authorizing two runtime D-Bus (Desktop Bus) setters, setZoneSettings2 and setPolicySettings. This mis-authorization allows the user to modify the runtime firewall state without proper authentication, leading to unauthorized changes in network security configurations.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:firewalld:firewalld:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4948"
+    },
+    {
+      "id": "CVE-2026-2575",
+      "published": "2026-03-18T04:17:16.783",
+      "modified": "2026-10-06T18:16:54.180",
+      "description": "A flaw was found in Keycloak. An unauthenticated remote attacker can trigger an application level Denial of Service (DoS) by sending a highly compressed SAMLRequest through the SAML Redirect Binding. The server fails to enforce size limits during DEFLATE decompression, leading to an OutOfMemoryError (OOM) and subsequent process termination. This vulnerability allows an attacker to disrupt the availability of the service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2575"
+    },
+    {
+      "id": "CVE-2026-106104",
+      "published": "2026-10-06T18:16:51.687",
+      "modified": "2026-10-06T18:16:51.687",
+      "description": "Quasar Framework is a framework for building high-performance Vue.js user interfaces. Prior to 2.23.3, Platform.parseSSR() passed an unbounded User-Agent request header to getMatch() in ui/src/plugins/platform/Platform.js, whose browser-detection expressions combined greedy captures with repeated unbounded scans. Platform belongs to autoInstalledPlugins, so this parsing occurs before routing for every SSR request. A crafted unauthenticated request containing repeated version tokens without a terminating Safari token causes super-linear backtracking and blocks the Node.js event loop, delaying every other SSR request. SPA, PWA, Electron, Cordova, Capacitor, browser-extension, and static-site-generation targets are not affected because they do not parse an attacker-controlled request header through this path. This issue is fixed in version 2.23.3.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106104"
+    },
+    {
+      "id": "CVE-2026-106101",
+      "published": "2026-10-06T17:17:24.110",
+      "modified": "2026-10-06T18:16:51.297",
+      "description": "Quasar Framework is a framework for building high-performance Vue.js user interfaces. Prior to 2.32.2, the openURL() utility in ui/src/utils/open-url/open-url.js trusted window.SafariViewController whenever that global existed in an iOS environment. Attacker-controlled HTML rendered by components such as QEditor can create a named SafariViewController element, causing browser named-property resolution to replace the expected native bridge object. A later openURL() call then invokes isAvailable() on the element, throws a TypeError, and disrupts external navigation, login redirects, payment redirects, and other URL-opening workflows. QSelect and QChatMessage HTML-rendering configurations can expose the same trigger when they render attacker-controlled HTML. This issue is fixed in version 2.32.2.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106101"
+    },
     {
       "id": "CVE-2026-105792",
       "published": "2026-10-06T15:17:15.980",
@@ -252,26 +438,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21589"
-    },
-    {
-      "id": "CVE-2026-106101",
-      "published": "2026-10-06T17:17:24.110",
-      "modified": "2026-10-06T17:17:24.110",
-      "description": "Quasar Framework is a framework for building high-performance Vue.js user interfaces. Prior to 2.32.2, the openURL() utility in ui/src/utils/open-url/open-url.js trusted window.SafariViewController whenever that global existed in an iOS environment. Attacker-controlled HTML rendered by components such as QEditor can create a named SafariViewController element, causing browser named-property resolution to replace the expected native bridge object. A later openURL() call then invokes isAvailable() on the element, throws a TypeError, and disrupts external navigation, login redirects, payment redirects, and other URL-opening workflows. QSelect and QChatMessage HTML-rendering configurations can expose the same trigger when they render attacker-controlled HTML. This issue is fixed in version 2.32.2.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106101"
     },
     {
       "id": "CVE-2025-9784",
@@ -1112,66 +1278,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77805"
     },
     {
-      "id": "CVE-2026-77804",
-      "published": "2026-10-05T13:16:54.590",
-      "modified": "2026-10-06T15:09:20.387",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, a time-of-check time-of-use (TOCTOU) race condition exists in the installation of the HTTPS interception root certificate into the Local Computer certificate store. Fiddler writes the certificate to a temporary file in a user-writable location and then launches the external TrustCert helper application, which elevates and imports the certificate from that file. A local threat actor with low privileges who replaces the temporary file between the time it is written and the time the elevated helper reads it can cause an attacker-supplied root certificate to be installed in the Local Computer Trusted Root Certification Authorities store, enabling subsequent interception and modification of TLS-protected traffic on the machine. Successful exploitation requires the user to initiate the certificate trust operation and approve the elevation prompt.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77804"
-    },
-    {
-      "id": "CVE-2026-77803",
-      "published": "2026-10-05T13:16:54.453",
-      "modified": "2026-10-06T15:09:20.387",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, front-end request desynchronization is possible in the proxy request forwarding component. A request that contains both a Content-Length and a Transfer-Encoding header is forwarded with both headers present, while Fiddler frames the body using Transfer-Encoding only. The remaining bytes on the reused client connection are then parsed as a separate pipelined request, so a local threat actor with low privileges can cause a single malformed request to be split into two requests forwarded to the origin server and receive an additional smuggled response, without requiring a vulnerable server.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.6,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77803"
-    },
-    {
-      "id": "CVE-2026-77802",
-      "published": "2026-10-05T13:16:54.293",
-      "modified": "2026-10-06T15:09:20.387",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, HTTP request smuggling is possible in the proxy request forwarding component. Requests containing multiple Content-Length headers with conflicting values are forwarded verbatim to the origin server, while Fiddler frames the request body using only the first Content-Length value. A local threat actor with low privileges who is able to send requests through the same Fiddler proxy instance as another user can exploit this desynchronization against a non-RFC-9110-compliant origin server that keeps the connection alive to smuggle an additional request. Because Fiddler returns the server connection to its pipe pool after reading only the first response, the unread smuggled response remains buffered on the socket and is served to the next session that reuses that connection, allowing the attacker to poison responses delivered to other users and to obtain responses intended for them.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77802"
-    },
-    {
       "id": "CVE-2026-96940",
       "published": "2026-10-02T19:16:43.023",
       "modified": "2026-10-06T15:05:34.080",
@@ -1480,38 +1586,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98050"
-    },
-    {
-      "id": "CVE-2026-2575",
-      "published": "2026-03-18T04:17:16.783",
-      "modified": "2026-10-06T12:16:48.757",
-      "description": "A flaw was found in Keycloak. An unauthenticated remote attacker can trigger an application level Denial of Service (DoS) by sending a highly compressed SAMLRequest through the SAML Redirect Binding. The server fails to enforce size limits during DEFLATE decompression, leading to an OutOfMemoryError (OOM) and subsequent process termination. This vulnerability allows an attacker to disrupt the availability of the service.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2575"
     },
     {
       "id": "CVE-2026-49329",
@@ -7934,12 +8008,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 214,
+    "total_relevant_cves": 217,
     "critical": 27,
-    "high": 83,
-    "medium": 88,
+    "high": 84,
+    "medium": 90,
     "kev": 5,
     "p1": 9,
-    "p2": 92
+    "p2": 93
   }
 }
