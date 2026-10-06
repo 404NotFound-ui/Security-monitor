@@ -1,6 +1,416 @@
 {
-  "updated": "2026-10-06T12:16:40.435136+00:00",
+  "updated": "2026-10-06T12:49:07.097046+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-84854",
+      "published": "2026-10-06T10:16:54.230",
+      "modified": "2026-10-06T12:16:50.587",
+      "description": "In the WibuKey driver for Windows below Version 6.72, insufficient validation of user input when calculating the size of a kernel buffer could cause small amounts of data to be written outside the intended kernel buffer. This can lead to a system crash. Under unfavorable circumstances, adjacent kernel memory may be modified.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84854"
+    },
+    {
+      "id": "CVE-2026-7507",
+      "published": "2026-05-19T12:16:19.687",
+      "modified": "2026-10-06T12:16:50.110",
+      "description": "A session fixation vulnerability was found in Keycloak's login-actions endpoints. An unauthenticated attacker could exploit this flaw by pre-creating an authentication session and tricking a victim into visiting a maliciously crafted link. By leveraging the /login-actions/restart endpoint—which processes session handles without adequate CSRF protection or cookie ownership validation—an attacker can reset the authentication flow state. This causes Single Sign-On (SSO) to authenticate the victim transparently upon clicking the link, allowing the attacker to hijack the required-action form without needing the victim's credentials. A successful exploit could lead to complete account takeover, including highly privileged administrative accounts.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7507"
+    },
+    {
+      "id": "CVE-2026-7307",
+      "published": "2026-05-19T12:16:19.423",
+      "modified": "2026-10-06T12:16:49.817",
+      "description": "A flaw was found in Keycloak. A remote, unauthenticated attacker can send a specially crafted XML input to the Security Assertion Markup Language (SAML) endpoint. This malicious input can cause high CPU usage and worker thread starvation, leading to a Denial of Service (DoS) where the server becomes unavailable.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7307"
+    },
+    {
+      "id": "CVE-2026-59357",
+      "published": "2026-10-06T07:16:59.253",
+      "modified": "2026-10-06T12:16:49.673",
+      "description": "Insufficient verification of data authenticity (CWE-345) in the external OIDC login callback in Cloud Foundry UAA v4.5.0 to v79.6.0 (inclusive) allows an authenticated UAA user to bypass the OAuth authorization-code exchange and establish an authenticated external-OIDC browser session, via submitting a UAA access token or a cross-client ID token as the callback’s id_token parameter.\n\n\n\nThe issue only manifests when a UAA zone is configured with an OIDC identity provider whose issuer exactly matches that zone’s own /oauth/token endpoint (a “self-UAA” OIDC configuration). In this configuration, the callback takes a supplied id_token directly instead of requiring the authorization code exchange, and does not verify that the token was actually issued as an ID token for the specific self-OIDC relying-party client. An attacker holding any valid UAA JWT for themselves — including a plain access token with only uaa.user scope, or a valid ID token issued to an unrelated client such as cf — can present it as the callback’s id_token and be authenticated into a mapped local (“shadow”) account. Because the resulting session is not verified against the originating token’s true audience or user_id, its effective privilege depends entirely on the shadow account’s group memberships, which can include administrative scopes such as clients.write.\n\n\n\nExploitation requires a valid UAA user JWT, a valid browser login state for the target zone, and the presence of a self-referential OIDC provider configuration — this is not a pre-authentication vulnerability, and does not by itself grant privileges beyond those already held by the mapped shadow account.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59357"
+    },
+    {
+      "id": "CVE-2026-4634",
+      "published": "2026-04-02T13:16:27.027",
+      "modified": "2026-10-06T12:16:48.927",
+      "description": "A flaw was found in Keycloak. An unauthenticated attacker can exploit this vulnerability by sending a specially crafted POST request with an excessively long scope parameter to the OpenID Connect (OIDC) token endpoint. This leads to high resource consumption and prolonged processing times, ultimately resulting in a Denial of Service (DoS) for the Keycloak server.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:-:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "26.2",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.2:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "26.2.15",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.2.15:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "26.4",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.4:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "26.4.11",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.4.11:*:*:*:text-only:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:-:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:build_of_keycloak:26.2:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:build_of_keycloak:26.2.15:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:build_of_keycloak:26.4:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:build_of_keycloak:26.4.11:*:*:*:text-only:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4634"
+    },
+    {
+      "id": "CVE-2026-2575",
+      "published": "2026-03-18T04:17:16.783",
+      "modified": "2026-10-06T12:16:48.757",
+      "description": "A flaw was found in Keycloak. An unauthenticated remote attacker can trigger an application level Denial of Service (DoS) by sending a highly compressed SAMLRequest through the SAML Redirect Binding. The server fails to enforce size limits during DEFLATE decompression, leading to an OutOfMemoryError (OOM) and subsequent process termination. This vulnerability allows an attacker to disrupt the availability of the service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2575"
+    },
+    {
+      "id": "CVE-2026-2092",
+      "published": "2026-03-18T02:16:24.577",
+      "modified": "2026-10-06T12:16:48.450",
+      "description": "A flaw was found in Keycloak. Keycloak's Security Assertion Markup Language (SAML) broker endpoint does not properly validate encrypted assertions when the overall SAML response is not signed. An attacker with a valid signed SAML assertion can exploit this by crafting a malicious SAML response. This allows the attacker to inject an encrypted assertion for an arbitrary principal, leading to unauthorized access and potential information disclosure.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of keycloak",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2092"
+    },
+    {
+      "id": "CVE-2025-9784",
+      "published": "2025-09-02T14:15:36.593",
+      "modified": "2026-10-06T12:16:46.237",
+      "description": "A flaw was found in Undertow where malformed client requests can trigger server-side stream resets without triggering abuse counters. This issue, referred to as the \"MadeYouReset\" attack, allows malicious clients to induce excessive server workload by repeatedly causing server-side stream aborts. While not a protocol bug, this highlights a common implementation weakness that can be exploited to cause a denial of service (DoS).",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of apache camel for spring boot",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:build_of_apache_camel_for_spring_boot:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "fuse",
+          "version": "7.0.0",
+          "cpe": "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "8.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform expansion pack",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "process automation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "single sign on",
+          "version": "7.0",
+          "cpe": "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "undertow",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:undertow:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_apache_camel_for_spring_boot:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:undertow:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9784"
+    },
+    {
+      "id": "CVE-2025-12543",
+      "published": "2026-01-07T17:15:55.093",
+      "modified": "2026-10-06T12:16:44.357",
+      "description": "A flaw was found in the Undertow HTTP server core, which is used in WildFly, JBoss EAP, and other Java applications. The Undertow library fails to properly validate the Host header in incoming HTTP requests.As a result, requests containing malformed or malicious Host headers are processed without rejection, enabling attackers to poison caches, perform internal network scans, or hijack user sessions.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "build of apache camel",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:build_of_apache_camel:*:*:*:*:*:spring_boot:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "data grid",
+          "version": "8.0",
+          "cpe": "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "fuse",
+          "version": "7.0.0",
+          "cpe": "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform expansion pack",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "process automation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "single sign on",
+          "version": "7.0",
+          "cpe": "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "undertow",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:undertow:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:build_of_apache_camel:*:*:*:*:*:spring_boot:*:*",
+        "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:undertow:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.6,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12543"
+    },
     {
       "id": "CVE-2026-39747",
       "published": "2026-10-06T09:17:46.033",
@@ -20,26 +430,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-39747"
-    },
-    {
-      "id": "CVE-2026-84854",
-      "published": "2026-10-06T10:16:54.230",
-      "modified": "2026-10-06T10:16:54.230",
-      "description": "In the WibuKey driver for Windows below Version 6.72, insufficient validation of user input when calculating the size of a kernel buffer could cause small amounts of data to be written outside the intended kernel buffer. This can lead to a system crash. Under unfavorable circumstances, adjacent kernel memory may be modified.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84854"
     },
     {
       "id": "CVE-2026-49329",
@@ -240,26 +630,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98223"
-    },
-    {
-      "id": "CVE-2026-59357",
-      "published": "2026-10-06T07:16:59.253",
-      "modified": "2026-10-06T07:16:59.253",
-      "description": "Insufficient verification of data authenticity (CWE-345) in the external OIDC login callback in Cloud Foundry UAA v4.5.0 to v79.6.0 (inclusive) allows an authenticated UAA user to bypass the OAuth authorization-code exchange and establish an authenticated external-OIDC browser session, via submitting a UAA access token or a cross-client ID token as the callback’s id_token parameter.\n\n\n\nThe issue only manifests when a UAA zone is configured with an OIDC identity provider whose issuer exactly matches that zone’s own /oauth/token endpoint (a “self-UAA” OIDC configuration). In this configuration, the callback takes a supplied id_token directly instead of requiring the authorization code exchange, and does not verify that the token was actually issued as an ID token for the specific self-OIDC relying-party client. An attacker holding any valid UAA JWT for themselves — including a plain access token with only uaa.user scope, or a valid ID token issued to an unrelated client such as cf — can present it as the callback’s id_token and be authenticated into a mapped local (“shadow”) account. Because the resulting session is not verified against the originating token’s true audience or user_id, its effective privilege depends entirely on the shadow account’s group memberships, which can include administrative scopes such as clients.write.\n\n\n\nExploitation requires a valid UAA user JWT, a valid browser login state for the target zone, and the presence of a self-referential OIDC provider configuration — this is not a pre-authentication vulnerability, and does not by itself grant privileges beyond those already held by the mapped shadow account.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59357"
     },
     {
       "id": "CVE-2026-58015",
@@ -741,188 +1111,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104040"
     },
     {
-      "id": "CVE-2026-2575",
-      "published": "2026-03-18T04:17:16.783",
-      "modified": "2026-10-06T01:16:35.187",
-      "description": "A flaw was found in Keycloak. An unauthenticated remote attacker can trigger an application level Denial of Service (DoS) by sending a highly compressed SAMLRequest through the SAML Redirect Binding. The server fails to enforce size limits during DEFLATE decompression, leading to an OutOfMemoryError (OOM) and subsequent process termination. This vulnerability allows an attacker to disrupt the availability of the service.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2575"
-    },
-    {
-      "id": "CVE-2026-7507",
-      "published": "2026-05-19T12:16:19.687",
-      "modified": "2026-10-06T00:16:36.680",
-      "description": "A session fixation vulnerability was found in Keycloak's login-actions endpoints. An unauthenticated attacker could exploit this flaw by pre-creating an authentication session and tricking a victim into visiting a maliciously crafted link. By leveraging the /login-actions/restart endpoint—which processes session handles without adequate CSRF protection or cookie ownership validation—an attacker can reset the authentication flow state. This causes Single Sign-On (SSO) to authenticate the victim transparently upon clicking the link, allowing the attacker to hijack the required-action form without needing the victim's credentials. A successful exploit could lead to complete account takeover, including highly privileged administrative accounts.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7507"
-    },
-    {
-      "id": "CVE-2026-7307",
-      "published": "2026-05-19T12:16:19.423",
-      "modified": "2026-10-06T00:16:36.027",
-      "description": "A flaw was found in Keycloak. A remote, unauthenticated attacker can send a specially crafted XML input to the Security Assertion Markup Language (SAML) endpoint. This malicious input can cause high CPU usage and worker thread starvation, leading to a Denial of Service (DoS) where the server becomes unavailable.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7307"
-    },
-    {
-      "id": "CVE-2026-4634",
-      "published": "2026-04-02T13:16:27.027",
-      "modified": "2026-10-06T00:16:35.653",
-      "description": "A flaw was found in Keycloak. An unauthenticated attacker can exploit this vulnerability by sending a specially crafted POST request with an excessively long scope parameter to the OpenID Connect (OIDC) token endpoint. This leads to high resource consumption and prolonged processing times, ultimately resulting in a Denial of Service (DoS) for the Keycloak server.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:-:*:*:*:text-only:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "26.2",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.2:*:*:*:text-only:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "26.2.15",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.2.15:*:*:*:text-only:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "26.4",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.4:*:*:*:text-only:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "26.4.11",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:26.4.11:*:*:*:text-only:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:-:*:*:*:text-only:*:*:*",
-        "cpe:2.3:a:redhat:build_of_keycloak:26.2:*:*:*:text-only:*:*:*",
-        "cpe:2.3:a:redhat:build_of_keycloak:26.2.15:*:*:*:text-only:*:*:*",
-        "cpe:2.3:a:redhat:build_of_keycloak:26.4:*:*:*:text-only:*:*:*",
-        "cpe:2.3:a:redhat:build_of_keycloak:26.4.11:*:*:*:text-only:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4634"
-    },
-    {
-      "id": "CVE-2026-2092",
-      "published": "2026-03-18T02:16:24.577",
-      "modified": "2026-10-06T00:16:35.337",
-      "description": "A flaw was found in Keycloak. Keycloak's Security Assertion Markup Language (SAML) broker endpoint does not properly validate encrypted assertions when the overall SAML response is not signed. An attacker with a valid signed SAML assertion can exploit this by crafting a malicious SAML response. This allows the attacker to inject an encrypted assertion for an arbitrary principal, leading to unauthorized access and potential information disclosure.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-2092"
-    },
-    {
       "id": "CVE-2026-105786",
       "published": "2026-10-06T00:16:34.283",
       "modified": "2026-10-06T00:16:34.417",
@@ -981,194 +1169,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103588"
-    },
-    {
-      "id": "CVE-2025-9784",
-      "published": "2025-09-02T14:15:36.593",
-      "modified": "2026-10-06T00:16:31.670",
-      "description": "A flaw was found in Undertow where malformed client requests can trigger server-side stream resets without triggering abuse counters. This issue, referred to as the \"MadeYouReset\" attack, allows malicious clients to induce excessive server workload by repeatedly causing server-side stream aborts. While not a protocol bug, this highlights a common implementation weakness that can be exploited to cause a denial of service (DoS).",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of apache camel for spring boot",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:build_of_apache_camel_for_spring_boot:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "fuse",
-          "version": "7.0.0",
-          "cpe": "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform",
-          "version": "7.0.0",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform",
-          "version": "8.0.0",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform expansion pack",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "process automation",
-          "version": "7.0",
-          "cpe": "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "single sign on",
-          "version": "7.0",
-          "cpe": "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "undertow",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:undertow:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_apache_camel_for_spring_boot:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:undertow:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9784"
-    },
-    {
-      "id": "CVE-2025-12543",
-      "published": "2026-01-07T17:15:55.093",
-      "modified": "2026-10-06T00:16:29.870",
-      "description": "A flaw was found in the Undertow HTTP server core, which is used in WildFly, JBoss EAP, and other Java applications. The Undertow library fails to properly validate the Host header in incoming HTTP requests.As a result, requests containing malformed or malicious Host headers are processed without rejection, enabling attackers to poison caches, perform internal network scans, or hijack user sessions.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of apache camel",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_apache_camel:*:*:*:*:*:spring_boot:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "data grid",
-          "version": "8.0",
-          "cpe": "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "fuse",
-          "version": "7.0.0",
-          "cpe": "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform",
-          "version": "7.0.0",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "jboss enterprise application platform expansion pack",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "process automation",
-          "version": "7.0",
-          "cpe": "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "single sign on",
-          "version": "7.0",
-          "cpe": "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "undertow",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:undertow:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_apache_camel:*:*:*:*:*:spring_boot:*:*",
-        "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:fuse:7.0.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:jboss_enterprise_application_platform_expansion_pack:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:process_automation:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:single_sign-on:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:undertow:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.6,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12543"
     },
     {
       "id": "CVE-2026-21589",
