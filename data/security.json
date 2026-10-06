@@ -1,6 +1,86 @@
 {
-  "updated": "2026-10-06T17:56:31.411679+00:00",
+  "updated": "2026-10-06T18:16:58.214917+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-105792",
+      "published": "2026-10-06T15:17:15.980",
+      "modified": "2026-10-06T18:16:46.957",
+      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the /api/task_result/{task_name} endpoint calls SessionManager.get_result_by_task() in ufo/server/services/session_manager.py, which acquires a non-reentrant lock and then calls SessionManager.get_result() to acquire the same lock again when the task name maps to a session. An authenticated caller who knows or creates a mapped task name can therefore block the request indefinitely, and in the default single-process server configuration the blocked event-loop thread prevents other HTTP, WebSocket, and dependent background interactions. Unknown task names do not reach the nested call and are not affected. This issue is fixed in version 3.0.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105792"
+    },
+    {
+      "id": "CVE-2026-105790",
+      "published": "2026-10-06T14:17:40.490",
+      "modified": "2026-10-06T18:16:46.847",
+      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, authenticated device registration through /api/devices can supply a permitted attacker-controlled WebSocket endpoint while aip/transport/websocket.py applies pinned_addresses only to the initial destination. The pinned websockets.connect() client follows cross-origin redirects and opens a new TCP connection before Galaxy performs its post-handshake peer-IP validation, allowing WebSocket upgrade requests to internal hosts reachable from the server. The confirmed impact is the internal connection and handshake request, and does not establish arbitrary HTTP methods, response-body disclosure, a completed AIP session, or cloud metadata access. This issue is fixed in version 3.0.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105790"
+    },
+    {
+      "id": "CVE-2026-105786",
+      "published": "2026-10-06T00:16:34.283",
+      "modified": "2026-10-06T18:16:46.723",
+      "description": "Joplin is an open source note-taking and to-do application that organises notes and lists into notebooks. Prior to 3.7.13, packages/server/src/models/ApplicationModel.ts accepts a caller-chosen application authorization identifier, applications/:id/confirm binds that identifier to a logged-in user through a generic consent page, and the public packages/server/src/routes/api/application_auth.ts endpoint passes it to ApplicationModel.createAppPassword without authenticating or binding the redeemer. An attacker can cause a victim to approve the attacker's identifier, redeem a durable application ID and password, and exchange the credential for a victim session with full read and write access to synchronized data. This vulnerability is fixed in 3.7.13.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105786"
+    },
+    {
+      "id": "CVE-2026-101207",
+      "published": "2026-10-06T18:16:42.173",
+      "modified": "2026-10-06T18:16:42.173",
+      "description": "Dell OpenManage Integration with Microsoft Windows Admin Center, versions prior to 3.7.0, contains an Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') vulnerability. A low privileged attacker with remote access could potentially exploit this vulnerability, leading to Remote execution.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101207"
+    },
     {
       "id": "CVE-2026-7507",
       "published": "2026-05-19T12:16:19.687",
@@ -818,46 +898,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105791"
-    },
-    {
-      "id": "CVE-2026-105792",
-      "published": "2026-10-06T15:17:15.980",
-      "modified": "2026-10-06T15:25:00.650",
-      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the /api/task_result/{task_name} endpoint calls SessionManager.get_result_by_task() in ufo/server/services/session_manager.py, which acquires a non-reentrant lock and then calls SessionManager.get_result() to acquire the same lock again when the task name maps to a session. An authenticated caller who knows or creates a mapped task name can therefore block the request indefinitely, and in the default single-process server configuration the blocked event-loop thread prevents other HTTP, WebSocket, and dependent background interactions. Unknown task names do not reach the nested call and are not affected. This issue is fixed in version 3.0.9.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105792"
-    },
-    {
-      "id": "CVE-2026-105790",
-      "published": "2026-10-06T14:17:40.490",
-      "modified": "2026-10-06T15:18:12.170",
-      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, authenticated device registration through /api/devices can supply a permitted attacker-controlled WebSocket endpoint while aip/transport/websocket.py applies pinned_addresses only to the initial destination. The pinned websockets.connect() client follows cross-origin redirects and opens a new TCP connection before Galaxy performs its post-handshake peer-IP validation, allowing WebSocket upgrade requests to internal hosts reachable from the server. The confirmed impact is the internal connection and handshake request, and does not establish arbitrary HTTP methods, response-body disclosure, a completed AIP session, or cloud metadata access. This issue is fixed in version 3.0.9.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105790"
     },
     {
       "id": "CVE-2026-105789",
@@ -2128,26 +2168,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56097"
-    },
-    {
-      "id": "CVE-2026-105786",
-      "published": "2026-10-06T00:16:34.283",
-      "modified": "2026-10-06T00:16:34.417",
-      "description": "Joplin is an open source note-taking and to-do application that organises notes and lists into notebooks. Prior to 3.7.13, packages/server/src/models/ApplicationModel.ts accepts a caller-chosen application authorization identifier, applications/:id/confirm binds that identifier to a logged-in user through a generic consent page, and the public packages/server/src/routes/api/application_auth.ts endpoint passes it to ApplicationModel.createAppPassword without authenticating or binding the redeemer. An attacker can cause a victim to approve the attacker's identifier, redeem a durable application ID and password, and exchange the credential for a victim session with full read and write access to synchronized data. This vulnerability is fixed in 3.7.13.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105786"
     },
     {
       "id": "CVE-2026-105763",
@@ -7914,12 +7934,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 213,
+    "total_relevant_cves": 214,
     "critical": 27,
-    "high": 82,
+    "high": 83,
     "medium": 88,
     "kev": 5,
     "p1": 9,
-    "p2": 91
+    "p2": 92
   }
 }
