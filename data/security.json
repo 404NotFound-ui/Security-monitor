@@ -1,6 +1,103 @@
 {
-  "updated": "2026-10-07T23:16:32.528776+00:00",
+  "updated": "2026-10-07T23:42:36.864986+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107223",
+      "published": "2026-10-07T19:17:34.970",
+      "modified": "2026-10-07T23:17:00.077",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
+    },
+    {
+      "id": "CVE-2026-107218",
+      "published": "2026-10-07T19:17:34.120",
+      "modified": "2026-10-07T23:16:59.950",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
+    },
+    {
+      "id": "CVE-2026-107213",
+      "published": "2026-10-07T18:17:18.860",
+      "modified": "2026-10-07T23:16:59.833",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
+    },
+    {
+      "id": "CVE-2024-1102",
+      "published": "2024-04-25T17:15:47.457",
+      "modified": "2026-10-07T23:16:57.693",
+      "description": "A vulnerability was found in jberet-core logging. An exception in 'dbProperties' might display user credentials such as the username and password for the database-connection.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "8.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:jberet:jberet:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1102"
+    },
     {
       "id": "CVE-2026-107283",
       "published": "2026-10-07T22:17:04.327",
@@ -5809,26 +5906,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
     },
     {
-      "id": "CVE-2026-107223",
-      "published": "2026-10-07T19:17:34.970",
-      "modified": "2026-10-07T19:17:34.970",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
-    },
-    {
       "id": "CVE-2026-107222",
       "published": "2026-10-07T19:17:34.800",
       "modified": "2026-10-07T19:17:34.800",
@@ -5867,26 +5944,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
-    },
-    {
-      "id": "CVE-2026-107218",
-      "published": "2026-10-07T19:17:34.120",
-      "modified": "2026-10-07T19:17:34.120",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
     },
     {
       "id": "CVE-2026-107217",
@@ -7677,26 +7734,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
-    },
-    {
-      "id": "CVE-2026-107213",
-      "published": "2026-10-07T18:17:18.860",
-      "modified": "2026-10-07T18:17:18.860",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
     },
     {
       "id": "CVE-2026-107212",
@@ -25643,10 +25680,10 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 676,
+    "total_relevant_cves": 677,
     "critical": 61,
     "high": 266,
-    "medium": 300,
+    "medium": 301,
     "kev": 17,
     "p1": 42,
     "p2": 280
