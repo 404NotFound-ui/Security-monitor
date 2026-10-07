@@ -1,6 +1,289 @@
 {
-  "updated": "2026-10-07T11:57:33.586922+00:00",
+  "updated": "2026-10-07T12:26:11.444306+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-83742",
+      "published": "2026-10-07T03:16:59.880",
+      "modified": "2026-10-07T12:17:10.593",
+      "description": "Unsigned integer underflow in wstrncat() in src/port.c in wolfSSL wolfSSH from v1.4.11 through v1.5.0 on non-Windows platforms allows an authenticated remote attacker to write one out-of-bounds null byte past the end of a stack buffer by sending a crafted SFTP path. wolfSSH_RealPath() in src/ssh.c appends each path component with a remaining-size bound (outSz - curSz) rather than the full destination size, so once the accumulated path reaches half the output buffer the size_t computation n - strlen(s1) - 1 wraps to near SIZE_MAX. The strncat() call is then effectively unbounded and copies the whole component; when that component exactly fills the remainder of the buffer, its terminating null is written one byte past the end. The caller's own length check keeps the copied data inside the buffer, so the overflow is limited to that single null byte, which may corrupt an adjacent stack value and crash the process. Applications that call the public wolfSSH_RealPath() with an output buffer smaller than the input path are additionally exposed to an unbounded copy, because the word32 expression outSz - segSz in that length check also wraps.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83742"
+    },
+    {
+      "id": "CVE-2026-83540",
+      "published": "2026-10-07T03:16:59.730",
+      "modified": "2026-10-07T12:17:10.443",
+      "description": "When password or public key authentication is used with the Windows port of wolfSSHd, the Windows logon token acquired for one authenticated connection is not released before a token is acquired for a subsequent connection, resulting in user login poisoning between connections. A less privileged user with a valid account on the server can exploit this to force a login as a more privileged user. The vulnerability was introduced with the initial Windows port of wolfSSHd in wolfSSH version 1.4.15 and affects all versions through 1.5.0. Non-Windows builds of wolfSSHd are not affected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83540"
+    },
+    {
+      "id": "CVE-2026-16516",
+      "published": "2026-10-07T03:16:58.830",
+      "modified": "2026-10-07T12:17:09.483",
+      "description": "wolfSSH does not validate that the ECDSA curve identifier in a KEXDH_REPLY host key blob matches the algorithm negotiated during key exchange. In ParseECCPubKey() (src/internal.c), the blob's algorithm string is used to derive the curve via NameToId/wcPrimeForId without checking against the negotiated ssh->handshake->pubKeyId, and the RFC 5656 curve identifier string is discarded via GetSkip() rather than compared. An active network man-in-the-middle attacker can substitute a host key blob containing a different ECDSA curve, causing the client to import the key on the wrong curve. Because the attacker controls the private key for the substituted curve, signature verification passes. Exploitation requires an active MitM position and a lax public key check callback (e.g., TOFU, algorithm-name-only check, or fingerprint match against the parsed key).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:H/VA:N/SC:L/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16516"
+    },
+    {
+      "id": "CVE-2026-106059",
+      "published": "2026-10-07T12:17:09.100",
+      "modified": "2026-10-07T12:17:09.100",
+      "description": "GitAhead through 2.7.1 on macOS contains a command injection vulnerability that allows attackers to execute shell commands by crafting repository filenames interpolated unescaped into the Show in Finder AppleScript. Attackers can commit a file whose path contains a double quote followed by a do shell script payload, which runs as the victim user when Show in Finder is chosen.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106059"
+    },
+    {
+      "id": "CVE-2026-106057",
+      "published": "2026-10-07T12:17:08.730",
+      "modified": "2026-10-07T12:17:08.730",
+      "description": "patool before 4.0.6 contains an OS command injection vulnerability on Windows because shell_quote_nt fails to escape cmd.exe metacharacters or embedded double quotes in archive filenames. Attackers can supply crafted filenames like report&calc.gz for single-file formats run with shell=True to execute commands with patool process privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106057"
+    },
+    {
+      "id": "CVE-2026-106056",
+      "published": "2026-10-07T12:17:08.520",
+      "modified": "2026-10-07T12:17:08.520",
+      "description": "Rundeck before 6.2.0 contains an OS command injection vulnerability that allows authenticated users with job run permission to execute commands on Windows nodes by supplying crafted option values. Attackers can inject cmd.exe metacharacters such as && or | into free-text options, which CLIUtils.quoteWindowsCMDArg wraps in ineffective single quotes, running commands with node executor credential privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106056"
+    },
+    {
+      "id": "CVE-2025-15227",
+      "published": "2025-12-29T08:15:51.650",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Read vulnerability, allowing unauthenticated remote attackers to exploit Absolute Path Traversal to download arbitrary system files.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15227"
+    },
+    {
+      "id": "CVE-2025-15228",
+      "published": "2025-12-29T08:15:51.820",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Upload vulnerability, allowing unauthenticated remote attackers to upload and execute web shell backdoors, thereby enabling arbitrary code execution on the server.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15228"
+    },
+    {
+      "id": "CVE-2025-53627",
+      "published": "2025-12-29T17:15:45.287",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "Meshtastic is an open source mesh networking solution. The Meshtastic firmware (starting from version 2.5) introduces asymmetric encryption (PKI) for direct messages, but when the `pki_encrypted` flag is missing, the firmware silently falls back to legacy AES-256-CTR channel encryption. This was an intentional decision to maintain backwards compatibility. However, the end-user applications, like Web app, iOS/Android app, and applications built on top of Meshtastic using the SDK, did not have a way to differentiate between end-to-end encrypted DMs and the legacy DMs. This creates a downgrade attack path where adversaries who know a shared channel key can craft and inject spoofed direct messages that are displayed as if they were PKC encrypted. Users are not given any feedback of whether a direct message was decrypted with PKI or with legacy symmetric encryption, undermining the expected security guarantees of the PKI rollout. Version 2.7.15 fixes this issue.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:meshtastic:meshtastic_firmware:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53627"
+    },
+    {
+      "id": "CVE-2025-68992",
+      "published": "2025-12-30T11:15:57.927",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in xenioushk BWL Knowledge Base Manager bwl-kb-manager allows Stored XSS.This issue affects BWL Knowledge Base Manager: from n/a through <= 1.6.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68992"
+    },
+    {
+      "id": "CVE-2025-15065",
+      "published": "2025-12-29T01:15:52.680",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "Exposure of Sensitive Information to an Unauthorized Actor, Missing Encryption of Sensitive Data, Files or Directories Accessible to External Parties vulnerability in Kings Information & Network Co. KESS Enterprise on Windows allows Privilege Escalation, Modify Existing Service, Modify Shared File.This issue affects KESS Enterprise: before *.25.9.19.exe",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15065"
+    },
+    {
+      "id": "CVE-2025-69202",
+      "published": "2025-12-29T20:15:42.107",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "Axios Cache Interceptor is a cache interceptor for axios. Prior to version 1.11.1, when a server calls an upstream service using different auth tokens, axios-cache-interceptor returns incorrect cached responses, leading to authorization bypass. The cache key is generated only from the URL, ignoring request headers like `Authorization`. When the server responds with `Vary: Authorization` (indicating the response varies by auth token), the library ignores this, causing all requests to share the same cache regardless of authorization. Server-side applications (APIs, proxies, backend services) that use axios-cache-interceptor to cache requests to upstream services, handle requests from multiple users with different auth tokens, and upstream services replies on `Vary` to differentiate caches are affected. Browser/client-side applications (single user per browser session) are not affected. Services using different auth tokens to call upstream services will return incorrect cached data, bypassing authorization checks and leaking user data across different authenticated sessions. After `v1.11.1`, automatic `Vary` header support is now enabled by default. When server responds with `Vary: Authorization`, cache keys now include the authorization header value. Each user gets their own cache.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:axios-cache-interceptor:axios_cache_interceptor:*:*:*:*:*:node.js:*:*"
+      ],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69202"
+    },
+    {
+      "id": "CVE-2025-68987",
+      "published": "2025-12-30T11:15:57.330",
+      "modified": "2026-10-07T12:10:00.170",
+      "description": "Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in Edge-Themes Cinerama cinerama allows PHP Local File Inclusion.This issue affects Cinerama: from n/a through <= 2.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68987"
+    },
     {
       "id": "CVE-2026-92533",
       "published": "2026-10-07T11:17:20.450",
@@ -5559,48 +5842,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
     },
     {
-      "id": "CVE-2026-83742",
-      "published": "2026-10-07T03:16:59.880",
-      "modified": "2026-10-07T03:16:59.880",
-      "description": "Unsigned integer underflow in wstrncat() in src/port.c in wolfSSL wolfSSH from v1.4.11 through v1.5.0 on non-Windows platforms allows an authenticated remote attacker to write one out-of-bounds null byte past the end of a stack buffer by sending a crafted SFTP path. wolfSSH_RealPath() in src/ssh.c appends each path component with a remaining-size bound (outSz - curSz) rather than the full destination size, so once the accumulated path reaches half the output buffer the size_t computation n - strlen(s1) - 1 wraps to near SIZE_MAX. The strncat() call is then effectively unbounded and copies the whole component; when that component exactly fills the remainder of the buffer, its terminating null is written one byte past the end. The caller's own length check keeps the copied data inside the buffer, so the overflow is limited to that single null byte, which may corrupt an adjacent stack value and crash the process. Applications that call the public wolfSSH_RealPath() with an output buffer smaller than the input path are additionally exposed to an unbounded copy, because the word32 expression outSz - segSz in that length check also wraps.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83742"
-    },
-    {
-      "id": "CVE-2026-83540",
-      "published": "2026-10-07T03:16:59.730",
-      "modified": "2026-10-07T03:16:59.730",
-      "description": "When password or public key authentication is used with the Windows port of wolfSSHd, the Windows logon token acquired for one authenticated connection is not released before a token is acquired for a subsequent connection, resulting in user login poisoning between connections. A less privileged user with a valid account on the server can exploit this to force a login as a more privileged user. The vulnerability was introduced with the initial Windows port of wolfSSHd in wolfSSH version 1.4.15 and affects all versions through 1.5.0. Non-Windows builds of wolfSSHd are not affected.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83540"
-    },
-    {
       "id": "CVE-2026-55655",
       "published": "2026-06-23T04:17:40.787",
       "modified": "2026-10-07T03:16:59.350",
@@ -5731,28 +5972,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55653"
-    },
-    {
-      "id": "CVE-2026-16516",
-      "published": "2026-10-07T03:16:58.830",
-      "modified": "2026-10-07T03:16:58.830",
-      "description": "wolfSSH does not validate that the ECDSA curve identifier in a KEXDH_REPLY host key blob matches the algorithm negotiated during key exchange. In ParseECCPubKey() (src/internal.c), the blob's algorithm string is used to derive the curve via NameToId/wcPrimeForId without checking against the negotiated ssh->handshake->pubKeyId, and the RFC 5656 curve identifier string is discarded via GetSkip() rather than compared. An active network man-in-the-middle attacker can substitute a host key blob containing a different ECDSA curve, causing the client to import the key on the wrong curve. Because the attacker controls the private key for the substituted curve, signature verification passes. Exploitation requires an active MitM position and a lax public key check callback (e.g., TOFU, algorithm-name-only check, or fingerprint match against the parsed key).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:H/VA:N/SC:L/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16516"
     },
     {
       "id": "CVE-2026-49329",
@@ -9034,79 +9253,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105641"
     },
     {
-      "id": "CVE-2025-15227",
-      "published": "2025-12-29T08:15:51.650",
-      "modified": "2026-10-05T19:10:00.210",
-      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Read vulnerability, allowing unauthenticated remote attackers to exploit Absolute Path Traversal to download arbitrary system files.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15227"
-    },
-    {
-      "id": "CVE-2025-15228",
-      "published": "2025-12-29T08:15:51.820",
-      "modified": "2026-10-05T19:10:00.210",
-      "description": "BPMFlowWebkit developed by WELLTEND TECHNOLOGY has a Arbitrary File Upload vulnerability, allowing unauthenticated remote attackers to upload and execute web shell backdoors, thereby enabling arbitrary code execution on the server.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:welltend:bpmflowwebkit:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15228"
-    },
-    {
-      "id": "CVE-2025-53627",
-      "published": "2025-12-29T17:15:45.287",
-      "modified": "2026-10-05T19:10:00.210",
-      "description": "Meshtastic is an open source mesh networking solution. The Meshtastic firmware (starting from version 2.5) introduces asymmetric encryption (PKI) for direct messages, but when the `pki_encrypted` flag is missing, the firmware silently falls back to legacy AES-256-CTR channel encryption. This was an intentional decision to maintain backwards compatibility. However, the end-user applications, like Web app, iOS/Android app, and applications built on top of Meshtastic using the SDK, did not have a way to differentiate between end-to-end encrypted DMs and the legacy DMs. This creates a downgrade attack path where adversaries who know a shared channel key can craft and inject spoofed direct messages that are displayed as if they were PKC encrypted. Users are not given any feedback of whether a direct message was decrypted with PKI or with legacy symmetric encryption, undermining the expected security guarantees of the PKI rollout. Version 2.7.15 fixes this issue.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:meshtastic:meshtastic_firmware:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53627"
-    },
-    {
       "id": "CVE-2026-86938",
       "published": "2026-09-23T18:17:09.960",
       "modified": "2026-10-05T18:16:13.523",
@@ -9197,26 +9343,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-63665"
-    },
-    {
-      "id": "CVE-2025-68992",
-      "published": "2025-12-30T11:15:57.927",
-      "modified": "2026-10-05T18:10:00.200",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in xenioushk BWL Knowledge Base Manager bwl-kb-manager allows Stored XSS.This issue affects BWL Knowledge Base Manager: from n/a through <= 1.6.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68992"
     },
     {
       "id": "CVE-2025-62821",
@@ -14514,12 +14640,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 388,
+    "total_relevant_cves": 394,
     "critical": 38,
-    "high": 154,
-    "medium": 161,
+    "high": 159,
+    "medium": 162,
     "kev": 8,
     "p1": 18,
-    "p2": 166
+    "p2": 171
   }
 }
