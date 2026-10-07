@@ -1,6 +1,208 @@
 {
-  "updated": "2026-10-07T07:15:11.238049+00:00",
+  "updated": "2026-10-07T07:37:22.091286+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-98357",
+      "published": "2026-10-06T09:18:29.293",
+      "modified": "2026-10-07T07:17:10.120",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nIB/isert: wait for deferred control PDU completions before releasing the connection\n\nisert_send_done() hands ISTATE_SEND_TASKMGTRSP, ISTATE_SEND_REJECT and\nISTATE_SEND_TEXTRSP completions off to isert_comp_wq and returns.  The work\nitem then runs isert_completion_put() -> isert_put_cmd(), which reads\nisert_conn->conn and takes conn->cmd_lock.\n\nNothing orders that work item against teardown.  isert_wait_conn() queues\nisert_release_work, which frees isert_conn, and iscsit_close_connection()\nfrees the iscsit_conn right after it returns, so the queued work can run\nagainst freed memory.\n\nCount the deferred control PDU completions per connection and let\nisert_wait_conn() wait for them before the release work is queued.\n\nISTATE_SEND_LOGOUTRSP is deliberately not counted: that branch runs\niscsit_logout_post_handler(), which ends up waiting for\nconn->conn_wait_comp, and that completion is only sent by\niscsit_close_connection() after it has called iscsit_wait_conn().\nWaiting for it here would deadlock.  Its wait stays the existing\nisert_wait4logout().\n\nThe splat below is from a kernel with tracing printk()s and an msleep(200)\ninjected into isert_do_control_comp() to widen the window:\n\n  BUG: KASAN: slab-use-after-free in isert_put_cmd+0x53d/0x620\n  Read of size 8 at addr ffff8881054f1038 by task kworker/u17:1/182\n\n  CPU: 0 UID: 0 PID: 182 Comm: kworker/u17:1 Tainted: G    B               7.2.0-rc5-TWIDE-gb8babf08acc7 #1 PREEMPT(lazy)\n  Tainted: [B]=BAD_PAGE\n  Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  Workqueue: isert_comp_wq isert_do_control_comp\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x53/0x70\n   print_report+0xd0/0x630\n   ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n   ? _raw_spin_unlock_irqrestore+0x3e/0x70\n   ? isert_put_cmd+0x53d/0x620\n   kasan_report+0xce/0x100\n   ? isert_put_cmd+0x53d/0x620\n   isert_put_cmd+0x53d/0x620\n   ? isert_completion_put+0x305/0x330\n   ? isert_do_control_comp+0x2ef/0x310\n   process_one_work+0x633/0x1030\n   ? assign_work+0x11d/0x370\n   worker_thread+0x45b/0xd10\n   ? __pfx_worker_thread+0x10/0x10\n   ? __pfx_worker_thread+0x10/0x10\n   kthread+0x2c6/0x3b0\n   ? recalc_sigpending+0x15c/0x1e0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork+0x36e/0x5a0\n   ? __pfx_ret_from_fork+0x10/0x10\n   ? __switch_to+0x572/0xdd0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork_asm+0x1a/0x30\n   </TASK>\n\n  Allocated by task 48:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   __kasan_kmalloc+0x8f/0xa0\n   __kmalloc_cache_noprof+0x158/0x370\n   isert_cma_handler+0x1e3/0x2ae0\n   cma_cm_event_handler+0x3e/0x240\n   cma_ib_req_handler+0x17d9/0x4490\n   cm_process_work+0x41/0x330\n   cm_work_handler+0x5727/0xc160\n   process_one_work+0x633/0x1030\n   worker_thread+0x45b/0xd10\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30\n\n  Freed by task 184:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   kasan_save_free_info+0x3b/0x60\n   __kasan_slab_free+0x43/0x70\n   kfree+0x121/0x380\n   iscsit_close_connection+0x7cf/0x1e60\n   iscsit_take_action_for_connection_exit+0x1b6/0x360\n   iscsi_target_tx_thread+0x472/0x690\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98357"
+    },
+    {
+      "id": "CVE-2026-98260",
+      "published": "2026-10-06T09:18:15.040",
+      "modified": "2026-10-07T07:17:07.260",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nexec: Cleanup POSIX timers right after de_thread()\n\nA per-thread CPU timer holds a reference to the PID of the thread it is\nattached to and, while it is armed, its node is queued in that thread's\nposix_cputimers. The task is looked up by that PID.\n\nWhen a non-leader thread exec()s, de_thread() changes which task owns\nthat PID. pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL,\nbut the node is still queued on tsk, which is alive. timer_lock_sighand()\ntakes a failed lookup to mean that the node is already dequeued, so it\nhas nothing to undo.\n\nbegin_new_exec() calls posix_cpu_timers_exit(me) right after\nexec_task_namespaces() and that removes the leftover node, so the state\nnormally stays invisible. But bprm->point_of_no_return is set before\nde_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or\nexec_task_namespaces() fails, the task dies before it gets there.\nexit_itimers() then frees the k_itimer while its node is still queued,\nand reaping tsk later erases that freed node from the rbtree.\n\nIn short:\n\n      the non-leader thread B           the parent\n\n  timer_create(CLOCK_THREAD_CPUTIME_ID)\n  timer_settime()\n    arm_timer()            // the node is queued on B\n  execve()\n    de_thread(B)\n      exchange_tids(B, leader)  // B's PID now belongs to the leader\n      release_task(leader)\n        __exit_signal(leader)\n          posix_cpu_timers_exit(leader)  // cleans leader's queue, not B's\n          __unhash_process(leader)  // that PID has no task anymore\n    exec_mmap()\n      mmap_read_lock_killable(old_mm)\n                                kill(B, SIGKILL)\n      // -EINTR\n  get_signal()\n    do_exit()\n      exit_itimers()\n        posix_timer_delete()\n          posix_cpu_timer_del()\n        posix_timer_unhash_and_free()  // freed while still queued\n                                wait4()\n                                  release_task(B)\n                                    posix_cpu_timers_exit(B)\n                                      cleanup_timerqueue()\n                                        timerqueue_del()  // use-after-free\n\nMove the POSIX timer cleanup right after de_thread() before any of the\nlater failure conditions brings the task into do_exit().\n\n[ tglx: Move the cleanup right after de_thread() ]",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98260"
+    },
+    {
+      "id": "CVE-2026-98256",
+      "published": "2026-10-06T09:18:14.373",
+      "modified": "2026-10-07T07:17:06.823",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsignal: Prevent exec() race\n\nHyunwoo debugged the following KASAN UAF splat:\n\n  BUG: KASAN: slab-use-after-free in __send_signal_locked+0xb27/0xba0\n  Write of size 8 at addr ffff888007ed80c8 by task poc/79\n  ...\n  Call Trace:\n   __send_signal_locked+0xb27/0xba0\n   do_send_sig_info+0xa7/0x160\n   do_send_specific+0x76/0xa0\n   __x64_sys_tgkill+0x193/0x270\n  ...\n  Allocated by task 80:\n   do_timer_create+0x1a4/0x1030\n   __x64_sys_timer_create+0x145/0x190\n  ...\n  Freed by task 12:\n   kmem_cache_free_bulk+0x1f8/0x4a0\n   kvfree_rcu_bulk+0x14f/0x1c0\n   kfree_rcu_work+0x128/0x1a0\n  ...\n  Last potentially related work creation:\n   kvfree_call_rcu+0x39/0x390\n   __flush_itimer_signals+0x211/0x320\n   flush_itimer_signals+0x47/0x90\n   begin_new_exec+0xa6b/0x28c0\n\nIt turned out that this happens with a non-leader exec() as Hyunwoo\nexplained:\n\nde_thread() calls exchange_tids() before release_task(leader), so the\nstruct pid held by a SIGEV_THREAD_ID timer created against the leader's tid\nnow points to the thread which called execve(). pid_task() returns that\nthread and lock_task_sighand() on it succeeds.\n\nIf the timer signal is blocked, its sigqueue stays queued on the leader's\ntask::pending. The next expiry of that timer can then run while\nrelease_task() flushes the queue.\n\nposixtimer_send_sigqueue() checks whether the sigqueue is already queued\nwith a plain list_empty(), which only reads list_head::next.\nlist_del_init() is not atomic and INIT_LIST_HEAD() stores list_head::next\nbefore list_head::prev, so the check can pass in between. list_add_tail()\nqueues the entry on the task::pending of the live thread, and the\nlist_head::prev store from the flush then overwrites the list_head::prev\nlink that list_add_tail() has just set.\n\n__flush_itimer_signals() does not undo that either. With list_head::prev\npointing at the entry itself, its list_del_init() only stores the same\nvalues again, so the entry is not removed from the list. It is still there\nafter the last reference is dropped and the timer is freed by RCU, and the\nlist_add_tail() of a later tgkill() follows that list_head::prev into the\nfreed timer.\n\nThis problem surfaced with the recent commit which moved the sigqueue flush\nout of the sighand lock held region.\n\nHyonwoo proposed to fix this by using list_del_init_careful(), but that\njust papers over the problem. After some disucssions and various attempts\nto solve it, Eric pointed out that there is no reason to flush\ntask::pending late in release_task() and it should be done in\nexit_signals() already.\n\nAs nothing can collect and deliver signals which are queued in a dying\ntask's pending queue, there is no reason to delay it further.\n\nBut it has to be ensured that no signals can be queued into it after that\npoint. exit_signals() sets PF_EXITING in task::flags, which can be used as\nan indicator for this.\n\nCure it by:\n\n  - Preventing signal queueing for task private signals (PIDTYPE_PID) when\n    the task has PF_EXITING set in __send_signal_locked() and in\n    posixtimer_send_sigqueue().\n\n  - Protecting the unlocked setting of PF_EXITING in exit_signals() for the\n    task group empty and the group exit case with sighand lock\n\n  - Flushing task::pending signals right there.\n\n    Optimize that by moving the whole pending list to an on-stack list head\n    under sighand lock and free the signals without the lock held.\n\nThere has been quite some discussion about the lockless flush and the\nnon-leader exec case on weakly ordered systems. The problem is that a third\nparty which tries to send a posix timer signal relies on the PID lookup to\nfind the target task and that lookup might result in the new leader when\nthe signal was originaly directed to the old leader. In case that the\nsignal was queued on the old leader then the lockless flush raised a\nconcern over the following situation:\n\n   old_leader\t\tnew_leader              third party\n\nA: flush_list()\t// list_del_in\n---truncated---",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98256"
+    },
+    {
+      "id": "CVE-2026-56097",
+      "published": "2026-10-01T18:17:19.597",
+      "modified": "2026-10-07T07:17:01.067",
+      "description": "A flaw was found in rubygem-katello. An SQL injection vulnerability exists in the Red Hat Satellite Katello Registry Proxy. The application fails to sanitize input parameters used in database queries within the RegistryProxiesController. The methods check_blob_push_org_label and get_matching_products_from_org take user-supplied labels directly from the request path and interpolate them into raw SQL fragments. This flaw is accessible to a user with only the create_personal_access_tokens permission, even if the user access is restricted, with no Organization or Location assigned.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56097"
+    },
+    {
+      "id": "CVE-2026-12423",
+      "published": "2026-10-01T17:17:19.887",
+      "modified": "2026-10-07T07:16:59.810",
+      "description": "A flaw was found in Foreman. The Red Hat Satellite /unattended/provision API endpoint is vulnerable to an authentication bypass due to a semantic logic flaw in host_verifier.rb. The application verifies the database state of a provisioning token rather than its actual presence in the incoming HTTP request. Because a host actively undergoing provisioning has an unexpired token in the database, the server's valid_host_token? method evaluates to true, granting access to the kickstart template even if the requester provides no token at all in the URL.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12423"
+    },
+    {
+      "id": "CVE-2026-12405",
+      "published": "2026-10-01T17:17:19.717",
+      "modified": "2026-10-07T07:16:59.623",
+      "description": "A flaw was found in rubygem-foreman_remote_execution. A command injection vulnerability exists in the Red Hat Satellite API (/api/v2/job_invocations). When a job template has the effective_user property marked as overridable: true, the application fails to properly sanitize the effective_user input provided during the API request. The exploitation does not rely on the content or logic of the Job Template/playbook itself; rather, the injection occurs during the instantiation of the job execution environment by the Satellite server. An attacker with permissions to execute job templates can inject arbitrary shell commands into this parameter, which are executed on the target infrastructure with the privileges of the execution user.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12405"
+    },
+    {
+      "id": "CVE-2026-105243",
+      "published": "2026-10-06T20:17:16.167",
+      "modified": "2026-10-07T07:16:59.187",
+      "description": "Insufficient Logging vulnerability in the EventLogAppender of Apache log4net.\n\nLong messages were truncated to a fixed size that exceeds what the Windows Event Log accepts once the log and source names are counted, and the event log then stored nothing and reported nothing. A party whose data reaches a log message could suppress the whole record by making it long enough. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105243"
+    },
+    {
+      "id": "CVE-2026-105242",
+      "published": "2026-10-06T20:17:16.037",
+      "modified": "2026-10-07T07:16:59.073",
+      "description": "Improper Handling of Exceptional Conditions vulnerability in the aspnet-request pattern converter of Apache log4net.\n\nReading request parameters triggers ASP.NET request validation, so a request carrying content such as markup made the layout throw and the appender discarded the whole event. A sender could suppress the log record of their own request. Only applications on ASP.NET for .NET Framework whose layout uses %aspnet-request are affected.\n\nThis issue affects Apache log4net: from 1.2.11 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105242"
+    },
+    {
+      "id": "CVE-2026-105240",
+      "published": "2026-10-06T20:17:15.777",
+      "modified": "2026-10-07T07:16:58.850",
+      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the OutputDebugStringAppender of Apache log4net.\n\nA NUL character in logged content ended the debug output record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently lost. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use OutputDebugStringAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105240"
+    },
+    {
+      "id": "CVE-2026-105239",
+      "published": "2026-10-06T20:17:15.630",
+      "modified": "2026-10-07T07:16:58.727",
+      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the EventLogAppender of Apache log4net.\n\nA NUL character in logged content ended the Windows Event Log record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently not stored. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105239"
+    },
     {
       "id": "CVE-2026-84854",
       "published": "2026-10-06T10:16:54.230",
@@ -1223,86 +1425,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106351"
-    },
-    {
-      "id": "CVE-2026-105243",
-      "published": "2026-10-06T20:17:16.167",
-      "modified": "2026-10-06T20:17:16.167",
-      "description": "Insufficient Logging vulnerability in the EventLogAppender of Apache log4net.\n\nLong messages were truncated to a fixed size that exceeds what the Windows Event Log accepts once the log and source names are counted, and the event log then stored nothing and reported nothing. A party whose data reaches a log message could suppress the whole record by making it long enough. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105243"
-    },
-    {
-      "id": "CVE-2026-105242",
-      "published": "2026-10-06T20:17:16.037",
-      "modified": "2026-10-06T20:17:16.037",
-      "description": "Improper Handling of Exceptional Conditions vulnerability in the aspnet-request pattern converter of Apache log4net.\n\nReading request parameters triggers ASP.NET request validation, so a request carrying content such as markup made the layout throw and the appender discarded the whole event. A sender could suppress the log record of their own request. Only applications on ASP.NET for .NET Framework whose layout uses %aspnet-request are affected.\n\nThis issue affects Apache log4net: from 1.2.11 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105242"
-    },
-    {
-      "id": "CVE-2026-105240",
-      "published": "2026-10-06T20:17:15.777",
-      "modified": "2026-10-06T20:17:15.777",
-      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the OutputDebugStringAppender of Apache log4net.\n\nA NUL character in logged content ended the debug output record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently lost. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use OutputDebugStringAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105240"
-    },
-    {
-      "id": "CVE-2026-105239",
-      "published": "2026-10-06T20:17:15.630",
-      "modified": "2026-10-06T20:17:15.630",
-      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the EventLogAppender of Apache log4net.\n\nA NUL character in logged content ended the Windows Event Log record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently not stored. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105239"
     },
     {
       "id": "CVE-2026-104047",
@@ -3136,26 +3258,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98358"
     },
     {
-      "id": "CVE-2026-98357",
-      "published": "2026-10-06T09:18:29.293",
-      "modified": "2026-10-06T09:18:29.293",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nIB/isert: wait for deferred control PDU completions before releasing the connection\n\nisert_send_done() hands ISTATE_SEND_TASKMGTRSP, ISTATE_SEND_REJECT and\nISTATE_SEND_TEXTRSP completions off to isert_comp_wq and returns.  The work\nitem then runs isert_completion_put() -> isert_put_cmd(), which reads\nisert_conn->conn and takes conn->cmd_lock.\n\nNothing orders that work item against teardown.  isert_wait_conn() queues\nisert_release_work, which frees isert_conn, and iscsit_close_connection()\nfrees the iscsit_conn right after it returns, so the queued work can run\nagainst freed memory.\n\nCount the deferred control PDU completions per connection and let\nisert_wait_conn() wait for them before the release work is queued.\n\nISTATE_SEND_LOGOUTRSP is deliberately not counted: that branch runs\niscsit_logout_post_handler(), which ends up waiting for\nconn->conn_wait_comp, and that completion is only sent by\niscsit_close_connection() after it has called iscsit_wait_conn().\nWaiting for it here would deadlock.  Its wait stays the existing\nisert_wait4logout().\n\nThe splat below is from a kernel with tracing printk()s and an msleep(200)\ninjected into isert_do_control_comp() to widen the window:\n\n  BUG: KASAN: slab-use-after-free in isert_put_cmd+0x53d/0x620\n  Read of size 8 at addr ffff8881054f1038 by task kworker/u17:1/182\n\n  CPU: 0 UID: 0 PID: 182 Comm: kworker/u17:1 Tainted: G    B               7.2.0-rc5-TWIDE-gb8babf08acc7 #1 PREEMPT(lazy)\n  Tainted: [B]=BAD_PAGE\n  Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  Workqueue: isert_comp_wq isert_do_control_comp\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x53/0x70\n   print_report+0xd0/0x630\n   ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n   ? _raw_spin_unlock_irqrestore+0x3e/0x70\n   ? isert_put_cmd+0x53d/0x620\n   kasan_report+0xce/0x100\n   ? isert_put_cmd+0x53d/0x620\n   isert_put_cmd+0x53d/0x620\n   ? isert_completion_put+0x305/0x330\n   ? isert_do_control_comp+0x2ef/0x310\n   process_one_work+0x633/0x1030\n   ? assign_work+0x11d/0x370\n   worker_thread+0x45b/0xd10\n   ? __pfx_worker_thread+0x10/0x10\n   ? __pfx_worker_thread+0x10/0x10\n   kthread+0x2c6/0x3b0\n   ? recalc_sigpending+0x15c/0x1e0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork+0x36e/0x5a0\n   ? __pfx_ret_from_fork+0x10/0x10\n   ? __switch_to+0x572/0xdd0\n   ? __pfx_kthread+0x10/0x10\n   ret_from_fork_asm+0x1a/0x30\n   </TASK>\n\n  Allocated by task 48:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   __kasan_kmalloc+0x8f/0xa0\n   __kmalloc_cache_noprof+0x158/0x370\n   isert_cma_handler+0x1e3/0x2ae0\n   cma_cm_event_handler+0x3e/0x240\n   cma_ib_req_handler+0x17d9/0x4490\n   cm_process_work+0x41/0x330\n   cm_work_handler+0x5727/0xc160\n   process_one_work+0x633/0x1030\n   worker_thread+0x45b/0xd10\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30\n\n  Freed by task 184:\n   kasan_save_stack+0x33/0x60\n   kasan_save_track+0x14/0x30\n   kasan_save_free_info+0x3b/0x60\n   __kasan_slab_free+0x43/0x70\n   kfree+0x121/0x380\n   iscsit_close_connection+0x7cf/0x1e60\n   iscsit_take_action_for_connection_exit+0x1b6/0x360\n   iscsi_target_tx_thread+0x472/0x690\n   kthread+0x2c6/0x3b0\n   ret_from_fork+0x36e/0x5a0\n   ret_from_fork_asm+0x1a/0x30",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98357"
-    },
-    {
       "id": "CVE-2026-98300",
       "published": "2026-10-06T09:18:20.867",
       "modified": "2026-10-06T09:18:20.867",
@@ -3234,46 +3336,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98275"
-    },
-    {
-      "id": "CVE-2026-98260",
-      "published": "2026-10-06T09:18:15.040",
-      "modified": "2026-10-06T09:18:15.040",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nexec: Cleanup POSIX timers right after de_thread()\n\nA per-thread CPU timer holds a reference to the PID of the thread it is\nattached to and, while it is armed, its node is queued in that thread's\nposix_cputimers. The task is looked up by that PID.\n\nWhen a non-leader thread exec()s, de_thread() changes which task owns\nthat PID. pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL,\nbut the node is still queued on tsk, which is alive. timer_lock_sighand()\ntakes a failed lookup to mean that the node is already dequeued, so it\nhas nothing to undo.\n\nbegin_new_exec() calls posix_cpu_timers_exit(me) right after\nexec_task_namespaces() and that removes the leftover node, so the state\nnormally stays invisible. But bprm->point_of_no_return is set before\nde_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or\nexec_task_namespaces() fails, the task dies before it gets there.\nexit_itimers() then frees the k_itimer while its node is still queued,\nand reaping tsk later erases that freed node from the rbtree.\n\nIn short:\n\n      the non-leader thread B           the parent\n\n  timer_create(CLOCK_THREAD_CPUTIME_ID)\n  timer_settime()\n    arm_timer()            // the node is queued on B\n  execve()\n    de_thread(B)\n      exchange_tids(B, leader)  // B's PID now belongs to the leader\n      release_task(leader)\n        __exit_signal(leader)\n          posix_cpu_timers_exit(leader)  // cleans leader's queue, not B's\n          __unhash_process(leader)  // that PID has no task anymore\n    exec_mmap()\n      mmap_read_lock_killable(old_mm)\n                                kill(B, SIGKILL)\n      // -EINTR\n  get_signal()\n    do_exit()\n      exit_itimers()\n        posix_timer_delete()\n          posix_cpu_timer_del()\n        posix_timer_unhash_and_free()  // freed while still queued\n                                wait4()\n                                  release_task(B)\n                                    posix_cpu_timers_exit(B)\n                                      cleanup_timerqueue()\n                                        timerqueue_del()  // use-after-free\n\nMove the POSIX timer cleanup right after de_thread() before any of the\nlater failure conditions brings the task into do_exit().\n\n[ tglx: Move the cleanup right after de_thread() ]",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98260"
-    },
-    {
-      "id": "CVE-2026-98256",
-      "published": "2026-10-06T09:18:14.373",
-      "modified": "2026-10-06T09:18:14.373",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsignal: Prevent exec() race\n\nHyunwoo debugged the following KASAN UAF splat:\n\n  BUG: KASAN: slab-use-after-free in __send_signal_locked+0xb27/0xba0\n  Write of size 8 at addr ffff888007ed80c8 by task poc/79\n  ...\n  Call Trace:\n   __send_signal_locked+0xb27/0xba0\n   do_send_sig_info+0xa7/0x160\n   do_send_specific+0x76/0xa0\n   __x64_sys_tgkill+0x193/0x270\n  ...\n  Allocated by task 80:\n   do_timer_create+0x1a4/0x1030\n   __x64_sys_timer_create+0x145/0x190\n  ...\n  Freed by task 12:\n   kmem_cache_free_bulk+0x1f8/0x4a0\n   kvfree_rcu_bulk+0x14f/0x1c0\n   kfree_rcu_work+0x128/0x1a0\n  ...\n  Last potentially related work creation:\n   kvfree_call_rcu+0x39/0x390\n   __flush_itimer_signals+0x211/0x320\n   flush_itimer_signals+0x47/0x90\n   begin_new_exec+0xa6b/0x28c0\n\nIt turned out that this happens with a non-leader exec() as Hyunwoo\nexplained:\n\nde_thread() calls exchange_tids() before release_task(leader), so the\nstruct pid held by a SIGEV_THREAD_ID timer created against the leader's tid\nnow points to the thread which called execve(). pid_task() returns that\nthread and lock_task_sighand() on it succeeds.\n\nIf the timer signal is blocked, its sigqueue stays queued on the leader's\ntask::pending. The next expiry of that timer can then run while\nrelease_task() flushes the queue.\n\nposixtimer_send_sigqueue() checks whether the sigqueue is already queued\nwith a plain list_empty(), which only reads list_head::next.\nlist_del_init() is not atomic and INIT_LIST_HEAD() stores list_head::next\nbefore list_head::prev, so the check can pass in between. list_add_tail()\nqueues the entry on the task::pending of the live thread, and the\nlist_head::prev store from the flush then overwrites the list_head::prev\nlink that list_add_tail() has just set.\n\n__flush_itimer_signals() does not undo that either. With list_head::prev\npointing at the entry itself, its list_del_init() only stores the same\nvalues again, so the entry is not removed from the list. It is still there\nafter the last reference is dropped and the timer is freed by RCU, and the\nlist_add_tail() of a later tgkill() follows that list_head::prev into the\nfreed timer.\n\nThis problem surfaced with the recent commit which moved the sigqueue flush\nout of the sighand lock held region.\n\nHyonwoo proposed to fix this by using list_del_init_careful(), but that\njust papers over the problem. After some disucssions and various attempts\nto solve it, Eric pointed out that there is no reason to flush\ntask::pending late in release_task() and it should be done in\nexit_signals() already.\n\nAs nothing can collect and deliver signals which are queued in a dying\ntask's pending queue, there is no reason to delay it further.\n\nBut it has to be ensured that no signals can be queued into it after that\npoint. exit_signals() sets PF_EXITING in task::flags, which can be used as\nan indicator for this.\n\nCure it by:\n\n  - Preventing signal queueing for task private signals (PIDTYPE_PID) when\n    the task has PF_EXITING set in __send_signal_locked() and in\n    posixtimer_send_sigqueue().\n\n  - Protecting the unlocked setting of PF_EXITING in exit_signals() for the\n    task group empty and the group exit case with sighand lock\n\n  - Flushing task::pending signals right there.\n\n    Optimize that by moving the whole pending list to an on-stack list head\n    under sighand lock and free the signals without the lock held.\n\nThere has been quite some discussion about the lockless flush and the\nnon-leader exec case on weakly ordered systems. The problem is that a third\nparty which tries to send a posix timer signal relies on the PID lookup to\nfind the target task and that lookup might result in the new leader when\nthe signal was originaly directed to the old leader. In case that the\nsignal was queued on the old leader then the lockless flush raised a\nconcern over the following situation:\n\n   old_leader\t\tnew_leader              third party\n\nA: flush_list()\t// list_del_in\n---truncated---",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98256"
     },
     {
       "id": "CVE-2026-98223",
@@ -3730,26 +3792,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6170"
-    },
-    {
-      "id": "CVE-2026-56097",
-      "published": "2026-10-01T18:17:19.597",
-      "modified": "2026-10-06T02:17:05.100",
-      "description": "A flaw was found in rubygem-katello. An SQL injection vulnerability exists in the Red Hat Satellite Katello Registry Proxy. The application fails to sanitize input parameters used in database queries within the RegistryProxiesController. The methods check_blob_push_org_label and get_matching_products_from_org take user-supplied labels directly from the request path and interpolate them into raw SQL fragments. This flaw is accessible to a user with only the create_personal_access_tokens permission, even if the user access is restricted, with no Organization or Location assigned.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56097"
     },
     {
       "id": "CVE-2026-105763",
@@ -7022,48 +7064,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47297"
     },
     {
-      "id": "CVE-2026-12423",
-      "published": "2026-10-01T17:17:19.887",
-      "modified": "2026-10-02T17:17:05.383",
-      "description": "A flaw was found in Foreman. The Red Hat Satellite /unattended/provision API endpoint is vulnerable to an authentication bypass due to a semantic logic flaw in host_verifier.rb. The application verifies the database state of a provisioning token rather than its actual presence in the incoming HTTP request. Because a host actively undergoing provisioning has an unexpired token in the database, the server's valid_host_token? method evaluates to true, granting access to the kickstart template even if the requester provides no token at all in the URL.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "AUTH_BYPASS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12423"
-    },
-    {
-      "id": "CVE-2026-12405",
-      "published": "2026-10-01T17:17:19.717",
-      "modified": "2026-10-02T17:17:05.230",
-      "description": "A flaw was found in rubygem-foreman_remote_execution. A command injection vulnerability exists in the Red Hat Satellite API (/api/v2/job_invocations). When a job template has the effective_user property marked as overridable: true, the application fails to properly sanitize the effective_user input provided during the API request. The exploitation does not rely on the content or logic of the Job Template/playbook itself; rather, the injection occurs during the instantiation of the job execution environment by the Satellite server. An attacker with permissions to execute job templates can inject arbitrary shell commands into this parameter, which are executed on the target infrastructure with the privileges of the execution user.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12405"
-    },
-    {
       "id": "CVE-2026-103473",
       "published": "2026-09-30T18:18:17.483",
       "modified": "2026-10-02T17:17:02.680",
@@ -9478,10 +9478,10 @@
   "statistics": {
     "total_relevant_cves": 279,
     "critical": 33,
-    "high": 95,
+    "high": 98,
     "medium": 115,
     "kev": 5,
     "p1": 14,
-    "p2": 105
+    "p2": 108
   }
 }
