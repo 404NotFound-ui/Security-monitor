@@ -1,6 +1,1856 @@
 {
-  "updated": "2026-10-07T19:14:48.221694+00:00",
+  "updated": "2026-10-07T19:34:42.779326+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-84897",
+      "published": "2026-10-07T03:17:00.067",
+      "modified": "2026-10-07T19:17:44.647",
+      "description": "src/internal.c in wolfSSL wolfSSH through 1.5.0 admits the server-to-client Diffie-Hellman group exchange messages SSH_MSG_KEX_DH_GEX_GROUP (31) and SSH_MSG_KEX_DH_GEX_REPLY (33) when a server receives them from an unauthenticated client. IsMessageAllowedServer() applies no direction check to the key exchange message range: when the peer is keying and no particular message is expected, which is the state a server is in for the whole window after it processes the client's KEXINIT because nothing sets handshake->expectMsgId there, the function falls out of its expectation branch without a verdict and reaches a numeric bound that admits every message id from 30 through 34. A client that negotiates diffie-hellman-group-exchange-sha256 and then sends message 31 makes the server run the client-side handler DoKexDhGexGroup(), which validates the attacker-supplied group with two 8-round Miller-Rabin primality tests, one on p and one on (p-1)/2, on a value of up to 8192 bits. The handler then returns success: the server stores the attacker's prime and generator, generates a Diffie-Hellman key pair in the attacker's group, and sends the client-role message SSH_MSG_KEX_DH_GEX_INIT (32) back to the attacker. Published RFC 3526 safe primes are the worst-case input and cost the attacker nothing to obtain. The primality validation was added in 1.5.0; versions from 1.2.0 through 1.4.22 admit the same message and enter the same client-role path without the primality cost. Message 33 is admitted as well, but on a server it is rejected before any cryptography because no public key check callback is registered, so it carries no comparable cost. Builds that define WOLFSSH_NO_DH_GEX_SHA256, which is implied by WOLFSSH_NO_DH or NO_SHA256, are unaffected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
+    },
+    {
+      "id": "CVE-2026-79815",
+      "published": "2026-10-06T20:17:33.197",
+      "modified": "2026-10-07T19:17:43.720",
+      "description": "A command injection vulnerability in the OnGuard agent of ClearPass Policy Manager could allow an authenticated remote attacker to inject arbitrary commands. Successful exploitation could allow an attacker to execute commands with elevated privileges on the affected Windows endpoint.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79815"
+    },
+    {
+      "id": "CVE-2026-79807",
+      "published": "2026-10-06T20:17:32.253",
+      "modified": "2026-10-07T19:17:42.757",
+      "description": "A missing integrity verification vulnerability in the Windows client software for ClearPass Policy Manager could allow malicious users on a local instance to elevate their user privileges. A successful exploit could allow these users to execute attacker-supplied code with elevated privileges on the local system.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79807"
+    },
+    {
+      "id": "CVE-2026-107225",
+      "published": "2026-10-07T19:17:35.333",
+      "modified": "2026-10-07T19:17:35.333",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.0 to 2.11.0, GetStyle's fill, border, and font extraction predicates check only upper bounds for attacker-controlled style-table indices. File.GetStyle relies on extractStyleCondFuncs predicates that allow negative FillID, BorderID, and FontID values to reach slice indexing. When a crafted styles.xml supplies a negative fillId, borderId, or fontId and the application reads the style, a negative identifier passes the upper-bound-only predicate and becomes a negative slice index, allowing an attacker to panic while reading cell styling. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
+    },
+    {
+      "id": "CVE-2026-107224",
+      "published": "2026-10-07T19:17:35.140",
+      "modified": "2026-10-07T19:17:35.140",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
+    },
+    {
+      "id": "CVE-2026-107223",
+      "published": "2026-10-07T19:17:34.970",
+      "modified": "2026-10-07T19:17:34.970",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
+    },
+    {
+      "id": "CVE-2026-107222",
+      "published": "2026-10-07T19:17:34.800",
+      "modified": "2026-10-07T19:17:34.800",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.0 to 2.11.0, conditional-format extraction indexes required child slices or dereferences an optional colorScale child without validating malformed rule structure. GetConditionalFormats reaches extractCondFmtCellIs and also indexes ColorScale.Cfvo, DataBar.Cfvo, and DataBar.Color without complete structural checks. When a crafted worksheet supplies a cellIs, dataBar, or colorScale rule missing expected children and the application calls GetConditionalFormats, missing formula, color, value-object, or colorScale data reaches an out-of-range index or nil dereference, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
+    },
+    {
+      "id": "CVE-2026-107221",
+      "published": "2026-10-07T19:17:34.620",
+      "modified": "2026-10-07T19:17:34.620",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
+    },
+    {
+      "id": "CVE-2026-107220",
+      "published": "2026-10-07T19:17:34.447",
+      "modified": "2026-10-07T19:17:34.447",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
+    },
+    {
+      "id": "CVE-2026-107219",
+      "published": "2026-10-07T19:17:34.287",
+      "modified": "2026-10-07T19:17:34.287",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
+    },
+    {
+      "id": "CVE-2026-107218",
+      "published": "2026-10-07T19:17:34.120",
+      "modified": "2026-10-07T19:17:34.120",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
+    },
+    {
+      "id": "CVE-2026-107217",
+      "published": "2026-10-07T19:17:33.957",
+      "modified": "2026-10-07T19:17:33.957",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0 in github.com/xuri/excelize/v2 and from 1.1.0 to 1.4.1 in github.com/xuri/excelize, ColumnNameToNumber accumulates a bijective base-26 value in int64 without detecting overflow, allowing an invalid long column name to wrap to zero with no error. ColumnNameToNumber accepts the overflowing name VGWQHXLSDVIKWV, after which checkSheetR0 and xlsxWorksheet.checkRow use the wrapped column value as an index. When a crafted worksheet uses an overflowing column name in a row normalized by checkSheetR0 or checkRow, the wrapped zero column becomes a negative slice index during worksheet normalization, allowing an attacker to panic and terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107217"
+    },
+    {
+      "id": "CVE-2026-107216",
+      "published": "2026-10-07T18:17:19.400",
+      "modified": "2026-10-07T19:17:33.837",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
+    },
+    {
+      "id": "CVE-2026-107211",
+      "published": "2026-10-07T18:17:18.490",
+      "modified": "2026-10-07T19:17:33.660",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
+    },
+    {
+      "id": "CVE-2026-106493",
+      "published": "2026-10-06T21:17:18.370",
+      "modified": "2026-10-07T19:17:32.913",
+      "description": "Backstage is an open framework for building developer portals. Prior to 1.54.6, cloud storage catalog providers did not sufficiently validate object paths. A principal able to create or rename objects in a configured Azure Blob Storage or AWS S3 catalog source could cause catalog descriptors to be read from outside the intended storage boundary, limited to locations reachable with the backend's configured credentials. This issue is fixed in 1.54.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.0,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106493"
+    },
+    {
+      "id": "CVE-2026-102781",
+      "published": "2026-10-07T09:17:04.397",
+      "modified": "2026-10-07T19:17:31.167",
+      "description": "Joomla Extension - ordasoft.com - Unauthenticated Destructive CRUD in OrdaSoft Touch Slider < 5.4.6 - modOsTouchSliderHelper::getAjax(), wired through Joomla’s core com_ajax dispatcher, is the single handler behind every data-management operation this module exposes. No call to JFactory::getUser(), authorise(), or a CSRF token check exists anywhere in the handler. Two confirmed impact paths: an unauthenticated GET deletes any slider image by guessable sequential IDs, and an unauthenticated multipart upload with a zip file renames and replaces the entire #__os_touch_slider/#__os_touch_slider_text tables site-wide with attacker-supplied content, with no task parameter even required for the second path.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102781"
+    },
+    {
+      "id": "CVE-2021-39301",
+      "published": "2022-02-16T17:15:11.040",
+      "modified": "2026-10-07T19:17:29.950",
+      "description": "Potential vulnerabilities have been identified in UEFI firmware (BIOS) for some PC products which may allow escalation of privilege and arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:hp:z1_entry_tower_g5_workstation_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_entry_tower_g5_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z1_entry_tower_g6_workstation_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_entry_tower_g6_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z1_g8_tower_desktop_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_g8_tower_desktop_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z4_g4_workstation_\\(core-x\\):-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z4_g4_workstation_\\(xeon_w\\):-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z6_g4_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z8_g4_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:engage_flex_mini_retail_system_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:engage_flex_mini_retail_system:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:mp9_g4_retail_system_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:mp9_g4_retail_system:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_g2_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_g2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_max_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_max:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_1013_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_1013_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g8_tablet_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g8_tablet:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_1050_g1_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_1050_g1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_aero_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_aero_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840r_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840r_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_846_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_846_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g7:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-39301"
+    },
+    {
+      "id": "CVE-2021-39300",
+      "published": "2022-02-16T17:15:10.977",
+      "modified": "2026-10-07T19:17:29.540",
+      "description": "Potential vulnerabilities have been identified in UEFI firmware (BIOS) for some PC products which may allow escalation of privilege and arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:hp:z1_entry_tower_g5_workstation_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_entry_tower_g5_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z1_entry_tower_g6_workstation_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_entry_tower_g6_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z1_g8_tower_desktop_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:z1_g8_tower_desktop_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(core-x\\)_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z4_g4_workstation_\\(core-x\\):-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z4_g4_workstation_\\(xeon_w\\)_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z4_g4_workstation_\\(xeon_w\\):-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z6_g4_workstation_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z6_g4_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:linux_kernel:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:windows_10:*:*",
+        "cpe:2.3:o:hp:z8_g4_workstation_firmware:*:*:*:*:*:windows_7:*:*",
+        "cpe:2.3:h:hp:z8_g4_workstation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:engage_flex_mini_retail_system_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:engage_flex_mini_retail_system:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:mp9_g4_retail_system_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:mp9_g4_retail_system:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_g2_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_g2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_max_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_max:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_1013_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_1013_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g8_tablet_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g8_tablet:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_1050_g1_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_1050_g1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_aero_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_aero_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840r_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840r_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_846_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_846_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g7:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-39300"
+    },
+    {
+      "id": "CVE-2021-39299",
+      "published": "2022-02-16T17:15:10.920",
+      "modified": "2026-10-07T19:17:29.177",
+      "description": "Potential vulnerabilities have been identified in UEFI firmware (BIOS) for some PC products which may allow escalation of privilege and arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:hp:elite_dragonfly_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_g2_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_g2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_dragonfly_max_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_dragonfly_max:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_1013_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_1013_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elite_x2_g8_tablet_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elite_x2_g8_tablet:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_1050_g1_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_1050_g1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_830_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_830_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_836_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_836_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_aero_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_aero_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g5_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g5_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g6_healthcare_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g6_healthcare_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_840r_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_840r_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_846_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_846_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_850_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_850_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g3_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g3:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g4_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g4:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1030_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1030_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_1040_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_1040_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitebook_x360_830_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitebook_x360_830_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_430_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_430_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_430_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_430_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_430_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_430_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_430_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_430_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_440_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_440_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_440_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_440_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_440_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_440_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_440_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_440_g8:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_450_g5_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_450_g5:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_450_g6_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_450_g6:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_450_g7_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_450_g7:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:probook_450_g8_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:probook_450_g8:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-39299"
+    },
+    {
+      "id": "CVE-2021-39297",
+      "published": "2022-02-16T17:15:10.800",
+      "modified": "2026-10-07T19:17:28.350",
+      "description": "Potential vulnerabilities have been identified in UEFI firmware (BIOS) for some PC products which may allow escalation of privilege and arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:hp:260_g3_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:260_g3_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_35w_g4_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_35w_g4_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_65w_g4_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_65w_g4_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_95w_g4_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_95w_g4_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g4_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g4_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g4_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g4_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g4_workstation_edition_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g4_workstation_edition:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g5_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g5_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g5_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g5_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g5_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g5_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g6_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g6_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g6_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g6_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g6_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g6_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g8_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g8_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g8_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g8_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_800_g8_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_800_g8_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_805_g6_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_805_g6_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_805_g6_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_805_g6_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_805_g8_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_805_g8_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_805_g8_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_805_g8_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_880_g4_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_880_g4_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_880_g5_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_880_g5_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_880_g6_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_880_g6_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:elitedesk_880_g8_tower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:elitedesk_880_g8_tower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_1000_g2_23.8-in_all-in-one_business_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_1000_g2_23.8-in_all-in-one_business_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_1000_g2_23.8-in_touch_all-in-one_business_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_1000_g2_23.8-in_touch_all-in-one_business_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_1000_g2_27-in_4k_uhd_all-in-one_business_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_1000_g2_27-in_4k_uhd_all-in-one_business_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_1000_g2_34-in_curved_all-in-one_business_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_1000_g2_34-in_curved_all-in-one_business_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g4_23.8-in_healthcare_edition_all-in-one_business_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g4_23.8-in_healthcare_edition_all-in-one_business_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g4_23.8-inch_non-touch_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g4_23.8-inch_non-touch_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g4_23.8-inch_non-touch_gpu_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g4_23.8-inch_non-touch_gpu_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g4_23.8-inch_touch_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g4_23.8-inch_touch_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g4_23.8-inch_touch_gpu_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g4_23.8-inch_touch_gpu_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g5_23.8-in_healthcare_edition_all-in-one_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g5_23.8-in_healthcare_edition_all-in-one:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g5_23.8-inch_all-in-one_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g5_23.8-inch_all-in-one:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g6_24_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g6_24_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g6_27_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g6_27_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g8_24_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g8_24_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:eliteone_800_g8_27_all-in-one_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:eliteone_800_g8_27_all-in-one_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g4_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g4_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g5_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g5_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g5_microtower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g5_microtower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g5_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g5_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g6_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g6_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g6_microtower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g6_microtower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g6_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g6_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g7_microtower_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g7_microtower_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_400_g7_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_400_g7_small_form_factor_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_405_g8_desktop_mini_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_405_g8_desktop_mini_pc:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:hp:prodesk_405_g8_small_form_factor_pc_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:hp:prodesk_405_g8_small_form_factor_pc:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-39297"
+    },
+    {
+      "id": "CVE-2021-36343",
+      "published": "2022-01-24T20:15:08.050",
+      "modified": "2026-10-07T19:17:27.307",
+      "description": "Dell BIOS contains an improper input validation vulnerability. A local authenticated malicious user may potentially exploit this vulnerability by using an SMI to gain arbitrary code execution in SMRAM.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:dell:precision_5820_tower_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_5820_tower:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7520_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7520:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7530_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7530:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7540_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7540:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7550_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7550:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7560_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7560:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7710_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7710:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7720_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7720:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7730_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7730:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7740_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7740:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7750_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7750:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7760_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7760:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_13_5370_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_13_5370:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_3468_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_3468:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_3478_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_3478:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_5468_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_5468:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_5471_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_5471:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3568_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3568:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3572_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3572:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3578_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3578:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5410_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5410:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5568_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5568:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_7570_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_7570:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_7580_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_7580:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3070_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3070:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3267_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3267:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3268_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3268:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3400_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3400:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3401_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3401:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3470_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3470:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3471_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3471:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3480_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3480:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3481_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3481:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3490_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3490:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3500_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3500:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3501_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3501:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3562_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3562:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3580_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3580:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3581_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3581:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3582_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3582:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3583_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3583:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3584_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3584:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3590_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3590:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3660_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3660:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3667_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3667:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3668_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3668:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3669_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3669:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-36343"
+    },
+    {
+      "id": "CVE-2021-36342",
+      "published": "2022-01-24T20:15:07.987",
+      "modified": "2026-10-07T19:17:26.480",
+      "description": "Dell BIOS contains an improper input validation vulnerability. A local authenticated malicious user may potentially exploit this vulnerability by using an SMI to gain arbitrary code execution in SMRAM.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:dell:precision_7510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7520_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7520:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7530_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7530:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7540_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7540:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7550_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7550:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7560_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7560:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7710_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7710:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7720_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7720:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7730_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7730:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7740_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7740:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7750_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7750:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:precision_7760_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:precision_7760:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_13_5370_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_13_5370:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_3468_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_3468:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_3478_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_3478:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_5468_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_5468:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_14_5471_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_14_5471:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3568_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3568:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3572_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3572:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_3578_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_3578:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5410_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5410:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_5568_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_5568:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_7570_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_7570:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_15_7580_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_15_7580:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3070_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3070:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3267_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3267:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3268_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3268:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5502_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5502:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5581_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5581:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5590_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5590:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5591_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5591:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5880_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5880:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_5890_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_5890:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_7500_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_7500:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_7510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_7510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_7590_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_7590:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3400_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3400:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3401_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3401:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3470_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3470:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3471_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3471:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3480_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3480:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3481_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3481:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3490_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3490:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3500_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3500:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3501_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3501:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3510_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3510:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3562_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3562:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3580_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3580:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:dell:vostro_3581_firmware:*:*:*:*:*:*:*:*",
+        "cpe:2.3:h:dell:vostro_3581:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-36342"
+    },
+    {
+      "id": "CVE-2020-35501",
+      "published": "2022-03-30T16:15:08.673",
+      "modified": "2026-10-07T19:17:18.273",
+      "description": "A flaw was found in the Linux kernels implementation of audit rules, where a syscall can unexpectedly not be correctly not be logged by the audit subsystem",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 3.4,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35501"
+    },
+    {
+      "id": "CVE-2020-10735",
+      "published": "2022-09-09T14:15:08.660",
+      "modified": "2026-10-07T19:17:16.413",
+      "description": "A flaw was found in python. In algorithms with quadratic time complexity using non-binary bases, when using int(\"text\"), a system could take 50ms to parse an int string with 100,000 digits and 5s for 1,000,000 digits (float, decimal, int.from_bytes(), and int() for binary bases 2, 4, 8, 16, and 32 are not affected). The highest threat from this vulnerability is to system availability.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "quay",
+          "version": "3.0.0",
+          "cpe": "cpe:2.3:a:redhat:quay:3.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "software collections",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:software_collections:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha1:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha2:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha3:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha4:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha5:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha6:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:alpha7:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:beta1:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:beta2:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:beta3:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:beta4:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:beta5:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.11.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:quay:3.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:software_collections:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:35:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:36:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10735"
+    },
+    {
+      "id": "CVE-2019-9948",
+      "published": "2019-03-23T18:29:02.090",
+      "modified": "2026-10-07T19:17:16.027",
+      "description": "urllib in Python 2.x through 2.7.16 supports the local_file: scheme, which makes it easier for remote attackers to bypass protection mechanisms that blacklist file: URIs, as demonstrated by triggering a urllib.urlopen('local_file:///etc/passwd') call.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.1",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux tus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_tus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux tus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_tus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux tus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_tus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:42.3:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:29:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:30:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:-:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:19.04:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_tus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_tus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_tus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:8.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9948"
+    },
+    {
+      "id": "CVE-2019-9636",
+      "published": "2019-03-08T21:29:00.703",
+      "modified": "2026-10-07T19:17:14.490",
+      "description": "Python 2.7.x through 2.7.16 and 3.x through 3.7.2 is affected by: Improper Handling of Unicode Encoding (with an incorrect netloc) during NFKC normalization. The impact is: Information disclosure (credentials, cookies, etc. that are cached against a given hostname). The components are: urllib.parse.urlsplit, urllib.parse.urlparse. The attack vector is: A specially crafted URL could be incorrectly parsed to locate cookies or authentication data and send that information to a different host than when parsed correctly. This is fixed in: v2.7.17, v2.7.17rc1, v2.7.18, v2.7.18rc1; v3.5.10, v3.5.10rc1, v3.5.7, v3.5.8, v3.5.8rc1, v3.5.8rc2, v3.5.9; v3.6.10, v3.6.10rc1, v3.6.11, v3.6.11rc1, v3.6.12, v3.6.9, v3.6.9rc1; v3.7.3, v3.7.3rc1, v3.7.4, v3.7.4rc1, v3.7.4rc2, v3.7.5, v3.7.5rc1, v3.7.6, v3.7.6rc1, v3.7.7, v3.7.7rc1, v3.7.8, v3.7.8rc1, v3.7.9.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "3.11",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:3.11:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.5",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.5:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "7.5",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:7.5:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.1",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "7.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:7.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server eus",
+          "version": "5.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_eus:5.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "7.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:7.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "virtualization",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:virtualization:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:28:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:29:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:30:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:31:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:42.3:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:-:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:19.04:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:3.11:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.5:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:7.5:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:7.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_eus:5.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:7.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:virtualization:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:sun_zfs_storage_appliance_kit:8.8.6:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9636"
+    },
+    {
+      "id": "CVE-2019-5010",
+      "published": "2019-10-31T21:15:13.293",
+      "modified": "2026-10-07T19:17:14.050",
+      "description": "An exploitable denial-of-service vulnerability exists in the X509 certificate parser of Python.org Python 2.7.11 / 3.6.6. A specially crafted X509 certificate can cause a NULL pointer dereference, resulting in a denial of service. An attacker can initiate or accept TLS connections using crafted certificates to trigger this vulnerability.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.1",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-5010"
+    },
+    {
+      "id": "CVE-2019-17267",
+      "published": "2019-10-07T00:15:10.490",
+      "modified": "2026-10-07T19:17:13.227",
+      "description": "A Polymorphic Typing issue was discovered in FasterXML jackson-databind before 2.9.10. It is related to net.sf.ehcache.hibernate.EhcacheJtaTransactionManagerLookup.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.2",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.3",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.3:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:fasterxml:jackson-databind:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:*:*:*:*:*:linux:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:*:*:*:*:*:windows:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:*:*:*:*:*:vmware_vsphere:*:*",
+        "cpe:2.3:a:netapp:oncommand_api_services:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:oncommand_workflow_automation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:service_level_manager:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:steelstore_cloud_integrated_storage:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.3:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:customer_management_and_segmentation_foundation:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:goldengate_application_adapters:19.1.0.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:retail_customer_management_and_segmentation_foundation:17.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:weblogic_server:12.2.1.3.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-17267"
+    },
+    {
+      "id": "CVE-2019-16056",
+      "published": "2019-09-06T18:15:15.443",
+      "modified": "2026-10-07T19:17:12.280",
+      "description": "An issue was discovered in Python through 2.7.16, 3.x through 3.5.7, 3.6.x through 3.6.9, and 3.7.x through 3.7.4. The email module wrongly parses email addresses that contain multiple @ characters. An application that uses the email module and implements some kind of checks on the From/To headers of a message could be tricked into accepting an email address that should be denied. An attack may be the same as in CVE-2019-11340; however, this CVE applies to Python more generally.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "software collections",
+          "version": "1.0",
+          "cpe": "cpe:2.3:a:redhat:software_collections:1.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:29:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:30:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:31:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:-:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:19.04:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:software_collections:1.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:communications_operations_monitor:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:communications_operations_monitor:3.4:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_peopletools:8.57:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_peopletools:8.58:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:zfs_storage_appliance_kit:8.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:oracle:solaris:11:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-16056"
+    },
+    {
+      "id": "CVE-2019-10160",
+      "published": "2019-06-07T18:29:00.280",
+      "modified": "2026-10-07T19:17:11.967",
+      "description": "A security regression of CVE-2019-9636 was discovered in python since commit d537ab0ff9767ef024f26246899728f0116b1ec3 affecting versions 2.7, 3.5, 3.6, 3.7 and from v3.8.0a4 through v3.8.0b1, which still allows an attacker to exploit CVE-2019-9636 by abusing the user and password parts of a URL. When an application parses user-supplied URLs to store cookies, authentication credentials, or other kind of information, it is possible for an attacker to provide specially crafted URLs to make the application locate host-related information (e.g. cookies, authentication data) and send them to a different host than where it should, unlike if the URLs had been correctly parsed. The result of an attack may vary based on the application.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "7.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:7.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "7.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:7.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "7.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:7.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "virtualization",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:virtualization:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.8.0:alpha4:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.8.0:beta1:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:7.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:7.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:7.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:29:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:30:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:31:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:-:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:19.04:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:virtualization:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:cloud_backup:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:converged_systems_advisor_agent:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-10160"
+    },
+    {
+      "id": "CVE-2018-14647",
+      "published": "2018-09-25T00:29:00.703",
+      "modified": "2026-10-07T19:17:11.210",
+      "description": "Python's elementtree C accelerator failed to initialise Expat's hash salt during initialization. This could make it easy to conduct denial of service attacks against Expat by constructing an XML document that would cause pathological hash collisions in Expat's internal data structures, consuming large amounts CPU and RAM. The vulnerability exists in Python versions 3.7.0, 3.6.0 through 3.6.6, 3.5.0 through 3.5.6, 3.4.0 through 3.4.9, 2.7.0 through 2.7.15.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:python:python:3.7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:30:*:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-14647"
+    },
     {
       "id": "CVE-2025-14021",
       "published": "2025-12-15T07:15:50.850",
@@ -144,26 +1994,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92532"
     },
     {
-      "id": "CVE-2026-107216",
-      "published": "2026-10-07T18:17:19.400",
-      "modified": "2026-10-07T18:17:19.400",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
-    },
-    {
       "id": "CVE-2026-107215",
       "published": "2026-10-07T18:17:19.213",
       "modified": "2026-10-07T18:17:19.213",
@@ -242,26 +2072,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107212"
-    },
-    {
-      "id": "CVE-2026-107211",
-      "published": "2026-10-07T18:17:18.490",
-      "modified": "2026-10-07T18:17:18.490",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
     },
     {
       "id": "CVE-2025-55177",
@@ -2499,26 +4309,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16516"
     },
     {
-      "id": "CVE-2026-84897",
-      "published": "2026-10-07T03:17:00.067",
-      "modified": "2026-10-07T16:02:27.613",
-      "description": "src/internal.c in wolfSSL wolfSSH through 1.5.0 admits the server-to-client Diffie-Hellman group exchange messages SSH_MSG_KEX_DH_GEX_GROUP (31) and SSH_MSG_KEX_DH_GEX_REPLY (33) when a server receives them from an unauthenticated client. IsMessageAllowedServer() applies no direction check to the key exchange message range: when the peer is keying and no particular message is expected, which is the state a server is in for the whole window after it processes the client's KEXINIT because nothing sets handshake->expectMsgId there, the function falls out of its expectation branch without a verdict and reaches a numeric bound that admits every message id from 30 through 34. A client that negotiates diffie-hellman-group-exchange-sha256 and then sends message 31 makes the server run the client-side handler DoKexDhGexGroup(), which validates the attacker-supplied group with two 8-round Miller-Rabin primality tests, one on p and one on (p-1)/2, on a value of up to 8192 bits. The handler then returns success: the server stores the attacker's prime and generator, generates a Diffie-Hellman key pair in the attacker's group, and sends the client-role message SSH_MSG_KEX_DH_GEX_INIT (32) back to the attacker. Published RFC 3526 safe primes are the worst-case input and cost the attacker nothing to obtain. The primality validation was added in 1.5.0; versions from 1.2.0 through 1.4.22 admit the same message and enter the same client-role path without the primality cost. Message 33 is admitted as well, but on a server it is rejected before any cryptography because no public key check callback is registered, so it carries no comparable cost. Builds that define WOLFSSH_NO_DH_GEX_SHA256, which is implied by WOLFSSH_NO_DH or NO_SHA256, are unaffected.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
-    },
-    {
       "id": "CVE-2026-18131",
       "published": "2026-09-22T22:17:09.913",
       "modified": "2026-10-07T15:59:07.050",
@@ -3016,68 +4806,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104047"
     },
     {
-      "id": "CVE-2026-102781",
-      "published": "2026-10-07T09:17:04.397",
-      "modified": "2026-10-07T14:46:20.007",
-      "description": "Joomla Extension - ordasoft.com - Unauthenticated Destructive CRUD in OrdaSoft Touch Slider < 5.4.6 - modOsTouchSliderHelper::getAjax(), wired through Joomla’s core com_ajax dispatcher, is the single handler behind every data-management operation this module exposes. No call to JFactory::getUser(), authorise(), or a CSRF token check exists anywhere in the handler. Two confirmed impact paths: an unauthenticated GET deletes any slider image by guessable sequential IDs, and an unauthenticated multipart upload with a zip file renames and replaces the entire #__os_touch_slider/#__os_touch_slider_text tables site-wide with attacker-supplied content, with no task parameter even required for the second path.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102781"
-    },
-    {
-      "id": "CVE-2026-79815",
-      "published": "2026-10-06T20:17:33.197",
-      "modified": "2026-10-07T14:44:18.807",
-      "description": "A command injection vulnerability in the OnGuard agent of ClearPass Policy Manager could allow an authenticated remote attacker to inject arbitrary commands. Successful exploitation could allow an attacker to execute commands with elevated privileges on the affected Windows endpoint.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79815"
-    },
-    {
-      "id": "CVE-2026-79807",
-      "published": "2026-10-06T20:17:32.253",
-      "modified": "2026-10-07T14:44:18.807",
-      "description": "A missing integrity verification vulnerability in the Windows client software for ClearPass Policy Manager could allow malicious users on a local instance to elevate their user privileges. A successful exploit could allow these users to execute attacker-supplied code with elevated privileges on the local system.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79807"
-    },
-    {
       "id": "CVE-2026-65669",
       "published": "2026-09-08T18:18:14.893",
       "modified": "2026-10-07T14:38:03.067",
@@ -3312,26 +5040,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
-    },
-    {
-      "id": "CVE-2026-106493",
-      "published": "2026-10-06T21:17:18.370",
-      "modified": "2026-10-07T13:58:29.527",
-      "description": "Backstage is an open framework for building developer portals. Prior to 1.54.6, cloud storage catalog providers did not sufficiently validate object paths. A principal able to create or rename objects in a configured Azure Blob Storage or AWS S3 catalog source could cause catalog descriptors to be read from outside the intended storage boundary, limited to locations reachable with the backend's configured credentials. This issue is fixed in 1.54.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.0,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106493"
     },
     {
       "id": "CVE-2026-62874",
@@ -18436,12 +20144,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 474,
-    "critical": 43,
-    "high": 200,
-    "medium": 198,
+    "total_relevant_cves": 498,
+    "critical": 47,
+    "high": 213,
+    "medium": 204,
     "kev": 16,
-    "p1": 30,
-    "p2": 207
+    "p1": 31,
+    "p2": 223
   }
 }
