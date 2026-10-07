@@ -1,10 +1,40 @@
 {
-  "updated": "2026-10-07T14:59:00.493239+00:00",
+  "updated": "2026-10-07T15:31:39.653762+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-81658",
+      "published": "2026-08-27T13:18:42.037",
+      "modified": "2026-10-07T15:25:07.700",
+      "description": "A flaw was found in Foreman. The template revision endpoint does not enforce object-level authorization when retrieving an audited template revision. An authenticated, low privileged user with a template-related permission, such as view_ptables, can obtain historical template contents belonging to another organization or location by supplying the corresponding audit ID. This can result in unauthorized disclosure of historical template contents, which may contain sensitive configuration information, credentials, or other secrets. The REST API revision endpoints correctly restrict this lookup.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "6.0",
+          "cpe": "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:theforeman:foreman:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81658"
+    },
     {
       "id": "CVE-2026-92533",
       "published": "2026-10-07T11:17:20.450",
-      "modified": "2026-10-07T14:47:35.590",
+      "modified": "2026-10-07T15:17:58.010",
       "description": "Path traversal vulnerability in the BugTracker.NET file download component. The parameter used to specify the file name does not properly validate user-supplied paths. An authenticated remote attacker could enter a manipulated path to access files located outside the intended directory. Successful exploitation could allow the attacker to read system files accessible to the account used by the application.",
       "vendors": [
         "Microsoft"
@@ -22,6 +52,274 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92533"
+    },
+    {
+      "id": "CVE-2026-92531",
+      "published": "2026-10-07T11:17:20.080",
+      "modified": "2026-10-07T15:17:57.740",
+      "description": "Operating system command injection vulnerability in the SVN integration component of BugTracker.NET. The application incorporates the value of the field corresponding to the repository into an svn.exe command without properly validating it. An authenticated user with administrator privileges could store manipulated arguments in the database and subsequently cause them to be processed by the revision comparison functionality. A successful exploit could allow the execution of arbitrary commands with the privileges of the account used by the application. To exploit this vulnerability, svn.exe must be installed and capable of being invoked by the service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92531"
+    },
+    {
+      "id": "CVE-2026-62179",
+      "published": "2026-10-07T15:17:23.073",
+      "modified": "2026-10-07T15:17:23.073",
+      "description": "PraisonAI is a multi-agent teams system. In `praisonai-platform` prior to version 0.1.9, issue dependency deletion can be authorized against the wrong side of a dependency edge. A workspace member cannot delete a dependency through the owner-created issue endpoint, but can delete the same dependency through a member-owned related issue endpoint because the route accepts either endpoint and checks delete permission only against the caller-selected URL issue. Version 0.1.9 patches the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62179"
+    },
+    {
+      "id": "CVE-2026-49329",
+      "published": "2026-09-01T16:16:57.760",
+      "modified": "2026-10-07T15:17:21.373",
+      "description": "A flaw was found in openshift/oauth-server. The OAuth login and error page endpoints pass the unauthenticated Accept-Language header to golang.org/x/text/language.ParseAcceptLanguage() without input validation. A bypass of the CVE-2022-32149 mitigation exists: the upstream guard counts only '-' characters but the internal BCP 47 scanner aliases '_' to '-' after the guard check. An unauthenticated attacker can send a crafted Accept-Language header using '_' separators to trigger quadratic-time parsing, consuming excessive CPU and denying authentication to all cluster users.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
+    },
+    {
+      "id": "CVE-2026-106588",
+      "published": "2026-10-06T22:17:06.770",
+      "modified": "2026-10-07T15:17:18.253",
+      "description": "In sshd in OpenSSH through 10.6, use of the macOS 27 (or later) SDK has the side effect of loss of sandboxing, which is potentially unexpected.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106588"
+    },
+    {
+      "id": "CVE-2026-106057",
+      "published": "2026-10-07T12:17:08.730",
+      "modified": "2026-10-07T15:17:07.797",
+      "description": "patool before 4.0.6 contains an OS command injection vulnerability on Windows because shell_quote_nt fails to escape cmd.exe metacharacters or embedded double quotes in archive filenames. Attackers can supply crafted filenames like report&calc.gz for single-file formats run with shell=True to execute commands with patool process privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106057"
+    },
+    {
+      "id": "CVE-2026-105243",
+      "published": "2026-10-06T20:17:16.167",
+      "modified": "2026-10-07T15:17:07.150",
+      "description": "Insufficient Logging vulnerability in the EventLogAppender of Apache log4net.\n\nLong messages were truncated to a fixed size that exceeds what the Windows Event Log accepts once the log and source names are counted, and the event log then stored nothing and reported nothing. A party whose data reaches a log message could suppress the whole record by making it long enough. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105243"
+    },
+    {
+      "id": "CVE-2026-105242",
+      "published": "2026-10-06T20:17:16.037",
+      "modified": "2026-10-07T15:17:06.863",
+      "description": "Improper Handling of Exceptional Conditions vulnerability in the aspnet-request pattern converter of Apache log4net.\n\nReading request parameters triggers ASP.NET request validation, so a request carrying content such as markup made the layout throw and the appender discarded the whole event. A sender could suppress the log record of their own request. Only applications on ASP.NET for .NET Framework whose layout uses %aspnet-request are affected.\n\nThis issue affects Apache log4net: from 1.2.11 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105242"
+    },
+    {
+      "id": "CVE-2026-106236",
+      "published": "2026-10-06T19:17:50.470",
+      "modified": "2026-10-07T15:12:05.217",
+      "description": "UI misrepresentation in Chromoting in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via crafted network traffic. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106236"
+    },
+    {
+      "id": "CVE-2026-58649",
+      "published": "2026-09-08T18:17:44.380",
+      "modified": "2026-10-07T15:05:42.297",
+      "description": "Origin validation error in .NET allows an unauthorized attacker to disclose information over a network.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "11.0.0",
+          "cpe": "cpe:2.3:a:microsoft:.net:11.0.0:preview7:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net sdk",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net_sdk:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2022:*:*:*:*:*:-:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2026",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2026:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview1:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview2:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview5:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview6:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:11.0.0:preview7:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_sdk:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2022:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2026:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58649"
+    },
+    {
+      "id": "CVE-2026-102139",
+      "published": "2026-09-30T21:17:02.663",
+      "modified": "2026-10-07T15:01:35.230",
+      "description": "An authorization check in the large file exchange feature of Kiteworks Email Protection Gateway did not correctly establish that the requesting user was a party to the package being requested. An authenticated user of that optional feature could read the subject, message body, and attachments of packages they neither sent nor received.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:accellion:kiteworks:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102139"
     },
     {
       "id": "CVE-2026-92532",
@@ -46,26 +344,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92532"
     },
     {
-      "id": "CVE-2026-92531",
-      "published": "2026-10-07T11:17:20.080",
-      "modified": "2026-10-07T14:47:35.590",
-      "description": "Operating system command injection vulnerability in the SVN integration component of BugTracker.NET. The application incorporates the value of the field corresponding to the repository into an svn.exe command without properly validating it. An authenticated user with administrator privileges could store manipulated arguments in the database and subsequently cause them to be processed by the revision comparison functionality. A successful exploit could allow the execution of arbitrary commands with the privileges of the account used by the application. To exploit this vulnerability, svn.exe must be installed and capable of being invoked by the service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92531"
-    },
-    {
       "id": "CVE-2026-88514",
       "published": "2026-10-07T14:17:11.743",
       "modified": "2026-10-07T14:47:21.140",
@@ -86,26 +364,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88514"
-    },
-    {
-      "id": "CVE-2026-106588",
-      "published": "2026-10-06T22:17:06.770",
-      "modified": "2026-10-07T14:47:21.140",
-      "description": "In sshd in OpenSSH through 10.6, use of the macOS 27 (or later) SDK has the side effect of loss of sandboxing, which is potentially unexpected.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106588"
     },
     {
       "id": "CVE-2026-104047",
@@ -938,46 +1196,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106412"
-    },
-    {
-      "id": "CVE-2026-105243",
-      "published": "2026-10-06T20:17:16.167",
-      "modified": "2026-10-07T13:35:14.410",
-      "description": "Insufficient Logging vulnerability in the EventLogAppender of Apache log4net.\n\nLong messages were truncated to a fixed size that exceeds what the Windows Event Log accepts once the log and source names are counted, and the event log then stored nothing and reported nothing. A party whose data reaches a log message could suppress the whole record by making it long enough. Only applications on Windows that use EventLogAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105243"
-    },
-    {
-      "id": "CVE-2026-105242",
-      "published": "2026-10-06T20:17:16.037",
-      "modified": "2026-10-07T13:35:14.410",
-      "description": "Improper Handling of Exceptional Conditions vulnerability in the aspnet-request pattern converter of Apache log4net.\n\nReading request parameters triggers ASP.NET request validation, so a request carrying content such as markup made the layout throw and the appender discarded the whole event. A sender could suppress the log record of their own request. Only applications on ASP.NET for .NET Framework whose layout uses %aspnet-request are affected.\n\nThis issue affects Apache log4net: from 1.2.11 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105242"
     },
     {
       "id": "CVE-2026-105240",
@@ -1998,26 +2216,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106059"
-    },
-    {
-      "id": "CVE-2026-106057",
-      "published": "2026-10-07T12:17:08.730",
-      "modified": "2026-10-07T12:17:08.730",
-      "description": "patool before 4.0.6 contains an OS command injection vulnerability on Windows because shell_quote_nt fails to escape cmd.exe metacharacters or embedded double quotes in archive filenames. Attackers can supply crafted filenames like report&calc.gz for single-file formats run with shell=True to execute commands with patool process privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106057"
     },
     {
       "id": "CVE-2026-106056",
@@ -7574,26 +7772,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55653"
     },
     {
-      "id": "CVE-2026-49329",
-      "published": "2026-09-01T16:16:57.760",
-      "modified": "2026-10-07T00:17:20.913",
-      "description": "A flaw was found in openshift/oauth-server. The OAuth login and error page endpoints pass the unauthenticated Accept-Language header to golang.org/x/text/language.ParseAcceptLanguage() without input validation. A bypass of the CVE-2022-32149 mitigation exists: the upstream guard counts only '-' characters but the internal BCP 47 scanner aliases '_' to '-' after the guard check. An unauthenticated attacker can send a crafted Accept-Language header using '_' separators to trigger quadratic-time parsing, consuming excessive CPU and denying authentication to all cluster users.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
-    },
-    {
       "id": "CVE-2025-69117",
       "published": "2026-06-17T13:19:17.647",
       "modified": "2026-10-06T22:10:00.247",
@@ -7763,28 +7941,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106272"
-    },
-    {
-      "id": "CVE-2026-106236",
-      "published": "2026-10-06T19:17:50.470",
-      "modified": "2026-10-06T21:17:07.830",
-      "description": "UI misrepresentation in Chromoting in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via crafted network traffic. (Chromium security severity: Low)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106236"
     },
     {
       "id": "CVE-2026-106214",
@@ -15969,10 +16125,10 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 430,
+    "total_relevant_cves": 434,
     "critical": 42,
     "high": 177,
-    "medium": 174,
+    "medium": 178,
     "kev": 8,
     "p1": 22,
     "p2": 189
