@@ -1,6 +1,900 @@
 {
-  "updated": "2026-10-07T12:53:12.957757+00:00",
+  "updated": "2026-10-07T13:17:57.936729+00:00",
   "cves": [
+    {
+      "id": "CVE-2025-64391",
+      "published": "2026-10-07T09:17:03.467",
+      "modified": "2026-10-07T13:17:14.850",
+      "description": "This vulnerability in Veeam Agent for Microsoft Windows allows a low-privileged local user to make the agent write files to arbitrary locations when an administrator installs it.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64391"
+    },
+    {
+      "id": "CVE-2026-106414",
+      "published": "2026-10-06T19:18:11.090",
+      "modified": "2026-10-07T13:13:12.260",
+      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.6,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106414"
+    },
+    {
+      "id": "CVE-2026-106251",
+      "published": "2026-10-06T19:17:52.173",
+      "modified": "2026-10-07T13:11:37.410",
+      "description": "UI misrepresentation in Chromoting in Google Chrome on on Mac prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via crafted network traffic. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106251"
+    },
+    {
+      "id": "CVE-2026-106420",
+      "published": "2026-10-06T19:18:11.780",
+      "modified": "2026-10-07T13:10:28.407",
+      "description": "Incorrect calculation in API in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via a crafted Chrome extension. (Chromium security severity: Medium)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106420"
+    },
+    {
+      "id": "CVE-2025-34290",
+      "published": "2025-12-20T20:15:50.553",
+      "modified": "2026-10-07T13:10:00.713",
+      "description": "Versa SASE Client for Windows versions released between 7.8.7 and 7.9.4 contain a local privilege escalation vulnerability in the audit log export functionality. The client communicates user-controlled file paths to a privileged service, which performs file system operations without impersonating the requesting user. Due to improper privilege handling and a time-of-check time-of-use race condition combined with symbolic link and mount point manipulation, a local authenticated attacker can coerce the service into deleting arbitrary directories with SYSTEM privileges. This can be exploited to delete protected system folders such as C:\\\\Config.msi and subsequently achieve execution as NT AUTHORITY\\\\SYSTEM via MSI rollback techniques.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:versa-networks:sase_client:*:*:*:*:*:windows:*:*"
+      ],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34290"
+    },
+    {
+      "id": "CVE-2025-68917",
+      "published": "2025-12-24T21:16:04.153",
+      "modified": "2026-10-07T13:10:00.713",
+      "description": "ONLYOFFICE Docs before 9.2.1 allows XSS in the textarea of the comment editing form. This is related to DocumentServer.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68917"
+    },
+    {
+      "id": "CVE-2025-59683",
+      "published": "2025-12-25T05:16:07.900",
+      "modified": "2026-10-07T13:10:00.713",
+      "description": "Pexip Infinity 15.0 through 38.0 before 38.1 has Improper Access Control in the Secure Scheduler for Exchange service, when used with Office 365 Legacy Exchange Tokens. This allows a remote attacker to read potentially sensitive data and excessively consume resources, leading to a denial of service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:pexip:pexip_infinity:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59683"
+    },
+    {
+      "id": "CVE-2025-68935",
+      "published": "2025-12-25T20:15:42.143",
+      "modified": "2026-10-07T13:10:00.713",
+      "description": "ONLYOFFICE Docs before 9.2.1 allows XSS via the Font field for the Multilevel list settings window. This is related to DocumentServer.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:onlyoffice:document_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68935"
+    },
+    {
+      "id": "CVE-2025-68936",
+      "published": "2025-12-25T20:15:42.310",
+      "modified": "2026-10-07T13:10:00.713",
+      "description": "ONLYOFFICE Docs before 9.2.1 allows XSS via the Color theme name. This is related to DocumentServer.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:onlyoffice:document_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68936"
+    },
+    {
+      "id": "CVE-2026-18176",
+      "published": "2026-09-22T23:17:07.273",
+      "modified": "2026-10-07T13:04:36.103",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to cleartext transmission of sensitive information.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18176"
+    },
+    {
+      "id": "CVE-2026-18173",
+      "published": "2026-09-22T23:17:07.130",
+      "modified": "2026-10-07T13:04:33.080",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to improper enforcement of mutual TLS authentication.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18173"
+    },
+    {
+      "id": "CVE-2026-18172",
+      "published": "2026-09-22T23:17:06.993",
+      "modified": "2026-10-07T13:04:30.253",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to improper restriction of XML external entity references.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18172"
+    },
+    {
+      "id": "CVE-2026-18137",
+      "published": "2026-09-22T22:17:10.430",
+      "modified": "2026-10-07T13:04:25.990",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to execute arbitrary ESQL commands due to improper neutralization of special elements used in an ESQL command.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18137"
+    },
+    {
+      "id": "CVE-2026-18177",
+      "published": "2026-09-23T14:17:07.660",
+      "modified": "2026-10-07T13:03:55.270",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to execute unauthorized payment actions due to missing authorization checks.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18177"
+    },
+    {
+      "id": "CVE-2026-18179",
+      "published": "2026-09-23T14:17:07.783",
+      "modified": "2026-10-07T13:03:53.020",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to clear active chat sessions due to improper authorization.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18179"
+    },
+    {
+      "id": "CVE-2026-18180",
+      "published": "2026-09-23T16:16:40.957",
+      "modified": "2026-10-07T13:03:50.630",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote authenticated attacker to obtain sensitive information due to SQL injection.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18180"
+    },
+    {
+      "id": "CVE-2026-18181",
+      "published": "2026-09-23T16:16:41.083",
+      "modified": "2026-10-07T13:03:47.883",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to bypass authentication and access sensitive information due to a hard-coded cryptographic key.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "AUTH_BYPASS",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18181"
+    },
+    {
+      "id": "CVE-2026-18184",
+      "published": "2026-09-23T16:16:41.210",
+      "modified": "2026-10-07T13:03:45.330",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to an XML external entity (XXE) injection flaw.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18184"
+    },
+    {
+      "id": "CVE-2026-18185",
+      "published": "2026-09-23T16:16:41.337",
+      "modified": "2026-10-07T13:03:42.913",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to access sensitive information and modify system configurations due to missing authentication for a critical function.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18185"
+    },
+    {
+      "id": "CVE-2026-18490",
+      "published": "2026-09-23T16:16:41.460",
+      "modified": "2026-10-07T13:03:40.013",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift is vulnerable to unauthenticated remote code execution via Java native deserialization on the PayDir Business Rules Manager RMI SSL endpoint (BrmRMISSLServerSocketFactory.java:95, EP8). An adjacent-network attacker can deliver a crafted serialized payload to achieve arbitrary code execution, exposing all PayDir credentials and enabling manipulation of payment business rules.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18490"
+    },
+    {
+      "id": "CVE-2026-18505",
+      "published": "2026-09-23T16:16:41.590",
+      "modified": "2026-10-07T13:03:16.430",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift is vulnerable to open redirect in the PMP `HostHeaderFilter` (`HostHeaderFilter.java:151`). An unauthenticated attacker can craft a request with a manipulated `Host` header to redirect authenticated operators to attacker-controlled sites, enabling credential phishing.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18505"
+    },
+    {
+      "id": "CVE-2026-18872",
+      "published": "2026-09-23T16:16:41.720",
+      "modified": "2026-10-07T13:03:10.417",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift is vulnerable to stored cross-site scripting (CWE-79) in the FTM UI NetworkAcknowledgement React component (NetworkAcknowledgement.jsx:42). A malicious actor can inject script into stored network acknowledgement data that executes in authenticated operator browsers, enabling session hijacking and unauthorized operator-level payment actions.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18872"
+    },
+    {
+      "id": "CVE-2026-18875",
+      "published": "2026-09-23T16:16:41.850",
+      "modified": "2026-10-07T13:03:07.517",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift is vulnerable to RAG poisoning via unauthenticated runbook upsert (CWE-74) in the FTM AI agent server (api.vectordb.runbooks.js:51). An unauthenticated attacker can insert malicious runbook content into the agent's vector database to steer AI-driven MCP tool calls, potentially triggering unauthorized payment actions or exfiltrating payment data.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18875"
+    },
+    {
+      "id": "CVE-2026-19087",
+      "published": "2026-09-23T16:16:41.980",
+      "modified": "2026-10-07T13:03:04.797",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a local attacker to achieve privilege escalation within the container due to improper privilege management.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19087"
+    },
+    {
+      "id": "CVE-2026-19179",
+      "published": "2026-09-23T16:16:42.107",
+      "modified": "2026-10-07T13:03:01.670",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to manipulate database queries due to improper neutralization of special elements in a boolean expression.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19179"
+    },
+    {
+      "id": "CVE-2026-19267",
+      "published": "2026-09-23T16:16:42.237",
+      "modified": "2026-10-07T13:02:57.947",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift is vulnerable to missing authentication on the Business Rules Manager commands REST endpoint (`CommandsResource.java:31`). A local actor can invoke unauthenticated commands to cause resource exhaustionand halt business-rule management functions.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
+        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
+        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19267"
+    },
     {
       "id": "CVE-2026-83742",
       "published": "2026-10-07T03:16:59.880",
@@ -347,28 +1241,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92531"
-    },
-    {
-      "id": "CVE-2026-106420",
-      "published": "2026-10-06T19:18:11.780",
-      "modified": "2026-10-07T11:17:18.583",
-      "description": "Incorrect calculation in API in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via a crafted Chrome extension. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106420"
     },
     {
       "id": "CVE-2026-106406",
@@ -3961,26 +4833,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102781"
     },
     {
-      "id": "CVE-2025-64391",
-      "published": "2026-10-07T09:17:03.467",
-      "modified": "2026-10-07T09:17:03.467",
-      "description": "This vulnerability in Veeam Agent for Microsoft Windows allows a low-privileged local user to make the agent write files to arbitrary locations when an administrator installs it.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64391"
-    },
-    {
       "id": "CVE-2025-67918",
       "published": "2026-01-08T10:15:50.720",
       "modified": "2026-10-07T09:10:00.160",
@@ -5647,28 +6499,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84854"
-    },
-    {
-      "id": "CVE-2026-106414",
-      "published": "2026-10-06T19:18:11.090",
-      "modified": "2026-10-07T04:18:07.910",
-      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.6,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106414"
     },
     {
       "id": "CVE-2026-106373",
@@ -14640,12 +15470,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 394,
-    "critical": 38,
-    "high": 159,
-    "medium": 162,
+    "total_relevant_cves": 417,
+    "critical": 39,
+    "high": 171,
+    "medium": 171,
     "kev": 8,
-    "p1": 18,
-    "p2": 171
+    "p1": 19,
+    "p2": 183
   }
 }
