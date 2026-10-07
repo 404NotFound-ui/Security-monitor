@@ -1,6 +1,227 @@
 {
-  "updated": "2026-10-07T14:37:06.141542+00:00",
+  "updated": "2026-10-07T14:59:00.493239+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-92533",
+      "published": "2026-10-07T11:17:20.450",
+      "modified": "2026-10-07T14:47:35.590",
+      "description": "Path traversal vulnerability in the BugTracker.NET file download component. The parameter used to specify the file name does not properly validate user-supplied paths. An authenticated remote attacker could enter a manipulated path to access files located outside the intended directory. Successful exploitation could allow the attacker to read system files accessible to the account used by the application.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92533"
+    },
+    {
+      "id": "CVE-2026-92532",
+      "published": "2026-10-07T11:17:20.287",
+      "modified": "2026-10-07T14:47:35.590",
+      "description": "Unrestricted file upload vulnerability in the BugTracker.NET attachment functionality. An authenticated user with administrator privileges could modify the application configuration to store files in a directory accessible via the web interface. Due to the lack of proper file extension validation, an attacker could upload a malicious ASPX file and subsequently execute it on the server. A successful exploit could allow arbitrary code execution with the privileges of the account used by the web service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92532"
+    },
+    {
+      "id": "CVE-2026-92531",
+      "published": "2026-10-07T11:17:20.080",
+      "modified": "2026-10-07T14:47:35.590",
+      "description": "Operating system command injection vulnerability in the SVN integration component of BugTracker.NET. The application incorporates the value of the field corresponding to the repository into an svn.exe command without properly validating it. An authenticated user with administrator privileges could store manipulated arguments in the database and subsequently cause them to be processed by the revision comparison functionality. A successful exploit could allow the execution of arbitrary commands with the privileges of the account used by the application. To exploit this vulnerability, svn.exe must be installed and capable of being invoked by the service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92531"
+    },
+    {
+      "id": "CVE-2026-88514",
+      "published": "2026-10-07T14:17:11.743",
+      "modified": "2026-10-07T14:47:21.140",
+      "description": "An issue in iTerm2 macOS before 3.6.12 allows a local attacker to obtain sensitive information.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88514"
+    },
+    {
+      "id": "CVE-2026-106588",
+      "published": "2026-10-06T22:17:06.770",
+      "modified": "2026-10-07T14:47:21.140",
+      "description": "In sshd in OpenSSH through 10.6, use of the macOS 27 (or later) SDK has the side effect of loss of sandboxing, which is potentially unexpected.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106588"
+    },
+    {
+      "id": "CVE-2026-104047",
+      "published": "2026-10-06T20:17:14.823",
+      "modified": "2026-10-07T14:47:21.140",
+      "description": "A flaw was found in SSSD. When configured to use Microsoft Entra ID, search inputs are not properly sanitized before being incorporated into directory query filters. A local user can exploit this vulnerability by submitting a crafted lookup request, manipulating the query logic to cause unauthorized information disclosure from the directory.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104047"
+    },
+    {
+      "id": "CVE-2026-102781",
+      "published": "2026-10-07T09:17:04.397",
+      "modified": "2026-10-07T14:46:20.007",
+      "description": "Joomla Extension - ordasoft.com - Unauthenticated Destructive CRUD in OrdaSoft Touch Slider < 5.4.6 - modOsTouchSliderHelper::getAjax(), wired through Joomla’s core com_ajax dispatcher, is the single handler behind every data-management operation this module exposes. No call to JFactory::getUser(), authorise(), or a CSRF token check exists anywhere in the handler. Two confirmed impact paths: an unauthenticated GET deletes any slider image by guessable sequential IDs, and an unauthenticated multipart upload with a zip file renames and replaces the entire #__os_touch_slider/#__os_touch_slider_text tables site-wide with attacker-supplied content, with no task parameter even required for the second path.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102781"
+    },
+    {
+      "id": "CVE-2026-79815",
+      "published": "2026-10-06T20:17:33.197",
+      "modified": "2026-10-07T14:44:18.807",
+      "description": "A command injection vulnerability in the OnGuard agent of ClearPass Policy Manager could allow an authenticated remote attacker to inject arbitrary commands. Successful exploitation could allow an attacker to execute commands with elevated privileges on the affected Windows endpoint.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79815"
+    },
+    {
+      "id": "CVE-2026-79807",
+      "published": "2026-10-06T20:17:32.253",
+      "modified": "2026-10-07T14:44:18.807",
+      "description": "A missing integrity verification vulnerability in the Windows client software for ClearPass Policy Manager could allow malicious users on a local instance to elevate their user privileges. A successful exploit could allow these users to execute attacker-supplied code with elevated privileges on the local system.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79807"
+    },
+    {
+      "id": "CVE-2026-65669",
+      "published": "2026-09-08T18:18:14.893",
+      "modified": "2026-10-07T14:38:03.067",
+      "description": "Improper neutralization of special elements in output used by a downstream component ('injection') in SQL Server allows an unauthorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server management studio",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_management_studio:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_management_studio:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.6,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65669"
+    },
     {
       "id": "CVE-2026-65772",
       "published": "2026-09-08T18:18:15.860",
@@ -92,28 +313,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90996"
-    },
-    {
-      "id": "CVE-2026-88514",
-      "published": "2026-10-07T14:17:11.743",
-      "modified": "2026-10-07T14:17:11.743",
-      "description": "An issue in iTerm2 macOS before 3.6.12 allows a local attacker to obtain sensitive information.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88514"
     },
     {
       "id": "CVE-2024-26507",
@@ -1998,70 +2197,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68987"
-    },
-    {
-      "id": "CVE-2026-92533",
-      "published": "2026-10-07T11:17:20.450",
-      "modified": "2026-10-07T11:17:20.450",
-      "description": "Path traversal vulnerability in the BugTracker.NET file download component. The parameter used to specify the file name does not properly validate user-supplied paths. An authenticated remote attacker could enter a manipulated path to access files located outside the intended directory. Successful exploitation could allow the attacker to read system files accessible to the account used by the application.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92533"
-    },
-    {
-      "id": "CVE-2026-92532",
-      "published": "2026-10-07T11:17:20.287",
-      "modified": "2026-10-07T11:17:20.287",
-      "description": "Unrestricted file upload vulnerability in the BugTracker.NET attachment functionality. An authenticated user with administrator privileges could modify the application configuration to store files in a directory accessible via the web interface. Due to the lack of proper file extension validation, an attacker could upload a malicious ASPX file and subsequently execute it on the server. A successful exploit could allow arbitrary code execution with the privileges of the account used by the web service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92532"
-    },
-    {
-      "id": "CVE-2026-92531",
-      "published": "2026-10-07T11:17:20.080",
-      "modified": "2026-10-07T11:17:20.080",
-      "description": "Operating system command injection vulnerability in the SVN integration component of BugTracker.NET. The application incorporates the value of the field corresponding to the repository into an svn.exe command without properly validating it. An authenticated user with administrator privileges could store manipulated arguments in the database and subsequently cause them to be processed by the revision comparison functionality. A successful exploit could allow the execution of arbitrary commands with the privileges of the account used by the application. To exploit this vulnerability, svn.exe must be installed and capable of being invoked by the service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92531"
     },
     {
       "id": "CVE-2025-40800",
@@ -5592,26 +5727,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14979"
     },
     {
-      "id": "CVE-2026-102781",
-      "published": "2026-10-07T09:17:04.397",
-      "modified": "2026-10-07T09:17:04.397",
-      "description": "Joomla Extension - ordasoft.com - Unauthenticated Destructive CRUD in OrdaSoft Touch Slider < 5.4.6 - modOsTouchSliderHelper::getAjax(), wired through Joomla’s core com_ajax dispatcher, is the single handler behind every data-management operation this module exposes. No call to JFactory::getUser(), authorise(), or a CSRF token check exists anywhere in the handler. Two confirmed impact paths: an unauthenticated GET deletes any slider image by guessable sequential IDs, and an unauthenticated multipart upload with a zip file renames and replaces the entire #__os_touch_slider/#__os_touch_slider_text tables site-wide with attacker-supplied content, with no task parameter even required for the second path.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102781"
-    },
-    {
       "id": "CVE-2025-67918",
       "published": "2026-01-08T10:15:50.720",
       "modified": "2026-10-07T09:10:00.160",
@@ -7479,26 +7594,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
     },
     {
-      "id": "CVE-2026-106588",
-      "published": "2026-10-06T22:17:06.770",
-      "modified": "2026-10-06T22:17:06.770",
-      "description": "In sshd in OpenSSH through 10.6, use of the macOS 27 (or later) SDK has the side effect of loss of sandboxing, which is potentially unexpected.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106588"
-    },
-    {
       "id": "CVE-2025-69117",
       "published": "2026-06-17T13:19:17.647",
       "modified": "2026-10-06T22:10:00.247",
@@ -8022,48 +8117,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18170"
     },
     {
-      "id": "CVE-2026-79815",
-      "published": "2026-10-06T20:17:33.197",
-      "modified": "2026-10-06T20:17:33.197",
-      "description": "A command injection vulnerability in the OnGuard agent of ClearPass Policy Manager could allow an authenticated remote attacker to inject arbitrary commands. Successful exploitation could allow an attacker to execute commands with elevated privileges on the affected Windows endpoint.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79815"
-    },
-    {
-      "id": "CVE-2026-79807",
-      "published": "2026-10-06T20:17:32.253",
-      "modified": "2026-10-06T20:17:32.253",
-      "description": "A missing integrity verification vulnerability in the Windows client software for ClearPass Policy Manager could allow malicious users on a local instance to elevate their user privileges. A successful exploit could allow these users to execute attacker-supplied code with elevated privileges on the local system.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79807"
-    },
-    {
       "id": "CVE-2026-34498",
       "published": "2026-10-06T14:17:45.280",
       "modified": "2026-10-06T20:17:28.117",
@@ -8128,28 +8181,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106351"
-    },
-    {
-      "id": "CVE-2026-104047",
-      "published": "2026-10-06T20:17:14.823",
-      "modified": "2026-10-06T20:17:14.823",
-      "description": "A flaw was found in SSSD. When configured to use Microsoft Entra ID, search inputs are not properly sanitized before being incorporated into directory query filters. A local user can exploit this vulnerability by submitting a crafted lookup request, manipulating the query logic to cause unauthorized information disclosure from the directory.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104047"
     },
     {
       "id": "CVE-2026-106122",
@@ -15938,12 +15969,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 429,
-    "critical": 41,
+    "total_relevant_cves": 430,
+    "critical": 42,
     "high": 177,
     "medium": 174,
     "kev": 8,
-    "p1": 21,
+    "p1": 22,
     "p2": 189
   }
 }
