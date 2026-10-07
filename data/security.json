@@ -1,6 +1,139 @@
 {
-  "updated": "2026-10-07T20:15:18.753174+00:00",
+  "updated": "2026-10-07T20:44:22.050684+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-106214",
+      "published": "2026-10-06T19:17:47.983",
+      "modified": "2026-10-07T20:20:44.677",
+      "description": "Information leak in Proxy in Google Chrome on on Windows prior to 155.0.8059.39 allowed an adjacent attacker to obtain sensitive information via crafted network traffic. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106214"
+    },
+    {
+      "id": "CVE-2026-107224",
+      "published": "2026-10-07T19:17:35.140",
+      "modified": "2026-10-07T20:17:11.713",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
+    },
+    {
+      "id": "CVE-2026-107221",
+      "published": "2026-10-07T19:17:34.620",
+      "modified": "2026-10-07T20:17:11.580",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
+    },
+    {
+      "id": "CVE-2026-107219",
+      "published": "2026-10-07T19:17:34.287",
+      "modified": "2026-10-07T20:17:11.450",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
+    },
+    {
+      "id": "CVE-2026-107214",
+      "published": "2026-10-07T18:17:19.040",
+      "modified": "2026-10-07T20:17:11.320",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
+    },
+    {
+      "id": "CVE-2026-107176",
+      "published": "2026-10-07T20:17:11.153",
+      "modified": "2026-10-07T20:17:11.153",
+      "description": "A flaw was found in the cluster-samples-operator. The RBAC Role coreos-pull-secret-reader in namespace openshift-config grants get, list, and watch permissions on all Secret resources without resourceNames scoping. The operator only requires access to the pull-secret Secret. If the samples-operator pod or its service account token is compromised through a separate vulnerability, an attacker could read all secrets in openshift-config, potentially including OAuth identity provider credentials, cloud provider credentials, and other sensitive cluster configuration.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107176"
+    },
     {
       "id": "CVE-2025-66221",
       "published": "2025-11-29T03:16:00.050",
@@ -2465,26 +2598,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
     },
     {
-      "id": "CVE-2026-107224",
-      "published": "2026-10-07T19:17:35.140",
-      "modified": "2026-10-07T19:17:35.140",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
-    },
-    {
       "id": "CVE-2026-107223",
       "published": "2026-10-07T19:17:34.970",
       "modified": "2026-10-07T19:17:34.970",
@@ -2525,26 +2638,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
     },
     {
-      "id": "CVE-2026-107221",
-      "published": "2026-10-07T19:17:34.620",
-      "modified": "2026-10-07T19:17:34.620",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
-    },
-    {
       "id": "CVE-2026-107220",
       "published": "2026-10-07T19:17:34.447",
       "modified": "2026-10-07T19:17:34.447",
@@ -2563,26 +2656,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
-    },
-    {
-      "id": "CVE-2026-107219",
-      "published": "2026-10-07T19:17:34.287",
-      "modified": "2026-10-07T19:17:34.287",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
     },
     {
       "id": "CVE-2026-107218",
@@ -4393,26 +4466,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
-    },
-    {
-      "id": "CVE-2026-107214",
-      "published": "2026-10-07T18:17:19.040",
-      "modified": "2026-10-07T18:17:19.040",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
     },
     {
       "id": "CVE-2026-107213",
@@ -14476,29 +14529,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106272"
     },
     {
-      "id": "CVE-2026-106214",
-      "published": "2026-10-06T19:17:47.983",
-      "modified": "2026-10-06T21:17:06.717",
-      "description": "Information leak in Proxy in Google Chrome on on Windows prior to 155.0.8059.39 allowed an adjacent attacker to obtain sensitive information via crafted network traffic. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106214"
-    },
-    {
       "id": "CVE-2026-106209",
       "published": "2026-10-06T19:17:47.300",
       "modified": "2026-10-06T21:17:06.423",
@@ -22525,10 +22555,10 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 585,
+    "total_relevant_cves": 586,
     "critical": 53,
     "high": 234,
-    "medium": 251,
+    "medium": 252,
     "kev": 17,
     "p1": 38,
     "p2": 243
