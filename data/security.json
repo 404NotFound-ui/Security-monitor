@@ -1,6 +1,26 @@
 {
-  "updated": "2026-10-06T23:54:53.174498+00:00",
+  "updated": "2026-10-07T00:20:34.469171+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-49329",
+      "published": "2026-09-01T16:16:57.760",
+      "modified": "2026-10-07T00:17:20.913",
+      "description": "A flaw was found in openshift/oauth-server. The OAuth login and error page endpoints pass the unauthenticated Accept-Language header to golang.org/x/text/language.ParseAcceptLanguage() without input validation. A bypass of the CVE-2022-32149 mitigation exists: the upstream guard counts only '-' characters but the internal BCP 47 scanner aliases '_' to '-' after the guard check. An unauthenticated attacker can send a crafted Accept-Language header using '_' separators to trigger quadratic-time parsing, consuming excessive CPU and denying authentication to all cluster users.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
+    },
     {
       "id": "CVE-2026-106588",
       "published": "2026-10-06T22:17:06.770",
@@ -2943,26 +2963,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98050"
-    },
-    {
-      "id": "CVE-2026-49329",
-      "published": "2026-09-01T16:16:57.760",
-      "modified": "2026-10-06T10:16:47.340",
-      "description": "A flaw was found in openshift/oauth-server. The OAuth login and error page endpoints pass the unauthenticated Accept-Language header to golang.org/x/text/language.ParseAcceptLanguage() without input validation. A bypass of the CVE-2022-32149 mitigation exists: the upstream guard counts only '-' characters but the internal BCP 47 scanner aliases '_' to '-' after the guard check. An unauthenticated attacker can send a crafted Accept-Language header using '_' separators to trigger quadratic-time parsing, consuming excessive CPU and denying authentication to all cluster users.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
     },
     {
       "id": "CVE-2026-98358",
