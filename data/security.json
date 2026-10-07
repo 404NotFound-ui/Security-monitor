@@ -1,6 +1,222 @@
 {
-  "updated": "2026-10-07T02:57:04.968558+00:00",
+  "updated": "2026-10-07T03:18:16.303872+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-84897",
+      "published": "2026-10-07T03:17:00.067",
+      "modified": "2026-10-07T03:17:00.067",
+      "description": "src/internal.c in wolfSSL wolfSSH through 1.5.0 admits the server-to-client Diffie-Hellman group exchange messages SSH_MSG_KEX_DH_GEX_GROUP (31) and SSH_MSG_KEX_DH_GEX_REPLY (33) when a server receives them from an unauthenticated client. IsMessageAllowedServer() applies no direction check to the key exchange message range: when the peer is keying and no particular message is expected, which is the state a server is in for the whole window after it processes the client's KEXINIT because nothing sets handshake->expectMsgId there, the function falls out of its expectation branch without a verdict and reaches a numeric bound that admits every message id from 30 through 34. A client that negotiates diffie-hellman-group-exchange-sha256 and then sends message 31 makes the server run the client-side handler DoKexDhGexGroup(), which validates the attacker-supplied group with two 8-round Miller-Rabin primality tests, one on p and one on (p-1)/2, on a value of up to 8192 bits. The handler then returns success: the server stores the attacker's prime and generator, generates a Diffie-Hellman key pair in the attacker's group, and sends the client-role message SSH_MSG_KEX_DH_GEX_INIT (32) back to the attacker. Published RFC 3526 safe primes are the worst-case input and cost the attacker nothing to obtain. The primality validation was added in 1.5.0; versions from 1.2.0 through 1.4.22 admit the same message and enter the same client-role path without the primality cost. Message 33 is admitted as well, but on a server it is rejected before any cryptography because no public key check callback is registered, so it carries no comparable cost. Builds that define WOLFSSH_NO_DH_GEX_SHA256, which is implied by WOLFSSH_NO_DH or NO_SHA256, are unaffected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
+    },
+    {
+      "id": "CVE-2026-83742",
+      "published": "2026-10-07T03:16:59.880",
+      "modified": "2026-10-07T03:16:59.880",
+      "description": "Unsigned integer underflow in wstrncat() in src/port.c in wolfSSL wolfSSH from v1.4.11 through v1.5.0 on non-Windows platforms allows an authenticated remote attacker to write one out-of-bounds null byte past the end of a stack buffer by sending a crafted SFTP path. wolfSSH_RealPath() in src/ssh.c appends each path component with a remaining-size bound (outSz - curSz) rather than the full destination size, so once the accumulated path reaches half the output buffer the size_t computation n - strlen(s1) - 1 wraps to near SIZE_MAX. The strncat() call is then effectively unbounded and copies the whole component; when that component exactly fills the remainder of the buffer, its terminating null is written one byte past the end. The caller's own length check keeps the copied data inside the buffer, so the overflow is limited to that single null byte, which may corrupt an adjacent stack value and crash the process. Applications that call the public wolfSSH_RealPath() with an output buffer smaller than the input path are additionally exposed to an unbounded copy, because the word32 expression outSz - segSz in that length check also wraps.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83742"
+    },
+    {
+      "id": "CVE-2026-83540",
+      "published": "2026-10-07T03:16:59.730",
+      "modified": "2026-10-07T03:16:59.730",
+      "description": "When password or public key authentication is used with the Windows port of wolfSSHd, the Windows logon token acquired for one authenticated connection is not released before a token is acquired for a subsequent connection, resulting in user login poisoning between connections. A less privileged user with a valid account on the server can exploit this to force a login as a more privileged user. The vulnerability was introduced with the initial Windows port of wolfSSHd in wolfSSH version 1.4.15 and affects all versions through 1.5.0. Non-Windows builds of wolfSSHd are not affected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83540"
+    },
+    {
+      "id": "CVE-2026-55655",
+      "published": "2026-06-23T04:17:40.787",
+      "modified": "2026-10-07T03:16:59.350",
+      "description": "A flaw was found in OpenSSH. A local unprivileged attacker on a Linux client host can hijack client-side X11 forwarding connections. This is possible by pre-binding the preferred abstract X socket name when X11 forwarding is enabled and a local UNIX-domain X socket is used. A successful attack can compromise the confidentiality of forwarded X11 traffic, including sensitive window contents and input, and may allow some manipulation of the forwarded session.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:openbsd:openssh:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55655"
+    },
+    {
+      "id": "CVE-2026-55653",
+      "published": "2026-06-23T04:17:36.600",
+      "modified": "2026-10-07T03:16:59.090",
+      "description": "A flaw was found in OpenSSH. A malicious SSH server can exploit a double free vulnerability in the Diffie-Hellman Group Exchange (DH-GEX) client path. This occurs during FIPS (Federal Information Processing Standards) mode known-group validation when the client processes attacker-controlled DH-GEX group parameters. Successful exploitation leads to client-side process termination, resulting in a Denial of Service (DoS).",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:openbsd:openssh:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55653"
+    },
+    {
+      "id": "CVE-2026-16516",
+      "published": "2026-10-07T03:16:58.830",
+      "modified": "2026-10-07T03:16:58.830",
+      "description": "wolfSSH does not validate that the ECDSA curve identifier in a KEXDH_REPLY host key blob matches the algorithm negotiated during key exchange. In ParseECCPubKey() (src/internal.c), the blob's algorithm string is used to derive the curve via NameToId/wcPrimeForId without checking against the negotiated ssh->handshake->pubKeyId, and the RFC 5656 curve identifier string is discarded via GetSkip() rather than compared. An active network man-in-the-middle attacker can substitute a host key blob containing a different ECDSA curve, causing the client to import the key on the wrong curve. Because the attacker controls the private key for the substituted curve, signature verification passes. Exploitation requires an active MitM position and a lax public key check callback (e.g., TOFU, algorithm-name-only check, or fingerprint match against the parsed key).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:H/VA:N/SC:L/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16516"
+    },
     {
       "id": "CVE-2026-49329",
       "published": "2026-09-01T16:16:57.760",
@@ -2068,138 +2284,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100254"
-    },
-    {
-      "id": "CVE-2026-55655",
-      "published": "2026-06-23T04:17:40.787",
-      "modified": "2026-10-06T16:17:08.293",
-      "description": "A flaw was found in OpenSSH. A local unprivileged attacker on a Linux client host can hijack client-side X11 forwarding connections. This is possible by pre-binding the preferred abstract X socket name when X11 forwarding is enabled and a local UNIX-domain X socket is used. A successful attack can compromise the confidentiality of forwarded X11 traffic, including sensitive window contents and input, and may allow some manipulation of the forwarded session.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:openbsd:openssh:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55655"
-    },
-    {
-      "id": "CVE-2026-55653",
-      "published": "2026-06-23T04:17:36.600",
-      "modified": "2026-10-06T16:17:08.060",
-      "description": "A flaw was found in OpenSSH. A malicious SSH server can exploit a double free vulnerability in the Diffie-Hellman Group Exchange (DH-GEX) client path. This occurs during FIPS (Federal Information Processing Standards) mode known-group validation when the client processes attacker-controlled DH-GEX group parameters. Successful exploitation leads to client-side process termination, resulting in a Denial of Service (DoS).",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "hardened images",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:openbsd:openssh:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55653"
     },
     {
       "id": "CVE-2026-37719",
@@ -9325,12 +9409,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 274,
-    "critical": 32,
-    "high": 93,
-    "medium": 113,
+    "total_relevant_cves": 278,
+    "critical": 33,
+    "high": 94,
+    "medium": 115,
     "kev": 5,
-    "p1": 13,
-    "p2": 103
+    "p1": 14,
+    "p2": 104
   }
 }
