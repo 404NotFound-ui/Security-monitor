@@ -1,6 +1,149 @@
 {
-  "updated": "2026-10-07T21:59:32.524797+00:00",
+  "updated": "2026-10-07T22:18:43.729790+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107283",
+      "published": "2026-10-07T22:17:04.327",
+      "modified": "2026-10-07T22:17:04.327",
+      "description": "The AsyncHttpClient (AHC) library allows Java applications to easily execute HTTP requests and asynchronously process HTTP responses. Prior to 3.0.12  and 2.16.1, Realm.Builder generates the HTTP Digest client nonce with ThreadLocalRandom rather than a cryptographically secure random source. Digest relies on an unpredictable cnonce to resist chosen-plaintext and credential precomputation attacks, so an observer able to infer generator state can reduce the protection of the authentication exchange. This issue is fixed in versions 3.0.12 and 2.16.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107283"
+    },
+    {
+      "id": "CVE-2026-105641",
+      "published": "2026-10-05T19:17:18.560",
+      "modified": "2026-10-07T22:17:02.170",
+      "description": "Plane is an open-source project management tool. Prior to 1.4.0, the deployments/aio/community/ and deployments/cli/community/ manifests provide fixed, publicly known SECRET_KEY and LIVE_SERVER_SECRET_KEY defaults that remain active when operators do not override them. The top-level setup.sh randomizes secrets only for the development Docker Compose path, leaving unchanged aio and cli community deployments with shared production secrets. Knowledge of SECRET_KEY enables attackers to forge Django-signed values and compromise accounts or sessions. Knowledge of LIVE_SERVER_SECRET_KEY bypasses live-service authentication on unchanged community deployments. This issue is fixed in 1.4.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105641"
+    },
+    {
+      "id": "CVE-2024-1635",
+      "published": "2024-02-19T22:15:48.647",
+      "modified": "2026-10-07T22:17:01.100",
+      "description": "A vulnerability was found in Undertow. This vulnerability impacts a server that supports the wildfly-http-client protocol. Whenever a malicious user opens and closes a connection with the HTTP port of the server and then closes the connection immediately, the server will end with both memory and open file limits exhausted at some point, depending on the amount of memory available. \r\n\r\nAt HTTP upgrade to remoting, the WriteTimeoutStreamSinkConduit leaks connections if RemotingConnection is closed by Remoting ServerConnectionOpenListener. Because the remoting connection originates in Undertow as part of the HTTP upgrade, there is an external layer to the remoting connection. This connection is unaware of the outermost layer when closing the connection during the connection opening procedure. Hence, the Undertow WriteTimeoutStreamSinkConduit is not notified of the closed connection in this scenario. Because WriteTimeoutStreamSinkConduit creates a timeout task, the whole dependency tree leaks via that task, which is added to XNIO WorkerThread. So, the workerThread points to the Undertow conduit, which contains the connections and causes the leak.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "fuse",
+          "version": "1.0",
+          "cpe": "cpe:2.3:a:redhat:fuse:1.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "integration camel for spring boot",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:integration_camel_for_spring_boot:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.4",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.11",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.11:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.9",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.9:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.10",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.9",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.9:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.10",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "single sign on",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:single_sign-on:-:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "single sign on",
+          "version": "7.6",
+          "cpe": "cpe:2.3:a:redhat:single_sign-on:7.6:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:linux:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:vmware_vsphere:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:windows:*:*",
+        "cpe:2.3:a:netapp:oncommand_workflow_automation:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:fuse:1.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:integration_camel_for_spring_boot:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.4:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.11:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.9:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.10:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.9:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.10:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:single_sign-on:-:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:single_sign-on:7.6:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1635"
+    },
     {
       "id": "CVE-2026-88514",
       "published": "2026-10-07T14:17:11.743",
@@ -20130,26 +20273,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51883"
     },
     {
-      "id": "CVE-2026-105641",
-      "published": "2026-10-05T19:17:18.560",
-      "modified": "2026-10-05T19:17:18.693",
-      "description": "Plane is an open-source project management tool. Prior to 1.4.0, the deployments/aio/community/ and deployments/cli/community/ manifests provide fixed, publicly known SECRET_KEY and LIVE_SERVER_SECRET_KEY defaults that remain active when operators do not override them. The top-level setup.sh randomizes secrets only for the development Docker Compose path, leaving unchanged aio and cli community deployments with shared production secrets. Knowledge of SECRET_KEY enables attackers to forge Django-signed values and compromise accounts or sessions. Knowledge of LIVE_SERVER_SECRET_KEY bypasses live-service authentication on unchanged community deployments. This issue is fixed in 1.4.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105641"
-    },
-    {
       "id": "CVE-2026-86938",
       "published": "2026-09-23T18:17:09.960",
       "modified": "2026-10-05T18:16:13.523",
@@ -23767,23 +23890,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47524"
     },
     {
-      "id": "CVE-2024-1635",
-      "published": "2024-02-19T22:15:48.647",
-      "modified": "2026-10-02T04:18:02.713",
-      "description": "A vulnerability was found in Undertow. This vulnerability impacts a server that supports the wildfly-http-client protocol. Whenever a malicious user opens and closes a connection with the HTTP port of the server and then closes the connection immediately, the server will end with both memory and open file limits exhausted at some point, depending on the amount of memory available. \r\n\r\nAt HTTP upgrade to remoting, the WriteTimeoutStreamSinkConduit leaks connections if RemotingConnection is closed by Remoting ServerConnectionOpenListener. Because the remoting connection originates in Undertow as part of the HTTP upgrade, there is an external layer to the remoting connection. This connection is unaware of the outermost layer when closing the connection during the connection opening procedure. Hence, the Undertow WriteTimeoutStreamSinkConduit is not notified of the closed connection in this scenario. Because WriteTimeoutStreamSinkConduit creates a timeout task, the whole dependency tree leaks via that task, which is added to XNIO WorkerThread. So, the workerThread points to the Undertow conduit, which contains the connections and causes the leak.",
-      "vendors": [
-        "Microsoft",
-        "Red Hat"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1635"
-    },
-    {
       "id": "CVE-2018-19949",
       "published": "2020-10-28T18:15:12.647",
       "modified": "2026-10-02T04:17:58.520",
@@ -25537,12 +25643,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 675,
+    "total_relevant_cves": 676,
     "critical": 61,
     "high": 266,
     "medium": 300,
     "kev": 17,
     "p1": 42,
-    "p2": 279
+    "p2": 280
   }
 }
