@@ -1,6 +1,704 @@
 {
-  "updated": "2026-10-07T17:08:00.045571+00:00",
+  "updated": "2026-10-07T17:33:25.264661+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-101047",
+      "published": "2026-09-27T18:16:31.177",
+      "modified": "2026-10-07T17:27:26.383",
+      "description": "Fleet before 4.87.0 does not protect the two endpoints that serve in-house iOS application packages and manifests (enterprise tier only) with the intended random, time-limited URL token. Because Apple's InstallEnterpriseApplication MDM command requires these URLs to be reachable without a Fleet session, they cannot rely on session-based authentication, and the missing token allows an unauthenticated attacker with network access to the Fleet server to download in-house IPA binaries and their metadata (bundle identifier, version, and name) by guessing sequential title identifiers. The impact is limited to read-only disclosure; there is no privilege escalation or write access, and the free tier is unaffected (it returns fleet.ErrMissingLicense).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:fleetdm:fleet:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101047"
+    },
+    {
+      "id": "CVE-2026-62179",
+      "published": "2026-10-07T15:17:23.073",
+      "modified": "2026-10-07T17:16:56.193",
+      "description": "PraisonAI is a multi-agent teams system. In `praisonai-platform` prior to version 0.1.9, issue dependency deletion can be authorized against the wrong side of a dependency edge. A workspace member cannot delete a dependency through the owner-created issue endpoint, but can delete the same dependency through a member-owned related issue endpoint because the route accepts either endpoint and checks delete permission only against the caller-selected URL issue. Version 0.1.9 patches the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62179"
+    },
+    {
+      "id": "CVE-2026-106506",
+      "published": "2026-10-06T22:17:05.993",
+      "modified": "2026-10-07T17:16:49.977",
+      "description": "Backstage is an open framework for building developer portals. Prior to 4.1.0, the @backstage/plugin-scaffolder-backend package is affected by improper input validation in scaffolder task list ordering. An authenticated Backstage user with permission to create and read relevant scaffolder tasks may be able to infer confidential task data under specific conditions. Successful exploitation requires retained task secrets, visibility of a target task, knowledge of the secret structure, and repeated requests. This issue is fixed in version 4.1.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106506"
+    },
+    {
+      "id": "CVE-2026-106490",
+      "published": "2026-10-06T21:17:17.927",
+      "modified": "2026-10-07T17:16:49.213",
+      "description": "Backstage is an open framework for building developer portals. Prior to 2.2.4, the @backstage/plugin-techdocs-backend package is affected by improper input validation in techdocs static content requests. When using the Azure Blob Storage provider, an authenticated Backstage user may be able to read restricted TechDocs content when entity-level permissions are enabled. Deployments that intentionally disable the default backend authentication policy may have broader exposure. This issue is fixed in version 2.2.4.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106490"
+    },
+    {
+      "id": "CVE-2026-106056",
+      "published": "2026-10-07T12:17:08.520",
+      "modified": "2026-10-07T17:16:47.057",
+      "description": "Rundeck before 6.2.0 contains an OS command injection vulnerability that allows authenticated users with job run permission to execute commands on Windows nodes by supplying crafted option values. Attackers can inject cmd.exe metacharacters such as && or | into free-text options, which CLIUtils.quoteWindowsCMDArg wraps in ineffective single quotes, running commands with node executor credential privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106056"
+    },
+    {
+      "id": "CVE-2026-105240",
+      "published": "2026-10-06T20:17:15.777",
+      "modified": "2026-10-07T17:16:46.480",
+      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the OutputDebugStringAppender of Apache log4net.\n\nA NUL character in logged content ended the debug output record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently lost. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use OutputDebugStringAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105240"
+    },
+    {
+      "id": "CVE-2023-41074",
+      "published": "2023-09-27T15:19:26.570",
+      "modified": "2026-10-07T17:16:44.153",
+      "description": "The issue was addressed with improved checks. This issue is fixed in tvOS 17, Safari 17, watchOS 10, iOS 17 and iPadOS 17, macOS Sonoma 14. Processing web content may lead to arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "safari",
+          "version": "*",
+          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "ipados",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "tvos",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "watchos",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:11.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41074"
+    },
+    {
+      "id": "CVE-2021-34485",
+      "published": "2021-08-12T18:15:09.157",
+      "modified": "2026-10-07T17:16:42.997",
+      "description": ".NET Core and Visual Studio Information Disclosure Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "powershell core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:powershell_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2017",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2017:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:powershell_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2017:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-34485"
+    },
+    {
+      "id": "CVE-2021-31957",
+      "published": "2021-06-08T23:15:08.870",
+      "modified": "2026-10-07T17:16:42.677",
+      "description": "ASP.NET Core Denial of Service Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "8.10",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:8.10:*:*:*:*:macos:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:8.10:*:*:*:*:macos:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:33:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:34:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-31957"
+    },
+    {
+      "id": "CVE-2021-31204",
+      "published": "2021-05-11T19:15:10.327",
+      "modified": "2026-10-07T17:16:42.367",
+      "description": ".NET and Visual Studio Elevation of Privilege Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "8.9",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:8.9:*:*:*:*:macos:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:8.9:*:*:*:*:macos:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:32:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:33:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:34:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-31204"
+    },
+    {
+      "id": "CVE-2021-24112",
+      "published": "2021-02-25T23:15:16.570",
+      "modified": "2026-10-07T17:16:42.150",
+      "description": ".NET Core Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "mono",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:mono:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2019",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2019:-:*:*:*:*:macos:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:mono:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2019:-:*:*:*:*:macos:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-24112"
+    },
+    {
+      "id": "CVE-2017-12149",
+      "published": "2017-10-04T21:01:00.180",
+      "modified": "2026-10-07T17:16:41.053",
+      "description": "In Jboss Application Server as shipped with Red Hat Enterprise Application Platform 5.2, it was found that the doFilter method in the ReadOnlyAccessFilter of the HTTP Invoker does not restrict classes for which it performs deserialization and thus allowing an attacker to execute arbitrary code via crafted serialized data.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.0.1",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.0.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.1.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.1.1",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.1.2",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.2.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.2.1",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "5.2.2",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.2:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:-:*:*:*:text-only:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.0.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.1.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:5.2.2:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": true,
+      "signals": [],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12149"
+    },
+    {
+      "id": "CVE-2013-3900",
+      "published": "2013-12-11T00:55:03.693",
+      "modified": "2026-10-07T17:16:39.123",
+      "description": "Why is Microsoft republishing a CVE from 2013?\nWe are republishing CVE-2013-3900 in the Security Update Guide to update the Security Updates table and to inform customers that the EnableCertPaddingCheck is available in all currently supported versions of Windows 10 and Windows 11. While the format is different from the original CVE published in 2013, except for clarifications about how to configure the EnableCertPaddingCheck registry value, the information herein remains unchanged from the original text published on December 10, 2013,\nMicrosoft does not plan to enforce the stricter verification behavior as a default functionality on supported releases of Microsoft Windows. This behavior remains available as an opt-in feature via reg key setting, and is available on supported editions of Windows released since December 10, 2013. This includes all currently supported versions of Windows 10 and Windows 11. The supporting code for this reg key was incorporated at the time of release for Windows 10 and Windows 11, so no security update is required; however, the reg key must be set. See the Security Updates table for the list of affected software.\nVulnerability Description\nA remote code execution vulnerability exists in the way that the WinVerifyTrust function handles Windows Authenticode signature verification for portable executable (PE) files. An anonymous attacker could exploit the vulnerability by modifying an existing signed executable file to leverage unverified portions of the file in such a way as to add malicious code to the file without invalidating the signature. An attacker who successfully exploited this vulnerability could take complete control of an affected system. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.\nIf a user is logged on with administrative user rights, an attacker who successfully exploited this vulnerability could take complete control of an affected system. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights. Users whose accounts are configured to have fewer user rights on the system could be less impacted than users who operate with administrative user rights.\nExploitation of this vulnerability requires that a user or application run or install a specially crafted, signed PE file. An attacker could modify an... See more at https://msrc.microsoft.com/update-guide/vulnerability/CVE-2013-3900",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1507",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1507:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:-:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1909",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1909:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 20h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_20h2:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h1",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h1:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:arm64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 21h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 22h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 7",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 8.1",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_8.1:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows rt 8.1",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_rt_8.1:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2008",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2008",
+          "version": "r2",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "r2",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022 23h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1507:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:-:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1909:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_20h2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_21h1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_7:-:sp1:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_8.1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_rt_8.1:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2022_23h2:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": true,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-3900"
+    },
     {
       "id": "CVE-2026-18074",
       "published": "2026-09-22T22:17:09.260",
@@ -668,26 +1366,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16516"
     },
     {
-      "id": "CVE-2026-106056",
-      "published": "2026-10-07T12:17:08.520",
-      "modified": "2026-10-07T16:02:27.613",
-      "description": "Rundeck before 6.2.0 contains an OS command injection vulnerability that allows authenticated users with job run permission to execute commands on Windows nodes by supplying crafted option values. Attackers can inject cmd.exe metacharacters such as && or | into free-text options, which CLIUtils.quoteWindowsCMDArg wraps in ineffective single quotes, running commands with node executor credential privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106056"
-    },
-    {
       "id": "CVE-2026-84897",
       "published": "2026-10-07T03:17:00.067",
       "modified": "2026-10-07T16:02:27.613",
@@ -745,26 +1423,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18131"
-    },
-    {
-      "id": "CVE-2026-62179",
-      "published": "2026-10-07T15:17:23.073",
-      "modified": "2026-10-07T15:57:20.793",
-      "description": "PraisonAI is a multi-agent teams system. In `praisonai-platform` prior to version 0.1.9, issue dependency deletion can be authorized against the wrong side of a dependency edge. A workspace member cannot delete a dependency through the owner-created issue endpoint, but can delete the same dependency through a member-owned related issue endpoint because the route accepts either endpoint and checks delete permission only against the caller-selected URL issue. Version 0.1.9 patches the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62179"
     },
     {
       "id": "CVE-2026-106059",
@@ -1545,26 +2203,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
     },
     {
-      "id": "CVE-2026-106506",
-      "published": "2026-10-06T22:17:05.993",
-      "modified": "2026-10-07T13:58:29.527",
-      "description": "Backstage is an open framework for building developer portals. Prior to 4.1.0, the @backstage/plugin-scaffolder-backend package is affected by improper input validation in scaffolder task list ordering. An authenticated Backstage user with permission to create and read relevant scaffolder tasks may be able to infer confidential task data under specific conditions. Successful exploitation requires retained task secrets, visibility of a target task, knowledge of the secret structure, and repeated requests. This issue is fixed in version 4.1.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106506"
-    },
-    {
       "id": "CVE-2026-106493",
       "published": "2026-10-06T21:17:18.370",
       "modified": "2026-10-07T13:58:29.527",
@@ -1583,26 +2221,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106493"
-    },
-    {
-      "id": "CVE-2026-106490",
-      "published": "2026-10-06T21:17:17.927",
-      "modified": "2026-10-07T13:58:29.527",
-      "description": "Backstage is an open framework for building developer portals. Prior to 2.2.4, the @backstage/plugin-techdocs-backend package is affected by improper input validation in techdocs static content requests. When using the Azure Blob Storage provider, an authenticated Backstage user may be able to read restricted TechDocs content when entity-level permissions are enabled. Deployments that intentionally disable the default backend authentication policy may have broader exposure. This issue is fixed in version 2.2.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106490"
     },
     {
       "id": "CVE-2026-62874",
@@ -2055,26 +2673,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106412"
-    },
-    {
-      "id": "CVE-2026-105240",
-      "published": "2026-10-06T20:17:15.777",
-      "modified": "2026-10-07T13:35:14.410",
-      "description": "Improper Neutralization of Null Byte or NUL Character vulnerability in the OutputDebugStringAppender of Apache log4net.\n\nA NUL character in logged content ended the debug output record at that point, so everything the layout rendered after it, including exception text and trailing fields, was silently lost. A party whose data reaches a log message could hide the rest of that record. Only applications on Windows that use OutputDebugStringAppender are affected.\n\nThis issue affects Apache log4net: from 1.2.9 before 3.5.0.\n\nUsers are recommended to upgrade to version 3.5.0, which fixes the issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105240"
     },
     {
       "id": "CVE-2026-105239",
@@ -16727,12 +17325,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 446,
-    "critical": 42,
-    "high": 184,
-    "medium": 189,
-    "kev": 8,
-    "p1": 22,
-    "p2": 196
+    "total_relevant_cves": 454,
+    "critical": 43,
+    "high": 187,
+    "medium": 193,
+    "kev": 10,
+    "p1": 24,
+    "p2": 199
   }
 }
