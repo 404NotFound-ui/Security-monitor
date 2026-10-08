@@ -1,6 +1,92 @@
 {
-  "updated": "2026-10-08T18:15:49.380349+00:00",
+  "updated": "2026-10-08T18:49:48.527880+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107702",
+      "published": "2026-10-08T18:17:26.637",
+      "modified": "2026-10-08T18:17:26.780",
+      "description": "QloApps through 1.7.0 contains an authorization bypass vulnerability in AdminHotelRoomsBookingController::postProcess() that allows restricted back-office employees to access other hotels' data by supplying an id_hotel parameter. Attackers can modify the id_hotel URL parameter on the Book Now page to view room availability and booking status of hotels outside their assigned profile access.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107702"
+    },
+    {
+      "id": "CVE-2026-107584",
+      "published": "2026-10-08T12:17:16.787",
+      "modified": "2026-10-08T18:17:24.930",
+      "description": "Progressive Robot hMailServer 6.0.0 through 6.3.5 fails open when applying DANE (RFC 7672) to outbound SMTP delivery. The server's validating DNSSEC resolver treated a TLSA or MX lookup that did not complete (no answer, SERVFAIL, a malformed reply), an answer without the requested records and without an NSEC/NSEC3 proof of their absence, and an answer whose records carried no applicable RRSIG as if the recipient domain were unsigned, and from 6.2.19 it also delivered to mail exchangers taken from an unvalidated MX lookup that the DNSSEC-validated MX record set did not name. An attacker who can drop, forge or strip DNS answers on the path to the server's resolver, at the resolver, or between the resolver and the recipient domain's name servers, and who holds an active position on the SMTP path, can thereby disable DANE for a DNSSEC-signed recipient domain and cause messages to be delivered in cleartext or to a host of the attacker's choosing with an arbitrary certificate, where they can be read and modified.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107584"
+    },
+    {
+      "id": "CVE-2026-107337",
+      "published": "2026-10-08T18:17:20.687",
+      "modified": "2026-10-08T18:17:20.687",
+      "description": "The Malcolm kiosk Flask application exposes a POST /script_call/<script> endpoint with zero authentication and wildcard CORS (CORS(app)). An attacker can force the operator's browser to execute arbitrary management commands via CSRF, including control.py --wipe which permanently deletes all captured network traffic and forensic logs, or control.py --stop which blinds the security monitoring.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107337"
+    },
+    {
+      "id": "CVE-2021-3199",
+      "published": "2021-01-26T18:16:28.507",
+      "modified": "2026-10-08T18:17:12.203",
+      "description": "Directory traversal with remote code execution can occur in /upload in ONLYOFFICE Document Server before 5.6.3, when JWT is used, via a /.. sequence in an image upload parameter.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:onlyoffice:document_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": true,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-3199"
+    },
     {
       "id": "CVE-2026-106427",
       "published": "2026-10-06T19:18:12.600",
@@ -4538,26 +4624,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91805"
-    },
-    {
-      "id": "CVE-2026-107584",
-      "published": "2026-10-08T12:17:16.787",
-      "modified": "2026-10-08T12:17:16.787",
-      "description": "Progressive Robot hMailServer 6.0.0 through 6.3.5 fails open when applying DANE (RFC 7672) to outbound SMTP delivery. The server's validating DNSSEC resolver treated a TLSA or MX lookup that did not complete (no answer, SERVFAIL, a malformed reply), an answer without the requested records and without an NSEC/NSEC3 proof of their absence, and an answer whose records carried no applicable RRSIG as if the recipient domain were unsigned, and from 6.2.19 it also delivered to mail exchangers taken from an unvalidated MX lookup that the DNSSEC-validated MX record set did not name. An attacker who can drop, forge or strip DNS answers on the path to the server's resolver, at the resolver, or between the resolver and the recipient domain's name servers, and who holds an active position on the SMTP path, can thereby disable DANE for a DNSSEC-signed recipient domain and cause messages to be delivered in cleartext or to a host of the attacker's choosing with an arbitrary certificate, where they can be read and modified.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107584"
     },
     {
       "id": "CVE-2025-26466",
@@ -31660,6 +31726,7 @@
     "CVE-2015-3043",
     "CVE-2015-3113",
     "CVE-2015-3246",
+    "CVE-2015-3306",
     "CVE-2015-4068",
     "CVE-2015-4495",
     "CVE-2015-4852",
@@ -31669,6 +31736,7 @@
     "CVE-2015-5123",
     "CVE-2015-5287",
     "CVE-2015-5317",
+    "CVE-2015-5477",
     "CVE-2015-6175",
     "CVE-2015-7450",
     "CVE-2015-7645",
@@ -31695,6 +31763,7 @@
     "CVE-2016-20017",
     "CVE-2016-2386",
     "CVE-2016-2388",
+    "CVE-2016-3081",
     "CVE-2016-3088",
     "CVE-2016-3235",
     "CVE-2016-3298",
@@ -32308,6 +32377,7 @@
     "CVE-2021-31955",
     "CVE-2021-31956",
     "CVE-2021-31979",
+    "CVE-2021-3199",
     "CVE-2021-32030",
     "CVE-2021-32648",
     "CVE-2021-33044",
@@ -32546,6 +32616,7 @@
     "CVE-2023-22515",
     "CVE-2023-22518",
     "CVE-2023-22527",
+    "CVE-2023-22894",
     "CVE-2023-22952",
     "CVE-2023-23376",
     "CVE-2023-23397",
@@ -33208,12 +33279,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 932,
-    "critical": 84,
-    "high": 385,
-    "medium": 407,
-    "kev": 17,
-    "p1": 52,
-    "p2": 412
+    "total_relevant_cves": 935,
+    "critical": 85,
+    "high": 386,
+    "medium": 408,
+    "kev": 18,
+    "p1": 53,
+    "p2": 413
   }
 }
