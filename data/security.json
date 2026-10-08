@@ -1,6 +1,194 @@
 {
-  "updated": "2026-10-08T14:16:59.945525+00:00",
+  "updated": "2026-10-08T14:48:05.820510+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-63988",
+      "published": "2026-07-19T16:17:18.060",
+      "modified": "2026-10-08T14:46:23.293",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbridge: Fix sleep in atomic context in sysfs path\n\nSince the start of the git history, brport_store() always acquired the\nbridge lock. Back then this decision made sense: The bridge lock\nprotects the STP state of the bridge and its ports and at that time the\nfunction was only used by two STP related attributes (cost and\npriority).\n\nNowadays, brport_store() processes a lot more attributes and most of\nthem do not need the bridge lock:\n\n* Bridge flags: Only require RTNL. Read locklessly by the data path.\n  Annotations can be added in net-next.\n\n* FDB port flushing: Only requires the FDB lock.\n\n* Multicast attributes: Only require the multicast lock.\n\n* Group forward mask: Only requires RTNL. Read locklessly by the data\n  path. Annotations can be added in net-next.\n\n* Backup port: Only requires RTNL. Read locklessly by the data path.\n\nThis is a problem as the bridge calls dev_set_promiscuity() when certain\nbridge port flags change and this function can sleep since the commit\ncited below, resulting in a splat such as [1].\n\nFix this by reducing the scope of the bridge lock and only take it when\nprocessing the two STP related attributes that require it. Remove the\nnow stale comment from br_switchdev_set_port_flag(). The\nSWITCHDEV_F_DEFER flag can be removed in net-next.\n\n[1]\nBUG: sleeping function called from invalid context at net/core/dev_addr_lists.c:1262\nin_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 372, name: bash\npreempt_count: 201, expected: 0\nRCU nest depth: 0, expected: 0\n5 locks held by bash/372:\n#0: ffff88810c51c3f0 (sb_writers#7){.+.+}-{0:0}, at: ksys_write (fs/read_write.c:740)\n#1: ffff888115ce9480 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter (fs/kernfs/file.c:343)\n#2: ffff88810b9fd330 (kn->active#37){.+.+}-{0:0}, at: kernfs_fop_write_iter (fs/kernfs/file.c:80 fs/kernfs/file.c:344)\n#3: ffffffffa59473a0 (rtnl_mutex){+.+.}-{4:4}, at: brport_store (net/bridge/br_sysfs_if.c:326)\n#4: ffff8881099d2d58 (&br->lock){+...}-{3:3}, at: brport_store (./include/linux/spinlock.h:348 net/bridge/br_sysfs_if.c:345)\nPreemption disabled at:\n 0x0\nHardware name: Bochs Bochs, BIOS Bochs 01/01/2011\nCall Trace:\n<TASK>\ndump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)\n__might_resched.cold (kernel/sched/core.c:9163)\nnetif_rx_mode_run (net/core/dev_addr_lists.c:1262)\nnetif_rx_mode_sync (net/core/dev_addr_lists.c:1428)\ndev_set_promiscuity (net/core/dev_api.c:289)\nbr_manage_promisc (net/bridge/br_if.c:135 net/bridge/br_if.c:172)\nbr_port_flags_change (net/bridge/br_if.c:242 net/bridge/br_if.c:747)\nstore_learning (net/bridge/br_sysfs_if.c:79 net/bridge/br_sysfs_if.c:235)\nbrport_store (net/bridge/br_sysfs_if.c:346)\nkernfs_fop_write_iter (fs/kernfs/file.c:352)\nnew_sync_write (fs/read_write.c:595)\nvfs_write (fs/read_write.c:688)\nksys_write (fs/read_write.c:740)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:-:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc6:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc7:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63988"
+    },
+    {
+      "id": "CVE-2026-63989",
+      "published": "2026-07-19T16:17:18.260",
+      "modified": "2026-10-08T14:45:00.623",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbridge: Fix sleep in atomic context in netlink path\n\nSince the introduction of the netlink configuration path for bridge\nports in commit 25c71c75ac87 (\"bridge: bridge port parameters over\nnetlink\"), br_setport() was always called with the bridge lock held\naround it. Back then this decision made sense: The bridge lock protects\nthe STP state of the bridge and its ports and at that time the function\nonly processed three STP related netlink attributes (cost, priority and\nstate).\n\nNowadays, br_setport() processes a lot more attributes and most of them\ndo not need the bridge lock:\n\n* Bridge flags: Only require RTNL. Read locklessly by the data path.\n  Annotations can be added in net-next.\n\n* FDB port flushing: Only requires the FDB lock.\n\n* Multicast attributes: Only require the multicast lock.\n\n* Group forward mask: Only requires RTNL. Read locklessly by the data\n  path. Annotations can be added in net-next.\n\n* Backup port and NHID: Only require RTNL. Read locklessly by the data\n  path.\n\nThis is a problem as the bridge calls dev_set_promiscuity() when certain\nbridge port flags change and this function can sleep since the commit\ncited below, resulting in a splat such as [1].\n\nFix this by reducing the scope of the bridge lock and only take it when\nprocessing the three STP related attributes that require it. This is\nconsistent with the multicast attributes where each attribute acquires\nthe multicast lock instead of having one critical section for all\nrelevant attributes.\n\n[1]\nBUG: sleeping function called from invalid context at net/core/dev_addr_lists.c:1262\nin_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 356, name: bridge\npreempt_count: 201, expected: 0\nRCU nest depth: 0, expected: 0\n2 locks held by bridge/356:\n#0: ffffffff919473a0 (rtnl_mutex){+.+.}-{4:4}, at: rtnetlink_rcv_msg (net/core/rtnetlink.c:80 net/core/rtnetlink.c:7002)\n#1: ffff888115072d58 (&br->lock){+...}-{3:3}, at: br_setlink (./include/linux/spinlock.h:348 net/bridge/br_netlink.c:1117)\nPreemption disabled at:\n 0x0\nHardware name: Bochs Bochs, BIOS Bochs 01/01/2011\nCall Trace:\n<TASK>\ndump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)\n__might_resched.cold (kernel/sched/core.c:9163)\nnetif_rx_mode_run (net/core/dev_addr_lists.c:1262)\nnetif_rx_mode_sync (net/core/dev_addr_lists.c:1428)\ndev_set_promiscuity (net/core/dev_api.c:289)\nbr_manage_promisc (net/bridge/br_if.c:135 net/bridge/br_if.c:172)\nbr_port_flags_change (net/bridge/br_if.c:242 net/bridge/br_if.c:747)\nbr_setport (net/bridge/br_netlink.c:1000)\nbr_setlink (net/bridge/br_netlink.c:1118)\nrtnl_bridge_setlink (net/core/rtnetlink.c:5572)\nrtnetlink_rcv_msg (net/core/rtnetlink.c:7005)\nnetlink_rcv_skb (net/netlink/af_netlink.c:2550)\nnetlink_unicast (net/netlink/af_netlink.c:1318 net/netlink/af_netlink.c:1344)\nnetlink_sendmsg (net/netlink/af_netlink.c:1894)\n__sock_sendmsg (net/socket.c:787 (discriminator 4) net/socket.c:802 (discriminator 4))\n____sys_sendmsg (net/socket.c:2698)\n___sys_sendmsg (net/socket.c:2752)\n__sys_sendmsg (net/socket.c:2784)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:-:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc6:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc7:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63989"
+    },
+    {
+      "id": "CVE-2026-87665",
+      "published": "2026-10-08T03:16:35.960",
+      "modified": "2026-10-08T14:17:00.680",
+      "description": "A stack-based buffer overflow vulnerability exists in the Internet Key Exchange (IKEv2) protocol handler on Brocade Fabric OS versions before 10.0.1. The vulnerability occurs when processing initial IKE key exchange requests on extension switches or blades running IPsec-enabled Fibre Channel over IP (FCIP) circuits. An unauthenticated remote attacker can exploit this vulnerability by sending a single, specifically crafted UDP packet (Port 500) containing an oversized Nonce payload. Successful exploitation results in a denial of service (data-plane process crash)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87665"
+    },
+    {
+      "id": "CVE-2026-107615",
+      "published": "2026-10-08T14:16:50.313",
+      "modified": "2026-10-08T14:16:50.313",
+      "description": "An uncontrolled search path element vulnerability in GlavSoft TightVNC Server for Windows before 2.8.88 allows a local authenticated user to execute arbitrary code with SYSTEM privileges. DynamicLibrary::init() (and ThemeLib) load screenhooks32.dll / screenhooks64.dll with LoadLibrary() using a bare file name and no LOAD_LIBRARY_SEARCH_* flags, so the TightVNC service follows the default DLL search order and loads an attacker-planted DLL from a writable directory earlier in that order (for example, an installation directory with permissive ACLs).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107615"
+    },
+    {
+      "id": "CVE-2026-107614",
+      "published": "2026-10-08T14:16:50.163",
+      "modified": "2026-10-08T14:16:50.163",
+      "description": "An integer underflow in WinCursorShapeUtils::trimTransparent() in GlavSoft TightVNC Server for Windows before 2.8.88 allows a local authenticated user to crash the server, and potentially read out-of-bounds memory, by causing a cursor shape with a width or height of zero to be processed on the DXGI capture path. The loop bound width - 1 wraps to 0xFFFFFFFF, producing an access roughly 4 GB beyond the 64 KB cursor buffer; a monochrome cursor of height 1 also becomes 0 because getCursorHeight() halves the height in place.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107614"
+    },
+    {
+      "id": "CVE-2026-107613",
+      "published": "2026-10-08T14:16:50.020",
+      "modified": "2026-10-08T14:16:50.020",
+      "description": "A NULL pointer dereference vulnerability in the Win8ScreenDriver component of GlavSoft TightVNC Server for Windows before 2.8.88 allows an attacker to crash the server, causing a denial of service. When re-initialization of the DXGI Desktop Duplication driver fails in applyNewScreenProperties() (for example after a GPU reset, display hot-plug or session change), m_drvImpl is left NULL and is subsequently dereferenced without a check by executeDetection(), getScreenBuffer(), grabFb(), getScreenPropertiesChanged() and getCursorPosition().",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107613"
+    },
+    {
+      "id": "CVE-2026-107612",
+      "published": "2026-10-08T14:16:49.877",
+      "modified": "2026-10-08T14:16:49.877",
+      "description": "Incorrect permission assignment in GlavSoft TightVNC Server for Windows before 2.8.88 allows a local authenticated user to read or overwrite the inter-process communication handles used between the TightVNC service and its desktop server process. The named shared memory segment in the Global\\ namespace that carries the pipe HANDLE values is created with a NULL DACL, and its name is derived from a time-seeded srand(time(0)) value that is predictable to one-second granularity. A low-privileged local process can open the mapping and tamper with the IPC channel of a service running as SYSTEM, potentially leading to disclosure of session data, privilege escalation, or denial of service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107612"
+    },
+    {
+      "id": "CVE-2026-107611",
+      "published": "2026-10-08T14:16:49.727",
+      "modified": "2026-10-08T14:16:49.727",
+      "description": "An out-of-bounds read vulnerability in the ZRLE decoder of GlavSoft TightVNC Viewer for Windows before 2.8.88 allows a malicious or compromised VNC server to read heap memory beyond the palette allocation and crash the viewer by sending ZRLE-encoded tiles whose palette indices exceed the declared palette size. readPaletteRleTile() and readPackedPaletteTile() use the attacker-supplied index to look up colours without validating it against the palette size; out-of-bounds heap data is copied into the framebuffer (garbled display) or the read faults, terminating the viewer.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107611"
+    },
     {
       "id": "CVE-2026-91803",
       "published": "2026-09-23T08:17:12.363",
@@ -884,66 +1072,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17644"
-    },
-    {
-      "id": "CVE-2026-63988",
-      "published": "2026-07-19T16:17:18.060",
-      "modified": "2026-10-08T13:31:36.527",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbridge: Fix sleep in atomic context in sysfs path\n\nSince the start of the git history, brport_store() always acquired the\nbridge lock. Back then this decision made sense: The bridge lock\nprotects the STP state of the bridge and its ports and at that time the\nfunction was only used by two STP related attributes (cost and\npriority).\n\nNowadays, brport_store() processes a lot more attributes and most of\nthem do not need the bridge lock:\n\n* Bridge flags: Only require RTNL. Read locklessly by the data path.\n  Annotations can be added in net-next.\n\n* FDB port flushing: Only requires the FDB lock.\n\n* Multicast attributes: Only require the multicast lock.\n\n* Group forward mask: Only requires RTNL. Read locklessly by the data\n  path. Annotations can be added in net-next.\n\n* Backup port: Only requires RTNL. Read locklessly by the data path.\n\nThis is a problem as the bridge calls dev_set_promiscuity() when certain\nbridge port flags change and this function can sleep since the commit\ncited below, resulting in a splat such as [1].\n\nFix this by reducing the scope of the bridge lock and only take it when\nprocessing the two STP related attributes that require it. Remove the\nnow stale comment from br_switchdev_set_port_flag(). The\nSWITCHDEV_F_DEFER flag can be removed in net-next.\n\n[1]\nBUG: sleeping function called from invalid context at net/core/dev_addr_lists.c:1262\nin_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 372, name: bash\npreempt_count: 201, expected: 0\nRCU nest depth: 0, expected: 0\n5 locks held by bash/372:\n#0: ffff88810c51c3f0 (sb_writers#7){.+.+}-{0:0}, at: ksys_write (fs/read_write.c:740)\n#1: ffff888115ce9480 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter (fs/kernfs/file.c:343)\n#2: ffff88810b9fd330 (kn->active#37){.+.+}-{0:0}, at: kernfs_fop_write_iter (fs/kernfs/file.c:80 fs/kernfs/file.c:344)\n#3: ffffffffa59473a0 (rtnl_mutex){+.+.}-{4:4}, at: brport_store (net/bridge/br_sysfs_if.c:326)\n#4: ffff8881099d2d58 (&br->lock){+...}-{3:3}, at: brport_store (./include/linux/spinlock.h:348 net/bridge/br_sysfs_if.c:345)\nPreemption disabled at:\n 0x0\nHardware name: Bochs Bochs, BIOS Bochs 01/01/2011\nCall Trace:\n<TASK>\ndump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)\n__might_resched.cold (kernel/sched/core.c:9163)\nnetif_rx_mode_run (net/core/dev_addr_lists.c:1262)\nnetif_rx_mode_sync (net/core/dev_addr_lists.c:1428)\ndev_set_promiscuity (net/core/dev_api.c:289)\nbr_manage_promisc (net/bridge/br_if.c:135 net/bridge/br_if.c:172)\nbr_port_flags_change (net/bridge/br_if.c:242 net/bridge/br_if.c:747)\nstore_learning (net/bridge/br_sysfs_if.c:79 net/bridge/br_sysfs_if.c:235)\nbrport_store (net/bridge/br_sysfs_if.c:346)\nkernfs_fop_write_iter (fs/kernfs/file.c:352)\nnew_sync_write (fs/read_write.c:595)\nvfs_write (fs/read_write.c:688)\nksys_write (fs/read_write.c:740)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63988"
-    },
-    {
-      "id": "CVE-2026-63989",
-      "published": "2026-07-19T16:17:18.260",
-      "modified": "2026-10-08T13:31:31.287",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbridge: Fix sleep in atomic context in netlink path\n\nSince the introduction of the netlink configuration path for bridge\nports in commit 25c71c75ac87 (\"bridge: bridge port parameters over\nnetlink\"), br_setport() was always called with the bridge lock held\naround it. Back then this decision made sense: The bridge lock protects\nthe STP state of the bridge and its ports and at that time the function\nonly processed three STP related netlink attributes (cost, priority and\nstate).\n\nNowadays, br_setport() processes a lot more attributes and most of them\ndo not need the bridge lock:\n\n* Bridge flags: Only require RTNL. Read locklessly by the data path.\n  Annotations can be added in net-next.\n\n* FDB port flushing: Only requires the FDB lock.\n\n* Multicast attributes: Only require the multicast lock.\n\n* Group forward mask: Only requires RTNL. Read locklessly by the data\n  path. Annotations can be added in net-next.\n\n* Backup port and NHID: Only require RTNL. Read locklessly by the data\n  path.\n\nThis is a problem as the bridge calls dev_set_promiscuity() when certain\nbridge port flags change and this function can sleep since the commit\ncited below, resulting in a splat such as [1].\n\nFix this by reducing the scope of the bridge lock and only take it when\nprocessing the three STP related attributes that require it. This is\nconsistent with the multicast attributes where each attribute acquires\nthe multicast lock instead of having one critical section for all\nrelevant attributes.\n\n[1]\nBUG: sleeping function called from invalid context at net/core/dev_addr_lists.c:1262\nin_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 356, name: bridge\npreempt_count: 201, expected: 0\nRCU nest depth: 0, expected: 0\n2 locks held by bridge/356:\n#0: ffffffff919473a0 (rtnl_mutex){+.+.}-{4:4}, at: rtnetlink_rcv_msg (net/core/rtnetlink.c:80 net/core/rtnetlink.c:7002)\n#1: ffff888115072d58 (&br->lock){+...}-{3:3}, at: br_setlink (./include/linux/spinlock.h:348 net/bridge/br_netlink.c:1117)\nPreemption disabled at:\n 0x0\nHardware name: Bochs Bochs, BIOS Bochs 01/01/2011\nCall Trace:\n<TASK>\ndump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)\n__might_resched.cold (kernel/sched/core.c:9163)\nnetif_rx_mode_run (net/core/dev_addr_lists.c:1262)\nnetif_rx_mode_sync (net/core/dev_addr_lists.c:1428)\ndev_set_promiscuity (net/core/dev_api.c:289)\nbr_manage_promisc (net/bridge/br_if.c:135 net/bridge/br_if.c:172)\nbr_port_flags_change (net/bridge/br_if.c:242 net/bridge/br_if.c:747)\nbr_setport (net/bridge/br_netlink.c:1000)\nbr_setlink (net/bridge/br_netlink.c:1118)\nrtnl_bridge_setlink (net/core/rtnetlink.c:5572)\nrtnetlink_rcv_msg (net/core/rtnetlink.c:7005)\nnetlink_rcv_skb (net/netlink/af_netlink.c:2550)\nnetlink_unicast (net/netlink/af_netlink.c:1318 net/netlink/af_netlink.c:1344)\nnetlink_sendmsg (net/netlink/af_netlink.c:1894)\n__sock_sendmsg (net/socket.c:787 (discriminator 4) net/socket.c:802 (discriminator 4))\n____sys_sendmsg (net/socket.c:2698)\n___sys_sendmsg (net/socket.c:2752)\n__sys_sendmsg (net/socket.c:2784)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.15:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63989"
     },
     {
       "id": "CVE-2026-17645",
@@ -7330,29 +7458,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107448"
-    },
-    {
-      "id": "CVE-2026-87665",
-      "published": "2026-10-08T03:16:35.960",
-      "modified": "2026-10-08T03:16:35.960",
-      "description": "A stack-based buffer overflow vulnerability exists in the Internet Key Exchange (IKEv2) protocol handler on Brocade Fabric OS versions before 10.0.1. The vulnerability occurs when processing initial IKE key exchange requests on extension switches or blades running IPsec-enabled Fibre Channel over IP (FCIP) circuits. An unauthenticated remote attacker can exploit this vulnerability by sending a single, specifically crafted UDP packet (Port 500) containing an oversized Nonce payload. Successful exploitation results in a denial of service (data-plane process crash)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87665"
     },
     {
       "id": "CVE-2026-105763",
@@ -32177,12 +32282,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 898,
+    "total_relevant_cves": 903,
     "critical": 81,
-    "high": 367,
-    "medium": 391,
+    "high": 370,
+    "medium": 393,
     "kev": 17,
     "p1": 51,
-    "p2": 392
+    "p2": 395
   }
 }
