@@ -1,10 +1,55 @@
 {
-  "updated": "2026-10-08T19:14:12.440440+00:00",
+  "updated": "2026-10-08T19:35:08.682406+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-84276",
+      "published": "2026-10-08T19:20:51.240",
+      "modified": "2026-10-08T19:20:51.240",
+      "description": "IBM Guardium Data Protection 12.2.2 is affected by a denial-of-service vulnerability in the edge-controller. An unauthenticated remote attacker with network access to the edge-controller gRPC service can provide malformed task data that triggers an unchecked type assertion, causing the edge-controller process to terminate unexpectedly.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84276"
+    },
+    {
+      "id": "CVE-2026-91006",
+      "published": "2026-09-28T11:16:48.200",
+      "modified": "2026-10-08T19:19:50.990",
+      "description": "Apache Karaf's instance-management service (InstanceServiceImpl) builds the command line used to launch a child Karaf JVM by string concatenation, then executes it through /bin/sh (Unix) or cscript (Windows). The caller-supplied javaOpts value is spliced into that string unquoted. A javaOpts value containing shell metacharacters (;, |, `, $(...)) is interpreted by the shell instead of being passed to the JVM as an option, giving arbitrary OS command execution as the Karaf process user.\n\n\nReachable via the shell commands instance:create, instance:start, instance:restart, instance:change-opts, and the equivalent InstanceMBean JMX operations (createInstance, startInstance, changeJavaOpts, cloneInstance).\n\nMitigation   *  Set karaf.secured.command.compulsory.roles=admin in etc/system.properties to close the fail-open gap for all unconfigured command scopes.\n  *  Restrict which principals can reach instance:* commands and InstancesMBean via etc/users.properties role assignments.\n  *  Treat javaOpts passed to instance:create/instance:start/instance:change-opts/InstancesMBean as untrusted input only from fully-trusted operators.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:karaf:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91006"
+    },
     {
       "id": "CVE-2026-107702",
       "published": "2026-10-08T18:17:26.637",
-      "modified": "2026-10-08T18:17:26.780",
+      "modified": "2026-10-08T19:17:02.570",
       "description": "QloApps through 1.7.0 contains an authorization bypass vulnerability in AdminHotelRoomsBookingController::postProcess() that allows restricted back-office employees to access other hotels' data by supplying an id_hotel parameter. Attackers can modify the id_hotel URL parameter on the Book Now page to view room availability and booking status of hotels outside their assigned profile access.",
       "vendors": [
         "Microsoft"
@@ -20,6 +65,56 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107702"
+    },
+    {
+      "id": "CVE-2020-13956",
+      "published": "2020-12-02T17:15:14.547",
+      "modified": "2026-10-08T19:16:54.573",
+      "description": "Apache HttpClient versions prior to version 4.5.13 and 5.0.3 can misinterpret malformed authority component in request URIs passed to the library as java.net.URI object and pick the wrong target host for request execution.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:httpclient:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:quarkus:quarkus:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:data_integrator:12.2.1.3.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:data_integrator:12.2.1.4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:jd_edwards_enterpriseone_orchestrator:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:jd_edwards_enterpriseone_tools:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:nosql_database:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_peopletools:8.57:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_peopletools:8.58:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_pt_peopletools:8.57:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_pt_peopletools:8.58:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_pt_peopletools:8.59:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:16.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:16.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:18.8:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:19.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:primavera_unifier:20.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:retail_customer_management_and_segmentation_foundation:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:spatial_studio:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:sql_developer:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:linux:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:vmware_vsphere:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:windows:*:*",
+        "cpe:2.3:a:netapp:snapcenter:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:commerce_guided_search:11.3.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:communications_cloud_native_core_service_communication_proxy:1.14.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:weblogic_server:12.2.1.4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:weblogic_server:14.1.1.0.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13956"
     },
     {
       "id": "CVE-2026-107584",
@@ -33279,12 +33374,12 @@
     "CVE-2026-9586"
   ],
   "statistics": {
-    "total_relevant_cves": 935,
+    "total_relevant_cves": 938,
     "critical": 85,
-    "high": 386,
-    "medium": 408,
+    "high": 388,
+    "medium": 409,
     "kev": 18,
     "p1": 53,
-    "p2": 413
+    "p2": 415
   }
 }
