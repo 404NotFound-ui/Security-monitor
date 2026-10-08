@@ -1,6 +1,326 @@
 {
-  "updated": "2026-10-08T20:21:50.936001+00:00",
+  "updated": "2026-10-08T20:46:39.166107+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107283",
+      "published": "2026-10-07T22:17:04.327",
+      "modified": "2026-10-08T20:35:31.200",
+      "description": "The AsyncHttpClient (AHC) library allows Java applications to easily execute HTTP requests and asynchronously process HTTP responses. Prior to 3.0.12  and 2.16.1, Realm.Builder generates the HTTP Digest client nonce with ThreadLocalRandom rather than a cryptographically secure random source. Digest relies on an unpredictable cnonce to resist chosen-plaintext and credential precomputation attacks, so an observer able to infer generator state can reduce the protection of the authentication exchange. This issue is fixed in versions 3.0.12 and 2.16.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107283"
+    },
+    {
+      "id": "CVE-2026-107222",
+      "published": "2026-10-07T19:17:34.800",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.0 to 2.11.0, conditional-format extraction indexes required child slices or dereferences an optional colorScale child without validating malformed rule structure. GetConditionalFormats reaches extractCondFmtCellIs and also indexes ColorScale.Cfvo, DataBar.Cfvo, and DataBar.Color without complete structural checks. When a crafted worksheet supplies a cellIs, dataBar, or colorScale rule missing expected children and the application calls GetConditionalFormats, missing formula, color, value-object, or colorScale data reaches an out-of-range index or nil dereference, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
+    },
+    {
+      "id": "CVE-2026-107217",
+      "published": "2026-10-07T19:17:33.957",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0 in github.com/xuri/excelize/v2 and from 1.1.0 to 1.4.1 in github.com/xuri/excelize, ColumnNameToNumber accumulates a bijective base-26 value in int64 without detecting overflow, allowing an invalid long column name to wrap to zero with no error. ColumnNameToNumber accepts the overflowing name VGWQHXLSDVIKWV, after which checkSheetR0 and xlsxWorksheet.checkRow use the wrapped column value as an index. When a crafted worksheet uses an overflowing column name in a row normalized by checkSheetR0 or checkRow, the wrapped zero column becomes a negative slice index during worksheet normalization, allowing an attacker to panic and terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107217"
+    },
+    {
+      "id": "CVE-2026-107223",
+      "published": "2026-10-07T19:17:34.970",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
+    },
+    {
+      "id": "CVE-2026-107218",
+      "published": "2026-10-07T19:17:34.120",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
+    },
+    {
+      "id": "CVE-2026-107213",
+      "published": "2026-10-07T18:17:18.860",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
+    },
+    {
+      "id": "CVE-2026-107224",
+      "published": "2026-10-07T19:17:35.140",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
+    },
+    {
+      "id": "CVE-2026-107221",
+      "published": "2026-10-07T19:17:34.620",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
+    },
+    {
+      "id": "CVE-2026-107219",
+      "published": "2026-10-07T19:17:34.287",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
+    },
+    {
+      "id": "CVE-2026-107214",
+      "published": "2026-10-07T18:17:19.040",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
+    },
+    {
+      "id": "CVE-2026-107225",
+      "published": "2026-10-07T19:17:35.333",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.0 to 2.11.0, GetStyle's fill, border, and font extraction predicates check only upper bounds for attacker-controlled style-table indices. File.GetStyle relies on extractStyleCondFuncs predicates that allow negative FillID, BorderID, and FontID values to reach slice indexing. When a crafted styles.xml supplies a negative fillId, borderId, or fontId and the application reads the style, a negative identifier passes the upper-bound-only predicate and becomes a negative slice index, allowing an attacker to panic while reading cell styling. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
+    },
+    {
+      "id": "CVE-2026-107220",
+      "published": "2026-10-07T19:17:34.447",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
+    },
+    {
+      "id": "CVE-2026-107216",
+      "published": "2026-10-07T18:17:19.400",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
+    },
+    {
+      "id": "CVE-2026-107211",
+      "published": "2026-10-07T18:17:18.490",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
+    },
+    {
+      "id": "CVE-2026-107215",
+      "published": "2026-10-07T18:17:19.213",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
+    },
+    {
+      "id": "CVE-2026-107212",
+      "published": "2026-10-07T18:17:18.670",
+      "modified": "2026-10-08T20:33:41.757",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, Rows.Columns accepts a look-ahead row number above TotalRows without applying the limit enforced by Rows.Next. File.GetRows relies on Rows.Next and Rows.Columns, but Rows.Columns consumes the row r attribute without the limit check in Rows.Next. When a crafted worksheet places an oversized row number after an ordinary valid row and the application calls GetRows or iterates Rows, the iterator advances through every missing row number instead of rejecting the workbook, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107212"
+    },
     {
       "id": "CVE-2026-84274",
       "published": "2026-10-08T20:17:37.927",
@@ -501,46 +821,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106296"
-    },
-    {
-      "id": "CVE-2026-107222",
-      "published": "2026-10-07T19:17:34.800",
-      "modified": "2026-10-08T17:17:14.057",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.0 to 2.11.0, conditional-format extraction indexes required child slices or dereferences an optional colorScale child without validating malformed rule structure. GetConditionalFormats reaches extractCondFmtCellIs and also indexes ColorScale.Cfvo, DataBar.Cfvo, and DataBar.Color without complete structural checks. When a crafted worksheet supplies a cellIs, dataBar, or colorScale rule missing expected children and the application calls GetConditionalFormats, missing formula, color, value-object, or colorScale data reaches an out-of-range index or nil dereference, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
-    },
-    {
-      "id": "CVE-2026-107217",
-      "published": "2026-10-07T19:17:33.957",
-      "modified": "2026-10-08T17:17:13.947",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0 in github.com/xuri/excelize/v2 and from 1.1.0 to 1.4.1 in github.com/xuri/excelize, ColumnNameToNumber accumulates a bijective base-26 value in int64 without detecting overflow, allowing an invalid long column name to wrap to zero with no error. ColumnNameToNumber accepts the overflowing name VGWQHXLSDVIKWV, after which checkSheetR0 and xlsxWorksheet.checkRow use the wrapped column value as an index. When a crafted worksheet uses an overflowing column name in a row normalized by checkSheetR0 or checkRow, the wrapped zero column becomes a negative slice index during worksheet normalization, allowing an attacker to panic and terminate the calling process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107217"
     },
     {
       "id": "CVE-2026-106408",
@@ -1513,26 +1793,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107503"
-    },
-    {
-      "id": "CVE-2026-107283",
-      "published": "2026-10-07T22:17:04.327",
-      "modified": "2026-10-08T15:17:37.943",
-      "description": "The AsyncHttpClient (AHC) library allows Java applications to easily execute HTTP requests and asynchronously process HTTP responses. Prior to 3.0.12  and 2.16.1, Realm.Builder generates the HTTP Digest client nonce with ThreadLocalRandom rather than a cryptographically secure random source. Digest relies on an unpredictable cnonce to resist chosen-plaintext and credential precomputation attacks, so an observer able to infer generator state can reduce the protection of the authentication exchange. This issue is fixed in versions 3.0.12 and 2.16.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107283"
     },
     {
       "id": "CVE-2026-104704",
@@ -8975,66 +9235,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84782"
     },
     {
-      "id": "CVE-2026-107223",
-      "published": "2026-10-07T19:17:34.970",
-      "modified": "2026-10-07T23:17:00.077",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
-    },
-    {
-      "id": "CVE-2026-107218",
-      "published": "2026-10-07T19:17:34.120",
-      "modified": "2026-10-07T23:16:59.950",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
-    },
-    {
-      "id": "CVE-2026-107213",
-      "published": "2026-10-07T18:17:18.860",
-      "modified": "2026-10-07T23:16:59.833",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
-    },
-    {
       "id": "CVE-2024-1102",
       "published": "2024-04-25T17:15:47.457",
       "modified": "2026-10-07T23:16:57.693",
@@ -12294,86 +12494,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106214"
     },
     {
-      "id": "CVE-2026-107224",
-      "published": "2026-10-07T19:17:35.140",
-      "modified": "2026-10-07T20:17:11.713",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
-    },
-    {
-      "id": "CVE-2026-107221",
-      "published": "2026-10-07T19:17:34.620",
-      "modified": "2026-10-07T20:17:11.580",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
-    },
-    {
-      "id": "CVE-2026-107219",
-      "published": "2026-10-07T19:17:34.287",
-      "modified": "2026-10-07T20:17:11.450",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
-    },
-    {
-      "id": "CVE-2026-107214",
-      "published": "2026-10-07T18:17:19.040",
-      "modified": "2026-10-07T20:17:11.320",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
-    },
-    {
       "id": "CVE-2025-66221",
       "published": "2025-11-29T03:16:00.050",
       "modified": "2026-10-07T20:10:01.970",
@@ -14797,86 +14917,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79815"
     },
     {
-      "id": "CVE-2026-107225",
-      "published": "2026-10-07T19:17:35.333",
-      "modified": "2026-10-07T19:17:35.333",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.0 to 2.11.0, GetStyle's fill, border, and font extraction predicates check only upper bounds for attacker-controlled style-table indices. File.GetStyle relies on extractStyleCondFuncs predicates that allow negative FillID, BorderID, and FontID values to reach slice indexing. When a crafted styles.xml supplies a negative fillId, borderId, or fontId and the application reads the style, a negative identifier passes the upper-bound-only predicate and becomes a negative slice index, allowing an attacker to panic while reading cell styling. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
-    },
-    {
-      "id": "CVE-2026-107220",
-      "published": "2026-10-07T19:17:34.447",
-      "modified": "2026-10-07T19:17:34.447",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
-    },
-    {
-      "id": "CVE-2026-107216",
-      "published": "2026-10-07T18:17:19.400",
-      "modified": "2026-10-07T19:17:33.837",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
-    },
-    {
-      "id": "CVE-2026-107211",
-      "published": "2026-10-07T18:17:18.490",
-      "modified": "2026-10-07T19:17:33.660",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
-    },
-    {
       "id": "CVE-2026-106493",
       "published": "2026-10-06T21:17:18.370",
       "modified": "2026-10-07T19:17:32.913",
@@ -16585,46 +16625,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92532"
-    },
-    {
-      "id": "CVE-2026-107215",
-      "published": "2026-10-07T18:17:19.213",
-      "modified": "2026-10-07T18:17:19.213",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
-    },
-    {
-      "id": "CVE-2026-107212",
-      "published": "2026-10-07T18:17:18.670",
-      "modified": "2026-10-07T18:17:18.670",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, Rows.Columns accepts a look-ahead row number above TotalRows without applying the limit enforced by Rows.Next. File.GetRows relies on Rows.Next and Rows.Columns, but Rows.Columns consumes the row r attribute without the limit check in Rows.Next. When a crafted worksheet places an oversized row number after an ordinary valid row and the application calls GetRows or iterates Rows, the iterator advances through every missing row number instead of rejecting the workbook, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107212"
     },
     {
       "id": "CVE-2025-25249",
