@@ -1,6 +1,79 @@
 {
-  "updated": "2026-10-09T22:59:54.353888+00:00",
+  "updated": "2026-10-09T23:19:43.419984+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-4878",
+      "published": "2026-04-09T16:16:31.987",
+      "modified": "2026-10-09T23:16:54.323",
+      "description": "A flaw was found in libcap. A local unprivileged user can exploit a Time-of-check-to-time-of-use (TOCTOU) race condition in the `cap_set_file()` function. This allows an attacker with write access to a parent directory to redirect file capability updates to an attacker-controlled file. By doing so, capabilities can be injected into or stripped from unintended executables, leading to privilege escalation.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:libcap_project:libcap:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4878"
+    },
+    {
+      "id": "CVE-2026-22061",
+      "published": "2026-10-09T23:16:54.157",
+      "modified": "2026-10-09T23:16:54.157",
+      "description": "Trident versions v25.02.1 through v26.06.1 are susceptible to a vulnerability that could allow an authenticated attacker with access to debug logs to view LUKS passphrases or SMB Active Directory credentials.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22061"
+    },
     {
       "id": "CVE-2026-106381",
       "published": "2026-10-06T19:18:07.297",
@@ -37781,46 +37854,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-37719"
-    },
-    {
-      "id": "CVE-2026-105793",
-      "published": "2026-10-06T15:17:16.123",
-      "modified": "2026-10-06T16:17:05.703",
-      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the press_key tool in ufo/client/mcp/http_servers/mobile_mcp_server.py accepts a free-form key_code parameter and passes it to `adb shell input keyevent`. The adb client joins the arguments into a remote command string that the Android shell reparses, allowing an authenticated Mobile MCP caller to execute additional commands as the Android shell user on an authorized connected device. Exploitation requires a valid UFO_MCP_API_KEY, adb on the host, and a reachable authorized device, and it does not establish host operating-system execution, Android root execution, or access beyond the Android shell-user privileges. This issue is fixed in version 3.0.9.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105793"
-    },
-    {
-      "id": "CVE-2026-105788",
-      "published": "2026-10-06T14:17:40.077",
-      "modified": "2026-10-06T16:17:05.597",
-      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.10, the type_text and launch_app tools in ufo/client/mcp/http_servers/mobile_mcp_server.py pass the authenticated caller-controlled text and package_name parameters into adb shell command argument positions without comprehensive validation. The adb client joins those arguments into a remote command string that the Android shell reparses, allowing shell metacharacters to execute additional commands on an authorized connected device as the Android shell user. Exploitation requires a valid Mobile MCP API key and a reachable device authorized for ADB, and it does not establish host operating-system execution, Android root execution, or access beyond the Android shell-user privileges. This issue is fixed in version 3.0.10.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105788"
     }
   ],
   "kev": [
@@ -39566,11 +39599,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 100,
+    "critical": 99,
     "high": 431,
-    "medium": 406,
+    "medium": 407,
     "kev": 14,
     "p1": 64,
-    "p2": 470
+    "p2": 469
   }
 }
