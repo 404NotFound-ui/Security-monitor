@@ -1,6 +1,88 @@
 {
-  "updated": "2026-10-09T02:13:39.706258+00:00",
+  "updated": "2026-10-09T02:34:12.289157+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-106508",
+      "published": "2026-10-06T22:17:06.310",
+      "modified": "2026-10-09T02:17:00.970",
+      "description": "Backstage is an open framework for building developer portals. Prior to 1.15.4, the @backstage/plugin-techdocs-node package is affected by potential file exposure through local techdocs publisher. When using the local TechDocs publisher (techdocs.publisher.type: 'local'), it was possible for the documentation serving endpoint to follow filesystem references outside the intended documentation tree, potentially exposing host files to authenticated users. This is mitigated by the fact that exploration requires preconditions that do not arise through normal MkDocs operation. Cloud-based publishers (S3, GCS, Azure Blob Storage) are not affected. This issue is fixed in version 1.15.4.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
+    },
+    {
+      "id": "CVE-2026-106353",
+      "published": "2026-10-06T19:18:04.150",
+      "modified": "2026-10-09T02:16:58.837",
+      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to bypass web origin policy via a co-installed app. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106353"
+    },
+    {
+      "id": "CVE-2026-106104",
+      "published": "2026-10-06T18:16:51.687",
+      "modified": "2026-10-09T02:16:57.307",
+      "description": "Quasar Framework is a framework for building high-performance Vue.js user interfaces. Prior to 2.23.3, Platform.parseSSR() passed an unbounded User-Agent request header to getMatch() in ui/src/plugins/platform/Platform.js, whose browser-detection expressions combined greedy captures with repeated unbounded scans. Platform belongs to autoInstalledPlugins, so this parsing occurs before routing for every SSR request. A crafted unauthenticated request containing repeated version tokens without a terminating Safari token causes super-linear backtracking and blocks the Node.js event loop, delaying every other SSR request. SPA, PWA, Electron, Cordova, Capacitor, browser-extension, and static-site-generation targets are not affected because they do not parse an attacker-controlled request header through this path. This issue is fixed in version 2.23.3.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106104"
+    },
+    {
+      "id": "CVE-2026-105791",
+      "published": "2026-10-06T15:17:15.840",
+      "modified": "2026-10-09T02:16:54.857",
+      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the run_shell tool in the CommandLineExecutor component of ufo/client/mcp/local_servers/cli_mcp_server.py validates only the first token of the bash_command parameter and permits explorer.exe. On Windows, explorer.exe delegates its following path argument to ShellExecute, so an attacker-influenced agent call can launch an arbitrary executable or script as the desktop user even though the subprocess uses shell=False. Exploitation depends on a user running an affected agent workflow and on inducing the tool call, but successful execution can access or modify that user's files, tokens, and sessions. This issue is fixed in version 3.0.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105791"
+    },
     {
       "id": "CVE-2026-48864",
       "published": "2026-05-26T17:16:54.050",
@@ -27902,26 +27984,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64391"
     },
     {
-      "id": "CVE-2026-106508",
-      "published": "2026-10-06T22:17:06.310",
-      "modified": "2026-10-07T13:58:29.527",
-      "description": "Backstage is an open framework for building developer portals. Prior to 1.15.4, the @backstage/plugin-techdocs-node package is affected by potential file exposure through local techdocs publisher. When using the local TechDocs publisher (techdocs.publisher.type: 'local'), it was possible for the documentation serving endpoint to follow filesystem references outside the intended documentation tree, potentially exposing host files to authenticated users. This is mitigated by the fact that exploration requires preconditions that do not arise through normal MkDocs operation. Cloud-based publishers (S3, GCS, Azure Blob Storage) are not affected. This issue is fixed in version 1.15.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
-    },
-    {
       "id": "CVE-2026-62874",
       "published": "2026-09-18T00:16:57.930",
       "modified": "2026-10-07T13:47:35.200",
@@ -35128,26 +35190,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106122"
     },
     {
-      "id": "CVE-2026-106104",
-      "published": "2026-10-06T18:16:51.687",
-      "modified": "2026-10-06T20:03:40.690",
-      "description": "Quasar Framework is a framework for building high-performance Vue.js user interfaces. Prior to 2.23.3, Platform.parseSSR() passed an unbounded User-Agent request header to getMatch() in ui/src/plugins/platform/Platform.js, whose browser-detection expressions combined greedy captures with repeated unbounded scans. Platform belongs to autoInstalledPlugins, so this parsing occurs before routing for every SSR request. A crafted unauthenticated request containing repeated version tokens without a terminating Safari token causes super-linear backtracking and blocks the Node.js event loop, delaying every other SSR request. SPA, PWA, Electron, Cordova, Capacitor, browser-extension, and static-site-generation targets are not affected because they do not parse an attacker-controlled request header through this path. This issue is fixed in version 2.23.3.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106104"
-    },
-    {
       "id": "CVE-2026-106101",
       "published": "2026-10-06T17:17:24.110",
       "modified": "2026-10-06T20:03:40.690",
@@ -35188,28 +35230,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106381"
-    },
-    {
-      "id": "CVE-2026-106353",
-      "published": "2026-10-06T19:18:04.150",
-      "modified": "2026-10-06T19:57:00.457",
-      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to bypass web origin policy via a co-installed app. (Chromium security severity: Low)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106353"
     },
     {
       "id": "CVE-2026-88371",
@@ -36020,26 +36040,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105131"
-    },
-    {
-      "id": "CVE-2026-105791",
-      "published": "2026-10-06T15:17:15.840",
-      "modified": "2026-10-06T15:25:00.650",
-      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the run_shell tool in the CommandLineExecutor component of ufo/client/mcp/local_servers/cli_mcp_server.py validates only the first token of the bash_command parameter and permits explorer.exe. On Windows, explorer.exe delegates its following path argument to ShellExecute, so an attacker-influenced agent call can launch an arbitrary executable or script as the desktop user even though the subprocess uses shell=False. Exploitation depends on a user running an affected agent workflow and on inducing the tool call, but successful execution can access or modify that user's files, tokens, and sessions. This issue is fixed in version 3.0.9.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105791"
     },
     {
       "id": "CVE-2026-105789",
@@ -39144,7 +39144,7 @@
     "total_relevant_cves": 1000,
     "critical": 100,
     "high": 429,
-    "medium": 413,
+    "medium": 414,
     "kev": 13,
     "p1": 59,
     "p2": 473
