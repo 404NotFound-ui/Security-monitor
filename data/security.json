@@ -1,6 +1,117 @@
 {
-  "updated": "2026-10-09T17:32:19.131429+00:00",
+  "updated": "2026-10-09T17:57:23.082944+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-106506",
+      "published": "2026-10-06T22:17:05.993",
+      "modified": "2026-10-09T17:50:13.653",
+      "description": "Backstage is an open framework for building developer portals. Prior to 4.1.0, the @backstage/plugin-scaffolder-backend package is affected by improper input validation in scaffolder task list ordering. An authenticated Backstage user with permission to create and read relevant scaffolder tasks may be able to infer confidential task data under specific conditions. Successful exploitation requires retained task secrets, visibility of a target task, knowledge of the secret structure, and repeated requests. This issue is fixed in version 4.1.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:linuxfoundation:backstage\\/plugin-scaffolder-backend:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:linuxfoundation:backstage:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106506"
+    },
+    {
+      "id": "CVE-2026-106508",
+      "published": "2026-10-06T22:17:06.310",
+      "modified": "2026-10-09T17:44:55.037",
+      "description": "Backstage is an open framework for building developer portals. Prior to 1.15.4, the @backstage/plugin-techdocs-node package is affected by potential file exposure through local techdocs publisher. When using the local TechDocs publisher (techdocs.publisher.type: 'local'), it was possible for the documentation serving endpoint to follow filesystem references outside the intended documentation tree, potentially exposing host files to authenticated users. This is mitigated by the fact that exploration requires preconditions that do not arise through normal MkDocs operation. Cloud-based publishers (S3, GCS, Azure Blob Storage) are not affected. This issue is fixed in version 1.15.4.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:linuxfoundation:backstage_plugin-techdocs-node:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:linuxfoundation:backstage:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
+    },
+    {
+      "id": "CVE-2026-108119",
+      "published": "2026-10-09T17:16:46.400",
+      "modified": "2026-10-09T17:42:00.023",
+      "description": "A flaw was found in busybox. The tar applet's deferred link-creation handling for symlink and hardlink entries with unsafe-looking targets does not validate that the resolved destination remains inside the extraction directory once the deferred link is created. An attacker can craft a tar archive using a symlink target of exactly '..' combined with a deferred hardlink to create a new file outside the extraction directory, or reuse an extraction directory across two archives to replace an existing file outside it. If the archive is extracted with elevated privileges, this flaw can lead to privilege escalation or arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108119"
+    },
+    {
+      "id": "CVE-2026-108158",
+      "published": "2026-10-09T17:16:46.870",
+      "modified": "2026-10-09T17:41:47.060",
+      "description": "plugNmeet Server through 2.5.2 contains a path traversal vulnerability in the whiteboard conversion endpoint that allows any meeting participant to read server files via crafted filePath values. Attackers can supply ../ sequences so text or office documents are converted into page images, then fetch them unauthenticated through /download/uploadedFile/.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108158"
+    },
+    {
+      "id": "CVE-2026-107815",
+      "published": "2026-10-09T17:16:45.970",
+      "modified": "2026-10-09T17:41:29.727",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the CONNECT engine's DOS table type used an incorrect boundary check that permitted a one-byte null write beyond a stack buffer at an attacker-controlled offset. An authenticated user able to use the CONNECT engine could cause a crash and potentially remote code execution. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107815"
+    },
     {
       "id": "CVE-2026-96396",
       "published": "2026-10-09T13:17:13.033",
@@ -60,71 +171,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96394"
-    },
-    {
-      "id": "CVE-2026-108158",
-      "published": "2026-10-09T17:16:46.870",
-      "modified": "2026-10-09T17:16:46.870",
-      "description": "plugNmeet Server through 2.5.2 contains a path traversal vulnerability in the whiteboard conversion endpoint that allows any meeting participant to read server files via crafted filePath values. Attackers can supply ../ sequences so text or office documents are converted into page images, then fetch them unauthenticated through /download/uploadedFile/.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108158"
-    },
-    {
-      "id": "CVE-2026-108119",
-      "published": "2026-10-09T17:16:46.400",
-      "modified": "2026-10-09T17:16:46.400",
-      "description": "A flaw was found in busybox. The tar applet's deferred link-creation handling for symlink and hardlink entries with unsafe-looking targets does not validate that the resolved destination remains inside the extraction directory once the deferred link is created. An attacker can craft a tar archive using a symlink target of exactly '..' combined with a deferred hardlink to create a new file outside the extraction directory, or reuse an extraction directory across two archives to replace an existing file outside it. If the archive is extracted with elevated privileges, this flaw can lead to privilege escalation or arbitrary code execution.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108119"
-    },
-    {
-      "id": "CVE-2026-107815",
-      "published": "2026-10-09T17:16:45.970",
-      "modified": "2026-10-09T17:16:45.970",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the CONNECT engine's DOS table type used an incorrect boundary check that permitted a one-byte null write beyond a stack buffer at an attacker-controlled offset. An authenticated user able to use the CONNECT engine could cause a crash and potentially remote code execution. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107815"
     },
     {
       "id": "CVE-2026-107814",
@@ -1843,26 +1889,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58014"
-    },
-    {
-      "id": "CVE-2026-106508",
-      "published": "2026-10-06T22:17:06.310",
-      "modified": "2026-10-09T02:17:00.970",
-      "description": "Backstage is an open framework for building developer portals. Prior to 1.15.4, the @backstage/plugin-techdocs-node package is affected by potential file exposure through local techdocs publisher. When using the local TechDocs publisher (techdocs.publisher.type: 'local'), it was possible for the documentation serving endpoint to follow filesystem references outside the intended documentation tree, potentially exposing host files to authenticated users. This is mitigated by the fact that exploration requires preconditions that do not arise through normal MkDocs operation. Cloud-based publishers (S3, GCS, Azure Blob Storage) are not affected. This issue is fixed in version 1.15.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106508"
     },
     {
       "id": "CVE-2026-106353",
@@ -27501,26 +27527,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62179"
-    },
-    {
-      "id": "CVE-2026-106506",
-      "published": "2026-10-06T22:17:05.993",
-      "modified": "2026-10-07T17:16:49.977",
-      "description": "Backstage is an open framework for building developer portals. Prior to 4.1.0, the @backstage/plugin-scaffolder-backend package is affected by improper input validation in scaffolder task list ordering. An authenticated Backstage user with permission to create and read relevant scaffolder tasks may be able to infer confidential task data under specific conditions. Successful exploitation requires retained task secrets, visibility of a target task, knowledge of the secret structure, and repeated requests. This issue is fixed in version 4.1.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106506"
     },
     {
       "id": "CVE-2026-106490",
