@@ -1,6 +1,46 @@
 {
-  "updated": "2026-10-09T20:57:50.599970+00:00",
+  "updated": "2026-10-09T21:18:42.384733+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-62367",
+      "published": "2026-10-09T21:17:05.470",
+      "modified": "2026-10-09T21:17:05.470",
+      "description": "Vikunja is an open-source self-hosted task management platform. In versions 1.0.0 through 2.3.0, when an administrator enables the per-provider `emailfallback` option on an OpenID Connect provider, Vikunja links an SSO login to a pre-existing local (username+password) account using only the `email` claim from the IdP. The fallback never checks an `email_verified` (or Microsoft `xms_edov`) signal and never requires the matched account's password. An attacker who can obtain a token from the configured issuer carrying a victim's email logs in as that victim with a full session, with no consent or interaction from the victim. Version 2.4.0 fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62367"
+    },
+    {
+      "id": "CVE-2026-57458",
+      "published": "2026-10-09T21:17:05.190",
+      "modified": "2026-10-09T21:17:05.190",
+      "description": "Vikunja is an open-source self-hosted task management platform. In version 2.3.0, a scoped API token limited to the `oauth.authorize` permission can call `POST /api/v1/oauth/authorize`, obtain an OAuth authorization code, and exchange the code at `POST /api/v1/oauth/token` for a normal bearer JSON Web Token (JWT) and refresh token. The resulting credentials are not restricted by the original API token's permissions, allowing access to routes outside its declared scope for the same user. Version 2.4.0 fixes the vulnerability.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57458"
+    },
     {
       "id": "CVE-2026-107802",
       "published": "2026-10-08T23:17:00.320",
@@ -37781,46 +37821,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105788"
-    },
-    {
-      "id": "CVE-2026-104055",
-      "published": "2026-10-02T21:16:54.607",
-      "modified": "2026-10-06T16:08:27.613",
-      "description": "The postgresql-operator charm runs a Prometheus postgres_exporter to collect database metrics using a dedicated \"monitoring\" PostgreSQL user. On database connection errors, the exporter writes the monitoring user's password in cleartext to its logs. Any actor able to read those logs can recover the password, which grants read-only pg_monitor access to PostgreSQL. This is fixed in the dev track (14/edge) in revisions 1189 (arm64) and 1190 (amd64), and in the stable track (14/stable) in revisions 1216 (arm64) and 1217 (amd64).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104055"
-    },
-    {
-      "id": "CVE-2026-59357",
-      "published": "2026-10-06T07:16:59.253",
-      "modified": "2026-10-06T16:00:36.547",
-      "description": "Insufficient verification of data authenticity (CWE-345) in the external OIDC login callback in Cloud Foundry UAA v4.5.0 to v79.6.0 (inclusive) allows an authenticated UAA user to bypass the OAuth authorization-code exchange and establish an authenticated external-OIDC browser session, via submitting a UAA access token or a cross-client ID token as the callback’s id_token parameter.\n\n\n\nThe issue only manifests when a UAA zone is configured with an OIDC identity provider whose issuer exactly matches that zone’s own /oauth/token endpoint (a “self-UAA” OIDC configuration). In this configuration, the callback takes a supplied id_token directly instead of requiring the authorization code exchange, and does not verify that the token was actually issued as an ID token for the specific self-OIDC relying-party client. An attacker holding any valid UAA JWT for themselves — including a plain access token with only uaa.user scope, or a valid ID token issued to an unrelated client such as cf — can present it as the callback’s id_token and be authenticated into a mapped local (“shadow”) account. Because the resulting session is not verified against the originating token’s true audience or user_id, its effective privilege depends entirely on the shadow account’s group memberships, which can include administrative scopes such as clients.write.\n\n\n\nExploitation requires a valid UAA user JWT, a valid browser login state for the target zone, and the presence of a self-referential OIDC provider configuration — this is not a pre-authentication vulnerability, and does not by itself grant privileges beyond those already held by the mapped shadow account.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59357"
     }
   ],
   "kev": [
@@ -39567,10 +39567,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 100,
-    "high": 429,
-    "medium": 407,
+    "high": 431,
+    "medium": 405,
     "kev": 14,
     "p1": 64,
-    "p2": 468
+    "p2": 470
   }
 }
