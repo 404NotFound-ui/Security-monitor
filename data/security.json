@@ -1,6 +1,48 @@
 {
-  "updated": "2026-10-10T08:13:05.328492+00:00",
+  "updated": "2026-10-10T08:33:19.160701+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-96765",
+      "published": "2026-10-10T08:17:08.170",
+      "modified": "2026-10-10T08:17:08.170",
+      "description": "The WPO365 | SEAMLESS WORDPRESS + MICROSOFT INTEGRATION (WPO365 | LOGIN) plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'id_token' parameter in all versions up to, and including, 44.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload is stored in the wpo365_errors transient for up to three days by submitting a crafted unauthenticated request with a forged id_token whose base64url-decoded unique_name or iss claim contains malicious HTML, requiring no prior authentication or user interaction beyond an administrator later visiting the WPO365 wizard page.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96765"
+    },
+    {
+      "id": "CVE-2026-104759",
+      "published": "2026-10-10T08:17:04.070",
+      "modified": "2026-10-10T08:17:04.070",
+      "description": "The WPO365 | SEAMLESS WORDPRESS + MICROSOFT INTEGRATION (WPO365 | LOGIN) plugin for WordPress is vulnerable to Authentication Bypass via OIDC Nonce Replay in all versions up to, and including, 44.1 This is due to `Id_Token_Service_Deprecated::process_openidconnect_token()` using the incompatible WordPress core `wp_verify_nonce()` function to validate a nonce produced by `Nonce_Service::create_nonce()` — a 64-character hex value that `wp_verify_nonce()` can never successfully verify — causing the nonce check to silently fail without terminating authentication, so execution continues into `authenticate_oidc_user()` with the attacker-supplied `id_token`. This makes it possible for unauthenticated attackers who have obtained a previously-issued, valid `id_token` for a target account to replay that token and authenticate as any WordPress user, including administrators, resulting in full site takeover. This vulnerability is only exploitable when the `use_id_token_parser_v2` plugin option is enabled, as this is the configuration that routes token processing through the deprecated parser containing the broken nonce check.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104759"
+    },
     {
       "id": "CVE-2026-104742",
       "published": "2026-10-10T06:16:39.240",
@@ -37807,51 +37849,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12543"
-    },
-    {
-      "id": "CVE-2026-98080",
-      "published": "2026-09-25T11:17:37.417",
-      "modified": "2026-10-06T17:00:55.290",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: do not force reloc root creation during qgroup_account_snapshot()\n\n[BUG]\nWhen running btrfs/252 with quota enabled through MKFS_OPTIONS=\"-O quota\",\nit has a high chance to trigger the following kernel warning and flips\nthe fs RO:\n\n  BTRFS info (device dm-2): relocating block group 30408704 flags metadata|dup\n  ------------[ cut here ]------------\n  WARNING: fs/btrfs/extent-tree.c:879 at lookup_inline_extent_backref+0x74b/0x960 [btrfs], CPU#4: btrfs/2173\n  CPU: 4 UID: 0 PID: 2173 Comm: btrfs Not tainted 7.2.0-rc6-custom+ #457 PREEMPT(full)  3adc6528fb66f7a55fe1095385818e742f200aab\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022\n  RIP: 0010:lookup_inline_extent_backref+0x74b/0x960 [btrfs]\n  Call Trace:\n   <TASK>\n   insert_inline_extent_backref+0x7c/0x160 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   __btrfs_inc_extent_ref+0xa9/0x270 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   __btrfs_run_delayed_refs+0x4af/0x11c0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_run_delayed_refs+0x9d/0xf0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   create_pending_snapshot+0x39d/0xf00 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   create_pending_snapshots+0x9b/0xc0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_commit_transaction+0x280/0xeb0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   prepare_to_relocate+0x147/0x200 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   relocate_block_group+0x6b/0x5e0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_relocate_block_group+0x92c/0x2380 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_relocate_chunk+0x3f/0x1a0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_balance+0xa2c/0x19c0 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   btrfs_ioctl+0x2839/0x2d30 [btrfs 32f09462c54d9c922fca74a3e4866f4aa7737b72]\n   __x64_sys_ioctl+0x416/0x9a0\n   do_syscall_64+0xe1/0x790\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n   </TASK>\n  ---[ end trace 0000000000000000 ]---\n  BTRFS info (device dm-2): leaf 4593991680 gen 233 total ptrs 175 free space 5953 owner 2\n  BTRFS info (device dm-2): refs 3 lock_owner 2173 current 2173\n  \titem 0 key (166772736 METADATA_ITEM 1) itemoff 16250 itemsize 33\n  \t\textent refs 1 gen 222 flags 2\n  \t\tref#0: tree block backref root 266\n         [ Skip the tree dump ]\n  \titem 174 key (263225344 METADATA_ITEM 0) itemoff 10328 itemsize 33\n  \t\textent refs 1 gen 162 flags 258\n  \t\tref#0: tree block backref root 267\n  BTRFS error (device dm-2): extent item not found for insert, bytenr 179847168 num_bytes 16384 parent 4594335744 root_objectid 273 owner 0 offset 0\n  BTRFS error (device dm-2): failed to run delayed ref for logical 179847168 num_bytes 16384 type 182 action 1 ref_mod 1: -117\n\n[CAUSE]\nThe above error is showing that there is a tree reference to a metadata\nextent that is no longer there.\n\nWith \"ref_verify\" mount option (requires CONFIG_BTRFS_DEBUG), there is\nsome extra debug output:\n\n  BTRFS error (device dm-2): dumping block entry [180961280 16384], num_refs 0, metadata 1, from disk 0\n  BTRFS error (device dm-2):   root entry 256, num_refs 18446744073709551615\n  BTRFS error (device dm-2):   root entry 273, num_refs 18446744073709551615\n  BTRFS error (device dm-2):   Ref action 3, root 273, ref_root 273, parent 0, owner 0, offset 0, num_refs 1\n     btrfs_force_cow_block+0x129/0x7d0 [btrfs]\n     btrfs_cow_block+0x10a/0x250 [btrfs]\n     btrfs_search_slot+0x5eb/0xf40 [btrfs]\n     btrfs_insert_empty_items+0x3a/0x70 [btrfs]\n     insert_with_overflow+0x53/0x130 [btrfs]\n     btrfs_insert_dir_item+0x125/0x290 [btrfs]\n     btrfs_add_link+0xaa/0x410 [btrfs]\n     btrfs_rename+0x5ea/0xcd0 [btrfs]\n     btrfs_rename2+0x28/0x60 [btrfs]\n     vfs_rename+0x5b2/0xe10\n     filename_renameat2+0x244/0x430\n     __x64_sys_rename+0x48/0x70\n     do_syscall_64+0xe1/0x790\n     entry_SYSCALL_64_after_hwframe+0x4b/0x53\n \n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.3:rc1:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98080"
-    },
-    {
-      "id": "CVE-2026-100254",
-      "published": "2026-09-30T16:16:55.947",
-      "modified": "2026-10-06T16:42:11.860",
-      "description": "In JetBrains TeamCity before 2026.2, \n2026.1.4, \n2025.11.8 authenticated users could execute commands on Windows servers via CRLF injection in Pipeline Git connection settings",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:jetbrains:teamcity:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100254"
     }
   ],
   "kev": [
@@ -39598,10 +39595,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 98,
-    "high": 431,
-    "medium": 407,
+    "high": 432,
+    "medium": 406,
     "kev": 14,
     "p1": 63,
-    "p2": 469
+    "p2": 470
   }
 }
