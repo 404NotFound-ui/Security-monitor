@@ -1,6 +1,106 @@
 {
-  "updated": "2026-10-10T03:12:55.851539+00:00",
+  "updated": "2026-10-10T03:34:19.340868+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107448",
+      "published": "2026-10-08T04:17:19.640",
+      "modified": "2026-10-10T03:17:07.040",
+      "description": "Magic: The Gathering Arena (Windows/Steam client; 2026.59.30.12801.127931.6 and certain later 2026.60.x builds) passes a server-supplied URL from a home-screen carousel GoToExternalUrl action directly to the Windows shell via Application.OpenURL/ShellExecuteW without validating the URI scheme or domain. A hypothetical attacker able to control the carousel content delivered to clients can cause arbitrary registered URI-scheme handlers to be invoked on client hosts with no user interaction. For example, one might expect that the carousel content only has https: URIs, not ms-calculator: URIs.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.4,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107448"
+    },
+    {
+      "id": "CVE-2026-107225",
+      "published": "2026-10-07T19:17:35.333",
+      "modified": "2026-10-10T03:17:06.460",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.0 to 2.11.0, GetStyle's fill, border, and font extraction predicates check only upper bounds for attacker-controlled style-table indices. File.GetStyle relies on extractStyleCondFuncs predicates that allow negative FillID, BorderID, and FontID values to reach slice indexing. When a crafted styles.xml supplies a negative fillId, borderId, or fontId and the application reads the style, a negative identifier passes the upper-bound-only predicate and becomes a negative slice index, allowing an attacker to panic while reading cell styling. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
+    },
+    {
+      "id": "CVE-2026-107220",
+      "published": "2026-10-07T19:17:34.447",
+      "modified": "2026-10-10T03:17:06.287",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
+    },
+    {
+      "id": "CVE-2026-107215",
+      "published": "2026-10-07T18:17:19.213",
+      "modified": "2026-10-10T03:17:06.113",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
+    },
+    {
+      "id": "CVE-2026-106059",
+      "published": "2026-10-07T12:17:09.100",
+      "modified": "2026-10-10T03:17:04.260",
+      "description": "GitAhead through 2.7.1 on macOS contains a command injection vulnerability that allows attackers to execute shell commands by crafting repository filenames interpolated unescaped into the Show in Finder AppleScript. Attackers can commit a file whose path contains a double quote followed by a do shell script payload, which runs as the victim user when Show in Finder is chosen.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106059"
+    },
     {
       "id": "CVE-2026-4878",
       "published": "2026-04-09T16:16:31.987",
@@ -8009,26 +8109,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107782"
     },
     {
-      "id": "CVE-2026-107448",
-      "published": "2026-10-08T04:17:19.640",
-      "modified": "2026-10-08T21:33:42.423",
-      "description": "Magic: The Gathering Arena (Windows/Steam client; 2026.59.30.12801.127931.6 and certain later 2026.60.x builds) passes a server-supplied URL from a home-screen carousel GoToExternalUrl action directly to the Windows shell via Application.OpenURL/ShellExecuteW without validating the URI scheme or domain. A hypothetical attacker able to control the carousel content delivered to clients can cause arbitrary registered URI-scheme handlers to be invoked on client hosts with no user interaction. For example, one might expect that the carousel content only has https: URIs, not ms-calculator: URIs.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.4,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107448"
-    },
-    {
       "id": "CVE-2026-107780",
       "published": "2026-10-08T21:17:52.940",
       "modified": "2026-10-08T21:27:15.010",
@@ -12245,46 +12325,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
     },
     {
-      "id": "CVE-2026-107225",
-      "published": "2026-10-07T19:17:35.333",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.0 to 2.11.0, GetStyle's fill, border, and font extraction predicates check only upper bounds for attacker-controlled style-table indices. File.GetStyle relies on extractStyleCondFuncs predicates that allow negative FillID, BorderID, and FontID values to reach slice indexing. When a crafted styles.xml supplies a negative fillId, borderId, or fontId and the application reads the style, a negative identifier passes the upper-bound-only predicate and becomes a negative slice index, allowing an attacker to panic while reading cell styling. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107225"
-    },
-    {
-      "id": "CVE-2026-107220",
-      "published": "2026-10-07T19:17:34.447",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
-    },
-    {
       "id": "CVE-2026-107216",
       "published": "2026-10-07T18:17:19.400",
       "modified": "2026-10-08T20:33:41.757",
@@ -12323,26 +12363,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
-    },
-    {
-      "id": "CVE-2026-107215",
-      "published": "2026-10-07T18:17:19.213",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
     },
     {
       "id": "CVE-2026-107212",
@@ -29489,26 +29509,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18131"
-    },
-    {
-      "id": "CVE-2026-106059",
-      "published": "2026-10-07T12:17:09.100",
-      "modified": "2026-10-07T15:57:20.793",
-      "description": "GitAhead through 2.7.1 on macOS contains a command injection vulnerability that allows attackers to execute shell commands by crafting repository filenames interpolated unescaped into the Show in Finder AppleScript. Attackers can commit a file whose path contains a double quote followed by a do shell script payload, which runs as the victim user when Show in Finder is chosen.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106059"
     },
     {
       "id": "CVE-2026-18132",
