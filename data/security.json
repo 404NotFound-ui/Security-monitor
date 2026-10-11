@@ -1,6 +1,68 @@
 {
-  "updated": "2026-10-11T14:14:00.764928+00:00",
+  "updated": "2026-10-11T14:34:12.862218+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-93179",
+      "published": "2026-09-17T17:18:13.773",
+      "modified": "2026-10-11T14:17:07.993",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amd/powerplay: fix VoltageObjectInfo zero-stride loop and OOB read\n\nReject voltage objects whose usSize is smaller than the header or would\nadvance the cursor past the table end, preventing an infinite loop or\nheap OOB read when the VBIOS supplies a malformed VoltageObjectInfo table.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93179"
+    },
+    {
+      "id": "CVE-2026-80734",
+      "published": "2026-09-03T13:06:12.200",
+      "modified": "2026-10-11T14:17:07.317",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: initialize inode mapping flags for cached inodes\n\n[BUG]\nWhen running generic/795 with 8K block size, 4K page size, the test\nalways fails, triggering some ASSERT()s related to folio size:\n\n  795 (241074): drop_caches: 3\n  assertion failed: IS_ALIGNED(start, blocksize) && IS_ALIGNED(end + 1, blocksize), in extent_io.c:1404 (blocksize=8192 root=262 ino=258 start=16826368 end=16830463 mapping min order=0)\n  ------------[ cut here ]------------\n  kernel BUG at extent_io.c:1404!\n  Oops: invalid opcode: 0000 [#1] SMP\n  CPU: 8 UID: 0 PID: 241105 Comm: fsstress Tainted: G           OE       7.2.0-rc5-custom+ #442 PREEMPT(full)  f4bfb352566f3949f29c233ce6f735050a03b245\n  Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022\n  RIP: 0010:assert_folio_range.cold+0x3d/0x3f [btrfs]\n  Call Trace:\n   <TASK>\n   btrfs_read_folio+0x9e/0x170 [btrfs 4cd1dd93b341b8ef766643f9512f4a86259567a3]\n   prepare_one_folio.constprop.0+0x104/0x2a0 [btrfs 4cd1dd93b341b8ef766643f9512f4a86259567a3]\n   btrfs_buffered_write+0x285/0xa50 [btrfs 4cd1dd93b341b8ef766643f9512f4a86259567a3]\n   btrfs_do_write_iter+0x1aa/0x210 [btrfs 4cd1dd93b341b8ef766643f9512f4a86259567a3]\n   iter_file_splice_write+0x31a/0x540\n   direct_splice_actor+0x53/0x170\n   splice_direct_to_actor+0xe9/0x240\n   do_splice_direct+0x76/0xb0\n   vfs_copy_file_range+0x1fd/0x630\n   __x64_sys_copy_file_range+0xf9/0x220\n   do_syscall_64+0xe1/0x790\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n   </TASK>\n  ---[ end trace 0000000000000000 ]---\n\nThe ASSERT() itself is added by a later patch.\nThe crash is triggered with that new debug patch, and without this fix.\n\n[CAUSE]\nIn the above case, the start 16826368 is properly 8K aligned, but the\nend (16830463 + 1) is not 8K aligned.\nFurthermore the mapping's minimal folio order is 0, not the expected 1\nfor 8K block size with 4K page size.\n\nSo this means some inodes do not have btrfs_set_inode_mapping_order()\ncalled on it.\n\nThe missing btrfs_set_inode_mapping_order() call happens for cached\ninodes, through the following events:\n\n- btrfs_create_new_inode() called for inode X\n  Which properly sets minimal folio order for the VFS inode.\n\n- btrfs_update_inode() called for inode X\n  Which calls btrfs_delayed_update_inode() to create a delayed_node\n  into root->delayed_nodes xarray.\n\n- Drop cache/memory pressure, evicting in-memory inode X\n  Which evicted the inode X, but delayed_node is still in\n  root->delayed_nodes for future reuse.\n\n- btrfs_iget() for inode X called again\n\n  btrfs_iget()\n  |- btrfs_iget_locked()\n  |  |- iget5_locked_rcu()\n  |     Which creates a new vfs_inode for btrfs, whose mapping still\n  |     has the minimal order as 0.\n  |\n  |- btrfs_read_locked_inode()\n     |- btrfs_fill_inode()\n     |  |- btrfs_get_delayed_node()\n     |     Which found out the previous node, and use that delayed\n     |     node to initialize the new inode.\n     |\n     |- filled = true;\n     |- if (filled) goto cache_index;\n        Which skips the btrfs_update_inode_mapping_flags() and\n\tbtrfs_set_inode_mapping_order() calls.\n\tSo the inode still has minimal folio order set as 0, not\n\tthe required 1.\n\nThus later page cache read will get a folio whose size is smaller than\nblock size, as the mapping has its minimal folio order set as 0 not 1,\nthen trigger the ASSERT().\n\n[FIX]\nMove the btrfs_update_inode_mapping_flags() and\nbtrfs_set_inode_mapping_order() calls under cache_index label,\nso that the mapping flags and minimal folio order is always set\nno matter if we have a cached inode.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80734"
+    },
+    {
+      "id": "CVE-2026-108865",
+      "published": "2026-10-11T14:17:06.640",
+      "modified": "2026-10-11T14:17:06.640",
+      "description": "AmoyLab Unla through 0.10.0 contains an authentication bypass vulnerability that allows unauthenticated attackers to obtain valid access tokens because the OAuth2 server never authenticates a resource owner. Attackers can register a client, request a code from /authorize, and exchange it at /token to access OAuth2-protected MCP prefixes, proxied upstream APIs and injected credentials.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108865"
+    },
     {
       "id": "CVE-2026-96765",
       "published": "2026-10-10T08:17:08.170",
@@ -37551,66 +37613,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88371"
-    },
-    {
-      "id": "CVE-2026-77804",
-      "published": "2026-10-05T13:16:54.590",
-      "modified": "2026-10-06T18:16:56.393",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, a time-of-check time-of-use (TOCTOU) race condition exists in the installation of the HTTPS interception root certificate into the Local Computer certificate store. Fiddler writes the certificate to a temporary file in a user-writable location and then launches the external TrustCert helper application, which elevates and imports the certificate from that file. A local threat actor with low privileges who replaces the temporary file between the time it is written and the time the elevated helper reads it can cause an attacker-supplied root certificate to be installed in the Local Computer Trusted Root Certification Authorities store, enabling subsequent interception and modification of TLS-protected traffic on the machine. Successful exploitation requires the user to initiate the certificate trust operation and approve the elevation prompt.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77804"
-    },
-    {
-      "id": "CVE-2026-77803",
-      "published": "2026-10-05T13:16:54.453",
-      "modified": "2026-10-06T18:16:56.270",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, front-end request desynchronization is possible in the proxy request forwarding component. A request that contains both a Content-Length and a Transfer-Encoding header is forwarded with both headers present, while Fiddler frames the body using Transfer-Encoding only. The remaining bytes on the reused client connection are then parsed as a separate pipelined request, so a local threat actor with low privileges can cause a single malformed request to be split into two requests forwarded to the origin server and receive an additional smuggled response, without requiring a vulnerable server.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.6,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77803"
-    },
-    {
-      "id": "CVE-2026-77802",
-      "published": "2026-10-05T13:16:54.293",
-      "modified": "2026-10-06T18:16:56.153",
-      "description": "In Progress® Telerik® Fiddler® Classic for Windows, versions prior to v6.0.20262.10021, HTTP request smuggling is possible in the proxy request forwarding component. Requests containing multiple Content-Length headers with conflicting values are forwarded verbatim to the origin server, while Fiddler frames the request body using only the first Content-Length value. A local threat actor with low privileges who is able to send requests through the same Fiddler proxy instance as another user can exploit this desynchronization against a non-RFC-9110-compliant origin server that keeps the connection alive to smuggle an additional request. Because Fiddler returns the server connection to its pipe pool after reading only the first response, the unread smuggled response remains buffered on the socket and is served to the next session that reuses that connection, allowing the attacker to poison responses delivered to other users and to obtain responses intended for them.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77802"
     }
   ],
   "kev": [
@@ -39357,10 +39359,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 98,
-    "high": 427,
-    "medium": 409,
+    "high": 429,
+    "medium": 407,
     "kev": 14,
     "p1": 62,
-    "p2": 466
+    "p2": 468
   }
 }
