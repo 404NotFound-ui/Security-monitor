@@ -1,6 +1,303 @@
 {
-  "updated": "2026-10-12T19:58:30.422461+00:00",
+  "updated": "2026-10-12T20:21:15.122788+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-66788",
+      "published": "2026-08-20T19:16:58.823",
+      "modified": "2026-10-12T20:17:09.960",
+      "description": "A flaw was found in Lighthouse. A remote attacker, by compromising a spoke cluster, can exploit a vulnerability where the destination namespace for resource injection is derived from an attacker-controlled label or annotation on the broker object. This allows the attacker to inject unauthorized EndpointSlices and ServiceImports into any namespace on peer clusters, including critical system namespaces like kube-system and openshift-*. This could lead to privilege escalation or other forms of system compromise within the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66788"
+    },
+    {
+      "id": "CVE-2026-19654",
+      "published": "2026-08-12T21:17:38.517",
+      "modified": "2026-10-12T20:17:09.607",
+      "description": "A unauthenticated remote peer may lead rsyslogd to crash due to a flaw in the optional imptcp module. A crafted input sequence during oversize-frame recovery can cause an invalid internal message length and terminate rsyslogd. No confidentiality or integrity impact, privilege escalation, or code execution has been identified. imtcp and the default imptcp framing modes are not affected.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:rsyslog:rsyslog:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19654"
+    },
+    {
+      "id": "CVE-2026-109424",
+      "published": "2026-10-12T20:17:09.143",
+      "modified": "2026-10-12T20:17:09.143",
+      "description": "NetEase Cloud Music client for Windows (cloudmusic.exe) versions 3.1.38 and 3.1.39.205426 contains a weak encryption vulnerability where /eapi/ and /xeapi/ API response bodies are decrypted using a fixed, publicly documented AES-128-ECB key with no integrity credential. Attackers who can intercept or originate server responses can construct valid ciphertext under the known key with PKCS#7 padding, enabling the client to accept forged API responses that serve as a prerequisite for further exploitation such as reaching the os.navigateExternal bridge.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109424"
+    },
+    {
+      "id": "CVE-2026-109423",
+      "published": "2026-10-12T20:17:08.993",
+      "modified": "2026-10-12T20:17:08.993",
+      "description": "NetEase Cloud Music client for Windows (cloudmusic.exe) versions 3.1.38 and 3.1.39.205426 contains a TLS certificate validation vulnerability that allows a network-adjacent attacker to intercept and decrypt HTTPS traffic by failing to validate the server certificate chain, verify the hostname, or consult any Windows certificate trust store. Attackers can perform a man-in-the-middle attack using a rogue certificate authority to decrypt traffic, capture the MUSIC_U session credential sent in authenticated API requests, and modify server responses in transit, enabling account takeover and transport-layer response forgery.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109423"
+    },
+    {
+      "id": "CVE-2026-109422",
+      "published": "2026-10-12T20:17:08.840",
+      "modified": "2026-10-12T20:17:08.840",
+      "description": "NetEase Cloud Music client for Windows (cloudmusic.exe) versions 3.1.38 and 3.1.39.205426 contains a remote code execution vulnerability in the renderer-process IPC bridge os.navigateExternal, which passes caller-supplied URLs to ShellExecuteW without validating the URL scheme. An attacker able to inject content into the renderer, such as by forging the /pc/upgrade/get API response using a publicly known AES key over an unvalidated TLS connection, can invoke os.navigateExternal with a file:// URL through an img onerror payload to execute arbitrary local binaries under the logged-in user's account.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109422"
+    },
+    {
+      "id": "CVE-2025-5914",
+      "published": "2025-06-09T20:15:26.123",
+      "modified": "2026-10-12T20:17:06.183",
+      "description": "A vulnerability has been identified in the libarchive library, specifically within the archive_read_format_rar_seek_data() function. This flaw involves an integer overflow that can ultimately lead to a double-free condition. Exploiting a double-free vulnerability can result in memory corruption, enabling an attacker to execute arbitrary code or cause a denial-of-service condition.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:libarchive:libarchive:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5914"
+    },
+    {
+      "id": "CVE-2025-27902",
+      "published": "2026-10-12T20:17:05.407",
+      "modified": "2026-10-12T20:17:05.407",
+      "description": "IBM DB2 Recovery Expert for Linux, UNIX and Windows 5.5 IF 2 uses a web link with untrusted references to an external site. A remote attacker could exploit this vulnerability to expose sensitive information or perform unauthorized actions on the victims’ web browser",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27902"
+    },
+    {
+      "id": "CVE-2025-27897",
+      "published": "2026-10-12T20:17:05.277",
+      "modified": "2026-10-12T20:17:05.277",
+      "description": "IBM Db2 Recovery Expert for Linux, UNIX and Windows 5.5 IF 2 is vulnerable to cross-site scripting. This vulnerability allows an unauthenticated attacker to embed arbitrary JavaScript code in the Web UI thus altering the intended functionality potentially leading to credentials disclosure within a trusted session.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27897"
+    },
+    {
+      "id": "CVE-2025-27896",
+      "published": "2026-10-12T20:17:05.137",
+      "modified": "2026-10-12T20:17:05.137",
+      "description": "IBM Db2 Recovery Expert for Linux, UNIX and Windows 5.5 IF 2 is vulnerable to cross-site scripting. This vulnerability allows an unauthenticated attacker to embed arbitrary JavaScript code in the Web UI thus altering the intended functionality potentially leading to credentials disclosure within a trusted session.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27896"
+    },
+    {
+      "id": "CVE-2025-27895",
+      "published": "2026-10-12T20:17:04.353",
+      "modified": "2026-10-12T20:17:04.353",
+      "description": "IBM DB2 Recovery Expert for Linux, UNIX and Windows 5.5 IF 2 is vulnerable to cross-site scripting. This vulnerability allows an unauthenticated attacker to embed arbitrary JavaScript code in the Web UI thus altering the intended functionality potentially leading to credentials disclosure within a trusted session.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27895"
+    },
     {
       "id": "CVE-2026-18166",
       "published": "2026-10-12T19:16:38.773",
@@ -36978,381 +37275,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43535"
-    },
-    {
-      "id": "CVE-2025-43541",
-      "published": "2025-12-17T21:16:12.680",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A type confusion issue was addressed with improved state handling. This issue is fixed in Safari 26.2, iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, visionOS 26.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43541"
-    },
-    {
-      "id": "CVE-2025-46279",
-      "published": "2025-12-17T21:16:13.340",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A permissions issue was addressed with additional restrictions. This issue is fixed in iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, tvOS 26.2, visionOS 26.2, watchOS 26.2. An app may be able to identify what other apps a user has installed.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-46279"
-    },
-    {
-      "id": "CVE-2025-46288",
-      "published": "2025-12-17T21:16:14.010",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A permissions issue was addressed with additional restrictions. This issue is fixed in iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, visionOS 26.2, watchOS 26.2. An app may be able to access sensitive payment tokens.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-46288"
-    },
-    {
-      "id": "CVE-2025-14874",
-      "published": "2025-12-18T09:15:44.870",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A flaw was found in Nodemailer. This vulnerability allows a denial of service (DoS) via a crafted email address header that triggers infinite recursion in the address parser.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "ceph storage",
-          "version": "8.0",
-          "cpe": "cpe:2.3:a:redhat:ceph_storage:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "developer hub",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:developer_hub:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:nodemailer:nodemailer:*:*:*:*:*:node.js:*:*",
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:ceph_storage:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:developer_hub:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14874"
-    },
-    {
-      "id": "CVE-2025-15246",
-      "published": "2025-12-30T12:15:44.913",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A vulnerability was determined in aizuda snail-job up to 1.7.0 on macOS. Affected by this vulnerability is the function FurySerializer.deserialize of the component API. This manipulation of the argument argsStr causes deserialization. Remote exploitation of the attack is possible. The exploit has been publicly disclosed and may be utilized.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.1,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15246"
-    },
-    {
-      "id": "CVE-2021-1432",
-      "published": "2021-03-24T20:15:14.510",
-      "modified": "2026-10-07T10:52:45.003",
-      "description": "A vulnerability in the CLI of Cisco IOS XE SD-WAN Software could allow an authenticated, local attacker to execute arbitrary commands on the underlying operating system as the root user. The attacker must be authenticated on the affected device as a low-privileged user to exploit this vulnerability. This vulnerability is due to insufficient validation of user-supplied input. An attacker could exploit this vulnerability by injecting arbitrary commands to a file as a lower-privileged user. The commands are then executed on the device by the root user. A successful exploit could allow the attacker to execute arbitrary commands as the root user.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:cisco:ios_xe:3.15.1xbs:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:3.15.2xbs:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1a:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1c:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1s:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1t:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1w:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1x:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1y:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1z:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.1za:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.2a:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.2s:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.2t:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.3:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.3a:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.3s:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.4:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:16.12.4a:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:17.2.1:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:17.2.1a:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:17.2.1r:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe:17.2.1v:*:*:*:*:*:*:*",
-        "cpe:2.3:o:cisco:ios_xe_sd-wan:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-1432"
-    },
-    {
-      "id": "CVE-2025-68280",
-      "published": "2026-01-05T14:15:53.490",
-      "modified": "2026-10-07T10:10:00.213",
-      "description": "Improper Restriction of XML External Entity Reference vulnerability in Apache SIS.\n\n\n\nIt is possible to write XML files in such a way that, when parsed by Apache SIS, an XML file reveals to the attacker the content of a local file on the server running Apache SIS. This vulnerability impacts the following SIS services:\n\n\n\n\n  *  Reading of GeoTIFF files having the GEO_METADATA tag defined by the Defense Geospatial Information Working Group (DGIWG).\n\n  *  Parsing of ISO 19115 metadata in XML format.\n\n  *  Parsing of Coordinate Reference Systems defined in the GML format.\n\n  *  Parsing of files in GPS Exchange Format (GPX).\n\n\n\n\n\nThis issue affects Apache SIS from versions 0.4 through 1.5 inclusive. Users are recommended to upgrade to version 1.6, which will fix the issue. In the meantime, the security vulnerability can be avoided by launching Java with the javax.xml.accessExternalDTD system property sets to a comma-separated list of authorized protocols. For example:\n\n\n\njava -Djavax.xml.accessExternalDTD=\"\" ...",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:apache:spatial_information_system:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68280"
-    },
-    {
-      "id": "CVE-2025-14979",
-      "published": "2026-01-06T16:15:51.150",
-      "modified": "2026-10-07T10:10:00.213",
-      "description": "AirVPN Eddie on MacOS contains an insecure XPC service that allows local, unprivileged users to escalate their privileges to root.This issue affects Eddie: 2.24.6.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:airvpn:eddie:2.24.6:*:*:*:*:macos:*:*"
-      ],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14979"
-    },
-    {
-      "id": "CVE-2025-67918",
-      "published": "2026-01-08T10:15:50.720",
-      "modified": "2026-10-07T09:10:00.160",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WofficeIO Woffice woffice allows Reflected XSS.This issue affects Woffice: from n/a through <= 5.4.30.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67918"
-    },
-    {
-      "id": "CVE-2025-67919",
-      "published": "2026-01-08T10:15:50.840",
-      "modified": "2026-10-07T09:10:00.160",
-      "description": "Authorization Bypass Through User-Controlled Key vulnerability in WofficeIO Woffice Core woffice-core allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Woffice Core: from n/a through <= 5.4.30.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67919"
     }
   ],
   "kev": [
@@ -39098,11 +39020,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 99,
-    "high": 430,
+    "critical": 102,
+    "high": 429,
     "medium": 402,
     "kev": 14,
-    "p1": 60,
-    "p2": 472
+    "p1": 63,
+    "p2": 471
   }
 }
