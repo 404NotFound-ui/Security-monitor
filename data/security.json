@@ -1,6 +1,126 @@
 {
-  "updated": "2026-10-12T20:48:22.441559+00:00",
+  "updated": "2026-10-12T21:12:59.111337+00:00",
   "cves": [
+    {
+      "id": "CVE-2025-45870",
+      "published": "2026-07-16T17:16:53.157",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "LogicalDOC Enterprise up to and for v9.1.1 is vulnerable to Local File Inclusion (LFI) in the OnlyOfficeEditor servlet class, allowing authenticated user to exploit path traversal flaws in the fileExt parameter, enabling unauthorized access to sensitive files outside the designated directories.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-45870"
+    },
+    {
+      "id": "CVE-2026-63693",
+      "published": "2026-08-24T20:16:55.677",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "Dell Client BIOS contains an Improper Link Resolution Before File Access ('Link Following') vulnerability. A low privileged attacker with local access could potentially exploit this vulnerability, leading to Arbitrary Write",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63693"
+    },
+    {
+      "id": "CVE-2026-77310",
+      "published": "2026-08-24T20:17:20.977",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "jackson-databind contains the general-purpose data-binding functionality and tree-model for Jackson Data Processor. Prior to versions 2.18.9, 2.21.5, 2.22.1, 3.1.5, and 3.2.1 on their respective release lines, the java.net.InetAddress branch of FromStringDeserializer.Std._deserialize() calls InetAddress.getByName() on attacker-controlled input, causing eager DNS resolution during deserialization and enabling DNS-based server-side request forgery and internal-host enumeration. This issue is fixed in versions 2.18.9, 2.21.5, 2.22.1, 3.1.5, and 3.2.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77310"
+    },
+    {
+      "id": "CVE-2026-75542",
+      "published": "2026-08-24T21:17:47.373",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "Incorrect Authorization vulnerability in the OAuth token endpoint in hexpm hexpm allows an API key holding the repositories permission to read another organization's private packages.\n\nWhen an API key is exchanged for a token through the OAuth client_credentials grant, validate_scopes_against_key/2 in lib/hexpm_web/controllers/api/oauth_controller.ex admits a requested scope whenever the key carries the repositories permission and the scope string begins with repository:. The organization name is never resolved against the principal, and expand_repositories_scope/3 only rewrites the literal repositories scope, so an explicit repository:<name> passes through untouched. Both CDN edges authorize repository access from the token claim without querying the database, so the minted token is read access to that organization's private packages until it expires.\n\nThis issue affects hex.pm: from 2025-10-18 before 2026-08-24.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75542"
+    },
+    {
+      "id": "CVE-2026-75554",
+      "published": "2026-08-24T21:17:47.557",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "Insufficient Session Expiration vulnerability in the OAuth token refresh grant in hexpm hexpm allows a user removed from an organization to keep reading its private packages.\n\nexpand_repositories_scope/3 in lib/hexpm/permissions.ex only rewrites the literal repositories scope, so an explicitly granted repository:<org> or docs:<org> scope passes through it untouched. The refresh grant re-derives a new token from the stored granted_scopes, which holds that expanded form, so every refresh reproduces the organization scope without revisiting membership. Because both CDN edges authorize repository access from the token claim without querying the database, an account removed from an organization retains read access for as long as it keeps refreshing, bounded by the 30 day refresh token lifetime rather than the 30 minute access token lifetime.\n\nThis issue affects hex.pm: from 2025-10-10 before 2026-08-24.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.3,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:L/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75554"
+    },
+    {
+      "id": "CVE-2026-78680",
+      "published": "2026-08-25T02:16:52.607",
+      "modified": "2026-10-12T21:10:00.227",
+      "description": "NLTK versions before 3.10.3 fail to use validated absolute paths when invoking the Graphviz dot binary in dependencygraph.dot2img and AlignedSent._repr_svg_, allowing attackers to execute arbitrary code by placing a malicious dot binary in the search path or current working directory. Attackers can exploit bare-name binary resolution on Windows via the current working directory or on Unix-like systems via relative PATH entries to execute their binary instead of the legitimate Graphviz tool.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78680"
+    },
     {
       "id": "CVE-2026-66788",
       "published": "2026-08-20T19:16:58.823",
@@ -36933,348 +37053,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14432"
-    },
-    {
-      "id": "CVE-2025-14095",
-      "published": "2025-12-17T12:15:45.570",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A \"Privilege boundary violation\" vulnerability is identified affecting multiple Radiometer Products. Exploitation of this vulnerability gives a user with physical access to the analyzer, the possibility to gain unauthorized access to functionalities outside the restricted environment. The vulnerability is due to weakness in the design of access control implementation in application software. \n\nOther related CVE's are CVE-2025-14096 & CVE-2025-14097.\n\nAffected customers have been informed about this vulnerability. This CVE is being published to provide transparency.\n\nRequired configuration for Exposure:\n\n\nPhysical access to the analyzer is needed.\n\nTemporary work Around:\n\n\nOnly authorized people can physically access the analyzer. \n\nPermanent solution:\nLocal Radiometer representatives will contact all affected customers to discuss a permanent solution.\n\n\n\nExploit Status:\nResearchers have provided working proof-of-concept. Radiometer is not aware of any publicly available exploit at the time of publication.                                                                                                                                                                                        Note: \n\nCVSS score 6.8 when underlying OS is Windows 7 or Windows XP Operating systems and CVSS score 5.7 when underlying OS is Windows 8 or Windows 10 operating systems.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14095"
-    },
-    {
-      "id": "CVE-2025-43501",
-      "published": "2025-12-17T21:16:09.043",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A buffer overflow issue was addressed with improved memory handling. This issue is fixed in Safari 26.2, iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, visionOS 26.2. Processing maliciously crafted web content may lead to an unexpected process crash.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43501"
-    },
-    {
-      "id": "CVE-2025-43529",
-      "published": "2025-12-17T21:16:11.570",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in Safari 26.2, iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, tvOS 26.2, visionOS 26.2, watchOS 26.2. Processing maliciously crafted web content may lead to arbitrary code execution. Apple is aware of a report that this issue may have been exploited in an extremely sophisticated attack against specific targeted individuals on versions of iOS before iOS 26. CVE-2025-14174 was also issued in response to this report.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": true,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43529"
-    },
-    {
-      "id": "CVE-2025-43531",
-      "published": "2025-12-17T21:16:11.823",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "A race condition was addressed with improved state handling. This issue is fixed in Safari 26.2, iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, tvOS 26.2, visionOS 26.2, watchOS 26.2. Processing maliciously crafted web content may lead to an unexpected process crash.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43531"
-    },
-    {
-      "id": "CVE-2025-43533",
-      "published": "2025-12-17T21:16:12.070",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "The issue was addressed with improved bounds checks. This issue is fixed in iOS 18.7.5 and iPadOS 18.7.5, iOS 26.2 and iPadOS 26.2, macOS Sequoia 15.7.4, macOS Sonoma 14.8.4, macOS Tahoe 26.2, tvOS 26.2, visionOS 26.2, watchOS 26.2. A malicious HID device may cause an unexpected process crash.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43533"
-    },
-    {
-      "id": "CVE-2025-43535",
-      "published": "2025-12-17T21:16:12.167",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "The issue was addressed with improved memory handling. This issue is fixed in Safari 26.2, iOS 18.7.3 and iPadOS 18.7.3, iOS 26.2 and iPadOS 26.2, macOS Tahoe 26.2, visionOS 26.2. Processing maliciously crafted web content may lead to an unexpected process crash.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43535"
     }
   ],
   "kev": [
@@ -39021,10 +38799,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 102,
-    "high": 429,
-    "medium": 402,
-    "kev": 14,
-    "p1": 63,
-    "p2": 471
+    "high": 430,
+    "medium": 401,
+    "kev": 13,
+    "p1": 62,
+    "p2": 473
   }
 }
