@@ -1,6 +1,181 @@
 {
-  "updated": "2026-10-12T21:57:01.687145+00:00",
+  "updated": "2026-10-12T22:16:50.390612+00:00",
   "cves": [
+    {
+      "id": "CVE-2025-61781",
+      "published": "2026-01-05T18:15:44.077",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "OpenCTI is an open source platform for managing cyber threat intelligence knowledge and observables. Prior to version 6.8.1, the GraphQL mutation \"WorkspacePopoverDeletionMutation\" allows users to delete workspace-related objects such as dashboards and investigation cases. However, the mutation lacks proper authorization checks to verify ownership of the targeted resources.\nAn attacker can exploit this by supplying an active UUID of another user. Since the API does not validate whether the requester owns the resource, the mutation executes successfully, resulting in unauthorized deletion of the entire workspace. Version 6.8.1 fixes the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:citeum:opencti:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61781"
+    },
+    {
+      "id": "CVE-2025-61782",
+      "published": "2026-01-07T18:15:51.223",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "OpenCTI is an open source platform for managing cyber threat intelligence knowledge and observables. Prior to version 6.8.3, an open redirect vulnerability exists in the OpenCTI platform's SAML authentication endpoint (/auth/saml/callback). By manipulating the RelayState parameter, an attacker can force the server to issue a 302 redirect to any external URL, enabling phishing, credential theft, and arbitrary site redirection. This issue has been patched in version 6.8.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:citeum:opencti:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61782"
+    },
+    {
+      "id": "CVE-2025-68049",
+      "published": "2026-06-15T21:16:38.190",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "Subscriber Broken Access Control in bunny.net <= 2.3.6 versions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68049"
+    },
+    {
+      "id": "CVE-2025-53114",
+      "published": "2026-06-18T17:16:27.150",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "CometD is a scalable comet implementation for web messaging. In versions 5.0.0 through 5.0.22, 6.0.0 through 6.0.18, 7.0.0 through 7.0.18, and 8.0.0 through 8.0.8, bad clients that always send a fixed batch value when the server is using the acknowledgement extension may cause the unacknowledged message queue to grow indefinitely, eventually causing an `OutOfMemoryError`. Versions 5.0.23, 6.0.19, 7.0.19, and 8.0.9 patch the issue. As a workaround, disable the acknowledgement extension.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53114"
+    },
+    {
+      "id": "CVE-2025-62821",
+      "published": "2026-06-19T14:16:21.570",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "Microsoft HEIF Image Extensions 1.2.22.0 has an out-of-bounds read because CHEIFItemInfoEntry_GetDataSize can return success while leaving the reported data size as 0. This causes a caller to make a 1-byte allocation. Later, CopyPixels computes copy_size = stride * abs(roi_height) but does not check the source buffer length before a memmove call.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "heif image extension",
+          "version": "1.2.22.0",
+          "cpe": "cpe:2.3:a:microsoft:heif_image_extension:1.2.22.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:heif_image_extension:1.2.22.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62821"
+    },
+    {
+      "id": "CVE-2025-66389",
+      "published": "2026-06-22T14:16:24.073",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "GitHub Copilot 1.372.0 allows filesystem access outside of a workspace folder (without user approval) via a file-handler URI parameter to fetch_webpage. Therefore, exfiltration could occur if there is indirect prompt injection.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "github copilot",
+          "version": "1.372.0",
+          "cpe": "cpe:2.3:a:microsoft:github_copilot:1.372.0:*:*:*:*:visual_studio_code:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:github_copilot:1.372.0:*:*:*:*:visual_studio_code:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-66389"
+    },
+    {
+      "id": "CVE-2026-78475",
+      "published": "2026-08-24T18:17:34.807",
+      "modified": "2026-10-12T22:10:00.247",
+      "description": "A flaw was found in the file-pix (ESM) plugin in GIMP. When processing a specially crafted PIX image file, the plugin allocates a Variable-Length Array (VLA) on the stack without proper bounds checking, causing an unbounded stack allocation followed by a 21-byte stack over-read. This can result in a denial of service due to stack exhaustion and a limited information disclosure of stack memory contents into an intermediate file.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gimp:gimp:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78475"
+    },
     {
       "id": "CVE-2026-58015",
       "published": "2026-06-30T13:19:17.707",
@@ -36543,837 +36718,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62466"
-    },
-    {
-      "id": "CVE-2025-62467",
-      "published": "2025-12-09T18:15:58.727",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Integer overflow or wraparound in Windows Projected File System allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62467"
-    },
-    {
-      "id": "CVE-2025-62468",
-      "published": "2025-12-09T18:15:58.893",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Out-of-bounds read in Windows Defender Firewall Service allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62468"
-    },
-    {
-      "id": "CVE-2025-62470",
-      "published": "2025-12-09T18:15:59.227",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Heap-based buffer overflow in Windows Common Log File System Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62470"
-    },
-    {
-      "id": "CVE-2025-62472",
-      "published": "2025-12-09T18:15:59.413",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Use of uninitialized resource in Windows Remote Access Connection Manager allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62472"
-    },
-    {
-      "id": "CVE-2025-62473",
-      "published": "2025-12-09T18:15:59.590",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Buffer over-read in Windows Routing and Remote Access Service (RRAS) allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62473"
-    },
-    {
-      "id": "CVE-2025-62474",
-      "published": "2025-12-09T18:15:59.763",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Improper access control in Windows Remote Access Connection Manager allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62474"
-    },
-    {
-      "id": "CVE-2025-62549",
-      "published": "2025-12-09T18:15:59.943",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Untrusted pointer dereference in Windows Routing and Remote Access Service (RRAS) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62549"
     }
   ],
   "kev": [
@@ -39119,11 +38463,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 101,
-    "high": 432,
-    "medium": 401,
+    "critical": 102,
+    "high": 430,
+    "medium": 402,
     "kev": 11,
     "p1": 60,
-    "p2": 475
+    "p2": 474
   }
 }
