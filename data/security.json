@@ -1,6 +1,46 @@
 {
-  "updated": "2026-10-12T05:15:12.820597+00:00",
+  "updated": "2026-10-12T05:38:37.645780+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-87690",
+      "published": "2026-10-12T05:17:03.250",
+      "modified": "2026-10-12T05:17:03.250",
+      "description": "The Metasploit Framework post module post/apple_ios/gather/ios_image_gather is affected by a relative path traversal vulnerability (CWE-22). The module interpolates file names taken from a Meterpreter directory listing — data fully controlled by a hostile or tampered iOS device — directly into the local destination path passed to client.fs.file.download_file(), with no sanitization. The underlying stdapi sink (lib/rex/post/meterpreter/extensions/stdapi/fs/file.rb) writes to whatever path is supplied, so a listing entry such as ../../msfconsole.rc escapes the intended ~/.msf4/loot/<random> directory and overwrites ~/.msf4/msfconsole.rc, a resource file that every msfconsole invocation automatically executes at startup (lib/msf/ui/console/driver.rb:196). An attacker-controlled device that lures an operator into running this gather module achieves an arbitrary file write as the operator; because the written msfconsole.rc can load a second written file (a Ruby plugin whose top-level code runs on require), this converts into persistent code execution and an interactive shell as the operator (frequently root) on the pentester's workstation at the next console launch. The same traversal was previously fixed upstream in the recursive downloader (stdapi/fs/dir.rb scrubs separators); this module omitted the equivalent scrub. The fix applies the same separator scrub (or File.basename) to listing entries before building the local path.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87690"
+    },
+    {
+      "id": "CVE-2026-21139",
+      "published": "2026-10-12T05:17:02.750",
+      "modified": "2026-10-12T05:17:02.750",
+      "description": "Improper access control in Samsung Continuity Service for windows prior to version 4.6.1217.0 allows adjacent attackers to manipulate the connected mobile device.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:A/AC:H/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21139"
+    },
     {
       "id": "CVE-2026-66758",
       "published": "2026-07-27T19:17:23.613",
@@ -37473,46 +37513,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-56097"
-    },
-    {
-      "id": "CVE-2026-12405",
-      "published": "2026-10-01T17:17:19.717",
-      "modified": "2026-10-07T07:16:59.623",
-      "description": "A flaw was found in rubygem-foreman_remote_execution. A command injection vulnerability exists in the Red Hat Satellite API (/api/v2/job_invocations). When a job template has the effective_user property marked as overridable: true, the application fails to properly sanitize the effective_user input provided during the API request. The exploitation does not rely on the content or logic of the Job Template/playbook itself; rather, the injection occurs during the instantiation of the job execution environment by the Satellite server. An attacker with permissions to execute job templates can inject arbitrary shell commands into this parameter, which are executed on the target infrastructure with the privileges of the execution user.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12405"
-    },
-    {
-      "id": "CVE-2026-84854",
-      "published": "2026-10-06T10:16:54.230",
-      "modified": "2026-10-07T04:18:10.470",
-      "description": "In the WibuKey driver for Windows below Version 6.72, insufficient validation of user input when calculating the size of a kernel buffer could cause small amounts of data to be written outside the intended kernel buffer. This can lead to a system crash. Under unfavorable circumstances, adjacent kernel memory may be modified.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84854"
     }
   ],
   "kev": [
