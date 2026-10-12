@@ -1,6 +1,26 @@
 {
-  "updated": "2026-10-12T09:02:01.735988+00:00",
+  "updated": "2026-10-12T09:37:22.075406+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-104710",
+      "published": "2026-10-12T09:16:41.740",
+      "modified": "2026-10-12T09:16:41.740",
+      "description": "Rejected reason: Duplicate of CVE-2026-71364, which was publicly disclosed and fixed in Red Hat Ansible Automation Platform on 2026-08-24. No separate identifier is required.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104710"
+    },
     {
       "id": "CVE-2026-55655",
       "published": "2026-06-23T04:17:40.787",
@@ -37585,26 +37605,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98357"
-    },
-    {
-      "id": "CVE-2026-98260",
-      "published": "2026-10-06T09:18:15.040",
-      "modified": "2026-10-07T07:17:07.260",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nexec: Cleanup POSIX timers right after de_thread()\n\nA per-thread CPU timer holds a reference to the PID of the thread it is\nattached to and, while it is armed, its node is queued in that thread's\nposix_cputimers. The task is looked up by that PID.\n\nWhen a non-leader thread exec()s, de_thread() changes which task owns\nthat PID. pid_task(timer->it.cpu.pid, PIDTYPE_PID) then returns NULL,\nbut the node is still queued on tsk, which is alive. timer_lock_sighand()\ntakes a failed lookup to mean that the node is already dequeued, so it\nhas nothing to undo.\n\nbegin_new_exec() calls posix_cpu_timers_exit(me) right after\nexec_task_namespaces() and that removes the leftover node, so the state\nnormally stays invisible. But bprm->point_of_no_return is set before\nde_thread(), so if unshare_files(), set_mm_exe_file(), exec_mmap() or\nexec_task_namespaces() fails, the task dies before it gets there.\nexit_itimers() then frees the k_itimer while its node is still queued,\nand reaping tsk later erases that freed node from the rbtree.\n\nIn short:\n\n      the non-leader thread B           the parent\n\n  timer_create(CLOCK_THREAD_CPUTIME_ID)\n  timer_settime()\n    arm_timer()            // the node is queued on B\n  execve()\n    de_thread(B)\n      exchange_tids(B, leader)  // B's PID now belongs to the leader\n      release_task(leader)\n        __exit_signal(leader)\n          posix_cpu_timers_exit(leader)  // cleans leader's queue, not B's\n          __unhash_process(leader)  // that PID has no task anymore\n    exec_mmap()\n      mmap_read_lock_killable(old_mm)\n                                kill(B, SIGKILL)\n      // -EINTR\n  get_signal()\n    do_exit()\n      exit_itimers()\n        posix_timer_delete()\n          posix_cpu_timer_del()\n        posix_timer_unhash_and_free()  // freed while still queued\n                                wait4()\n                                  release_task(B)\n                                    posix_cpu_timers_exit(B)\n                                      cleanup_timerqueue()\n                                        timerqueue_del()  // use-after-free\n\nMove the POSIX timer cleanup right after de_thread() before any of the\nlater failure conditions brings the task into do_exit().\n\n[ tglx: Move the cleanup right after de_thread() ]",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98260"
     }
   ],
   "kev": [
@@ -39351,10 +39351,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 97,
-    "high": 430,
+    "high": 429,
     "medium": 408,
     "kev": 14,
     "p1": 60,
-    "p2": 470
+    "p2": 469
   }
 }
