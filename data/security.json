@@ -1,6 +1,172 @@
 {
-  "updated": "2026-10-12T12:57:50.678742+00:00",
+  "updated": "2026-10-12T13:35:39.633529+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-93694",
+      "published": "2026-10-12T13:17:33.460",
+      "modified": "2026-10-12T13:17:33.460",
+      "description": "In Progress ShareFile Storage Zones Controller v5.12.6 and below, processing of queue items can send acknowledgements to an unvalidated callback URL, this behavior together with a race condition allows the attacker to cause FileCopyService to consume attacker-controlled metadata and content. Exploitation requires control over copy queue work and a race condition.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93694"
+    },
+    {
+      "id": "CVE-2026-77812",
+      "published": "2026-08-21T15:16:47.557",
+      "modified": "2026-10-12T13:17:32.917",
+      "description": "DJI drones transmit DUML (DJI Universal Markup Language) protocol messages over BLE (Bluetooth Low Energy) without encryption. When a client attempts to connect to the drone over Wi-Fi, or when the drone is switched to QuickTransfer mode, the DJI Fly application exchanges DUML messages with the drone over BLE, including the Wi-Fi credentials. An attacker within BLE range can passively sniff this traffic and recover the credentials in cleartext, including the drone's Wi-Fi PSK, SSID, and trusted identifier UUID. Obtaining these credentials allows the attacker to join the drone's internal Wi-Fi network, interact with network services exposed by the drone, and decrypt Wi-Fi traffic exchanged between the drone and the legitimate user.\n\n* An attacker within BLE range recovers the Wi-Fi SSID and PSK in cleartext, and can then join the drone's network \n* The same capture also exposes the session UUID identifier, which is the only thing the drone uses to tell a trusted client from an unknown one, so the attacker can replay it and skip the physical confirmation of new connected devices.\n* The credentials do not change between sessions unless the operator manually resets the Wi-Fi settings, so one capture stays valid indefinitely\n* The attack is fully passive, with nothing transmitted and no connection made, so neither the operator nor the drone has any indication the session was observed\n* A BLE sniffer and presence during one normal DJI Fly connection are needed\n\nAffected models are DJI Neo until 01.00.0400, DJI Neo 2 until 01.00.0500, DJI Flip until 01.00.1200, DJI Air 3 until 01.00.1600, DJI Air 3S until 01.00.1400, DJI Avata 2 until 01.00.0400, DJI Avata 360 until 01.00.0300, DJI Mavic 3 until 01.00.1400, DJI Mavic 3 Classic until 01.00.0800, DJI Mavic 3 Pro until 01.01.0700, DJI Mavic 4 Pro until 01.00.0500, DJI Mini 2 until 01.07.0200, DJI Mini 3 until 01.00.0500, DJI Mini 3 Pro until 01.00.0900, DJI Mini 4 Pro until 01.00.1100, and DJI Mini 5 Pro until 01.00.0600.\n\nRemediation requires a firmware update from the vendor. There is no user-side mitigation that fully addresses the vulnerability without upgrading.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77812"
+    },
+    {
+      "id": "CVE-2026-52903",
+      "published": "2026-10-12T13:17:32.757",
+      "modified": "2026-10-12T13:17:32.757",
+      "description": "A deserialization of untrusted data vulnerability was found in ManageIQ. The YamlLoadAliases module overrides YAML.safe_load to silently fall back to YAML.unsafe_load in production when a Psych::DisallowedClass error occurs. An authenticated attacker with dialog import access can exploit this to achieve remote code execution by uploading a crafted YAML payload that triggers the fallback and deserializes arbitrary Ruby objects.\n\nRed Hat CloudForms, which was based on ManageIQ, has reached End of Life and is no longer supported. No errata or patches will be issued. This CVE is being assigned for the benefit of the ManageIQ community and downstream consumers.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-52903"
+    },
+    {
+      "id": "CVE-2026-109187",
+      "published": "2026-10-12T13:17:32.173",
+      "modified": "2026-10-12T13:17:32.323",
+      "description": "jshERP through 3.6 contains an information disclosure vulnerability that allows any authenticated user to read platform-wide configuration secrets via the getInfoByKey handler of PlatformConfigController. Low-privilege users of any tenant can request arbitrary platformKey values such as email_auth_code or activation_code to obtain SMTP authorization codes and activation secrets, because only aliOss and weixin keys are blocked.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109187"
+    },
+    {
+      "id": "CVE-2026-109184",
+      "published": "2026-10-12T13:17:31.663",
+      "modified": "2026-10-12T13:17:31.783",
+      "description": "jshERP through 3.6 contains an improper authorization vulnerability that allows low-privilege authenticated users to read any settlement account ledger by supplying an arbitrary accountId. Attackers restricted to personal or department data scope can query GET /account/findAccountInOutList to view other users' bill numbers, counterparties, amounts and remarks within the tenant.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109184"
+    },
+    {
+      "id": "CVE-2026-109173",
+      "published": "2026-10-12T13:17:29.870",
+      "modified": "2026-10-12T13:17:29.993",
+      "description": "yshop-crm through 2.1.3 contains a missing authorization vulnerability that allows any authenticated back-office user to approve or reject invoices via POST /admin-api/crm/invoice/check. The CrmInvoiceController check handler lacks @PreAuthorize and approver checks are commented out, letting attackers bypass the invoice approval workflow by supplying any invoice id.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109173"
+    },
+    {
+      "id": "CVE-2026-109172",
+      "published": "2026-10-12T13:17:29.697",
+      "modified": "2026-10-12T13:17:29.820",
+      "description": "yshop-crm through 2.1.3 contains a missing authorization vulnerability that allows any authenticated back-office user to approve or reject receivables records by calling POST /admin-api/crm/contract-receivables/check. The handler lacks a @PreAuthorize check and the approver checks in CrmContractReceivablesServiceImpl.check are commented out, so attackers can approve records by id, inflating contract return_money and forging approval logs.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109172"
+    },
+    {
+      "id": "CVE-2026-109171",
+      "published": "2026-10-12T13:17:29.520",
+      "modified": "2026-10-12T13:17:29.643",
+      "description": "yshop-crm through 2.1.3 contains a missing authorization vulnerability that allows any authenticated back-office user to approve or reject contracts by calling POST /admin-api/crm/contract/check. Because CrmContractController lacks @PreAuthorize and approver checks are commented out, attackers can approve contracts to alter customer deal and purchase data or reject them to return products to stock.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109171"
+    },
     {
       "id": "CVE-2026-103902",
       "published": "2026-10-12T11:17:08.617",
@@ -37424,187 +37590,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7006"
-    },
-    {
-      "id": "CVE-2025-7008",
-      "published": "2026-06-12T22:16:48.807",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Heap buffer out-of-bounds read vulnerability in Avast Antivirus when scanning a malformed Windows PE file with .NET metadata may allow Local Execution of Code or Denial-of-Service of the antivirus process.\n\nThis issue affects Avast Antivirus, AVG Antivirus, Norton Antivirus, Avast One, and Avast Business Antivirus on Windows, macOS, and Linux for virus definition builds before VPS 25021310.\n\n\n\nThe affected scanning logic is delivered through a shared Gen Digital virus definition update stream. The same stream feeds the consumer antivirus products listed in this advisory and other Gen Digital products that embed the same engine. Mitigation flows through this update channel; installations at or above the listed build are not vulnerable regardless of which product consumes the stream.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7008"
-    },
-    {
-      "id": "CVE-2025-7009",
-      "published": "2026-06-12T22:16:48.943",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Heap buffer out-of-bounds read vulnerability in Avast Antivirus when scanning a malformed Windows PE file may allow Local Execution of Code or Denial-of-Service of the antivirus process.\n\nThis issue affects Avast Antivirus, AVG Antivirus, Norton Antivirus, Avast One, and Avast Business Antivirus on Windows, macOS, and Linux for virus definition builds before VPS 25021310.\n\n\n\nThe affected scanning logic is delivered through a shared Gen Digital virus definition update stream. The same stream feeds the consumer antivirus products listed in this advisory and other Gen Digital products that embed the same engine. Mitigation flows through this update channel; installations at or above the listed build are not vulnerable regardless of which product consumes the stream.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7009"
-    },
-    {
-      "id": "CVE-2025-7010",
-      "published": "2026-06-12T22:16:49.080",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Stack overflow vulnerability due to uncontrolled recursion in Avast Antivirus when scanning a malformed PDF file may allow Denial-of-Service of the antivirus process.\n\nThis issue affects Avast Antivirus, AVG Antivirus, Norton Antivirus, Avast One, and Avast Business Antivirus on Windows, macOS, and Linux for virus definition builds before VPS 25021208.\n\n\n\nThe affected scanning logic is delivered through a shared Gen Digital virus definition update stream. The same stream feeds the consumer antivirus products listed in this advisory and other Gen Digital products that embed the same engine. Mitigation flows through this update channel; installations at or above the listed build are not vulnerable regardless of which product consumes the stream.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7010"
-    },
-    {
-      "id": "CVE-2025-7011",
-      "published": "2026-06-12T22:16:49.210",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Heap out-of-bounds read vulnerability in Avast Antivirus when scanning a malformed zip file containing XML may allow Local Execution of Code or Denial-of-Service of the antivirus process.\n\nThis issue affects Avast Antivirus, AVG Antivirus, Norton Antivirus, Avast One, and Avast Business Antivirus on Windows, macOS, and Linux for virus definition builds from 25020100 before 25021208.\n\n\n\nThe affected scanning logic is delivered through a shared Gen Digital virus definition update stream. The same stream feeds the consumer antivirus products listed in this advisory and other Gen Digital products that embed the same engine. Mitigation flows through this update channel; installations at or above the listed build are not vulnerable regardless of which product consumes the stream.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7011"
-    },
-    {
-      "id": "CVE-2025-7017",
-      "published": "2026-06-12T22:16:49.343",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Heap buffer out-of-bounds read vulnerability in Avira Antivirus engine when scanning a malformed Windows MSI file may allow Local Execution of Code or Denial-of-Service of the antivirus engine process.\n\nThis issue affects Avira Antivirus on Windows, macOS, and Linux for engine builds before 8.3.70.56.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7017"
-    },
-    {
-      "id": "CVE-2025-7018",
-      "published": "2026-06-12T22:16:49.467",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Null pointer dereference vulnerability in Avira Antivirus engine when scanning a malformed Windows PE file may allow Denial-of-Service of the antivirus engine process.\n\nThis issue affects Avira Antivirus on Windows, macOS, and Linux for engine builds before 8.3.70.64.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7018"
-    },
-    {
-      "id": "CVE-2025-7019",
-      "published": "2026-06-12T22:16:49.590",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Stack overflow vulnerability in Avast Antivirus when scanning a malformed Office Open XML file may allow Denial-of-Service of the antivirus process.\n\nThis issue affects Avast Antivirus, AVG Antivirus, Norton Antivirus, Avast One, and Avast Business Antivirus on Windows, macOS, and Linux for virus definition builds before VPS 25020100.\n\n\n\nThe affected scanning logic is delivered through a shared Gen Digital virus definition update stream. The same stream feeds the consumer antivirus products listed in this advisory and other Gen Digital products that embed the same engine. Mitigation flows through this update channel; installations at or above the listed build are not vulnerable regardless of which product consumes the stream.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7019"
-    },
-    {
-      "id": "CVE-2025-15641",
-      "published": "2026-06-17T13:19:13.070",
-      "modified": "2026-10-07T08:10:00.200",
-      "description": "Netskope was notified about a potential gap in its Netskope Client for Windows systems where a malicious insider with administrative privileges can potentially tamper with the customer IOCTL by sending crafted IOCTL requests to the driver. A successful exploit can result in the bypassing of all anti-tampering protections for the NSClient.Affected Product(s) and Version(s)\n  *  Product Name: Netskope Client\n  *  Affected Platform: Windows\n  *  Affected Version: All version below R138",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:N/VC:N/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15641"
     }
   ],
   "kev": [
@@ -39350,11 +39335,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 97,
-    "high": 429,
-    "medium": 407,
+    "critical": 98,
+    "high": 427,
+    "medium": 408,
     "kev": 14,
-    "p1": 60,
-    "p2": 469
+    "p1": 61,
+    "p2": 467
   }
 }
