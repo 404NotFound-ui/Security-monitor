@@ -1,6 +1,279 @@
 {
-  "updated": "2026-10-13T17:01:01.260401+00:00",
+  "updated": "2026-10-13T17:33:27.173767+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-83540",
+      "published": "2026-10-07T03:16:59.730",
+      "modified": "2026-10-13T17:33:17.707",
+      "description": "When password or public key authentication is used with the Windows port of wolfSSHd, the Windows logon token acquired for one authenticated connection is not released before a token is acquired for a subsequent connection, resulting in user login poisoning between connections. A less privileged user with a valid account on the server can exploit this to force a login as a more privileged user. The vulnerability was introduced with the initial Windows port of wolfSSHd in wolfSSH version 1.4.15 and affects all versions through 1.5.0. Non-Windows builds of wolfSSHd are not affected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:wolfssh:wolfssh:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83540"
+    },
+    {
+      "id": "CVE-2026-87665",
+      "published": "2026-10-08T03:16:35.960",
+      "modified": "2026-10-13T17:24:29.240",
+      "description": "A stack-based buffer overflow vulnerability exists in the Internet Key Exchange (IKEv2) protocol handler on Brocade Fabric OS versions before 10.0.1. The vulnerability occurs when processing initial IKE key exchange requests on extension switches or blades running IPsec-enabled Fibre Channel over IP (FCIP) circuits. An unauthenticated remote attacker can exploit this vulnerability by sending a single, specifically crafted UDP packet (Port 500) containing an oversized Nonce payload. Successful exploitation results in a denial of service (data-plane process crash)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:broadcom:fabric_operating_system:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87665"
+    },
+    {
+      "id": "CVE-2026-88763",
+      "published": "2026-09-10T08:17:02.223",
+      "modified": "2026-10-13T17:17:47.873",
+      "description": "A flaw was found in the skupper-router component of Red Hat Service Interconnect, which is used to provide secure communication between distributed services. The issue occurs when the router processes a specially crafted network message using its AMQP field parser. Due to a lack of bounds on recursion during parsing, the router can run out of stack memory and crash, leading to a denial of service for the interconnected network.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88763"
+    },
+    {
+      "id": "CVE-2026-10759",
+      "published": "2026-10-13T17:17:33.133",
+      "modified": "2026-10-13T17:17:33.133",
+      "description": "A flaw in Portal for ArcGIS could allow LDAP injection through administrative functionality that constructs Active Directory or LDAP search queries without sufficient input neutralization. An authenticated administrator could supply crafted input that modifies the intended LDAP query and causes unintended directory operations.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10759"
+    },
+    {
+      "id": "CVE-2026-109954",
+      "published": "2026-10-13T14:17:34.190",
+      "modified": "2026-10-13T17:17:32.780",
+      "description": "Parse Server 5.4.0 before 8.6.96 and 9.0.0 before 9.10.2-alpha.5 shares transactional batch state across concurrent requests, letting any client's transactional batch request interfere with other clients' database writes. On PostgreSQL or MongoDB replica sets and sharded clusters, other clients' acknowledged writes are rolled back if the batch fails, and PostgreSQL transactions can remain open indefinitely, causing subsequent writes to fail.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109954"
+    },
+    {
+      "id": "CVE-2026-109559",
+      "published": "2026-10-12T21:17:12.090",
+      "modified": "2026-10-13T17:17:28.510",
+      "description": "EdgeEver Desktop 1.6.26 through 1.112.0 contains a navigation allowlist bypass that lets attackers load arbitrary origins in the main window via string-prefix URL matching. Attackers can embed a link using userinfo syntax after the dev-server prefix, for example in a note-template preview, to obtain the edgeeverDesktop bridge including session token, sidecar RPC, and ACP channels.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109559"
+    },
+    {
+      "id": "CVE-2026-109397",
+      "published": "2026-10-12T16:17:05.233",
+      "modified": "2026-10-13T17:17:28.147",
+      "description": "Thelia before 3.1.2 and 3.2.x before 3.2.1 contains an unrestricted file upload vulnerability that allows authenticated back-office users to upload PHP files by appending a trailing space to filenames. FileProcessorService validates the raw filename but FileManager::sanitizeFileName() strips the space, storing an executable .php file under public/cache/documents/ for code execution as the web server user.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109397"
+    },
+    {
+      "id": "CVE-2026-109358",
+      "published": "2026-10-12T17:17:33.177",
+      "modified": "2026-10-13T17:17:27.160",
+      "description": "Edgeless Systems Contrast 1.8.0 before 1.24.1 contains an incorrect permissions vulnerability where the node installer writes the containerd config world-writable (0666). Local unprivileged users on the node can modify the containerd config, for example overwriting the runc location, to escalate privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109358"
+    },
+    {
+      "id": "CVE-2026-109184",
+      "published": "2026-10-12T13:17:31.663",
+      "modified": "2026-10-13T17:17:22.993",
+      "description": "jshERP through 3.6 contains an improper authorization vulnerability that allows low-privilege authenticated users to read any settlement account ledger by supplying an arbitrary accountId. Attackers restricted to personal or department data scope can query GET /account/findAccountInOutList to view other users' bill numbers, counterparties, amounts and remarks within the tenant.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109184"
+    },
+    {
+      "id": "CVE-2026-108119",
+      "published": "2026-10-09T17:16:46.400",
+      "modified": "2026-10-13T17:17:19.397",
+      "description": "A flaw was found in busybox. The tar applet's deferred link-creation handling for symlink and hardlink entries with unsafe-looking targets does not validate that the resolved destination remains inside the extraction directory once the deferred link is created. An attacker can craft a tar archive using a symlink target of exactly '..' combined with a deferred hardlink to create a new file outside the extraction directory, or reuse an extraction directory across two archives to replace an existing file outside it. If the archive is extracted with elevated privileges, this flaw can lead to privilege escalation or arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108119"
+    },
+    {
+      "id": "CVE-2026-107780",
+      "published": "2026-10-08T21:17:52.940",
+      "modified": "2026-10-13T17:17:17.453",
+      "description": "Dromara Skyeye through commit 003549ae5615bd114ba5bb8ddf6a8e8ead97c321 contains an OS command injection vulnerability in the unauthenticated /post/TtsController/textToSpeech endpoint via the format parameter. Attackers can inject a single quote into format to break out of the PowerShell string and execute commands as the Skyeye service account on Windows.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107780"
+    },
+    {
+      "id": "CVE-2026-107737",
+      "published": "2026-10-08T23:16:59.760",
+      "modified": "2026-10-13T17:17:17.340",
+      "description": "SumatraPDF is a multi-format reader for Windows. In 3.6.1 and earlier, and in pre-release 3.7.0.20369 when WebView2 is absent or cannot initialize, ParseProtoUrl() accepts the signed host component of an its:// URL and FindHtmlWindowById() uses it directly as an index into gHtmlWindows. Opening a crafted CHM through the IE fallback backend with a negative or otherwise out-of-range window identifier can cause an out-of-bounds pointer read followed by an invalid object callback dereference and process termination. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107737"
+    },
+    {
+      "id": "CVE-2026-107732",
+      "published": "2026-10-08T23:16:58.873",
+      "modified": "2026-10-13T17:17:17.220",
+      "description": "SumatraPDF is a multi-format reader for Windows. In 3.6.1 and earlier, untrusted document paths and PDF link targets are interpolated into notification text that ParseTip() interprets as trusted tip markup. When a user clicks an injected link, ExecuteTipLink() dispatches its CmdExec command and can execute an attacker-selected local program in the user's context. No broader impact is claimed beyond the advisory-supported conditions. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107732"
+    },
     {
       "id": "CVE-2026-108184",
       "published": "2026-10-13T15:17:32.033",
@@ -1228,26 +1501,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109962"
-    },
-    {
-      "id": "CVE-2026-109954",
-      "published": "2026-10-13T14:17:34.190",
-      "modified": "2026-10-13T14:17:34.190",
-      "description": "Parse Server 5.4.0 before 8.6.96 and 9.0.0 before 9.10.2-alpha.5 shares transactional batch state across concurrent requests, letting any client's transactional batch request interfere with other clients' database writes. On PostgreSQL or MongoDB replica sets and sharded clusters, other clients' acknowledged writes are rolled back if the batch fails, and PostgreSQL transactions can remain open indefinitely, causing subsequent writes to fail.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109954"
     },
     {
       "id": "CVE-2026-107224",
@@ -4058,26 +4311,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13201"
     },
     {
-      "id": "CVE-2026-109559",
-      "published": "2026-10-12T21:17:12.090",
-      "modified": "2026-10-12T21:17:12.090",
-      "description": "EdgeEver Desktop 1.6.26 through 1.112.0 contains a navigation allowlist bypass that lets attackers load arbitrary origins in the main window via string-prefix URL matching. Attackers can embed a link using userinfo syntax after the dev-server prefix, for example in a note-template preview, to obtain the edgeeverDesktop bridge including session token, sidecar RPC, and ACP channels.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109559"
-    },
-    {
       "id": "CVE-2026-109558",
       "published": "2026-10-12T21:17:11.940",
       "modified": "2026-10-12T21:17:11.940",
@@ -4138,29 +4371,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109556"
-    },
-    {
-      "id": "CVE-2026-108119",
-      "published": "2026-10-09T17:16:46.400",
-      "modified": "2026-10-12T21:17:08.843",
-      "description": "A flaw was found in busybox. The tar applet's deferred link-creation handling for symlink and hardlink entries with unsafe-looking targets does not validate that the resolved destination remains inside the extraction directory once the deferred link is created. An attacker can craft a tar archive using a symlink target of exactly '..' combined with a deferred hardlink to create a new file outside the extraction directory, or reuse an extraction directory across two archives to replace an existing file outside it. If the archive is extracted with elevated privileges, this flaw can lead to privilege escalation or arbitrary code execution.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108119"
     },
     {
       "id": "CVE-2025-6021",
@@ -5170,26 +5380,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109374"
     },
     {
-      "id": "CVE-2026-109358",
-      "published": "2026-10-12T17:17:33.177",
-      "modified": "2026-10-12T17:17:33.177",
-      "description": "Edgeless Systems Contrast 1.8.0 before 1.24.1 contains an incorrect permissions vulnerability where the node installer writes the containerd config world-writable (0666). Local unprivileged users on the node can modify the containerd config, for example overwriting the runc location, to escalate privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109358"
-    },
-    {
       "id": "CVE-2026-109340",
       "published": "2026-10-12T17:17:30.380",
       "modified": "2026-10-12T17:17:30.500",
@@ -5310,26 +5500,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109245"
-    },
-    {
-      "id": "CVE-2026-109397",
-      "published": "2026-10-12T16:17:05.233",
-      "modified": "2026-10-12T16:17:05.233",
-      "description": "Thelia before 3.1.2 and 3.2.x before 3.2.1 contains an unrestricted file upload vulnerability that allows authenticated back-office users to upload PHP files by appending a trailing space to filenames. FileProcessorService validates the raw filename but FileManager::sanitizeFileName() strips the space, storing an executable .php file under public/cache/documents/ for code execution as the web server user.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.6,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109397"
     },
     {
       "id": "CVE-2026-109393",
@@ -5933,26 +6103,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109187"
-    },
-    {
-      "id": "CVE-2026-109184",
-      "published": "2026-10-12T13:17:31.663",
-      "modified": "2026-10-12T13:17:31.783",
-      "description": "jshERP through 3.6 contains an improper authorization vulnerability that allows low-privilege authenticated users to read any settlement account ledger by supplying an arbitrary accountId. Attackers restricted to personal or department data scope can query GET /account/findAccountInOutList to view other users' bill numbers, counterparties, amounts and remarks within the tenant.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109184"
     },
     {
       "id": "CVE-2026-109172",
@@ -9897,26 +10047,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107738"
     },
     {
-      "id": "CVE-2026-107737",
-      "published": "2026-10-08T23:16:59.760",
-      "modified": "2026-10-08T23:16:59.900",
-      "description": "SumatraPDF is a multi-format reader for Windows. In 3.6.1 and earlier, and in pre-release 3.7.0.20369 when WebView2 is absent or cannot initialize, ParseProtoUrl() accepts the signed host component of an its:// URL and FindHtmlWindowById() uses it directly as an index into gHtmlWindows. Opening a crafted CHM through the IE fallback backend with a negative or otherwise out-of-range window identifier can cause an out-of-bounds pointer read followed by an invalid object callback dereference and process termination. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107737"
-    },
-    {
       "id": "CVE-2026-107733",
       "published": "2026-10-08T23:16:59.050",
       "modified": "2026-10-08T23:16:59.180",
@@ -9935,26 +10065,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107733"
-    },
-    {
-      "id": "CVE-2026-107732",
-      "published": "2026-10-08T23:16:58.873",
-      "modified": "2026-10-08T23:16:59.003",
-      "description": "SumatraPDF is a multi-format reader for Windows. In 3.6.1 and earlier, untrusted document paths and PDF link targets are interpolated into notification text that ParseTip() interprets as trusted tip markup. When a user clicks an injected link, ExecuteTipLink() dispatches its CmdExec command and can execute an attacker-selected local program in the user's context. No broader impact is claimed beyond the advisory-supported conditions. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107732"
     },
     {
       "id": "CVE-2025-26466",
@@ -14494,26 +14604,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107782"
     },
     {
-      "id": "CVE-2026-107780",
-      "published": "2026-10-08T21:17:52.940",
-      "modified": "2026-10-08T21:27:15.010",
-      "description": "Dromara Skyeye through commit 003549ae5615bd114ba5bb8ddf6a8e8ead97c321 contains an OS command injection vulnerability in the unauthenticated /post/TtsController/textToSpeech endpoint via the format parameter. Attackers can inject a single quote into format to break out of the PowerShell string and execute commands as the Skyeye service account on Windows.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107780"
-    },
-    {
       "id": "CVE-2026-4408",
       "published": "2026-05-28T09:16:47.643",
       "modified": "2026-10-08T21:18:01.483",
@@ -18167,29 +18257,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107283"
-    },
-    {
-      "id": "CVE-2026-87665",
-      "published": "2026-10-08T03:16:35.960",
-      "modified": "2026-10-08T20:08:45.857",
-      "description": "A stack-based buffer overflow vulnerability exists in the Internet Key Exchange (IKEv2) protocol handler on Brocade Fabric OS versions before 10.0.1. The vulnerability occurs when processing initial IKE key exchange requests on extension switches or blades running IPsec-enabled Fibre Channel over IP (FCIP) circuits. An unauthenticated remote attacker can exploit this vulnerability by sending a single, specifically crafted UDP packet (Port 500) containing an oversized Nonce payload. Successful exploitation results in a denial of service (data-plane process crash)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87665"
     },
     {
       "id": "CVE-2026-91006",
@@ -35152,26 +35219,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106057"
     },
     {
-      "id": "CVE-2026-83540",
-      "published": "2026-10-07T03:16:59.730",
-      "modified": "2026-10-07T16:02:27.613",
-      "description": "When password or public key authentication is used with the Windows port of wolfSSHd, the Windows logon token acquired for one authenticated connection is not released before a token is acquired for a subsequent connection, resulting in user login poisoning between connections. A less privileged user with a valid account on the server can exploit this to force a login as a more privileged user. The vulnerability was introduced with the initial Windows port of wolfSSHd in wolfSSH version 1.4.15 and affects all versions through 1.5.0. Non-Windows builds of wolfSSHd are not affected.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83540"
-    },
-    {
       "id": "CVE-2026-16516",
       "published": "2026-10-07T03:16:58.830",
       "modified": "2026-10-07T16:02:27.613",
@@ -35810,70 +35857,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62874"
-    },
-    {
-      "id": "CVE-2026-106373",
-      "published": "2026-10-06T19:18:06.413",
-      "modified": "2026-10-07T13:46:33.070",
-      "description": "Use after free in Fonts in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106373"
-    },
-    {
-      "id": "CVE-2026-106378",
-      "published": "2026-10-06T19:18:06.960",
-      "modified": "2026-10-07T13:45:31.323",
-      "description": "Privilege elevation in Sandbox in Google Chrome on on Mac prior to 155.0.8059.39 allowed a remote attacker who had compromised the renderer process to execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106378"
     }
   ],
   "kev": [
@@ -37620,10 +37603,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 97,
-    "high": 425,
-    "medium": 408,
+    "high": 423,
+    "medium": 410,
     "kev": 11,
     "p1": 54,
-    "p2": 470
+    "p2": 468
   }
 }
