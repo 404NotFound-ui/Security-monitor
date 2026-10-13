@@ -1,6 +1,180 @@
 {
-  "updated": "2026-10-13T11:01:50.186573+00:00",
+  "updated": "2026-10-13T11:34:33.741000+00:00",
   "cves": [
+    {
+      "id": "CVE-2025-68156",
+      "published": "2025-12-16T19:16:00.567",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "Expr is an expression language and expression evaluation for Go. Prior to version 1.17.7, several builtin functions in Expr, including `flatten`, `min`, `max`, `mean`, and `median`, perform recursive traversal over user-provided data structures without enforcing a maximum recursion depth. If the evaluation environment contains deeply nested or cyclic data structures, these functions may recurse indefinitely until exceed the Go runtime stack limit. This results in a stack overflow panic, causing the host application to crash. While exploitability depends on whether an attacker can influence or inject cyclic or pathologically deep data into the\nevaluation environment, this behavior represents a denial-of-service (DoS) risk and affects overall library robustness. Instead of returning a recoverable evaluation error, the process may terminate unexpectedly. In affected versions, evaluation of expressions that invoke certain builtin functions on untrusted or insufficiently validated data structures can lead to a process-level crash due to stack exhaustion. This issue is most relevant in scenarios where Expr is used to evaluate expressions against externally supplied or dynamically constructed environments; cyclic references (directly or indirectly) can be introduced into arrays, maps, or structs; and there are no application-level safeguards preventing deeply nested input data. In typical use cases with controlled, acyclic data, the issue may not manifest. However, when present, the resulting panic can be used to reliably crash the application, constituting a denial of service. The issue has been fixed in the v1.17.7 versions of Expr. The patch introduces a maximum recursion depth limit for affected builtin functions. When this limit is exceeded, evaluation aborts gracefully and returns a descriptive error instead of panicking. Additionally, the maximum depth can be customized by users via `builtin.MaxDepth`, allowing applications with legitimate deep structures to raise the limit in a controlled manner. Users are strongly encouraged to upgrade to the patched release, which includes both the recursion guard and comprehensive test coverage to prevent regressions. For users who cannot immediately upgrade, some mitigations are recommended. Ensure that evaluation environments cannot contain cyclic references, validate or sanitize externally supplied data structures before passing them to Expr, and/or wrap expression evaluation with panic recovery to prevent a full process crash (as a last-resort defensive measure). These workarounds reduce risk but do not fully eliminate the issue without the patch.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:expr-lang:expr:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68156"
+    },
+    {
+      "id": "CVE-2025-64520",
+      "published": "2025-12-16T22:15:48.250",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "GLPI is a free asset and IT management software package. Starting in version 9.1.0 and prior to version 10.0.21, an unauthorized user with an API access can read all knowledge base entries. Users should upgrade to 10.0.21 to receive a patch.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:glpi-project:glpi:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64520"
+    },
+    {
+      "id": "CVE-2025-67781",
+      "published": "2025-12-17T20:15:56.933",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "An issue was discovered in DriveLock 24.1 before 24.1.6, 24.2 before 24.2.7, and 25.1 before 25.1.5. Local unprivileged users can manipulate privileged processes to gain more privileges on Windows computers.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:drivelock:drivelock:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67781"
+    },
+    {
+      "id": "CVE-2025-67790",
+      "published": "2025-12-17T21:16:16.237",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "An issue was discovered in DriveLock 24.1 before 24.1.6, 24.2 before 24.2.7, and 25.1 before 25.1.5. An unprivileged user could cause occasionally a Blue Screen Of Death (BSOD) on Windows computers by using an IOCTL and an unterminated string.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:drivelock:drivelock:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67790"
+    },
+    {
+      "id": "CVE-2025-67792",
+      "published": "2025-12-17T21:16:16.340",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "An issue was discovered in DriveLock 24.1 before 24.1.6, 24.2 before 24.2.7, and 25.1 before 25.1.5. Local unprivileged users can manipulate a DriveLock process to execute arbitrary commands on Windows computers.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:drivelock:drivelock:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67792"
+    },
+    {
+      "id": "CVE-2025-68118",
+      "published": "2025-12-17T22:16:01.557",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "FreeRDP is a free implementation of the Remote Desktop Protocol. Prior to version 3.20.0, a vulnerability exists in FreeRDP’s certificate handling code on Windows platforms. The function `freerdp_certificate_data_hash_ uses` the Microsoft-specific `_snprintf` function to format certificate cache filenames without guaranteeing NUL termination when truncation occurs. According to Microsoft documentation, `_snprintf` does not append a terminating NUL byte if the formatted output exceeds the destination buffer size. If an attacker controls the hostname value (for example via server redirection or a crafted .rdp file), the resulting filename buffer may not be NUL-terminated. Subsequent string operations performed on this buffer may read beyond the allocated memory region, resulting in a heap-based out-of-bounds read. In default configurations, the connection is typically terminated before sensitive data can be meaningfully exposed, but unintended memory read or a client crash may still occur under certain conditions. Version 3.20.0 has a patch for the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:freerdp:freerdp:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68118"
+    },
+    {
+      "id": "CVE-2025-68367",
+      "published": "2025-12-24T11:16:00.267",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmacintosh/mac_hid: fix race condition in mac_hid_toggle_emumouse\n\nThe following warning appears when running syzkaller, and this issue also\nexists in the mainline code.\n\n ------------[ cut here ]------------\n list_add double add: new=ffffffffa57eee28, prev=ffffffffa57eee28, next=ffffffffa5e63100.\n WARNING: CPU: 0 PID: 1491 at lib/list_debug.c:35 __list_add_valid_or_report+0xf7/0x130\n Modules linked in:\n CPU: 0 PID: 1491 Comm: syz.1.28 Not tainted 6.6.0+ #3\n Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014\n RIP: 0010:__list_add_valid_or_report+0xf7/0x130\n RSP: 0018:ff1100010dfb7b78 EFLAGS: 00010282\n RAX: 0000000000000000 RBX: ffffffffa57eee18 RCX: ffffffff97fc9817\n RDX: 0000000000040000 RSI: ffa0000002383000 RDI: 0000000000000001\n RBP: ffffffffa57eee28 R08: 0000000000000001 R09: ffe21c0021bf6f2c\n R10: 0000000000000001 R11: 6464615f7473696c R12: ffffffffa5e63100\n R13: ffffffffa57eee28 R14: ffffffffa57eee28 R15: ff1100010dfb7d48\n FS:  00007fb14398b640(0000) GS:ff11000119600000(0000) knlGS:0000000000000000\n CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n CR2: 0000000000000000 CR3: 000000010d096005 CR4: 0000000000773ef0\n DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n PKRU: 80000000\n Call Trace:\n  <TASK>\n  input_register_handler+0xb3/0x210\n  mac_hid_start_emulation+0x1c5/0x290\n  mac_hid_toggle_emumouse+0x20a/0x240\n  proc_sys_call_handler+0x4c2/0x6e0\n  new_sync_write+0x1b1/0x2d0\n  vfs_write+0x709/0x950\n  ksys_write+0x12a/0x250\n  do_syscall_64+0x5a/0x110\n  entry_SYSCALL_64_after_hwframe+0x78/0xe2\n\nThe WARNING occurs when two processes concurrently write to the mac-hid\nemulation sysctl, causing a race condition in mac_hid_toggle_emumouse().\nBoth processes read old_val=0, then both try to register the input handler,\nleading to a double list_add of the same handler.\n\n  CPU0                             CPU1\n  -------------------------        -------------------------\n  vfs_write() //write 1            vfs_write()  //write 1\n    proc_sys_write()                 proc_sys_write()\n      mac_hid_toggle_emumouse()          mac_hid_toggle_emumouse()\n        old_val = *valp // old_val=0\n                                           old_val = *valp // old_val=0\n                                           mutex_lock_killable()\n                                           proc_dointvec() // *valp=1\n                                           mac_hid_start_emulation()\n                                             input_register_handler()\n                                           mutex_unlock()\n        mutex_lock_killable()\n        proc_dointvec()\n        mac_hid_start_emulation()\n          input_register_handler() //Trigger Warning\n        mutex_unlock()\n\nFix this by moving the old_val read inside the mutex lock region.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68367"
+    },
+    {
+      "id": "CVE-2025-68368",
+      "published": "2025-12-24T11:16:00.373",
+      "modified": "2026-10-13T11:10:00.203",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmd: init bioset in mddev_init\n\nIO operations may be needed before md_run(), such as updating metadata\nafter writing sysfs. Without bioset, this triggers a NULL pointer\ndereference as below:\n\n BUG: kernel NULL pointer dereference, address: 0000000000000020\n Call Trace:\n  md_update_sb+0x658/0xe00\n  new_level_store+0xc5/0x120\n  md_attr_store+0xc9/0x1e0\n  sysfs_kf_write+0x6f/0xa0\n  kernfs_fop_write_iter+0x141/0x2a0\n  vfs_write+0x1fc/0x5a0\n  ksys_write+0x79/0x180\n  __x64_sys_write+0x1d/0x30\n  x64_sys_call+0x2818/0x2880\n  do_syscall_64+0xa9/0x580\n  entry_SYSCALL_64_after_hwframe+0x4b/0x53\n\nReproducer\n```\n  mdadm -CR /dev/md0 -l1 -n2 /dev/sd[cd]\n  echo inactive > /sys/block/md0/md/array_state\n  echo 10 > /sys/block/md0/md/new_level\n```\n\nmddev_init() can only be called once per mddev, no need to test if bioset\nhas been initialized anymore.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68368"
+    },
     {
       "id": "CVE-2026-85115",
       "published": "2026-10-13T10:17:20.780",
@@ -35736,323 +35910,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68936"
-    },
-    {
-      "id": "CVE-2026-18176",
-      "published": "2026-09-22T23:17:07.273",
-      "modified": "2026-10-07T13:04:36.103",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to cleartext transmission of sensitive information.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18176"
-    },
-    {
-      "id": "CVE-2026-18173",
-      "published": "2026-09-22T23:17:07.130",
-      "modified": "2026-10-07T13:04:33.080",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to improper enforcement of mutual TLS authentication.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18173"
-    },
-    {
-      "id": "CVE-2026-18172",
-      "published": "2026-09-22T23:17:06.993",
-      "modified": "2026-10-07T13:04:30.253",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to obtain sensitive information due to improper restriction of XML external entity references.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18172"
-    },
-    {
-      "id": "CVE-2026-18137",
-      "published": "2026-09-22T22:17:10.430",
-      "modified": "2026-10-07T13:04:25.990",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to execute arbitrary ESQL commands due to improper neutralization of special elements used in an ESQL command.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18137"
-    },
-    {
-      "id": "CVE-2026-18177",
-      "published": "2026-09-23T14:17:07.660",
-      "modified": "2026-10-07T13:03:55.270",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to execute unauthorized payment actions due to missing authorization checks.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18177"
-    },
-    {
-      "id": "CVE-2026-18179",
-      "published": "2026-09-23T14:17:07.783",
-      "modified": "2026-10-07T13:03:53.020",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to clear active chat sessions due to improper authorization.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18179"
-    },
-    {
-      "id": "CVE-2026-18180",
-      "published": "2026-09-23T16:16:40.957",
-      "modified": "2026-10-07T13:03:50.630",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote authenticated attacker to obtain sensitive information due to SQL injection.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18180"
-    },
-    {
-      "id": "CVE-2026-18181",
-      "published": "2026-09-23T16:16:41.083",
-      "modified": "2026-10-07T13:03:47.883",
-      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to bypass authentication and access sensitive information due to a hard-coded cryptographic key.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:ibm:financial_transaction_manager:*:*:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:-:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_1:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_2:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_3:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_4:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_5:*:*:*:-:*:*",
-        "cpe:2.3:a:ibm:financial_transaction_manager:4.0.6.0:interim_fix_6:*:*:*:-:*:*",
-        "cpe:2.3:a:redhat:openshift:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "AUTH_BYPASS",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18181"
     }
   ],
   "kev": [
@@ -37798,11 +37655,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 99,
-    "high": 425,
+    "critical": 100,
+    "high": 423,
     "medium": 407,
     "kev": 11,
     "p1": 58,
-    "p2": 468
+    "p2": 467
   }
 }
