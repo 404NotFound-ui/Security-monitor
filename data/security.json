@@ -1,6 +1,594 @@
 {
-  "updated": "2026-10-13T14:06:10.250938+00:00",
+  "updated": "2026-10-13T14:38:42.433678+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-101020",
+      "published": "2026-10-13T09:17:13.257",
+      "modified": "2026-10-13T14:31:20.750",
+      "description": "An incorrect permission assignment for critical resource issue exists in AssetView, AssetView CLOUD, and AssetView Cloud +. If this vulnerability is exploited, a local authenticated attacker who can log in to the Windows system where Management Console or Client Terminal for the product is running may gain SYSTEM privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101020"
+    },
+    {
+      "id": "CVE-2026-83742",
+      "published": "2026-10-07T03:16:59.880",
+      "modified": "2026-10-13T14:29:47.630",
+      "description": "Unsigned integer underflow in wstrncat() in src/port.c in wolfSSL wolfSSH from v1.4.11 through v1.5.0 on non-Windows platforms allows an authenticated remote attacker to write one out-of-bounds null byte past the end of a stack buffer by sending a crafted SFTP path. wolfSSH_RealPath() in src/ssh.c appends each path component with a remaining-size bound (outSz - curSz) rather than the full destination size, so once the accumulated path reaches half the output buffer the size_t computation n - strlen(s1) - 1 wraps to near SIZE_MAX. The strncat() call is then effectively unbounded and copies the whole component; when that component exactly fills the remainder of the buffer, its terminating null is written one byte past the end. The caller's own length check keeps the copied data inside the buffer, so the overflow is limited to that single null byte, which may corrupt an adjacent stack value and crash the process. Applications that call the public wolfSSH_RealPath() with an output buffer smaller than the input path are additionally exposed to an unbounded copy, because the word32 expression outSz - segSz in that length check also wraps.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:wolfssh:wolfssh:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83742"
+    },
+    {
+      "id": "CVE-2026-84897",
+      "published": "2026-10-07T03:17:00.067",
+      "modified": "2026-10-13T14:27:11.900",
+      "description": "src/internal.c in wolfSSL wolfSSH through 1.5.0 admits the server-to-client Diffie-Hellman group exchange messages SSH_MSG_KEX_DH_GEX_GROUP (31) and SSH_MSG_KEX_DH_GEX_REPLY (33) when a server receives them from an unauthenticated client. IsMessageAllowedServer() applies no direction check to the key exchange message range: when the peer is keying and no particular message is expected, which is the state a server is in for the whole window after it processes the client's KEXINIT because nothing sets handshake->expectMsgId there, the function falls out of its expectation branch without a verdict and reaches a numeric bound that admits every message id from 30 through 34. A client that negotiates diffie-hellman-group-exchange-sha256 and then sends message 31 makes the server run the client-side handler DoKexDhGexGroup(), which validates the attacker-supplied group with two 8-round Miller-Rabin primality tests, one on p and one on (p-1)/2, on a value of up to 8192 bits. The handler then returns success: the server stores the attacker's prime and generator, generates a Diffie-Hellman key pair in the attacker's group, and sends the client-role message SSH_MSG_KEX_DH_GEX_INIT (32) back to the attacker. Published RFC 3526 safe primes are the worst-case input and cost the attacker nothing to obtain. The primality validation was added in 1.5.0; versions from 1.2.0 through 1.4.22 admit the same message and enter the same client-role path without the primality cost. Message 33 is admitted as well, but on a server it is rejected before any cryptography because no public key check callback is registered, so it carries no comparable cost. Builds that define WOLFSSH_NO_DH_GEX_SHA256, which is implied by WOLFSSH_NO_DH or NO_SHA256, are unaffected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:wolfssh:wolfssh:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
+    },
+    {
+      "id": "CVE-2026-107211",
+      "published": "2026-10-07T18:17:18.490",
+      "modified": "2026-10-13T14:24:41.017",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
+    },
+    {
+      "id": "CVE-2026-107212",
+      "published": "2026-10-07T18:17:18.670",
+      "modified": "2026-10-13T14:24:29.523",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, Rows.Columns accepts a look-ahead row number above TotalRows without applying the limit enforced by Rows.Next. File.GetRows relies on Rows.Next and Rows.Columns, but Rows.Columns consumes the row r attribute without the limit check in Rows.Next. When a crafted worksheet places an oversized row number after an ordinary valid row and the application calls GetRows or iterates Rows, the iterator advances through every missing row number instead of rejecting the workbook, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107212"
+    },
+    {
+      "id": "CVE-2026-107213",
+      "published": "2026-10-07T18:17:18.860",
+      "modified": "2026-10-13T14:24:17.143",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
+    },
+    {
+      "id": "CVE-2026-107214",
+      "published": "2026-10-07T18:17:19.040",
+      "modified": "2026-10-13T14:24:00.230",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
+    },
+    {
+      "id": "CVE-2026-107215",
+      "published": "2026-10-07T18:17:19.213",
+      "modified": "2026-10-13T14:23:50.540",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
+    },
+    {
+      "id": "CVE-2026-107216",
+      "published": "2026-10-07T18:17:19.400",
+      "modified": "2026-10-13T14:23:43.183",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
+    },
+    {
+      "id": "CVE-2026-107217",
+      "published": "2026-10-07T19:17:33.957",
+      "modified": "2026-10-13T14:23:36.643",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0 in github.com/xuri/excelize/v2 and from 1.1.0 to 1.4.1 in github.com/xuri/excelize, ColumnNameToNumber accumulates a bijective base-26 value in int64 without detecting overflow, allowing an invalid long column name to wrap to zero with no error. ColumnNameToNumber accepts the overflowing name VGWQHXLSDVIKWV, after which checkSheetR0 and xlsxWorksheet.checkRow use the wrapped column value as an index. When a crafted worksheet uses an overflowing column name in a row normalized by checkSheetR0 or checkRow, the wrapped zero column becomes a negative slice index during worksheet normalization, allowing an attacker to panic and terminate the calling process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107217"
+    },
+    {
+      "id": "CVE-2026-107218",
+      "published": "2026-10-07T19:17:34.120",
+      "modified": "2026-10-13T14:23:29.317",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
+    },
+    {
+      "id": "CVE-2026-107219",
+      "published": "2026-10-07T19:17:34.287",
+      "modified": "2026-10-13T14:23:15.890",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
+    },
+    {
+      "id": "CVE-2026-107220",
+      "published": "2026-10-07T19:17:34.447",
+      "modified": "2026-10-13T14:23:03.713",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
+    },
+    {
+      "id": "CVE-2026-107221",
+      "published": "2026-10-07T19:17:34.620",
+      "modified": "2026-10-13T14:22:51.213",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
+    },
+    {
+      "id": "CVE-2026-107222",
+      "published": "2026-10-07T19:17:34.800",
+      "modified": "2026-10-13T14:18:54.720",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.0 to 2.11.0, conditional-format extraction indexes required child slices or dereferences an optional colorScale child without validating malformed rule structure. GetConditionalFormats reaches extractCondFmtCellIs and also indexes ColorScale.Cfvo, DataBar.Cfvo, and DataBar.Color without complete structural checks. When a crafted worksheet supplies a cellIs, dataBar, or colorScale rule missing expected children and the application calls GetConditionalFormats, missing formula, color, value-object, or colorScale data reaches an out-of-range index or nil dereference, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
+    },
+    {
+      "id": "CVE-2026-107223",
+      "published": "2026-10-07T19:17:34.970",
+      "modified": "2026-10-13T14:18:46.643",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
+    },
+    {
+      "id": "CVE-2026-53922",
+      "published": "2026-10-12T22:17:04.623",
+      "modified": "2026-10-13T14:17:38.370",
+      "description": "odhcpd is the DHCPv6, DHCPv4, and router-advertisement server used by OpenWrt. In commit cfddd56 and earlier, an unauthenticated host on the same link can first obtain two bindings through normal DHCPv6 SOLICIT and REQUEST exchanges and then send a crafted RENEW containing multiple IA_NA options. An earlier matched IA consumes most of the response buffer, an unmatched IA causes the build_ia() status branch to write and return a NOBINDING response larger than the remaining space, and a subsequent matched IA is processed after dhcpv6_ia_handle_IAs() subtracts that over-return from an unsigned size_t. The resulting underflow disables subsequent length checks and permits attacker-controlled IA_ADDR serialization beyond the 512-byte stack buffer pdbuf in handle_client_request(). The stack canary terminates odhcpd, and sustained packets can repeatedly disrupt DHCPv6 service while procd respawns the process. The observed configuration does not establish code execution.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53922"
+    },
+    {
+      "id": "CVE-2026-109962",
+      "published": "2026-10-13T14:17:35.583",
+      "modified": "2026-10-13T14:17:35.703",
+      "description": "Froxlor 0.10.0 before 2.3.14 contains a missing authorization vulnerability that allows reseller accounts to read full-admin-only MySQL server and cronjob configuration via API read commands. Resellers can call MysqlServer.listing, MysqlServer.get, or Cronjobs.listing through api.php to obtain management usernames, hosts, ports, TLS settings, and cron metadata.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109962"
+    },
+    {
+      "id": "CVE-2026-109954",
+      "published": "2026-10-13T14:17:34.190",
+      "modified": "2026-10-13T14:17:34.190",
+      "description": "Parse Server 5.4.0 before 8.6.96 and 9.0.0 before 9.10.2-alpha.5 shares transactional batch state across concurrent requests, letting any client's transactional batch request interfere with other clients' database writes. On PostgreSQL or MongoDB replica sets and sharded clusters, other clients' acknowledged writes are rolled back if the batch fails, and PostgreSQL transactions can remain open indefinitely, causing subsequent writes to fail.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109954"
+    },
+    {
+      "id": "CVE-2026-107224",
+      "published": "2026-10-07T19:17:35.140",
+      "modified": "2026-10-13T14:17:32.220",
+      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:excelize:excelize:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
+    },
+    {
+      "id": "CVE-2026-109833",
+      "published": "2026-10-13T13:17:29.430",
+      "modified": "2026-10-13T14:17:31.510",
+      "description": "A flaw was found in gnome-remote-desktop as shipped in Red Hat Enterprise Linux. In the VNC TLS read path, partial consumption of the internal peek buffer incorrectly moves remaining peeked bytes into the caller-supplied buffer instead of compacting the peek buffer. A remote attacker who can reach an enabled VNC TLS listener and trigger a peek/read size mismatch can cause an out-of-bounds write, leading to denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109833"
+    },
+    {
+      "id": "CVE-2026-109520",
+      "published": "2026-10-13T14:17:26.800",
+      "modified": "2026-10-13T14:17:26.800",
+      "description": "A flaw has been found in Colorful iGameCenter 2.0.0.82. Affected by this vulnerability is the function MmMapIoSpace in the library AMDRyzenMasterDriver.sys of the component Dispatch Handler. This manipulation of the argument SystemBuffer causes privilege defined with unsafe actions. The attack needs to be launched locally. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109520"
+    },
+    {
+      "id": "CVE-2026-0893",
+      "published": "2026-10-13T14:17:18.747",
+      "modified": "2026-10-13T14:17:18.747",
+      "description": "AMI APTIOV contains a vulnerability in BIOS\nwhere an attacker may cause “Exposure of Sensitive\nInformation to an Unauthorized Actor” by local access. Successful\nexploitation of this vulnerability can lead to information disclosure,\nprivilege escalation, and further impact on Confidentiality, Integrity, and\nAvailability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:L/UI:N/VC:H/VI:L/VA:L/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0893"
+    },
+    {
+      "id": "CVE-2025-58774",
+      "published": "2026-10-13T14:17:18.580",
+      "modified": "2026-10-13T14:17:18.580",
+      "description": "AMI APTIOV contains vulnerabilities\nin BIOS where users may cause “Buffer Access with Incorrect Length\nValue” by local access. Successful exploitation of this vulnerability could\nlead to buffer overflows, memory corruption, and arbitrary code execution, and\nalso impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:H/SC:L/SI:L/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58774"
+    },
+    {
+      "id": "CVE-2025-58773",
+      "published": "2026-10-13T14:17:18.460",
+      "modified": "2026-10-13T14:17:18.460",
+      "description": "AMI APTIOV contains vulnerabilities in BIOS where users may cause  \"Out-of-bounds Write” by local access. Successful exploitation of this vulnerability could lead to buffer overflows, memory corruption, and arbitrary code execution, and also impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58773"
+    },
+    {
+      "id": "CVE-2025-58772",
+      "published": "2026-10-13T14:17:18.327",
+      "modified": "2026-10-13T14:17:18.327",
+      "description": "AMI APTIOV contains vulnerabilities in BIOS where users may cause \n“Classic Buffer Overflow” by local access. Successful exploitation of this vulnerability could lead to buffer overflows, memory corruption, and arbitrary code execution, and also impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:H/SC:N/SI:N/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58772"
+    },
+    {
+      "id": "CVE-2025-58771",
+      "published": "2026-10-13T14:17:18.140",
+      "modified": "2026-10-13T14:17:18.140",
+      "description": "AMI APTIOV contains vulnerabilities in BIOS\nwhere users may cause “Integer Overflow or Wraparound” by local access. Successful exploitation of this vulnerability could\nlead to buffer overflows, memory corruption, and arbitrary code execution, and\nalso impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58771"
+    },
     {
       "id": "CVE-2026-64012",
       "published": "2026-07-19T16:17:41.060",
@@ -314,29 +902,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78557"
-    },
-    {
-      "id": "CVE-2026-109833",
-      "published": "2026-10-13T13:17:29.430",
-      "modified": "2026-10-13T13:17:29.430",
-      "description": "A flaw was found in gnome-remote-desktop as shipped in Red Hat Enterprise Linux. In the VNC TLS read path, partial consumption of the internal peek buffer incorrectly moves remaining peeked bytes into the caller-supplied buffer instead of compacting the peek buffer. A remote attacker who can reach an enabled VNC TLS listener and trigger a peek/read size mismatch can cause an out-of-bounds write, leading to denial of service.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109833"
     },
     {
       "id": "CVE-2026-109832",
@@ -1144,26 +1709,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58010"
-    },
-    {
-      "id": "CVE-2026-101020",
-      "published": "2026-10-13T09:17:13.257",
-      "modified": "2026-10-13T09:17:13.257",
-      "description": "An incorrect permission assignment for critical resource issue exists in AssetView, AssetView CLOUD, and AssetView Cloud +. If this vulnerability is exploited, a local authenticated attacker who can log in to the Windows system where Management Console or Client Terminal for the product is running may gain SYSTEM privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101020"
     },
     {
       "id": "CVE-2025-6170",
@@ -2471,26 +3016,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66787"
-    },
-    {
-      "id": "CVE-2026-53922",
-      "published": "2026-10-12T22:17:04.623",
-      "modified": "2026-10-12T22:17:04.623",
-      "description": "odhcpd is the DHCPv6, DHCPv4, and router-advertisement server used by OpenWrt. In commit cfddd56 and earlier, an unauthenticated host on the same link can first obtain two bindings through normal DHCPv6 SOLICIT and REQUEST exchanges and then send a crafted RENEW containing multiple IA_NA options. An earlier matched IA consumes most of the response buffer, an unmatched IA causes the build_ia() status branch to write and return a NOBINDING response larger than the remaining space, and a subsequent matched IA is processed after dhcpv6_ia_handle_IAs() subtracts that over-return from an unsigned size_t. The resulting underflow disables subsequent length checks and permits attacker-controlled IA_ADDR serialization beyond the 512-byte stack buffer pdbuf in handle_client_request(). The stack canary terminates odhcpd, and sustained packets can repeatedly disrupt DHCPv6 service while procd respawns the process. The observed configuration does not establish code execution.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53922"
     },
     {
       "id": "CVE-2026-49484",
@@ -6251,46 +6776,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107448"
-    },
-    {
-      "id": "CVE-2026-107220",
-      "published": "2026-10-07T19:17:34.447",
-      "modified": "2026-10-10T03:17:06.287",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.1 to 2.11.0, mergeCellsParser leaves the cached rectangle empty for an empty mergeCell ref and then passes that empty slice to cellInRange without a length check. GetCellValue reaches mergeCellsParser, which passes an empty rectangle derived from the mergeCell ref attribute into cellInRange. When a crafted worksheet contains an empty mergeCell ref and a non-streaming cell API reads the worksheet, cellInRange indexes four positions in an empty slice, allowing an attacker to panic on the first affected cell operation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107220"
-    },
-    {
-      "id": "CVE-2026-107215",
-      "published": "2026-10-07T18:17:19.213",
-      "modified": "2026-10-10T03:17:06.113",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, extractPart allocates a byte slice directly from an attacker-controlled CFB directory-entry size before validating the sector chain or size domain. extractPart trusts the CFB directory entry streamSize for EncryptionInfo and EncryptedPackage allocations before validating the stream. When a crafted OLE compound file declares a negative or extremely large EncryptionInfo or EncryptedPackage stream size, the declared size reaches make with a negative length or forces a multi-gigabyte allocation, allowing an attacker to panic or exhaust process memory. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107215"
     },
     {
       "id": "CVE-2026-106059",
@@ -17405,246 +17890,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107283"
-    },
-    {
-      "id": "CVE-2026-107222",
-      "published": "2026-10-07T19:17:34.800",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.7.0 to 2.11.0, conditional-format extraction indexes required child slices or dereferences an optional colorScale child without validating malformed rule structure. GetConditionalFormats reaches extractCondFmtCellIs and also indexes ColorScale.Cfvo, DataBar.Cfvo, and DataBar.Color without complete structural checks. When a crafted worksheet supplies a cellIs, dataBar, or colorScale rule missing expected children and the application calls GetConditionalFormats, missing formula, color, value-object, or colorScale data reaches an out-of-range index or nil dereference, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107222"
-    },
-    {
-      "id": "CVE-2026-107217",
-      "published": "2026-10-07T19:17:33.957",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0 in github.com/xuri/excelize/v2 and from 1.1.0 to 1.4.1 in github.com/xuri/excelize, ColumnNameToNumber accumulates a bijective base-26 value in int64 without detecting overflow, allowing an invalid long column name to wrap to zero with no error. ColumnNameToNumber accepts the overflowing name VGWQHXLSDVIKWV, after which checkSheetR0 and xlsxWorksheet.checkRow use the wrapped column value as an index. When a crafted worksheet uses an overflowing column name in a row normalized by checkSheetR0 or checkRow, the wrapped zero column becomes a negative slice index during worksheet normalization, allowing an attacker to panic and terminate the calling process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107217"
-    },
-    {
-      "id": "CVE-2026-107223",
-      "published": "2026-10-07T19:17:34.970",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, flatCols expands file-loaded column ranges without validating Min and Max against the worksheet column limit. SetColWidth reaches flatCols, which expands xlsxCol.Min through xlsxCol.Max without enforcing MaxColumns. When a crafted worksheet supplies an oversized col max attribute and the application invokes a column mutator, flatCols performs a deep copy and append for every attacker-selected column number, allowing an attacker to consume excessive CPU and memory or trigger OOM. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107223"
-    },
-    {
-      "id": "CVE-2026-107218",
-      "published": "2026-10-07T19:17:34.120",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.10.1 to 2.11.0, RIGHT validates the requested length with UTF-16 code-unit counts but slices a rune array using Unicode code-point counts. RIGHT reaches leftRight through CalcCellValue, where countUTF16String validates one unit but utf8.RuneCountInString supplies the slice index in another. When RIGHT evaluates supplementary-plane text with a requested character count between the rune count and UTF-16 code-unit count, the inconsistent units produce a negative rune-slice index, allowing an attacker to panic during formula evaluation. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107218"
-    },
-    {
-      "id": "CVE-2026-107213",
-      "published": "2026-10-07T18:17:18.860",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.9.0 to 2.11.0, GetSlicers checks for ExtLst but dereferences ws.Drawing without checking whether the independently optional drawing element exists. File.GetSlicers reads ws.Drawing.RID after seeing a worksheet extLst element even when the independently optional worksheet drawing element is absent. When a crafted worksheet contains an extLst element without a drawing element and the application calls GetSlicers, the nil ws.Drawing pointer is dereferenced while resolving the drawing relationship, allowing an attacker to panic and terminate an unprotected process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107213"
-    },
-    {
-      "id": "CVE-2026-107224",
-      "published": "2026-10-07T19:17:35.140",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, a Zip64 uncompressed size with the high bit set is converted from uint64 to a negative int64 before signed size-limit checks and allocation. ReadZipReader obtains UncompressedSize64 through FileInfo.Size and passes the wrapped negative value to readFile. When a crafted Zip64 entry declares an uncompressed size from 2^63 through 2^64-1 and the workbook is opened, the negative size bypasses unzip limits and reaches make as a negative capacity, allowing an attacker to panic during workbook opening. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107224"
-    },
-    {
-      "id": "CVE-2026-107221",
-      "published": "2026-10-07T19:17:34.620",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.0.0 to 2.11.0, checkRow sizes its target cell slice from the last cell in XML document order and then re-scatters every cell by its explicit column reference. GetCellValue reaches workSheetReader and checkRow, where targetList is too short for an earlier out-of-order cell. When a crafted row places a higher-column cell before a lower-column final cell and a non-streaming worksheet API reads the sheet, the earlier cell's column index exceeds the slice length derived from the final cell, allowing an attacker to cause an unrecovered panic and terminate the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107221"
-    },
-    {
-      "id": "CVE-2026-107219",
-      "published": "2026-10-07T19:17:34.287",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, agile decryption accepts an attacker-controlled spinCount and performs that many password-key derivation iterations before verifier validation. OpenFile reaches agileDecrypt, which passes the unbounded spinCount to convertPasswdToKey before password verification. When a crafted OLE encrypted-workbook header supplies an excessive spinCount and the file is opened, the key-derivation loop performs unbounded attacker-selected work and cannot be cancelled, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107219"
-    },
-    {
-      "id": "CVE-2026-107214",
-      "published": "2026-10-07T18:17:19.040",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.3.1 to 2.11.0, the decryption dispatch performs insufficient structural and parameter validation before standard and agile decryptors slice, index, allocate, and divide using attacker-controlled values. Decrypt passes attacker-controlled EncryptionInfo and EncryptedPackage data into standardDecrypt or agileDecrypt before validating the structures used by those routines. When a malformed OLE compound file with a version-valid EncryptionInfo stream is opened or passed to Decrypt, nine malformed-input classes reach unrecovered Go runtime panics instead of the documented error path, allowing an attacker to terminate the calling process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107214"
-    },
-    {
-      "id": "CVE-2026-107216",
-      "published": "2026-10-07T18:17:19.400",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, ANCHORARRAY recursively calls the exported CalcCellValue function, creating a fresh calculation context at each cycle and bypassing in-flight and iteration controls. ANCHORARRAY calls CalcCellValue instead of cellResolver, so each recursive hop receives a new calcContext and loses cycle state. When mutually referencing dynamic-array formulas are evaluated directly or through formula-evaluating APIs, each recursion hop resets the cycle budget and prevents completion-based caches from breaking the cycle, allowing an attacker to cause a fatal Go stack overflow and abort the process. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107216"
-    },
-    {
-      "id": "CVE-2026-107211",
-      "published": "2026-10-07T18:17:18.490",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.8.1 to 2.11.0, separately parsed pivot-table field indices are used to index the pivot-cache field-name slice without bounds checks. extractPivotTableFields uses getPivotCacheFieldsName output while processing GetPivotTables and trusts the dataField fld attribute as an index. When a crafted workbook supplies a pivot-field count mismatch or an out-of-range dataField fld value before GetPivotTables is called, the unchecked index causes a Go slice-bounds panic that escapes the library, allowing an attacker to crash the process or request worker. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107211"
-    },
-    {
-      "id": "CVE-2026-107212",
-      "published": "2026-10-07T18:17:18.670",
-      "modified": "2026-10-08T20:33:41.757",
-      "description": "Excelize is a Go language library for reading and writing Microsoft Excel spreadsheets. From 2.1.0 to 2.11.0, Rows.Columns accepts a look-ahead row number above TotalRows without applying the limit enforced by Rows.Next. File.GetRows relies on Rows.Next and Rows.Columns, but Rows.Columns consumes the row r attribute without the limit check in Rows.Next. When a crafted worksheet places an oversized row number after an ordinary valid row and the application calls GetRows or iterates Rows, the iterator advances through every missing row number instead of rejecting the workbook, allowing an attacker to consume a CPU core for an attacker-controlled duration. No fixed version is available as of this review.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107212"
     },
     {
       "id": "CVE-2026-87665",
@@ -31467,26 +31712,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81862"
     },
     {
-      "id": "CVE-2026-84897",
-      "published": "2026-10-07T03:17:00.067",
-      "modified": "2026-10-07T19:17:44.647",
-      "description": "src/internal.c in wolfSSL wolfSSH through 1.5.0 admits the server-to-client Diffie-Hellman group exchange messages SSH_MSG_KEX_DH_GEX_GROUP (31) and SSH_MSG_KEX_DH_GEX_REPLY (33) when a server receives them from an unauthenticated client. IsMessageAllowedServer() applies no direction check to the key exchange message range: when the peer is keying and no particular message is expected, which is the state a server is in for the whole window after it processes the client's KEXINIT because nothing sets handshake->expectMsgId there, the function falls out of its expectation branch without a verdict and reaches a numeric bound that admits every message id from 30 through 34. A client that negotiates diffie-hellman-group-exchange-sha256 and then sends message 31 makes the server run the client-side handler DoKexDhGexGroup(), which validates the attacker-supplied group with two 8-round Miller-Rabin primality tests, one on p and one on (p-1)/2, on a value of up to 8192 bits. The handler then returns success: the server stores the attacker's prime and generator, generates a Diffie-Hellman key pair in the attacker's group, and sends the client-role message SSH_MSG_KEX_DH_GEX_INIT (32) back to the attacker. Published RFC 3526 safe primes are the worst-case input and cost the attacker nothing to obtain. The primality validation was added in 1.5.0; versions from 1.2.0 through 1.4.22 admit the same message and enter the same client-role path without the primality cost. Message 33 is admitted as well, but on a server it is rejected before any cryptography because no public key check callback is registered, so it carries no comparable cost. Builds that define WOLFSSH_NO_DH_GEX_SHA256, which is implied by WOLFSSH_NO_DH or NO_SHA256, are unaffected.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84897"
-    },
-    {
       "id": "CVE-2026-79815",
       "published": "2026-10-06T20:17:33.197",
       "modified": "2026-10-07T19:17:43.720",
@@ -34670,28 +34895,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106057"
     },
     {
-      "id": "CVE-2026-83742",
-      "published": "2026-10-07T03:16:59.880",
-      "modified": "2026-10-07T16:02:27.613",
-      "description": "Unsigned integer underflow in wstrncat() in src/port.c in wolfSSL wolfSSH from v1.4.11 through v1.5.0 on non-Windows platforms allows an authenticated remote attacker to write one out-of-bounds null byte past the end of a stack buffer by sending a crafted SFTP path. wolfSSH_RealPath() in src/ssh.c appends each path component with a remaining-size bound (outSz - curSz) rather than the full destination size, so once the accumulated path reaches half the output buffer the size_t computation n - strlen(s1) - 1 wraps to near SIZE_MAX. The strncat() call is then effectively unbounded and copies the whole component; when that component exactly fills the remainder of the buffer, its terminating null is written one byte past the end. The caller's own length check keeps the copied data inside the buffer, so the overflow is limited to that single null byte, which may corrupt an adjacent stack value and crash the process. Applications that call the public wolfSSH_RealPath() with an output buffer smaller than the input path are additionally exposed to an unbounded copy, because the word32 expression outSz - segSz in that length check also wraps.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83742"
-    },
-    {
       "id": "CVE-2026-83540",
       "published": "2026-10-07T03:16:59.730",
       "modified": "2026-10-07T16:02:27.613",
@@ -35687,232 +35890,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106406"
-    },
-    {
-      "id": "CVE-2026-106409",
-      "published": "2026-10-06T19:18:10.523",
-      "modified": "2026-10-07T13:40:12.403",
-      "description": "Incorrect reference resolution in WebAppInstalls in Google Chrome on on Mac prior to 155.0.8059.39 allowed a remote attacker who had compromised the renderer process to execute arbitrary code outside the sandbox via crafted network traffic. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106409"
-    },
-    {
-      "id": "CVE-2026-106412",
-      "published": "2026-10-06T19:18:10.860",
-      "modified": "2026-10-07T13:39:08.250",
-      "description": "Race condition in Core in Google Chrome on on Mac prior to 155.0.8059.39 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106412"
-    },
-    {
-      "id": "CVE-2026-21589",
-      "published": "2026-10-05T22:16:58.423",
-      "modified": "2026-10-07T13:17:22.273",
-      "description": "This is a vulnerability in Bitbucket Data Center, Confluence Data Center, Jira Service Management Data Center, Jira Software Data Center, Bamboo Data Center. Crowd Data Center, Crucible and Fisheye. This Arbitrary File Access vulnerability allows an unauthenticated attacker to access specific files within the web application root directory in affected versions. Exploitation requires prior knowledge of the target file's exact name and path; this vulnerability does not allow attackers to enumerate or list directory contents. In some configurations, there may be some sensitive files that make this highly severe. This vulnerability allows an unauthenticated remote attacker to access specific files within the web application root directory in affected versions. The vulnerability must be addressed for affected versions of: -- Bitbucket Data Center, introduced in version >= 4.6.0, fix versions: 9.4.26, 10.2.8, 10.5.1 -- Confluence Data Center, introduced in version >= 5.10.0, fix versions 9.2.26, 10.2.19 -- Crowd Data Center, introduced in version >= 2.11.0, fix versions 6.3.7, 7.0.3, 7.1.7, 7.2.4 -- Jira Software Data Center, introduced in version >= 7.1.0, fix versions 9.12.40, 10.3.26, 11.3.12 -- Jira Service Management Data Center, introduced in version >= 3.1.0, fix versions 5.12.40, 10.3.26, 11.3.12 -- Bamboo Data Center >= 7.0.1, fix versions 10.2.24, 12.1.12 -- Crucible, fix versions 4.9.15 -- Fisheye, fix version 4.9.15 -- Exploitation requires prior knowledge of the target file's exact name and path. The vulnerability does not include the capability to enumerate or list directory contents.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21589"
-    },
-    {
-      "id": "CVE-2026-106414",
-      "published": "2026-10-06T19:18:11.090",
-      "modified": "2026-10-07T13:13:12.260",
-      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.6,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106414"
-    },
-    {
-      "id": "CVE-2026-106251",
-      "published": "2026-10-06T19:17:52.173",
-      "modified": "2026-10-07T13:11:37.410",
-      "description": "UI misrepresentation in Chromoting in Google Chrome on on Mac prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via crafted network traffic. (Chromium security severity: Low)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106251"
-    },
-    {
-      "id": "CVE-2026-106420",
-      "published": "2026-10-06T19:18:11.780",
-      "modified": "2026-10-07T13:10:28.407",
-      "description": "Incorrect calculation in API in Google Chrome on on Windows prior to 155.0.8059.39 allowed a remote attacker leveraging social engineering to spoof UI elements via a crafted Chrome extension. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106420"
-    },
-    {
-      "id": "CVE-2025-34290",
-      "published": "2025-12-20T20:15:50.553",
-      "modified": "2026-10-07T13:10:00.713",
-      "description": "Versa SASE Client for Windows versions released between 7.8.7 and 7.9.4 contain a local privilege escalation vulnerability in the audit log export functionality. The client communicates user-controlled file paths to a privileged service, which performs file system operations without impersonating the requesting user. Due to improper privilege handling and a time-of-check time-of-use race condition combined with symbolic link and mount point manipulation, a local authenticated attacker can coerce the service into deleting arbitrary directories with SYSTEM privileges. This can be exploited to delete protected system folders such as C:\\\\Config.msi and subsequently achieve execution as NT AUTHORITY\\\\SYSTEM via MSI rollback techniques.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:versa-networks:sase_client:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34290"
-    },
-    {
-      "id": "CVE-2025-68917",
-      "published": "2025-12-24T21:16:04.153",
-      "modified": "2026-10-07T13:10:00.713",
-      "description": "ONLYOFFICE Docs before 9.2.1 allows XSS in the textarea of the comment editing form. This is related to DocumentServer.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68917"
     }
   ],
   "kev": [
@@ -37658,11 +37635,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 100,
-    "high": 424,
-    "medium": 408,
+    "critical": 99,
+    "high": 426,
+    "medium": 407,
     "kev": 11,
-    "p1": 58,
-    "p2": 468
+    "p1": 56,
+    "p2": 471
   }
 }
