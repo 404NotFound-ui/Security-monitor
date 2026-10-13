@@ -1,6 +1,390 @@
 {
-  "updated": "2026-10-13T01:07:53.656499+00:00",
+  "updated": "2026-10-13T01:34:00.654015+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-5260",
+      "published": "2026-05-26T22:16:44.170",
+      "modified": "2026-10-13T01:16:46.347",
+      "description": "A flaw was found in libgnutls. A remote attacker, by sending an extremely short premaster secret during an RSA key exchange to a server using an RSA key backed by a PKCS#11 token, could trigger a short heap overread. This memory corruption vulnerability could lead to information disclosure.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5260"
+    },
+    {
+      "id": "CVE-2026-42014",
+      "published": "2026-06-16T02:16:19.140",
+      "modified": "2026-10-13T01:16:45.407",
+      "description": "A flaw was found in GnuTLS. The `gnutls_pkcs11_token_set_pin` function, used for changing the Security Officer PIN, can lead to a use-after-free vulnerability. This occurs when an attacker attempts to change the PIN with a NULL old PIN for a token that lacks a protected authentication path.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42014"
+    },
+    {
+      "id": "CVE-2026-42010",
+      "published": "2026-05-07T12:16:17.977",
+      "modified": "2026-10-13T01:16:43.970",
+      "description": "A flaw was found in gnutls. Servers configured with RSA-PSK (Rivest–Shamir–Adleman – Pre-Shared Key) wrongfully matched usernames containing a NUL character with truncated usernames. A remote attacker could exploit this by sending a specially crafted username, leading to an authentication bypass. This vulnerability allows an attacker to gain unauthorized access by circumventing the authentication process.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42010"
+    },
+    {
+      "id": "CVE-2026-42009",
+      "published": "2026-05-18T13:16:32.707",
+      "modified": "2026-10-13T01:16:43.113",
+      "description": "A flaw was found in gnutls. A remote attacker could exploit an issue in the Datagram Transport Layer Security (DTLS) packet reordering logic. The comparator function, responsible for ordering DTLS packets by sequence numbers, did not correctly handle packets with duplicate sequence numbers. This could lead to unstable packet ordering or undefined behavior, resulting in a denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "8.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "8.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for update services for sap solutions",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42009"
+    },
     {
       "id": "CVE-2026-84276",
       "published": "2026-10-08T19:20:51.240",
@@ -5608,29 +5992,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106122"
-    },
-    {
-      "id": "CVE-2026-5260",
-      "published": "2026-05-26T22:16:44.170",
-      "modified": "2026-10-09T18:17:11.977",
-      "description": "A flaw was found in libgnutls. A remote attacker, by sending an extremely short premaster secret during an RSA key exchange to a server using an RSA key backed by a PKCS#11 token, could trigger a short heap overread. This memory corruption vulnerability could lead to information disclosure.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5260"
     },
     {
       "id": "CVE-2026-108111",
@@ -12250,347 +12611,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4408"
-    },
-    {
-      "id": "CVE-2026-42010",
-      "published": "2026-05-07T12:16:17.977",
-      "modified": "2026-10-08T21:18:00.820",
-      "description": "A flaw was found in gnutls. Servers configured with RSA-PSK (Rivest–Shamir–Adleman – Pre-Shared Key) wrongfully matched usernames containing a NUL character with truncated usernames. A remote attacker could exploit this by sending a specially crafted username, leading to an authentication bypass. This vulnerability allows an attacker to gain unauthorized access by circumventing the authentication process.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "hardened images",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "AUTH_BYPASS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42010"
-    },
-    {
-      "id": "CVE-2026-42009",
-      "published": "2026-05-18T13:16:32.707",
-      "modified": "2026-10-08T21:18:00.123",
-      "description": "A flaw was found in gnutls. A remote attacker could exploit an issue in the Datagram Transport Layer Security (DTLS) packet reordering logic. The comparator function, responsible for ordering DTLS packets by sequence numbers, did not correctly handle packets with duplicate sequence numbers. This could lead to unstable packet ordering or undefined behavior, resulting in a denial of service.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "hardened images",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for els",
-          "version": "8.10",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems",
-          "version": "8.0_s390x",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems els",
-          "version": "8.10",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian",
-          "version": "8.0_ppc64le",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian els",
-          "version": "8.10",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for els",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for eus",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems",
-          "version": "9.0_s390x",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems els",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems eus",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian",
-          "version": "9.0_ppc64le",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian els",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian eus",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for update services for sap solutions",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux server for power little endian update services for sap solutions",
-          "version": "9.8",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for els",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for eus",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems els",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for ibm z systems eus",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian els",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux for power little endian eus",
-          "version": "10.2",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42009"
     },
     {
       "id": "CVE-2026-3012",
@@ -36227,107 +36247,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62457"
-    },
-    {
-      "id": "CVE-2025-62458",
-      "published": "2025-12-09T18:15:57.503",
-      "modified": "2026-10-07T11:10:00.153",
-      "description": "Heap-based buffer overflow in Windows Win32K - GRFX allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2008",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62458"
     }
   ],
   "kev": [
@@ -38074,10 +37993,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 102,
-    "high": 428,
-    "medium": 404,
+    "high": 427,
+    "medium": 405,
     "kev": 11,
     "p1": 60,
-    "p2": 472
+    "p2": 471
   }
 }
