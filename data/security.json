@@ -1,6 +1,691 @@
 {
-  "updated": "2026-10-14T14:03:40.303809+00:00",
+  "updated": "2026-10-14T14:46:19.365028+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-110150",
+      "published": "2026-10-13T22:17:34.850",
+      "modified": "2026-10-14T14:39:24.327",
+      "description": "Privilege elevation in Installer in Google Chrome on on Windows prior to 155.0.8059.79 allowed a local attacker to obtain sensitive information via a local program. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110150"
+    },
+    {
+      "id": "CVE-2026-110144",
+      "published": "2026-10-13T22:17:34.203",
+      "modified": "2026-10-14T14:39:24.327",
+      "description": "Incorrect authorization in Mojo in Google Chrome on on Windows prior to 155.0.8059.79 allowed a local attacker to potentially execute arbitrary code outside the sandbox via a local program. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.6,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110144"
+    },
+    {
+      "id": "CVE-2026-100163",
+      "published": "2026-10-14T08:17:02.257",
+      "modified": "2026-10-14T14:26:59.367",
+      "description": "The Appointment Booking Plugin – LatePoint | Calendar & Scheduling for WordPress plugin for WordPress is vulnerable to Authentication Bypass in versions up to, and including, 5.7.2 via the OsCustomerHelper::create_wp_user_for_customer() helper reached from the public process_step_customer() booking step. When the 'Use WordPress users as customers' option is enabled, the helper falls back from email_exists() to username_exists( $customer->email ), which matches any WordPress user whose user_login equals the victim customer's email even when that user's user_email is completely different, and links that WordPress user's ID into the victim's LatePoint customer row (only privileged roles are excluded; Subscriber is allowed). This makes it possible for authenticated attackers, with Subscriber-level access and above, to take over another customer's LatePoint account — accessing their bookings, service, agent, and calendar data, and having the victim customer's email overwritten with the attacker's on next login — by holding a Subscriber account whose user_login equals the victim's email and submitting an unauthenticated public booking step registration request.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100163"
+    },
+    {
+      "id": "CVE-2026-98420",
+      "published": "2026-10-14T14:17:53.427",
+      "modified": "2026-10-14T14:17:53.427",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: follow SMB2 session expiration semantics\n\nksmbd_session_register() destroys valid sessions after ten seconds of\ninactivity whenever a client starts another SessionSetup exchange. This\nconfuses Session.IdleTime with Session.ExpirationTime. Windows can create\nadditional authenticated sessions on an existing connection, so deleting\nthe older session invalidates its tree connects and makes mapped drives\nfail with STATUS_NETWORK_NAME_DELETED.\n\nThe session expiration rules require the server to change a valid session\nto expired only after its credential expiration time passes. A valid or\nexpired session otherwise keeps its connection from being scavenged.\nConnections that have not negotiated a dialect, have no sessions, or have\nonly InProgress sessions are disconnected after an implementation-specific\ntimeout. Use the Windows-compatible 45 second value and run the expiration\ncheck periodically for both TCP and SMB Direct.\n\nKeep zero as an infinite credential expiration time, and count each\nValid-to-Expired transition. Set expired sessions to InProgress when they\nreauthenticate. If authentication fails, remove the session from the\nglobal and per-connection tables immediately, including SMB3 multichannel\nconnections.\n\nRetain protection against abandoned SessionId-zero exchanges by allowing\nonly one InProgress authentication per connection. Additional exchanges\nfail with STATUS_INSUFFICIENT_RESOURCES, and stale InProgress sessions are\nreaped after the same 45 second setup timeout. This bounds the original\nunauthenticated memory-exhaustion path without evicting established\nsessions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98420"
+    },
+    {
+      "id": "CVE-2026-98414",
+      "published": "2026-10-14T14:17:52.673",
+      "modified": "2026-10-14T14:17:52.673",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmemcg: avoid charging the root memcg from obj_cgroup_charge_pages()\n\nobj_cgroup_charge_pages() resolves the objcg to its memcg and calls\ntry_charge_memcg(), which does not short circuit the root memcg.  That\nmemcg can be the root memcg: obj_cgroup_is_root() reflects the memcg the\nobjcg was created for and is never updated, while memcg_reparent_objcgs()\ndoes redirect objcg->memcg to the parent on rmdir.  An objcg of a dying\nchild of root therefore passes every obj_cgroup_is_root() filter but\nresolves to the root memcg.\n\nFolios keep the objcg they were charged with, so this is easy to reach\nthrough zswap: allocate anon memory in a cgroup, move the task out, remove\nthe cgroup, then write to the root cgroup's memory.reclaim.  The reclaimed\nfolios are charged through the reparented objcg and end up in\nrefill_stock() with the root memcg:\n\n  WARNING: mm/memcontrol.c:2198 at refill_stock+0x644/0x940\n   refill_stock+0x644/0x940\n   try_charge_memcg+0x12d6/0x1570\n   __obj_cgroup_charge+0x35/0xf0\n   obj_cgroup_charge+0x1de/0x210\n   obj_cgroup_charge_zswap+0x83/0x270\n   zswap_store+0x1620/0x2000\n   swap_writeout+0x94c/0x14c0\n   shrink_folio_list+0x3388/0x52b0\n   [...]\n   try_to_free_mem_cgroup_pages+0x30d/0x830\n   user_proactive_reclaim+0x504/0x840\n   memory_reclaim+0x1f/0x30\n\nBeyond the warning, the charge is asymmetric: obj_cgroup_uncharge_pages()\nskips refill_stock() for the root memcg, so the root's page counter grows\nand is never uncharged.  It is not user visible, since memory.current is\nnot exposed on the root, but it is a leak.\n\nUse try_charge(), which returns early for the root memcg, restoring the\nsymmetry with obj_cgroup_uncharge_pages().\n\nThe above sequence was scripted into a standalone reproducer (zswap on,\nswap on a virtio disk, 512MB of anon memory faulted in inside a child of\nthe root cgroup, the task then migrated to the root cgroup, the child\nremoved, followed by \"echo 600M swappiness=max > memory.reclaim\" on the\nroot) and run in a CONFIG_DEBUG_VM=y VM.  It reproduces the splat on the\nfirst zswap store of a reparented folio, with the same call chain as the\nreport.  With this patch applied the splat is gone while the zswap store\ncount over the run is unchanged, so the same path is still exercised. \ncgroup selftests test_zswap, test_kmem and test_memcontrol show no new\nfailures.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98414"
+    },
+    {
+      "id": "CVE-2026-98401",
+      "published": "2026-10-14T14:17:51.120",
+      "modified": "2026-10-14T14:17:51.120",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: iptunnel: fix stale transport header during tunnel decapsulation\n\nSyzbot reported a crash in qdisc_pkt_len_segs_init() caused by a stale\ntransport_header offset after tunnel decapsulation.\n\nBUG: unable to handle page fault for address: ffffed102091a42e\nOops: Oops: 0000 [#1] SMP KASAN NOPTI\nCPU: 0 UID: 0 PID: 340 Comm: qdisc_uaf_repro Not tainted 7.2.0-rc4-00061-g248951ddc14d #256 PREEMPT(full)\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nRIP: 0010:__asan_load2\n<IRQ>\nqdisc_pkt_len_segs_init (net/core/dev.c:4145)\n__dev_queue_xmit (net/core/dev.c:4787)\nbr_dev_queue_push_xmit (net/bridge/br_forward.c:53)\nbr_handle_frame_finish (net/bridge/br_input.c:229)\nbr_handle_frame (net/bridge/br_input.c:315)\n__netif_receive_skb_core.constprop.0 (net/core/dev.c:6099)\n__netif_receive_skb_list_core (net/core/dev.c:6287)\nnetif_receive_skb_list_internal (net/core/dev.c:6445)\nnapi_complete_done (net/core/dev.c:6813)\ngro_cell_poll (net/core/gro_cells.c:74)\n__napi_poll (net/core/dev.c:7735)\nnet_rx_action (net/core/dev.c:7798 net/core/dev.c:7955)\nhandle_softirqs (kernel/softirq.c:622)\ndo_softirq (kernel/softirq.c:523  kernel/softirq.c:510 )\n__local_bh_enable_ip (kernel/softirq.c:450)\ntun_get_user (drivers/net/tun.c:1986 (discriminator 1))\ntun_chr_write_iter (drivers/net/tun.c:2032)\n\nThe issue is completely latent until qdisc read transport header in\ncommit 7fb4c1967011 (\"net: pull headers in qdisc_pkt_len_segs_init()\").\nThe crash requires four conditions to line up:\n\n1. The incoming packet is encapsulated and carries GSO metadata. The outer\n   transport header offset is stored in skb->transport_header while the\n   packet is still in the outer tunnel context.\n2. The tunnel receiver strips the outer headers. skb->data is advanced to\n   the inner frame, but skb->transport_header is left pointing to the\n   now-removed outer L4 header, so it becomes a negative offset relative to\n   the new data.\n3. The inner frame is not delivered to the local IP stack. Instead, it\n   is forwarded at L2 by a bridge or HSR, so ip_rcv_core() never runs and\n   the transport header is not reset to the inner L4 offset.\n4. The forwarding path calls __dev_queue_xmit(), which enters\n   qdisc_pkt_len_segs_init(). That function computes the GSO header length\n   from skb_transport_offset(skb). Because the offset is negative, the\n   unsigned cast overflows and pskb_may_pull(skb, hdr_len +\n   sizeof(struct tcphdr)) reads past the end of the skb, triggering a\n   KASAN fault or page fault.\n\nThe issue specifically requires GSO packets (shinfo->gso_size != 0), which\nare processed/aggregated through gro_cells. Fix this by clearing\ntransport_header to the ~0U sentinel in gro_cell for all tunnnel driver.\nGTP does not support GRO/GSO, drop the evil GSO packets in GTP directly.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98401"
+    },
+    {
+      "id": "CVE-2026-87968",
+      "published": "2026-10-14T07:17:04.070",
+      "modified": "2026-10-14T14:17:47.473",
+      "description": "The Product Feed for Google Shopping, Microsoft Advertising and 40+ Channels for WooCommerce Merchant WordPress plugin before 5.3.2 does not perform a nonce or capability check on the AJAX action that registers the store with its feed service and exposes it to unauthenticated users, so any visitor can force the store to re-register and overwrite the Product Feed for Google Shopping, Microsoft Advertising and 40+ Channels for WooCommerce Merchant WordPress plugin before 5.3.2's stored shop secret.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87968"
+    },
+    {
+      "id": "CVE-2026-85115",
+      "published": "2026-10-13T10:17:20.780",
+      "modified": "2026-10-14T14:17:46.507",
+      "description": "A vulnerability has been identified in .NET Client Library for SIMATIC S7 Webserver API (All versions < V3.3.62). Affected applications do not properly redact PLC restore passwords from HTTP error exception messages.\r\n\r\nThis could allow an attacker with access to logs or other diagnostic output to obtain the plaintext restore password and potentially perform unauthorized operations on the PLC.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85115"
+    },
+    {
+      "id": "CVE-2026-44414",
+      "published": "2026-10-13T10:17:16.010",
+      "modified": "2026-10-14T14:17:45.030",
+      "description": "A vulnerability has been identified in Industrial Edge Cloud Device (IECD), Industrial Edge Device Kit - arm64 V1.10, Industrial Edge Device Kit - arm64 V1.11, Industrial Edge Device Kit - arm64 V1.12, Industrial Edge Device Kit - arm64 V1.13, Industrial Edge Device Kit - arm64 V1.14, Industrial Edge Device Kit - arm64 V1.15, Industrial Edge Device Kit - arm64 V1.16, Industrial Edge Device Kit - arm64 V1.17, Industrial Edge Device Kit - arm64 V1.18, Industrial Edge Device Kit - arm64 V1.19, Industrial Edge Device Kit - arm64 V1.20, Industrial Edge Device Kit - arm64 V1.21, Industrial Edge Device Kit - arm64 V1.22, Industrial Edge Device Kit - arm64 V1.23, Industrial Edge Device Kit - arm64 V1.24, Industrial Edge Device Kit - arm64 V1.25, Industrial Edge Device Kit - arm64 V1.26, Industrial Edge Device Kit - arm64 V1.27, Industrial Edge Device Kit - arm64 V1.28, Industrial Edge Device Kit - arm64 V1.5, Industrial Edge Device Kit - arm64 V1.6, Industrial Edge Device Kit - arm64 V1.7, Industrial Edge Device Kit - arm64 V1.8, Industrial Edge Device Kit - arm64 V1.9, Industrial Edge Device Kit - x86-64 V1.10, Industrial Edge Device Kit - x86-64 V1.11, Industrial Edge Device Kit - x86-64 V1.12, Industrial Edge Device Kit - x86-64 V1.13, Industrial Edge Device Kit - x86-64 V1.14, Industrial Edge Device Kit - x86-64 V1.15, Industrial Edge Device Kit - x86-64 V1.16, Industrial Edge Device Kit - x86-64 V1.17, Industrial Edge Device Kit - x86-64 V1.18, Industrial Edge Device Kit - x86-64 V1.19, Industrial Edge Device Kit - x86-64 V1.20, Industrial Edge Device Kit - x86-64 V1.21, Industrial Edge Device Kit - x86-64 V1.22, Industrial Edge Device Kit - x86-64 V1.23, Industrial Edge Device Kit - x86-64 V1.24, Industrial Edge Device Kit - x86-64 V1.25, Industrial Edge Device Kit - x86-64 V1.26, Industrial Edge Device Kit - x86-64 V1.27, Industrial Edge Device Kit - x86-64 V1.28, Industrial Edge Device Kit - x86-64 V1.5, Industrial Edge Device Kit - x86-64 V1.6, Industrial Edge Device Kit - x86-64 V1.7, Industrial Edge Device Kit - x86-64 V1.8, Industrial Edge Device Kit - x86-64 V1.9, Industrial Edge Own Device (IEOD), Industrial Edge Virtual Device (IEVD), SCALANCE LPE9413 (6GK5998-3GS01-2AC2), SCALANCE LPE9433 (6GK5998-3GS11-2AC2), SIMATIC IoT2050 Advanced IED (6ES7647-0BW00-1YA2), SIMATIC IoT2050 SM IED (6ES7647-0CW00-1AA2), SIMATIC IPC BX-21A Industrial Edge Device, SIMATIC IPC BX-39A Industrial Edge Device, SIMATIC IPC BX-59A Industrial Edge Device, SIMATIC IPC127E Industrial Edge Device, SIMATIC IPC227E Industrial Edge Device, SIMATIC IPC227G Industrial Edge Device, SIMATIC IPC427E Industrial Edge Device, SIMATIC IPC847E Industrial Edge Device. Affected systems do not properly restrict access to internal APIs and paths for authenticated users. This could allow an authenticated remote attacker to access sensitive internal information, which in the worst case could be leveraged to facilitate unauthorized access to the system.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44414"
+    },
+    {
+      "id": "CVE-2026-18390",
+      "published": "2026-10-12T14:17:12.563",
+      "modified": "2026-10-14T14:17:44.773",
+      "description": "Improper neutralization of special elements used in an OS command ('OS command injection') vulnerability in Ministry of Justice General Directorate of Information Technology UYAP Document Editor on Windows and Linux and Ministry of Justice General Directorate of Information Technology UYAP Document Editor on iOS allows OS Command Injection.\n\nThis issue affects UYAP Document Editor: before 5.4.20; UYAP Document Editor: before 5.4.21.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18390"
+    },
+    {
+      "id": "CVE-2026-12613",
+      "published": "2026-10-12T14:17:12.423",
+      "modified": "2026-10-14T14:17:44.287",
+      "description": "Deserialization of untrusted data vulnerability in Ministry of Justice General Directorate of Information Technology UYAP Document Editor on Windows and Linux and Ministry of Justice General Directorate of Information Technology UYAP Document Editor on MacOS allows Object Injection.\n\nThis issue affects UYAP Document Editor: before 5.4.20; UYAP Document Editor: before 5.4.21.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12613"
+    },
+    {
+      "id": "CVE-2026-110652",
+      "published": "2026-10-14T14:17:43.983",
+      "modified": "2026-10-14T14:17:43.983",
+      "description": "ONLYOFFICE DocumentServer before 10.0.0 contains an unauthenticated server-side request forgery vulnerability in the /downloadfile/:docid endpoint that allows remote attackers to bypass the private-IP request-filtering-agent by exploiting the isInJwtToken flag when JWT verification is disabled in the default configuration. Attackers can submit a crafted request body containing an internal or loopback URL, which is treated as a DIRECT request skipping private-address filtering, causing the server to fetch and proxy back arbitrary private-network and cloud metadata content.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110652"
+    },
+    {
+      "id": "CVE-2026-109833",
+      "published": "2026-10-13T13:17:29.430",
+      "modified": "2026-10-14T14:17:37.753",
+      "description": "A flaw was found in gnome-remote-desktop as shipped in Red Hat Enterprise Linux. In the VNC TLS read path, partial consumption of the internal peek buffer incorrectly moves remaining peeked bytes into the caller-supplied buffer instead of compacting the peek buffer. A remote attacker who can reach an enabled VNC TLS listener and trigger a peek/read size mismatch can cause an out-of-bounds write, leading to denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109833"
+    },
+    {
+      "id": "CVE-2026-108750",
+      "published": "2026-10-11T13:17:19.810",
+      "modified": "2026-10-14T14:17:35.510",
+      "description": "OpenDocMan 2.4.0 through 2.10.0 contains a decompression bomb vulnerability that allows authenticated users to exhaust PHP memory by uploading crafted office documents. Attackers can upload a small ODT, DOCX, or XLSX file whose XML entries decompress to hundreds of megabytes, crashing PHP workers and degrading availability.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108750"
+    },
+    {
+      "id": "CVE-2026-108065",
+      "published": "2026-10-14T14:17:33.813",
+      "modified": "2026-10-14T14:17:33.813",
+      "description": "SQL Injection (CWE-89) in the SOAP GetUser method of the /preapproval.asmx endpoint in Channel Software WebAlliance eCommerce [VERSION — missing] allows an unauthenticated remote attacker to read, write, and potentially execute commands on the backend Microsoft SQL Server via a crafted sUserID parameter value containing a single quote and stacked SQL query.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108065"
+    },
+    {
+      "id": "CVE-2024-34324",
+      "published": "2026-10-13T16:17:08.317",
+      "modified": "2026-10-14T14:17:28.907",
+      "description": "An issue in ProPhoenix Law RMS v2022.2403.3.101 allows attackers to execute a session hijacking attack via injecting a crafted 24-character string into the ASP.NET_SessionId cookie.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-34324"
+    },
+    {
+      "id": "CVE-2022-3821",
+      "published": "2022-11-08T22:15:16.700",
+      "modified": "2026-10-14T14:17:27.680",
+      "description": "An off-by-one Error issue was discovered in Systemd in format_timespan() function of time-util.c. An attacker could supply specific values for time and accuracy that leads to buffer overrun in format_timespan(), leading to a Denial of Service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:systemd_project:systemd:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:35:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3821"
+    },
+    {
+      "id": "CVE-2022-3715",
+      "published": "2023-01-05T15:15:10.410",
+      "modified": "2026-10-14T14:17:27.477",
+      "description": "A flaw was found in the bash package, where a heap-buffer overflow can occur in valid parameter_transform. This issue may lead to memory problems.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:bash:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3715"
+    },
+    {
+      "id": "CVE-2022-2905",
+      "published": "2022-09-09T15:15:10.170",
+      "modified": "2026-10-14T14:17:22.160",
+      "description": "An out-of-bounds memory read flaw was found in the Linux kernel's BPF subsystem in how a user calls the bpf_tail_call function with a key larger than the max_entries of the map. This flaw allows a local user to gain unauthorized access to data.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.0:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.0:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-2905"
+    },
+    {
+      "id": "CVE-2026-107823",
+      "published": "2026-10-09T18:17:04.190",
+      "modified": "2026-10-14T14:13:32.633",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the MariaDB view FRM parser did not safely encode embedded newline characters in a username. An account with CREATE USER and CREATE VIEW WITH GRANT OPTION could create a crafted username containing additional view metadata, causing the parser to interpret part of the username as security metadata and potentially escalating database privileges. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107823"
+    },
+    {
+      "id": "CVE-2026-107822",
+      "published": "2026-10-09T18:17:04.030",
+      "modified": "2026-10-14T14:13:22.743",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, MariaDB's ACL cache could generate the same database-privilege cache key for role and localhost user names that matched because both used an empty IP component. An attacker with CREATE USER could create the colliding principal and, when the original principal's database privileges were cached, exercise privileges assigned to the other account. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107822"
+    },
+    {
+      "id": "CVE-2026-107821",
+      "published": "2026-10-09T18:17:03.860",
+      "modified": "2026-10-14T14:13:07.733",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, MariaDB insufficiently validated counts, offsets, lengths, and field boundaries in FRM metadata while opening binary FRM files. An attacker able to place a crafted FRM file in the data directory could trigger out-of-bounds reads or writes, crash the server, or potentially execute code. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107821"
+    },
+    {
+      "id": "CVE-2026-107818",
+      "published": "2026-10-09T18:17:03.373",
+      "modified": "2026-10-14T14:12:57.550",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the mariadb.service unit used /run/mysqld/wsrep-new-cluster during the next service restart. A database user with FILE privilege and a secure-file-priv configuration permitting writes to /run/mysqld could create that file and inject attacker-controlled environment values into the restarted service. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107818"
+    },
+    {
+      "id": "CVE-2026-107817",
+      "published": "2026-10-09T18:17:03.220",
+      "modified": "2026-10-14T14:12:48.963",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the mysql_json plugin assumed that imported MySQL tables contained valid MySQL binary JSON data. A specially prepared MySQL table containing invalid JSON data could cause out-of-bounds reads, information disclosure, or a server crash. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107817"
+    },
+    {
+      "id": "CVE-2026-107816",
+      "published": "2026-10-09T18:17:03.060",
+      "modified": "2026-10-14T14:12:42.630",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the qc_info plugin could be confused by a query containing embedded null bytes. Reading information_schema.query_cache_info after such a query was cached could access data beyond the end of a heap-allocated buffer, potentially disclosing adjacent memory or crashing the server. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107816"
+    },
+    {
+      "id": "CVE-2026-107815",
+      "published": "2026-10-09T17:16:45.970",
+      "modified": "2026-10-14T14:12:37.777",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the CONNECT engine's DOS table type used an incorrect boundary check that permitted a one-byte null write beyond a stack buffer at an attacker-controlled offset. An authenticated user able to use the CONNECT engine could cause a crash and potentially remote code execution. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107815"
+    },
+    {
+      "id": "CVE-2026-107814",
+      "published": "2026-10-09T16:17:26.150",
+      "modified": "2026-10-14T14:12:32.080",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, MariaDB RPM packages created the dedicated mysql service account with the database data directory as its home directory. A database user with the FILE privilege could write startup dot-files such as .bash_profile into $HOME, and those files could execute when an administrator opened a login shell for the mysql account. Debian packages are not affected because they use /nonexistent as the account home. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mariadb:mariadb:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107814"
+    },
+    {
+      "id": "CVE-2026-97780",
+      "published": "2026-10-13T19:22:16.080",
+      "modified": "2026-10-14T14:04:27.867",
+      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "microsoft 365",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office online server",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97780"
+    },
     {
       "id": "CVE-2022-2509",
       "published": "2022-08-01T14:15:09.890",
@@ -5151,28 +5836,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10531"
     },
     {
-      "id": "CVE-2026-100163",
-      "published": "2026-10-14T08:17:02.257",
-      "modified": "2026-10-14T08:17:02.257",
-      "description": "The Appointment Booking Plugin – LatePoint | Calendar & Scheduling for WordPress plugin for WordPress is vulnerable to Authentication Bypass in versions up to, and including, 5.7.2 via the OsCustomerHelper::create_wp_user_for_customer() helper reached from the public process_step_customer() booking step. When the 'Use WordPress users as customers' option is enabled, the helper falls back from email_exists() to username_exists( $customer->email ), which matches any WordPress user whose user_login equals the victim customer's email even when that user's user_email is completely different, and links that WordPress user's ID into the victim's LatePoint customer row (only privileged roles are excluded; Subscriber is allowed). This makes it possible for authenticated attackers, with Subscriber-level access and above, to take over another customer's LatePoint account — accessing their bookings, service, agent, and calendar data, and having the victim customer's email overwritten with the attacker's on next login — by holding a Subscriber account whose user_login equals the victim's email and submitting an unauthenticated public booking step registration request.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "AUTH_BYPASS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100163"
-    },
-    {
       "id": "CVE-2019-19926",
       "published": "2019-12-23T01:15:13.380",
       "modified": "2026-10-14T08:17:00.080",
@@ -5575,26 +6238,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19880"
-    },
-    {
-      "id": "CVE-2026-87968",
-      "published": "2026-10-14T07:17:04.070",
-      "modified": "2026-10-14T07:17:04.070",
-      "description": "The Product Feed for Google Shopping, Microsoft Advertising and 40+ Channels for WooCommerce Merchant WordPress plugin before 5.3.2 does not perform a nonce or capability check on the AJAX action that registers the store with its feed service and exposes it to unauthenticated users, so any visitor can force the store to re-register and overwrite the Product Feed for Google Shopping, Microsoft Advertising and 40+ Channels for WooCommerce Merchant WordPress plugin before 5.3.2's stored shop secret.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87968"
     },
     {
       "id": "CVE-2026-55655",
@@ -13325,26 +13968,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108544"
     },
     {
-      "id": "CVE-2026-107818",
-      "published": "2026-10-09T18:17:03.373",
-      "modified": "2026-10-14T03:17:14.330",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the mariadb.service unit used /run/mysqld/wsrep-new-cluster during the next service restart. A database user with FILE privilege and a secure-file-priv configuration permitting writes to /run/mysqld could create that file and inject attacker-controlled environment values into the restarted service. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107818"
-    },
-    {
       "id": "CVE-2026-77532",
       "published": "2026-08-26T11:16:38.343",
       "modified": "2026-10-14T02:17:00.317",
@@ -18985,48 +19608,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49785"
-    },
-    {
-      "id": "CVE-2026-110150",
-      "published": "2026-10-13T22:17:34.850",
-      "modified": "2026-10-13T22:17:34.850",
-      "description": "Privilege elevation in Installer in Google Chrome on on Windows prior to 155.0.8059.79 allowed a local attacker to obtain sensitive information via a local program. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110150"
-    },
-    {
-      "id": "CVE-2026-110144",
-      "published": "2026-10-13T22:17:34.203",
-      "modified": "2026-10-13T22:17:34.203",
-      "description": "Incorrect authorization in Mojo in Google Chrome on on Windows prior to 155.0.8059.79 allowed a local attacker to potentially execute arbitrary code outside the sandbox via a local program. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110144"
     },
     {
       "id": "CVE-2026-105733",
@@ -25884,476 +26465,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83850"
-    },
-    {
-      "id": "CVE-2026-83849",
-      "published": "2026-10-13T19:20:33.660",
-      "modified": "2026-10-13T21:18:55.870",
-      "description": "Out-of-bounds read in Windows Hello allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83849"
-    },
-    {
-      "id": "CVE-2026-83848",
-      "published": "2026-10-13T19:20:33.480",
-      "modified": "2026-10-13T21:18:55.707",
-      "description": "Untrusted pointer dereference in Windows COM+ Event System Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83848"
-    },
-    {
-      "id": "CVE-2026-83844",
-      "published": "2026-10-13T19:20:32.890",
-      "modified": "2026-10-13T21:18:55.230",
-      "description": "Out-of-bounds read in Windows Paint allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83844"
-    },
-    {
-      "id": "CVE-2026-83843",
-      "published": "2026-10-13T19:20:32.713",
-      "modified": "2026-10-13T21:18:55.070",
-      "description": "Out-of-bounds read in Windows Internet Key Exchange (IKE) Protocol allows an unauthorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83843"
-    },
-    {
-      "id": "CVE-2026-83840",
-      "published": "2026-10-13T19:20:32.243",
-      "modified": "2026-10-13T21:18:54.640",
-      "description": "Weak authentication in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83840"
-    },
-    {
-      "id": "CVE-2026-83839",
-      "published": "2026-10-13T19:20:32.090",
-      "modified": "2026-10-13T21:18:54.503",
-      "description": "Time-of-check time-of-use (toctou) race condition in Windows Hyper-V allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83839"
-    },
-    {
-      "id": "CVE-2026-83838",
-      "published": "2026-10-13T19:20:31.923",
-      "modified": "2026-10-13T21:18:54.357",
-      "description": "Integer underflow (wrap or wraparound) in Windows Bluetooth A2DP driver allows an authorized attacker to elevate privileges over an adjacent network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83838"
-    },
-    {
-      "id": "CVE-2026-83837",
-      "published": "2026-10-13T19:20:31.763",
-      "modified": "2026-10-13T21:18:54.210",
-      "description": "Improper access control in Windows Kernel-Mode Drivers allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83837"
-    },
-    {
-      "id": "CVE-2026-83836",
-      "published": "2026-10-13T19:20:31.580",
-      "modified": "2026-10-13T21:18:54.043",
-      "description": "Heap-based buffer overflow in Windows Event Tracing allows an unauthorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83836"
-    },
-    {
-      "id": "CVE-2026-83835",
-      "published": "2026-10-13T19:20:31.397",
-      "modified": "2026-10-13T21:18:53.877",
-      "description": "Buffer over-read in Windows Common Log File System Driver allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83835"
-    },
-    {
-      "id": "CVE-2026-83834",
-      "published": "2026-10-13T19:20:31.227",
-      "modified": "2026-10-13T21:18:53.723",
-      "description": "Use after free in Windows Kernel-Mode Drivers allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83834"
-    },
-    {
-      "id": "CVE-2026-83833",
-      "published": "2026-10-13T19:20:31.043",
-      "modified": "2026-10-13T21:18:53.563",
-      "description": "Heap-based buffer overflow in Windows Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83833"
-    },
-    {
-      "id": "CVE-2026-83832",
-      "published": "2026-10-13T19:20:30.900",
-      "modified": "2026-10-13T21:18:53.427",
-      "description": "Out-of-bounds read in Windows Spaceport.sys allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83832"
-    },
-    {
-      "id": "CVE-2026-83830",
-      "published": "2026-10-13T19:20:30.720",
-      "modified": "2026-10-13T21:18:53.263",
-      "description": "Heap-based buffer overflow in Windows COM+ Event System Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83830"
-    },
-    {
-      "id": "CVE-2026-83829",
-      "published": "2026-10-13T19:20:30.547",
-      "modified": "2026-10-13T21:18:53.103",
-      "description": "Heap-based buffer overflow in Microsoft Windows Search Component allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83829"
-    },
-    {
-      "id": "CVE-2026-83828",
-      "published": "2026-10-13T19:20:30.423",
-      "modified": "2026-10-13T21:18:52.997",
-      "description": "Heap-based buffer overflow in Windows MIDI Service Module allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83828"
-    },
-    {
-      "id": "CVE-2026-83827",
-      "published": "2026-10-13T19:20:30.260",
-      "modified": "2026-10-13T21:18:52.857",
-      "description": "Heap-based buffer overflow in Windows Bluetooth Port Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83827"
-    },
-    {
-      "id": "CVE-2026-83826",
-      "published": "2026-10-13T19:20:30.130",
-      "modified": "2026-10-13T21:18:52.743",
-      "description": "Untrusted pointer dereference in Windows Error Reporting allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83826"
-    },
-    {
-      "id": "CVE-2026-83797",
-      "published": "2026-10-13T19:20:29.803",
-      "modified": "2026-10-13T21:18:52.503",
-      "description": "Out-of-bounds read in Windows Partition Management Driver allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83797"
-    },
-    {
-      "id": "CVE-2026-83796",
-      "published": "2026-10-13T19:20:29.667",
-      "modified": "2026-10-13T21:18:52.387",
-      "description": "Use after free in Windows Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83796"
-    },
-    {
-      "id": "CVE-2026-83795",
-      "published": "2026-10-13T19:20:29.477",
-      "modified": "2026-10-13T21:18:52.220",
-      "description": "Heap-based buffer overflow in Windows IKE Extension allows an unauthorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83795"
-    },
-    {
-      "id": "CVE-2026-83794",
-      "published": "2026-10-13T19:20:29.293",
-      "modified": "2026-10-13T21:18:52.060",
-      "description": "Out-of-bounds read in Windows Portable Device MTP Driver allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83794"
-    },
-    {
-      "id": "CVE-2026-83792",
-      "published": "2026-10-13T19:20:29.013",
-      "modified": "2026-10-13T21:18:51.813",
-      "description": "Incorrect authorization in Windows Device Install Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83792"
     }
   ],
   "kev": [
@@ -28101,11 +28212,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 61,
-    "high": 687,
-    "medium": 231,
+    "critical": 64,
+    "high": 675,
+    "medium": 240,
     "kev": 1,
-    "p1": 55,
-    "p2": 693
+    "p1": 56,
+    "p2": 683
   }
 }
