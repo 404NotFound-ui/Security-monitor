@@ -1,6 +1,110 @@
 {
-  "updated": "2026-10-14T05:00:47.273608+00:00",
+  "updated": "2026-10-14T05:43:19.613001+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-50215",
+      "published": "2026-10-14T05:16:44.260",
+      "modified": "2026-10-14T05:16:44.260",
+      "description": "A use-after-free exists in the Windows WFP packet-capture driver shipped with Akamai Guardicore Platform Agent (GPA) before 7.4. When an IPv6 proxy/redirect rule is active, a local attacker with Administrator privileges can send a single crafted outbound IPv6 packet via a raw IPV6_HDRINCL socket to trigger this at DISPATCH_LEVEL, resulting in an immediate system crash.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50215"
+    },
+    {
+      "id": "CVE-2026-46449",
+      "published": "2026-10-14T05:16:44.110",
+      "modified": "2026-10-14T05:16:44.110",
+      "description": "The Akamai Guardicore Platform Agent (GPA) before 7.4 for macOS is affected by a local privilege escalation vulnerability within the wapptunneld component. The vulnerability is caused by a lack of input validation when the service uses network interface names to execute system utilities, resulting in command injection. An unprivileged local user with permissions to modify network interface names can exploit this by renaming a network interface to include a malicious shell payload via System Settings. When the \"Log out from your IdP\" action is subsequently triggered, the wapptunneld service processes the poisoned interface name, leading to the execution of arbitrary commands with root privileges.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46449"
+    },
+    {
+      "id": "CVE-2026-110453",
+      "published": "2026-10-14T05:16:43.377",
+      "modified": "2026-10-14T05:16:43.377",
+      "description": "Nix before 2.35.3, when unsandboxed on macOS or FreeBSD, incorrectly allows connections made by build users from daemon clients.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110453"
+    },
+    {
+      "id": "CVE-2026-110451",
+      "published": "2026-10-14T05:16:43.073",
+      "modified": "2026-10-14T05:16:43.073",
+      "description": "Nix before 2.35.3 and Lix before 2.95.4 on macOS allow a Seatbelt sandbox escape (for an unconfined build) because a certain size threshold is mishandled.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110451"
+    },
+    {
+      "id": "CVE-2026-105429",
+      "published": "2026-10-14T05:16:42.487",
+      "modified": "2026-10-14T05:16:42.487",
+      "description": "Improper neutralization of special elements in the NetBird client SSH configuration manager (client/ssh/config/manager.go) in NetBird versions 0.60.0 through 0.74.6 allows a malicious or compromised peer to execute arbitrary commands on other NetBird client hosts. The client writes a system-wide OpenSSH drop-in file (/etc/ssh/ssh_config.d/99-netbird.conf, or the equivalent under %PROGRAMDATA%\\ssh\\ssh_config.d on Windows) that embeds each peer FQDN or hostname inside a double-quoted Match host directive without escaping. A peer name containing a double quote breaks out of the quoted context and injects arbitrary SSH configuration directives, including exec commands, which run locally as any user on the host the next time that user runs ssh. Desktop clients on Linux, macOS, Windows and FreeBSD are affected; the Android and iOS apps are not. The issue is fixed in version 0.74.7, which accepts a peer FQDN or hostname only if it is a valid DNS name.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.9,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105429"
+    },
     {
       "id": "CVE-2026-97749",
       "published": "2026-10-13T19:22:12.340",
@@ -21838,106 +21942,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83505"
-    },
-    {
-      "id": "CVE-2026-83504",
-      "published": "2026-10-13T19:19:55.313",
-      "modified": "2026-10-13T21:18:22.850",
-      "description": "Time-of-check time-of-use (toctou) race condition in Windows SmartScreen allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83504"
-    },
-    {
-      "id": "CVE-2026-83500",
-      "published": "2026-10-13T19:19:55.150",
-      "modified": "2026-10-13T21:18:22.700",
-      "description": "Url redirection to untrusted site ('open redirect') in Windows BitLocker allows an unauthorized attacker to bypass a security feature with a physical attack.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83500"
-    },
-    {
-      "id": "CVE-2026-83499",
-      "published": "2026-10-13T19:19:55.003",
-      "modified": "2026-10-13T21:18:22.567",
-      "description": "Insufficient granularity of access control in Windows Server Update Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83499"
-    },
-    {
-      "id": "CVE-2026-81971",
-      "published": "2026-10-13T19:19:54.823",
-      "modified": "2026-10-13T21:18:22.300",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows NTFS allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81971"
-    },
-    {
-      "id": "CVE-2026-81969",
-      "published": "2026-10-13T19:19:54.677",
-      "modified": "2026-10-13T21:18:22.167",
-      "description": "Insufficient granularity of access control in Windows Server Update Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81969"
     }
   ],
   "kev": [
@@ -23686,10 +23690,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 55,
-    "high": 717,
-    "medium": 223,
+    "high": 715,
+    "medium": 224,
     "kev": 1,
     "p1": 55,
-    "p2": 717
+    "p2": 715
   }
 }
