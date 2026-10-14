@@ -1,6 +1,432 @@
 {
-  "updated": "2026-10-14T08:13:32.597501+00:00",
+  "updated": "2026-10-14T08:53:25.819509+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-100163",
+      "published": "2026-10-14T08:17:02.257",
+      "modified": "2026-10-14T08:17:02.257",
+      "description": "The Appointment Booking Plugin – LatePoint | Calendar & Scheduling for WordPress plugin for WordPress is vulnerable to Authentication Bypass in versions up to, and including, 5.7.2 via the OsCustomerHelper::create_wp_user_for_customer() helper reached from the public process_step_customer() booking step. When the 'Use WordPress users as customers' option is enabled, the helper falls back from email_exists() to username_exists( $customer->email ), which matches any WordPress user whose user_login equals the victim customer's email even when that user's user_email is completely different, and links that WordPress user's ID into the victim's LatePoint customer row (only privileged roles are excluded; Subscriber is allowed). This makes it possible for authenticated attackers, with Subscriber-level access and above, to take over another customer's LatePoint account — accessing their bookings, service, agent, and calendar data, and having the victim customer's email overwritten with the attacker's on next login — by holding a Subscriber account whose user_login equals the victim's email and submitting an unauthenticated public booking step registration request.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100163"
+    },
+    {
+      "id": "CVE-2019-19926",
+      "published": "2019-12-23T01:15:13.380",
+      "modified": "2026-10-14T08:17:00.080",
+      "description": "multiSelect in select.c in SQLite 3.30.1 mishandles certain errors during parsing, as demonstrated by errors from sqlite3WindowRewrite() calls. NOTE: this vulnerability exists because of an incomplete fix for CVE-2019-19880.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:sqlite:sqlite:3.30.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:sinec_infrastructure_network_services:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_workbench:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:opensuse:backports_sle:15.0:sp1:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:suse:package_hub:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:suse:linux_enterprise:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:cloud_backup:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19926"
+    },
+    {
+      "id": "CVE-2019-19925",
+      "published": "2019-12-24T17:15:10.927",
+      "modified": "2026-10-14T08:16:59.873",
+      "description": "zipfileUpdate in ext/misc/zipfile.c in SQLite 3.30.1 mishandles a NULL pathname during an update of a ZIP archive.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:sqlite:sqlite:3.30.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:sinec_infrastructure_network_services:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_workbench:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:suse:package_hub:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:suse:linux_enterprise:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:opensuse:backports_sle:15.0:sp1:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:cloud_backup:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19925"
+    },
+    {
+      "id": "CVE-2019-19923",
+      "published": "2019-12-24T16:15:11.260",
+      "modified": "2026-10-14T08:16:59.490",
+      "description": "flattenSubquery in select.c in SQLite 3.30.1 mishandles certain uses of SELECT DISTINCT involving a LEFT JOIN in which the right-hand side is a view. This can cause a NULL pointer dereference (or incorrect results).",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:sqlite:sqlite:3.30.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:sinec_infrastructure_network_services:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_workbench:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:suse:package_hub:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:suse:linux_enterprise:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:opensuse:backports_sle:15.0:sp1:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:cloud_backup:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19923"
+    },
+    {
+      "id": "CVE-2019-19906",
+      "published": "2019-12-19T18:15:12.833",
+      "modified": "2026-10-14T08:16:59.200",
+      "description": "cyrus-sasl (aka Cyrus SASL) 2.1.27 has an out-of-bounds write leading to unauthenticated remote denial-of-service in OpenLDAP via a malformed LDAP packet. The OpenLDAP crash is ultimately caused by an off-by-one error in _sasl_add_string in common.c in cyrus-sasl.",
+      "vendors": [
+        "Apple",
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise web server",
+          "version": "2.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_web_server:2.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "mac os x",
+          "version": "10.14.6",
+          "cpe": "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2020-003:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "5.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:5.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server update services for sap solutions",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_update_services_for_sap_solutions:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "ipados",
+          "version": "13.6",
+          "cpe": "cpe:2.3:o:apple:ipados:13.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "13.6",
+          "cpe": "cpe:2.3:o:apple:iphone_os:13.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "mac os x",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:mac_os_x:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "mac os x",
+          "version": "10.13.6",
+          "cpe": "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2020-003:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:cyrusimap:cyrus-sasl:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:12.04:*:*:*:-:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:14.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:16.04:*:*:*:esm:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:18.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:19.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:31:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:32:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_web_server:2.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:-:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:5.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_update_services_for_sap_solutions:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:ipados:13.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:13.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:-:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2018-002:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2018-003:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-001:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-002:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-003:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-004:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-005:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-006:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2019-007:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2020-001:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2020-002:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.13.6:security_update_2020-003:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-001:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-002:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-004:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-005:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-006:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2019-007:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2020-001:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2020-002:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:mac_os_x:10.14.6:security_update_2020-003:*:*:*:*:*:*",
+        "cpe:2.3:a:apache:bookkeeper:4.12.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:centos:centos:7.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19906"
+    },
+    {
+      "id": "CVE-2019-19880",
+      "published": "2019-12-18T06:15:12.847",
+      "modified": "2026-10-14T08:16:58.950",
+      "description": "exprListAppendList in window.c in SQLite 3.30.1 allows attackers to trigger an invalid pointer dereference because constant integer values in ORDER BY clauses of window definitions are mishandled.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:sqlite:sqlite:3.30.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:cloud_backup:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:suse:package_hub:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:suse:linux_enterprise:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:opensuse:backports_sle:15.0:sp1:*:*:*:*:*:*",
+        "cpe:2.3:o:opensuse:leap:15.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_workbench:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:sinec_infrastructure_network_services:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19880"
+    },
     {
       "id": "CVE-2026-87968",
       "published": "2026-10-14T07:17:04.070",
@@ -23221,126 +23647,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83643"
-    },
-    {
-      "id": "CVE-2026-83641",
-      "published": "2026-10-13T19:20:04.700",
-      "modified": "2026-10-13T21:18:30.027",
-      "description": "Heap-based buffer overflow in Windows Media allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83641"
-    },
-    {
-      "id": "CVE-2026-83640",
-      "published": "2026-10-13T19:20:04.503",
-      "modified": "2026-10-13T21:18:29.863",
-      "description": "Heap-based buffer overflow in Windows NTFS allows an authorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83640"
-    },
-    {
-      "id": "CVE-2026-83639",
-      "published": "2026-10-13T19:20:04.293",
-      "modified": "2026-10-13T21:18:29.713",
-      "description": "Heap-based buffer overflow in Windows Sensor Data Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83639"
-    },
-    {
-      "id": "CVE-2026-83637",
-      "published": "2026-10-13T19:20:03.900",
-      "modified": "2026-10-13T21:18:29.333",
-      "description": "Out-of-bounds read in Windows Kernel-Mode Drivers allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83637"
-    },
-    {
-      "id": "CVE-2026-83636",
-      "published": "2026-10-13T19:20:03.737",
-      "modified": "2026-10-13T21:18:29.147",
-      "description": "Null pointer dereference in Windows Hyper-V allows an authorized attacker to deny service locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83636"
-    },
-    {
-      "id": "CVE-2026-83634",
-      "published": "2026-10-13T19:20:03.400",
-      "modified": "2026-10-13T21:18:28.897",
-      "description": "Double free in Windows BitLocker allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83634"
     }
   ],
   "kev": [
@@ -25089,10 +25395,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 59,
-    "high": 704,
-    "medium": 230,
+    "high": 705,
+    "medium": 229,
     "kev": 1,
     "p1": 57,
-    "p2": 706
+    "p2": 707
   }
 }
