@@ -1,6 +1,78 @@
 {
-  "updated": "2026-10-15T13:24:01.380115+00:00",
+  "updated": "2026-10-15T14:09:11.316991+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-102674",
+      "published": "2026-09-29T17:17:07.653",
+      "modified": "2026-10-15T13:58:37.623",
+      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to 41.10.6, 42.9.2, 43.4.1, and 44.0.0-beta.5, windows opened from a sandboxed top-level document did not inherit that document's active HTML sandbox restrictions. Untrusted content in a sandboxed top-level document that was permitted to open popups could therefore create a window with the Electron application's full origin instead of the restricted origin intended by the sandbox. Applications that deny such popups with setWindowOpenHandler are not affected. This issue is fixed in versions 41.10.6, 42.9.2, 43.4.1, and 44.0.0-beta.5.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:electronjs:electron:*:*:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha1:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha2:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha3:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha4:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha5:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha6:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha7:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha8:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:alpha9:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:beta1:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:beta2:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:beta3:*:*:*:node.js:*:*",
+        "cpe:2.3:a:electronjs:electron:44.0.0:beta4:*:*:*:node.js:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102674"
+    },
+    {
+      "id": "CVE-2026-102555",
+      "published": "2026-09-29T18:17:07.977",
+      "modified": "2026-10-15T13:28:52.700",
+      "description": "A flaw was found in libsoup. The soup_uri_decode_data_uri() function incorrectly treated base64 data-URI payloads as NUL-terminated strings when calling g_base64_decode_inplace(). If the percent-decoded payload contained embedded NUL bytes, the decoded length could remain uninitialized and be used as the size of the returned GBytes. This can lead to an out-of-bounds read or application crash when processing a crafted data URI.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnome:libsoup:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102555"
+    },
     {
       "id": "CVE-2026-102558",
       "published": "2026-09-29T18:17:08.340",
@@ -51245,46 +51317,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85834"
-    },
-    {
-      "id": "CVE-2026-85825",
-      "published": "2026-10-13T19:21:07.597",
-      "modified": "2026-10-14T04:18:48.277",
-      "description": "Use after free in Windows Universal Disk Format File System Driver (UDFS) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85825"
-    },
-    {
-      "id": "CVE-2026-85820",
-      "published": "2026-10-13T19:21:06.800",
-      "modified": "2026-10-14T04:18:48.070",
-      "description": "Use after free in Windows Universal Disk Format File System Driver (UDFS) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85820"
     }
   ],
   "kev": [
