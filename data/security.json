@@ -1,6 +1,164 @@
 {
-  "updated": "2026-10-15T11:59:33.611567+00:00",
+  "updated": "2026-10-15T12:39:41.246687+00:00",
   "cves": [
+    {
+      "id": "CVE-2025-66769",
+      "published": "2026-04-13T16:16:24.620",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "A NULL pointer dereference in Nitro PDF Pro for Windows v14.41.1.4 allows attackers to cause a Denial of Service (DoS) via a crafted XFA packet.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gonitro:nitro_pdf_pro:14.41.1.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-66769"
+    },
+    {
+      "id": "CVE-2025-69624",
+      "published": "2026-04-13T16:16:24.740",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "Nitro PDF Pro before 14.43 for Windows contains a NULL pointer dereference vulnerability in the JavaScript implementation of app.alert(). When app.alert() is called with more than one argument and the first argument evaluates to null (for example, app.alert(app.activeDocs, true) when app.activeDocs is null), the engine routes the call through a fallback path intended for non-string arguments. In this path, js_ValueToString() is invoked on the null value and returns an invalid string pointer, which is then passed to JS_GetStringChars() without validation. Dereferencing this pointer leads to an access violation and application crash when opening a crafted PDF. For example, 14.41.1.4 and 14.42.0.34 have been reported as vulnerable.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gonitro:nitro_pdf_pro:14.41.1.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69624"
+    },
+    {
+      "id": "CVE-2025-69627",
+      "published": "2026-04-13T16:16:24.867",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "Nitro PDF Pro for Windows 14.41.1.4 contains a heap use-after-free vulnerability in the implementation of the JavaScript method this.mailDoc(). During execution, an internal XID object is allocated and then freed prematurely, after which the freed pointer is still passed into UI and logging helper functions. Because the freed memory region may contain unpredictable heap data or remnants of attacker-controlled JavaScript strings, downstream routines such as wcscmp() may process invalid or stale pointers. This can result in access violations and non-deterministic crashes.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gonitro:nitro_pdf_pro:14.41.1.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-69627"
+    },
+    {
+      "id": "CVE-2025-58772",
+      "published": "2026-10-13T14:17:18.327",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "AMI APTIOV contains vulnerabilities in BIOS where users may cause \n“Classic Buffer Overflow” by local access. Successful exploitation of this vulnerability could lead to buffer overflows, memory corruption, and arbitrary code execution, and also impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:H/SC:N/SI:N/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58772"
+    },
+    {
+      "id": "CVE-2025-58773",
+      "published": "2026-10-13T14:17:18.460",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "AMI APTIOV contains vulnerabilities in BIOS where users may cause  \"Out-of-bounds Write” by local access. Successful exploitation of this vulnerability could lead to buffer overflows, memory corruption, and arbitrary code execution, and also impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58773"
+    },
+    {
+      "id": "CVE-2025-58774",
+      "published": "2026-10-13T14:17:18.580",
+      "modified": "2026-10-15T12:10:00.230",
+      "description": "AMI APTIOV contains vulnerabilities\nin BIOS where users may cause “Buffer Access with Incorrect Length\nValue” by local access. Successful exploitation of this vulnerability could\nlead to buffer overflows, memory corruption, and arbitrary code execution, and\nalso impact Confidentiality, Integrity, and Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:H/SC:L/SI:L/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58774"
+    },
     {
       "id": "CVE-2026-98085",
       "published": "2026-09-25T11:17:38.087",
@@ -51096,130 +51254,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85810"
-    },
-    {
-      "id": "CVE-2026-85809",
-      "published": "2026-10-13T19:21:05.287",
-      "modified": "2026-10-14T04:18:47.427",
-      "description": "Remote Code Execution in Windows Routing and Remote Access Service (RRAS) allows attacker to gain an unauthorized access to victim's machine",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85809"
-    },
-    {
-      "id": "CVE-2026-85807",
-      "published": "2026-10-13T19:21:04.950",
-      "modified": "2026-10-14T04:18:47.230",
-      "description": "Integer overflow or wraparound in Windows USB Video Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85807"
-    },
-    {
-      "id": "CVE-2026-85802",
-      "published": "2026-10-13T19:21:04.160",
-      "modified": "2026-10-14T04:18:47.023",
-      "description": "Use after free in Windows Win32 Kernel Subsystem allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85802"
-    },
-    {
-      "id": "CVE-2026-85795",
-      "published": "2026-10-13T19:21:03.087",
-      "modified": "2026-10-14T04:18:46.793",
-      "description": "Use after free in Windows Text Services Framework allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85795"
-    },
-    {
-      "id": "CVE-2026-85792",
-      "published": "2026-10-13T19:21:02.570",
-      "modified": "2026-10-14T04:18:46.600",
-      "description": "Remote Code Execution in Windows Routing and Remote Access Service (RRAS) allows attacker to gain an unauthorized access to victim's machine",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85792"
-    },
-    {
-      "id": "CVE-2026-85375",
-      "published": "2026-10-13T19:21:01.563",
-      "modified": "2026-10-14T04:18:46.260",
-      "description": "Use after free in Windows Universal Plug and Play (UPnP) Device Host allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85375"
     }
   ],
   "kev": [
@@ -52971,11 +53005,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 55,
-    "high": 539,
+    "critical": 53,
+    "high": 541,
     "medium": 342,
     "kev": 3,
-    "p1": 33,
-    "p2": 561
+    "p1": 31,
+    "p2": 563
   }
 }
