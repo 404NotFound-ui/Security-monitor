@@ -1,6 +1,435 @@
 {
-  "updated": "2026-10-15T14:09:11.316991+00:00",
+  "updated": "2026-10-15T14:46:39.111571+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-19673",
+      "published": "2026-10-14T17:18:26.800",
+      "modified": "2026-10-15T14:46:15.327",
+      "description": "ethernet_recv() in subsys/net/l2/ethernet/ethernet.c validates only that the first net_buf of a received frame holds a plain 14-byte struct net_eth_hdr. When the ethertype is 0x8100 and VLAN is enabled on the interface, the same buffer is reinterpreted as the 18-byte struct net_eth_vlan_hdr without re-checking the length: the VLAN TCI and the inner ethertype are read from offsets 14..17, past pkt->buffer->len, and hdr_len is raised to 18 so the subsequent net_buf_pull() removes more bytes than the buffer holds.\n\nA single unauthenticated frame of 14 to 17 bytes carrying the VLAN ethertype triggers this. No knowledge of the node's VLAN configuration is needed: net_eth_get_vlan_iface() returns the base interface for the priority tag 0, and a broadcast destination address satisfies the \"frame is for me\" test, so a 16-byte broadcast frame with ethertype 0x8100 and TCI 0x0000 reaches the pull. Nothing in the receive path enforces the 60-byte Ethernet minimum — the USB CDC ECM and CDC NCM gadget classes in particular hand host-supplied frames of any non-zero length straight to net_recv_data().\n\nWith assertions enabled, net_buf_simple_pull() asserts and the node panics. In a production build (assertions and CONFIG_NET_BUF_HARDENING off) the uint16_t buffer length underflows to 65534 and buf->data is advanced past the end of the fragment's storage, so every later parser reads far outside the buffer and any net_buf_add() on that fragment computes tailroom from the underflowed length. The result is a reliable remote denial of service and out-of-bounds access with information-disclosure and corruption potential.\n\nOnly configurations built with CONFIG_NET_VLAN=y that have a VLAN enabled on the receiving Ethernet interface, and whose MAC does not strip VLAN tags in hardware (ETHERNET_HW_VLAN_TAG_STRIP), are affected. The fix rejects the frame before the tag is read, so hdr_len is thereafter either 14 or 18 with both sizes validated against pkt->buffer->len.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19673"
+    },
+    {
+      "id": "CVE-2026-108151",
+      "published": "2026-10-14T18:17:27.013",
+      "modified": "2026-10-15T14:45:38.353",
+      "description": "Improper Control of Generation of Code ('Code Injection') vulnerability in PluginUs.Net MDTF wp-meta-data-filter-and-taxonomy-filter allows Code Injection.This issue affects MDTF: from n/a through 1.3.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108151"
+    },
+    {
+      "id": "CVE-2026-103224",
+      "published": "2026-10-15T09:17:15.990",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the MySQL message decoder aggregates inbound multi-packet payloads into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle MySQL server can send a continuous stream of packets with the maximum payload length (0xFFFFFF), preventing the end-of-message condition from being reached, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103224"
+    },
+    {
+      "id": "CVE-2026-103223",
+      "published": "2026-10-15T09:17:15.853",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the PostgreSQL message decoder reads the 4-byte message length field from the PostgreSQL wire protocol without any maximum validation. A malicious, compromised, or man-in-the-middle PostgreSQL server can send a message header with the length field set to an extremely large value (up to Integer.MAX_VALUE), causing the decoder to accumulate subsequent TCP data into a composite buffer without bound, leading to unbounded memory allocation on the client and an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103223"
+    },
+    {
+      "id": "CVE-2026-102466",
+      "published": "2026-10-15T09:17:15.427",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the Vert.x MySQL client (vertx-mysql-client) pre-allocates an array for column definitions based on a server-declared column count with no upper-bound validation. A malicious or compromised MySQL server, or an attacker with man-in-the-middle positioning, can send a crafted result set packet with an extremely large column count, causing the client to attempt a massive heap allocation. The resulting OutOfMemoryError crashes the Netty event loop thread, causing a complete denial of service for all connections and verticles in the Vert.x application.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102466"
+    },
+    {
+      "id": "CVE-2026-102463",
+      "published": "2026-10-15T09:17:15.143",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the binary array decoder in vertx-pg-client (DataTypeCodec.binaryDecodeArray) allocates a Java array sized by a server-declared 32-bit dimension count with no upper bound. A malicious or compromised PostgreSQL server, or an on-path attacker intercepting an unencrypted connection, can send a crafted DataRow message with an excessively large array dimension value, causing the client to attempt a multi-gigabyte heap allocation and crash with an OutOfMemoryError.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102463"
+    },
+    {
+      "id": "CVE-2026-102462",
+      "published": "2026-10-15T09:17:15.020",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the TDS message decoder in the Vert.x MSSQL client (vertx-mssql-client) aggregates inbound TDS packets into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle SQL Server can send a continuous stream of TDS packets without setting the END_OF_MESSAGE status flag, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mssql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102462"
+    },
+    {
+      "id": "CVE-2026-106465",
+      "published": "2026-10-14T18:17:25.093",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "The NetX Secure DTLS server sends a HelloVerifyRequest carrying a freshly generated cookie, but never checks the cookie a client returns. The ClientHello parser copies the client's cookie bytes over the value the server issued, and the server then decides whether the client has been verified from the cookie's length alone. A peer that puts any single cookie byte in its first ClientHello skips the verification exchange entirely, so the server has no return-routability check and completes handshakes for forged source addresses.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106465"
+    },
+    {
+      "id": "CVE-2026-93649",
+      "published": "2026-10-15T14:17:30.107",
+      "modified": "2026-10-15T14:41:34.110",
+      "description": "In the Eclipse Adoptium website (adoptium.net), in every deployment built from commit 0b24ea1 (2025-06-18) up to the fix in commit cbb53cf (2026-09-24), the post-download page /[locale]/download takes a download URL from the \"link\" query parameter and automatically navigates to it with a meta http-equiv=\"refresh\". The URL is checked against a list of trusted prefixes using String.startsWith() on the raw string, while the browser applies RFC 3986 dot-segment normalisation before navigating, so a value such as https://github.com/adoptium/temurin/../../attacker/malware/releases/download/v1/jdk.exe passes the check but resolves to an attacker-controlled repository. A victim who follows a crafted adoptium.net link is shown the genuine \"Thank you for downloading Eclipse Temurin\" page while their browser downloads a binary of the attacker's choosing",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93649"
+    },
+    {
+      "id": "CVE-2026-63315",
+      "published": "2026-10-15T09:17:17.857",
+      "modified": "2026-10-15T14:17:26.880",
+      "description": "WebCTI service for Slican IPx telephone exchanges stores temporary subscriber password in plaintext. An attacker with access to the database can obtain the user's password and log in to the subscriber's account.\n\n\n\nThis issue was fixed in IPx series version 6.62.0100.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63315"
+    },
+    {
+      "id": "CVE-2026-63314",
+      "published": "2026-10-15T09:17:17.713",
+      "modified": "2026-10-15T14:17:26.760",
+      "description": "WebCTI service for Slican IPx telephone exchanges is vulnerable to SQL Injection in /webcti/admin_json.php enpoint. Improper neutralization of input allows an authenticated attacker to execute SQL Injection attacks.\n\n\nThis issue was fixed in IPx series version 6.62.0100.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63314"
+    },
+    {
+      "id": "CVE-2026-49484",
+      "published": "2026-10-12T22:17:04.480",
+      "modified": "2026-10-15T14:17:25.903",
+      "description": "Code for IBM i is a Visual Studio Code extension for maintaining and compiling ILE languages on the IBMi platform. Prior to 3.0.1, src/ui/views/objectBrowser.ts stores Object Browser downloads and the edit-save flow content in the shared /tmp directory without reliable cleanup. On systems where /tmp is accessible to other local accounts, file contents remain readable after download or editing operations. This issue is fixed in version 3.0.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:L/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49484"
+    },
+    {
+      "id": "CVE-2026-35088",
+      "published": "2026-10-15T09:17:17.417",
+      "modified": "2026-10-15T14:17:24.853",
+      "description": "Slican telephone exchanges use symmetric encryption for TCP/IP communication. Secret key is hardcoded in multiple binary files. An attacker who has access to these files can decrypt the communication.\n\nThis issue was fixed in IPx series version 6.62.0100.\n\nThe issue STILL EXISTS in End-Of-Life telephone exchanges:\n- CCT-1668 (CCT1CPU)\n- MAC-6400\n- CXS-0424\nThese products were discontinued in 2011 and 2012 and and will not receive updates. These products require a hardware update in order to receive a software update. The vendor recommends that users of these devices contact the their service department directly to determine the options for upgrading.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35088"
+    },
+    {
+      "id": "CVE-2026-109557",
+      "published": "2026-10-12T21:17:11.790",
+      "modified": "2026-10-15T14:17:18.217",
+      "description": "EdgeEver through 1.112.0 contains a stored cross-site scripting vulnerability in setMemoDragPreview that allows attackers to inject script through notebook names or memo titles. Attackers can set malicious names via MCP create_notebook, rename_notebook or create_memo tools, running script on drag with access to the desktop bridge's session token.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109557"
+    },
+    {
+      "id": "CVE-2026-109423",
+      "published": "2026-10-12T20:17:08.993",
+      "modified": "2026-10-15T14:17:17.890",
+      "description": "NetEase Cloud Music client for Windows (cloudmusic.exe) versions 3.1.38 and 3.1.39.205426 contains a TLS certificate validation vulnerability that allows a network-adjacent attacker to intercept and decrypt HTTPS traffic by failing to validate the server certificate chain, verify the hostname, or consult any Windows certificate trust store. Attackers can perform a man-in-the-middle attack using a rogue certificate authority to decrypt traffic, capture the MUSIC_U session credential sent in authenticated API requests, and modify server responses in transit, enabling account takeover and transport-layer response forgery.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109423"
+    },
+    {
+      "id": "CVE-2026-107503",
+      "published": "2026-10-08T10:17:08.457",
+      "modified": "2026-10-15T14:17:15.317",
+      "description": "In Eclipse Ditto versions 3.6.0 to 3.8.13 and 3.9.0 to 3.9.7, the Ditto Explorer UI loads its complete environment configuration, including the Ditto API URI and the OpenID Connect (OIDC) provider settings, from an arbitrary\ncross-origin URL supplied in the environmentsURL query parameter. It adopts this configuration without user confirmation and persists it in the browser's localStorage. A crafted link can therefore set an attacker-controlled OIDC\nauthority with autoSso enabled. The UI then automatically starts a login at the genuine identity provider but exchanges the returned authorization code together with its PKCE code_verifier at an attacker-controlled token\nendpoint. This lets the attacker redeem the code for the victim's access and refresh tokens. Alternatively, an attacker-controlled api_uri causes the UI to send the victim's bearer token or Basic credentials to the attacker. Because\nthe configuration is persisted, later visits to the UI without the crafted link repeat the token theft. In versions 3.9.0 to 3.9.7, the Swagger UI OIDC integration of the Helm chart and the Docker Compose deployment is affected in\nthe same way, but requires the user to start the login. The issue is fixed in 3.8.14 and 3.9.8.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:L/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107503"
+    },
+    {
+      "id": "CVE-2026-106160",
+      "published": "2026-10-15T14:17:14.727",
+      "modified": "2026-10-15T14:17:14.727",
+      "description": "In Progress® Kendo® UI for jQuery prior to 2026.3.1015, Model.accept passes server-response keys to kendo.setter without guarding against unsafe object paths containing __proto__, constructor, or prototype. An attacker who can supply data accepted by an affected model can modify object prototype attributes and influence application behavior, potentially compromising the confidentiality and integrity of application data. The impact depends on how the application uses the modified objects, including in server-side JavaScript scenarios. The earliest affected version has not been confirmed. This issue is fixed in version 2026.3.1015.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106160"
+    },
+    {
+      "id": "CVE-2026-104025",
+      "published": "2026-10-15T13:17:10.617",
+      "modified": "2026-10-15T14:17:13.717",
+      "description": "Path Traversal (CWE-22) in the execute_obj function of the archive object viewer (peach.pas) in PeaZip 11.2.0 and earlier on Windows allows an attacker who convinces a victim to preview an entry of a crafted archive via the \"Preview with... -> Associated application\" action (Shift+Ctrl+O) to execute an arbitrary program already present on the victim's system, with no warning dialog. The function validates only outname (PeaZip's own temporary directory) with checkfiledirname, while the string actually executed is the concatenation outname+tempstring; tempstring is taken verbatim from the archive entry name (StringGridList.Cells[12,...]) and is never validated. checkfiledirname (list_utils.pas) rejects control and reserved characters in the file name but performs no \"..\" path-containment check, so an entry named ../../../../Windows/System32/calc.exe escapes the extraction directory and is passed to cp_open -> ShellExecuteW; the extracting backend (7-Zip) strips the traversal while the opener does not. In addition, the SECEXTCONST dangerous-extension confirmation prompt is implemented only in the double-click handler (grid_obj_open) and not on this preview route, so an executable inside an archive reaches ShellExecuteW unannounced, and where the prompt does fire it names the entry's display name rather than the resolved path that will run. Arbitrary code execution was demonstrated with a proof of concept against official PeaZip builds, confirmed on two archive formats (.zip and .tar) to show the defect is in PeaZip's own path handling and not in a single format parser.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104025"
+    },
+    {
+      "id": "CVE-2026-104024",
+      "published": "2026-10-15T14:17:13.553",
+      "modified": "2026-10-15T14:17:13.553",
+      "description": "Incomplete List of Disallowed Inputs (CWE-184) in the dangerous-extension confirmation of the archive object viewer (peach.pas, grid_obj_open) in PeaZip 10.5.0 through 11.2.0 on Windows allows an attacker who convinces a victim to open an entry of a crafted archive to execute a program, or an arbitrary command, with no confirmation dialog. The prompt (Do you want to run this file?) is gated by SECEXTCONST, a hard-coded list of seven extensions (exe cmd msi bat ps1 vbs reg); the check is an exact string comparison of the entry extension against that list, so it answers only whether the extension is one of the seven and never whether the shell will execute the file. Shell-executable and scripting-host types that Windows runs through ShellExecuteW are absent from the list, among them .url and .lnk. An archived Windows Internet Shortcut (.url) whose URL line is attacker-controlled is launched with no prompt, while the byte-identical content in an entry named .bat does raise the warning in the same session. A .lnk entry raises the ceiling from launching a program to running a command line, because a Windows shortcut carries arguments: a proof-of-concept shortcut targeting cmd.exe with an attacker-chosen command line executed with no prompt. The shortcut target is not confined to the local disk; the shell also resolved an attacker-named UNC path (fetching a remote payload was only attempted, not demonstrated). No privilege escalation; everything runs as the user who opened the archive.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104024"
+    },
+    {
+      "id": "CVE-2026-91811",
+      "published": "2026-09-23T08:17:13.307",
+      "modified": "2026-10-15T14:10:54.133",
+      "description": "A heap-based out-of-bounds write vulnerability exists in Foxit PDF Editor/Reader’s PRC parser due to insufficient validation of vertex indices in triangular fan texture meshes. Successful exploitation could result in memory corruption and an application crash.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:foxit:pdf_editor:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:foxit:pdf_reader:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91811"
+    },
     {
       "id": "CVE-2026-102674",
       "published": "2026-09-29T17:17:07.653",
@@ -123,28 +552,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102558"
-    },
-    {
-      "id": "CVE-2026-104025",
-      "published": "2026-10-15T13:17:10.617",
-      "modified": "2026-10-15T13:17:10.617",
-      "description": "Path Traversal (CWE-22) in the execute_obj function of the archive object viewer (peach.pas) in PeaZip 11.2.0 and earlier on Windows allows an attacker who convinces a victim to preview an entry of a crafted archive via the \"Preview with... -> Associated application\" action (Shift+Ctrl+O) to execute an arbitrary program already present on the victim's system, with no warning dialog. The function validates only outname (PeaZip's own temporary directory) with checkfiledirname, while the string actually executed is the concatenation outname+tempstring; tempstring is taken verbatim from the archive entry name (StringGridList.Cells[12,...]) and is never validated. checkfiledirname (list_utils.pas) rejects control and reserved characters in the file name but performs no \"..\" path-containment check, so an entry named ../../../../Windows/System32/calc.exe escapes the extraction directory and is passed to cp_open -> ShellExecuteW; the extracting backend (7-Zip) strips the traversal while the opener does not. In addition, the SECEXTCONST dangerous-extension confirmation prompt is implemented only in the double-click handler (grid_obj_open) and not on this preview route, so an executable inside an archive reaches ShellExecuteW unannounced, and where the prompt does fire it names the entry's display name rather than the resolved path that will run. Arbitrary code execution was demonstrated with a proof of concept against official PeaZip builds, confirmed on two archive formats (.zip and .tar) to show the defect is in PeaZip's own path handling and not in a single format parser.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104025"
     },
     {
       "id": "CVE-2025-66769",
@@ -893,66 +1300,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-2586"
     },
     {
-      "id": "CVE-2026-63315",
-      "published": "2026-10-15T09:17:17.857",
-      "modified": "2026-10-15T09:17:17.857",
-      "description": "WebCTI service for Slican IPx telephone exchanges stores temporary subscriber password in plaintext. An attacker with access to the database can obtain the user's password and log in to the subscriber's account.\n\n\n\nThis issue was fixed in IPx series version 6.62.0100.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63315"
-    },
-    {
-      "id": "CVE-2026-63314",
-      "published": "2026-10-15T09:17:17.713",
-      "modified": "2026-10-15T09:17:17.713",
-      "description": "WebCTI service for Slican IPx telephone exchanges is vulnerable to SQL Injection in /webcti/admin_json.php enpoint. Improper neutralization of input allows an authenticated attacker to execute SQL Injection attacks.\n\n\nThis issue was fixed in IPx series version 6.62.0100.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63314"
-    },
-    {
-      "id": "CVE-2026-35088",
-      "published": "2026-10-15T09:17:17.417",
-      "modified": "2026-10-15T09:17:17.417",
-      "description": "Slican telephone exchanges use symmetric encryption for TCP/IP communication. Secret key is hardcoded in multiple binary files. An attacker who has access to these files can decrypt the communication.\n\nThis issue was fixed in IPx series version 6.62.0100.\n\nThe issue STILL EXISTS in End-Of-Life telephone exchanges:\n- CCT-1668 (CCT1CPU)\n- MAC-6400\n- CXS-0424\nThese products were discontinued in 2011 and 2012 and and will not receive updates. These products require a hardware update in order to receive a software update. The vendor recommends that users of these devices contact the their service department directly to determine the options for upgrading.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-35088"
-    },
-    {
       "id": "CVE-2026-16437",
       "published": "2026-10-15T09:17:16.910",
       "modified": "2026-10-15T09:17:16.910",
@@ -973,108 +1320,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16437"
-    },
-    {
-      "id": "CVE-2026-103224",
-      "published": "2026-10-15T09:17:15.990",
-      "modified": "2026-10-15T09:17:15.990",
-      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the MySQL message decoder aggregates inbound multi-packet payloads into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle MySQL server can send a continuous stream of packets with the maximum payload length (0xFFFFFF), preventing the end-of-message condition from being reached, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103224"
-    },
-    {
-      "id": "CVE-2026-103223",
-      "published": "2026-10-15T09:17:15.853",
-      "modified": "2026-10-15T09:17:15.853",
-      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the PostgreSQL message decoder reads the 4-byte message length field from the PostgreSQL wire protocol without any maximum validation. A malicious, compromised, or man-in-the-middle PostgreSQL server can send a message header with the length field set to an extremely large value (up to Integer.MAX_VALUE), causing the decoder to accumulate subsequent TCP data into a composite buffer without bound, leading to unbounded memory allocation on the client and an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103223"
-    },
-    {
-      "id": "CVE-2026-102466",
-      "published": "2026-10-15T09:17:15.427",
-      "modified": "2026-10-15T09:17:15.427",
-      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the Vert.x MySQL client (vertx-mysql-client) pre-allocates an array for column definitions based on a server-declared column count with no upper-bound validation. A malicious or compromised MySQL server, or an attacker with man-in-the-middle positioning, can send a crafted result set packet with an extremely large column count, causing the client to attempt a massive heap allocation. The resulting OutOfMemoryError crashes the Netty event loop thread, causing a complete denial of service for all connections and verticles in the Vert.x application.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102466"
-    },
-    {
-      "id": "CVE-2026-102463",
-      "published": "2026-10-15T09:17:15.143",
-      "modified": "2026-10-15T09:17:15.143",
-      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the binary array decoder in vertx-pg-client (DataTypeCodec.binaryDecodeArray) allocates a Java array sized by a server-declared 32-bit dimension count with no upper bound. A malicious or compromised PostgreSQL server, or an on-path attacker intercepting an unencrypted connection, can send a crafted DataRow message with an excessively large array dimension value, causing the client to attempt a multi-gigabyte heap allocation and crash with an OutOfMemoryError.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102463"
-    },
-    {
-      "id": "CVE-2026-102462",
-      "published": "2026-10-15T09:17:15.020",
-      "modified": "2026-10-15T09:17:15.020",
-      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the TDS message decoder in the Vert.x MSSQL client (vertx-mssql-client) aggregates inbound TDS packets into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle SQL Server can send a continuous stream of TDS packets without setting the END_OF_MESSAGE status flag, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mssql-client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102462"
     },
     {
       "id": "CVE-2026-73198",
@@ -39491,26 +39736,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109172"
     },
     {
-      "id": "CVE-2026-108151",
-      "published": "2026-10-14T18:17:27.013",
-      "modified": "2026-10-14T18:17:27.013",
-      "description": "Improper Control of Generation of Code ('Code Injection') vulnerability in PluginUs.Net MDTF wp-meta-data-filter-and-taxonomy-filter allows Code Injection.This issue affects MDTF: from n/a through 1.3.9.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108151"
-    },
-    {
       "id": "CVE-2026-107350",
       "published": "2026-10-14T18:17:25.670",
       "modified": "2026-10-14T18:17:25.670",
@@ -39531,26 +39756,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107350"
-    },
-    {
-      "id": "CVE-2026-106465",
-      "published": "2026-10-14T18:17:25.093",
-      "modified": "2026-10-14T18:17:25.093",
-      "description": "The NetX Secure DTLS server sends a HelloVerifyRequest carrying a freshly generated cookie, but never checks the cookie a client returns. The ClientHello parser copies the client's cookie bytes over the value the server issued, and the server then decides whether the client has been verified from the cookie's length alone. A peer that puts any single cookie byte in its first ClientHello skips the verification exchange entirely, so the server has no return-routability check and completes handshakes for forged source addresses.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106465"
     },
     {
       "id": "CVE-2026-105390",
@@ -40411,28 +40616,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21589"
-    },
-    {
-      "id": "CVE-2026-19673",
-      "published": "2026-10-14T17:18:26.800",
-      "modified": "2026-10-14T17:18:26.800",
-      "description": "ethernet_recv() in subsys/net/l2/ethernet/ethernet.c validates only that the first net_buf of a received frame holds a plain 14-byte struct net_eth_hdr. When the ethertype is 0x8100 and VLAN is enabled on the interface, the same buffer is reinterpreted as the 18-byte struct net_eth_vlan_hdr without re-checking the length: the VLAN TCI and the inner ethertype are read from offsets 14..17, past pkt->buffer->len, and hdr_len is raised to 18 so the subsequent net_buf_pull() removes more bytes than the buffer holds.\n\nA single unauthenticated frame of 14 to 17 bytes carrying the VLAN ethertype triggers this. No knowledge of the node's VLAN configuration is needed: net_eth_get_vlan_iface() returns the base interface for the priority tag 0, and a broadcast destination address satisfies the \"frame is for me\" test, so a 16-byte broadcast frame with ethertype 0x8100 and TCI 0x0000 reaches the pull. Nothing in the receive path enforces the 60-byte Ethernet minimum — the USB CDC ECM and CDC NCM gadget classes in particular hand host-supplied frames of any non-zero length straight to net_recv_data().\n\nWith assertions enabled, net_buf_simple_pull() asserts and the node panics. In a production build (assertions and CONFIG_NET_BUF_HARDENING off) the uint16_t buffer length underflows to 65534 and buf->data is advanced past the end of the fragment's storage, so every later parser reads far outside the buffer and any net_buf_add() on that fragment computes tailroom from the underflowed length. The result is a reliable remote denial of service and out-of-bounds access with information-disclosure and corruption potential.\n\nOnly configurations built with CONFIG_NET_VLAN=y that have a VLAN enabled on the receiving Ethernet interface, and whose MAC does not strip VLAN tags in hardware (ETHERNET_HW_VLAN_TAG_STRIP), are affected. The fix rejects the frame before the tag is read, so hdr_len is thereafter either 14 or 18 with both sizes validated against pkt->buffer->len.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19673"
     },
     {
       "id": "CVE-2026-110233",
@@ -51153,170 +51336,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85928"
-    },
-    {
-      "id": "CVE-2026-85927",
-      "published": "2026-10-13T19:21:18.737",
-      "modified": "2026-10-14T04:18:49.993",
-      "description": "Heap-based buffer overflow in Windows Universal Plug and Play (UPnP) Device Host allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85927"
-    },
-    {
-      "id": "CVE-2026-85922",
-      "published": "2026-10-13T19:21:18.310",
-      "modified": "2026-10-14T04:18:49.837",
-      "description": "Weak authentication in Azure Key Vault allows an unauthorized attacker to bypass a security feature over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85922"
-    },
-    {
-      "id": "CVE-2026-85918",
-      "published": "2026-10-13T19:21:17.957",
-      "modified": "2026-10-14T04:18:49.633",
-      "description": "Use after free in Windows Universal Plug and Play (UPnP) Device Host allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85918"
-    },
-    {
-      "id": "CVE-2026-85879",
-      "published": "2026-10-13T19:21:15.073",
-      "modified": "2026-10-14T04:18:49.483",
-      "description": "Time-of-check time-of-use (toctou) race condition in Windows Subsystem for Linux allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85879"
-    },
-    {
-      "id": "CVE-2026-85863",
-      "published": "2026-10-13T19:21:13.060",
-      "modified": "2026-10-14T04:18:49.287",
-      "description": "Use after free in Windows Clipboard User Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85863"
-    },
-    {
-      "id": "CVE-2026-85861",
-      "published": "2026-10-13T19:21:12.897",
-      "modified": "2026-10-14T04:18:49.080",
-      "description": "Use after free in Windows Clipboard User Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85861"
-    },
-    {
-      "id": "CVE-2026-85856",
-      "published": "2026-10-13T19:21:12.050",
-      "modified": "2026-10-14T04:18:48.810",
-      "description": "Heap-based buffer overflow in Windows Internet Connection Sharing (ICS) allows an authorized attacker to execute code over an adjacent network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85856"
-    },
-    {
-      "id": "CVE-2026-85834",
-      "published": "2026-10-13T19:21:09.310",
-      "modified": "2026-10-14T04:18:48.497",
-      "description": "Heap-based buffer overflow in Windows TCP/IP allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85834"
     }
   ],
   "kev": [
@@ -53068,11 +53087,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 52,
-    "high": 542,
-    "medium": 342,
+    "critical": 53,
+    "high": 537,
+    "medium": 345,
     "kev": 3,
-    "p1": 30,
-    "p2": 564
+    "p1": 31,
+    "p2": 559
   }
 }
