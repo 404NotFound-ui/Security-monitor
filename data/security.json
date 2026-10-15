@@ -1,6 +1,594 @@
 {
-  "updated": "2026-10-15T10:46:25.838997+00:00",
+  "updated": "2026-10-15T11:24:46.936880+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-98085",
+      "published": "2026-09-25T11:17:38.087",
+      "modified": "2026-10-15T11:18:11.170",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbpf: backtrack_insn(): Handle ld_{abs,ind} subprog exit edge\n\nNicholas Carlini reported a bug in precision backtracking mechanism\nfor BPF_LD | BPF_{IND,ABS} instructions. These instructions are\nmodelled as two branches:\n- fallthrough;\n- implicit exit from current subprogram.\n\nThe implicit exit case was not handled by the backtrack_insn()\nfunction. When backtracking such a path backtrack_insn() did not\ncall bt_subprog_enter(), which meant that backtracking continued\nmanipulating precision marks in a caller frame, while looking at\ninstructions in a callee frame.\n\nThis lead to segmentation faults during verification (see the\nselftest), or unsound state pruning.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98085"
+    },
+    {
+      "id": "CVE-2026-97928",
+      "published": "2026-09-25T11:17:20.063",
+      "modified": "2026-10-15T11:18:09.230",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu: skip the VMID 0 flush for VRAM\n\nClear-on-release only runs on VRAM, which amdgpu_ttm_map_buffer() reaches\nvia its direct MC address without programming a GART window, yet the wipe\nstill forces a VMID 0 flush. On GFX11 (e.g. Navi33) that spurious SDMA\nflush can wedge the engine; only flush when a GART window is actually used.\n\nv2: Let amdgpu_ttm_map_buffer() return whether the VMID 0 flush is needed,\n    and drive the clear and copy paths from that. (Christian)\nv3: Make the vm_needs_flush output parameter mandatory instead of\n    allowing NULL. (Christian)\n\n(cherry picked from commit a306e406e570b74318ff7d80e5b07b540ca1d3a9)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97928"
+    },
+    {
+      "id": "CVE-2026-93255",
+      "published": "2026-09-24T16:17:22.007",
+      "modified": "2026-10-15T11:18:07.583",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: make sure EXTENT_BUFFER_READING is cleared under refs_lock\n\n[FALSE ALERTS]\nThere is a bug report that the warning inside\ninvalidate_and_check_btree_folios() got triggered during btrfs/298:\n\n BTRFS info (device sdd): first mount of filesystem f9bf732a-a19b-44b9-99a7-614ddff168e2\n BTRFS info (device sdd): using crc32c checksum algorithm\n BTRFS error (device sdd): failed to find fsid cb2fdb42-b638-4f2f-badd-4127467ba674 when attempting to open seed devices\n BTRFS error (device sdd): failed to read chunk tree: -2\n ------------[ cut here ]------------\n WARNING: disk-io.c:3342 at invalidate_and_check_btree_folios+0x260/0x3c0 [btrfs], CPU#4: mount/125993\n CPU: 4 UID: 0 PID: 125993 Comm: mount Tainted: G        W  OE       7.1.0-rc7-custom+ #1 PREEMPT(full)\n Hardware name: QEMU KVM Virtual Machine, BIOS edk2-20250812-19.fc42 08/12/2025\n Call trace:\n  invalidate_and_check_btree_folios+0x260/0x3c0 [btrfs] (P)\n  open_ctree+0x1f50/0x23b0 [btrfs]\n  btrfs_get_tree+0x89c/0xc48 [btrfs]\n  vfs_get_tree+0x30/0x110\n  vfs_cmd_create+0x58/0xe8\n  __arm64_sys_fsconfig+0x39c/0x518\n  invoke_syscall.constprop.0+0x48/0x120\n  el0_svc_common.constprop.0+0x40/0xe8\n  do_el0_svc+0x24/0x38\n  el0_svc+0x50/0x310\n  el0t_64_sync_handler+0xa0/0xe8\n  el0t_64_sync+0x198/0x1a0\n ---[ end trace 0000000000000000 ]---\n BTRFS warning (device sdd): unable to release extent buffer 365985792 owner 3 gen 17 refs 3 flags 0x5\n\n[CAUSE]\nIn that invalidate_and_check_btree_folios() we wait for the eb to finish\nits read, then check if it's only held by us and the btree inode.\n\nIf not, then do a warning as it may be still held, and could cause\nproblems.\n\nBut there is a small window where the check can lead to false alerts:\n\n    Thread A (Read endio)         |        Thread B (Unmount)\n----------------------------------+-------------------------------------\n end_bbio_meta_read()             |\n | The eb has one extra ref held  |\n | by the reader, and has         |\n | EXTENT_BUFFER_READING flag set | invalidate_and_check_btree_folios()\n |                                | |\n |- clear_extent_buffer_reading() | |\n |                                | |- wait_on_bit_io();\n |                                | |  The EXTENT_BUFFER_READING flag is\n |                                | |  cleared\n |                                | |- if (refcount_read(eb->refs) > 2)\n |                                |    The eb is held by the read, us\n |                                |    and btree inode, thus it\n |                                |    will trigger the warning\n |- free_extent_buffer()          |\n\n[FIX]\nIntroduce a helper, free_extent_buffer_clear_reading().\n\nIf the new parameter, @clear_reading, is set, we will hold the spinlock\nat the beginning of free_extent_buffer_clear_reading() to make sure the\nEXTENT_BUFFER_READING flag is cleared inside the same critical section\nof decreasing refs.\n\nNow free_extent_buffer() will just call\nfree_extent_buffer_clear_reading() with @clear_reading set to false, so\nno behavior change.\n\nBut for end_bbio_meta_read(), it will not clear_extent_buffer_reading()\ndirectly, but pass @clear_reading as true.\n\nThen inside invalidate_and_check_btree_folios(), hold the refs_lock\nbefore reading refs.\nSo that we eliminate the race window completely.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93255"
+    },
+    {
+      "id": "CVE-2026-93248",
+      "published": "2026-09-24T16:17:20.963",
+      "modified": "2026-10-15T11:18:07.383",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/xe: don't WARN on kernel job timeout when device already wedged\n\nigt@xe_wedged@wedged-at-any-timeout wedges the device in mode 2\n(UPON_ANY_HANG_NO_RESET) and then rebinds the driver. During unbind,\na GSC proxy kernel submission can still time out; with the device wedged\nand the GuC CT stopped it can never complete, so its kernel job times out.\n\n  Tile0: GT1: Kernel-submitted job timed out\n  WARNING: drivers/gpu/drm/xe/xe_guc_submit.c:...\n\t   at guc_exec_queue_timedout_job()\n  Workqueue: gt-ordered-wq drm_sched_job_timedout\n\nKilled queues skip guc_submit_hint_wedged(), leaving 'wedged' false even\nthough the device is already wedged. The timeout handler then treats the\nkernel queue timeout as unexpected and taints the kernel.\n\nHonour an already-wedged device even for killed queues so the expected\nteardown timeout no longer trips the WARN.\n\n(cherry picked from commit a1c1dbd0f047bb05de6aaf6abe9103031179bf19)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93248"
+    },
+    {
+      "id": "CVE-2026-93243",
+      "published": "2026-09-24T16:17:20.230",
+      "modified": "2026-10-15T11:18:07.267",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/secretmem: properly account locked pages\n\nsecretmem accounts folios by treating memory as if it were mlock()'d and\nthus limited by the RLIMIT_MEMLOCK limit.\n\nHowever the folios are unevictable and remain so until the inode is\nevicted, eliminating usual mlock() semantics - mapping folios then\nunmapping them does not clear their unevictable state, since it depends on\nAS_UNEVICTABLE, not PG_mlocked.\n\nA user can therefore easily work around the RLIMIT_MEMLOCK limit - simply\nmap then unmap and VmLck no longer counts the secretmem range.  Worse,\nfolios are not accounted in the process's RSS, meaning the OOM killer\nwon't know to kill the process.\n\nRepeatedly mapping/unmapping (or forking) can then result in the\nconsumption of all available system memory with unevictable folios and\ncause system instability.\n\nA secretmem fd can be passed between processes and over fork so a\nper-process limit simply does not make sense, so follow the precedent set\nby io_uring, perf, skbuff, iommufd and xdp by tracking the number of\nlocked pages in user_struct->locked_vm.\n\nSince the scope tracked is actually inode lifetime, the RLIMIT_MEMLOCK\napplies per-user not per-process, so it doesn't make sense to bypass for\nusers with CAP_IPC_LOCK, therefore remove this bypass.\n\nThere is simply no reason to carry on marking the mapping as mlock()'d\nsince it's misleading and the lifecycle is now correctly handled, so\nremove this too.\n\nNote that secretmem does not support any form of truncation (including\nhole punching) and the folios are unreclaimable, so the folios need only\nbe accounted on fault and unaccounted on inode destruction.\n\n__secretmem_account_pages() is more or less a duplicate of the code that\nio_uring etc.  use, but since this is a bug fix that needs backporting,\ndefer any de-duplication efforts to a follow-up.\n\ntest_mlock_limit() asserts mlock_future_ok() on mmap(), however this has\nbeen removed, so remove the test altogether for the fix.  A new test will\nbe sent separately for upstream.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93243"
+    },
+    {
+      "id": "CVE-2026-93179",
+      "published": "2026-09-17T17:18:13.773",
+      "modified": "2026-10-15T11:18:06.877",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amd/powerplay: fix VoltageObjectInfo zero-stride loop and OOB read\n\nReject voltage objects whose usSize is smaller than the header or would\nadvance the cursor past the table end, preventing an infinite loop or\nheap OOB read when the VBIOS supplies a malformed VoltageObjectInfo table.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93179"
+    },
+    {
+      "id": "CVE-2026-93164",
+      "published": "2026-09-17T17:18:11.890",
+      "modified": "2026-10-15T11:18:06.270",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nuprobes/x86: Move optimized uprobe from nop5 to nop10\n\nAndrii reported an issue with optimized uprobes [1] that can clobber\nredzone area with call instruction storing return address on stack\nwhere user code may keep temporary data without adjusting rsp.\n\nFixing this by moving the optimized uprobes on top of 10-bytes nop\ninstruction, so we can squeeze another instruction to escape the\nredzone area before doing the call, like:\n\n  lea -0x80(%rsp), %rsp\n  call tramp\n\nNote the lea instruction is used to adjust the rsp register without\nchanging the flags.\n\nWe use nop10 and following transformation to optimized instructions\nabove and back as suggested by Peterz [2].\n\nOptimize path (int3_update_optimize):\n\n  1) Initial state after set_swbp() installed the uprobe:\n      cc 2e 0f 1f 84 00 00 00 00 00\n\n     From offset 0 this is INT3 followed by the tail of the original\n     10-byte NOP.\n\n     After a previous unoptimization bytes 5..9 may still contain the\n     old call instruction, which remains valid for threads already there.\n\n  2) Rewrite the LEA tail and call displacement:\n      cc [8d 64 24 80 e8 d0 d1 d2 d3]\n\n     From offset 0 this traps on the uprobe INT3.  Bytes 1..9 are not\n     executable entry points while byte 0 is trapped.\n\n  3) Publish the first LEA byte:\n      [48] 8d 64 24 80 e8 d0 d1 d2 d3\n\n     From offset 0 this is:\n        lea -0x80(%rsp), %rsp\n        call <uprobe-trampoline>\n\nUnoptimize path (int3_update_unoptimize):\n\n  1) Initial optimized state:\n      48 8d 64 24 80 e8 d0 d1 d2 d3\n     Same as 3) above.\n\n  2) Trap new entries before restoring the NOP bytes:\n      [cc] 8d 64 24 80 e8 d0 d1 d2 d3\n\n     From offset 0 this traps. A thread that had already executed the\n     LEA can still reach the intact CALL at offset 5.\n\n  3) Restore bytes 1..4 of the original NOP while keeping byte 0 trapped\n     and byte 5 as CALL.\n      cc [2e 0f 1f 84] e8 d0 d1 d2 d3\n\n     From offset 0 this still traps. Offset 5 is still the CALL for any\n     thread that was already past the first LEA byte.\n\n  4) Publish the first byte of the original NOP:\n      [66] 2e 0f 1f 84 e8 d0 d1 d2 d3\n\n     From offset 0 this is the restored 10-byte NOP; the CALL opcode and\n     displacement are now only NOP operands.  Offset 5 still decodes as\n     CALL for a thread that was already there.\n\n     Tthere is only a single target uprobe-trampoline for the given nop10\n     instruction address, so the CALL instruction will not be changed across\n     unoptimization/optimization cycles.\n     Therefore, any task that is preempted at the CALL instruction is guaranteed\n     to observe that CALL and not anything else.\n\nNote as explained in [2] we need to use following nop10:\n       PF1   PF2   ESC   NOPL  MOD   SIB   DISP32\nNOP10: 0x66, 0x2e, 0x0f, 0x1f, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00 -- cs nopw 0x00000000(%rax,%rax,1)\n\nwhich means we need to allow 0x2e prefix which maps to INAT_PFX_CS\nattribute in is_prefix_bad function.\n\nAlso changing the uprobe syscall error when called out of uprobe\ntrampoline to -EPROTO, so we are able to detect the fixed kernel.\n\nThe optimized uprobe performance stays the same:\n\n        uprobe-nop     :    3.129 ± 0.013M/s\n        uprobe-push    :    3.045 ± 0.006M/s\n        uprobe-ret     :    1.095 ± 0.004M/s\n  -->   uprobe-nop10   :    7.170 ± 0.020M/s\n        uretprobe-nop  :    2.143 ± 0.021M/s\n        uretprobe-push :    2.090 ± 0.000M/s\n        uretprobe-ret  :    0.942 ± 0.000M/s\n  -->   uretprobe-nop10:    3.381 ± 0.003M/s\n        usdt-nop       :    3.245 ± 0.004M/s\n  -->   usdt-nop10     :    7.256 ± 0.023M/s\n\n[1] https://lore.kernel.org/bpf/20260509003146.976844-1-andrii@kernel.org/\n[2] https://lore.kernel.org/bpf/20260518104306.GU3102624@noisy.programming.kicks-ass.net/#t",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93164"
+    },
+    {
+      "id": "CVE-2026-90401",
+      "published": "2026-09-17T17:17:39.877",
+      "modified": "2026-10-15T11:18:02.367",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmd: remove REQ_NOWAIT support from raid1/10/456\n\nREQ_NOWAIT support in md personalities that can block internally is\nfundamentally incomplete. While reads can avoid some blocking paths,\nwrite requests can still encounter cases where one mirror succeeds while\nanother returns -EAGAIN. At that point md cannot distinguish queue\npressure from a real device failure, so it can neither record a bad\nblock nor safely retry the write without REQ_NOWAIT, leaving mirrors\nwith divergent data.\n\nRather than continue advertising REQ_NOWAIT support for personalities\nthat cannot implement it correctly, remove it from raid1, raid10 and\nraid456. Keep REQ_NOWAIT for linear and raid0, which only remap bios to\ntheir underlying devices; stacked limits will still clear the feature if\nany component device lacks REQ_NOWAIT support.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90401"
+    },
+    {
+      "id": "CVE-2026-90381",
+      "published": "2026-09-17T17:17:37.397",
+      "modified": "2026-10-15T11:18:02.247",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nwifi: mt76: fix handling channel context with different bands in mt76_switch_vif_chanctx()\n\nWhen performing channel switches on different radios within a short\ntimeframe, channel contexts with different bands can be carried for\neach struct ieee80211_vif_chanctx_switch.\n\nRework mt76_switch_vif_chanctx() to properly handle this scenario.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90381"
+    },
+    {
+      "id": "CVE-2026-90182",
+      "published": "2026-09-17T17:17:12.450",
+      "modified": "2026-10-15T11:17:59.100",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nblk-iocost: clear delay state when freeing policy data\n\niocg_kick_delay() turns sufficiently large debt into an explicit\nblock-cgroup delay with blkcg_set_delay(), setting blkg->use_delay to\n-1 and incrementing blkcg->congestion_count.  Clearing it again depends\non iocg_kick_delay() running from the period timer, the waitq timer or\nthe issue path.\n\nioc_pd_free() removes the iocg from active_iocgs and cancels its waitq\ntimer, and no further bios can arrive, so once it has run nothing is\nleft which can reduce the debt and clear the delay.  The blkcg stays\nmarked congested for the rest of its life.\n\nblk_cgroup_congested() then returns true for every task in that cgroup\nand its descendants: page_cache_sync_ra() cuts readahead to a single\npage, page_cache_async_ra() skips it altogether, and\n__folio_throttle_swaprate() takes swap_avail_lock and schedules a\nthrottle on anonymous folio allocation.\n\nClear it explicitly, after the list removal and the synchronous\nhrtimer_cancel() so that neither timer processing nor an I/O path can\nre-arm it.  The free callback can also see policy data which was never\nattached to a blkg, hence the pd->blkg check.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90182"
+    },
+    {
+      "id": "CVE-2026-90174",
+      "published": "2026-09-17T17:17:11.083",
+      "modified": "2026-10-15T11:17:58.817",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: fix slab-out-of-bounds read in ksmbd_alloc_user()\n\nksmbd_alloc_user() copies resp->hash_sz bytes out of the mountd IPC\nlogin response with\n\n\tuser->passkey_sz = resp->hash_sz;\n\tuser->passkey = kmalloc(resp->hash_sz, KSMBD_DEFAULT_GFP);\n\tif (user->passkey)\n\t\tmemcpy(user->passkey, resp->hash, resp->hash_sz);\n\nresp->hash_sz is a __u16 supplied by the response, but resp->hash[] is\nonly KSMBD_REQ_MAX_HASH_SZ bytes.  A malformed or malicious login\nresponse can set hash_sz well beyond that (up to 65535), so the memcpy()\nreads past the end of the response object.  ipc_validate_msg() does not\nbound hash_sz, so reject any response whose hash_sz exceeds the on-stack\nhash[] buffer before allocating and copying.\n\n[ 2030.238706] BUG: KASAN: slab-out-of-bounds in ksmbd_alloc_user+0x278/0x680\n[ 2030.240549] Read of size 65535 at addr ffff888121bb6680 by task kworker/4:1/18611\n[ 2030.242296]\n[ 2030.242710] CPU: 4 UID: 0 PID: 18611 Comm: kworker/4:1 Not tainted 7.1.0-next-20260623-virtme #96 PREEMPT(lazy)\n[ 2030.242732] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-debian-1.17.0-1 04/01/2014\n[ 2030.242743] Workqueue: ksmbd-io handle_ksmbd_work\n[ 2030.242763] Call Trace:\n[ 2030.242769]  <TASK>\n[ 2030.242776]  dump_stack_lvl+0xa2/0xd0\n[ 2030.242794]  print_address_description+0x77/0x200\n[ 2030.242815]  ? ksmbd_alloc_user+0x278/0x680\n[ 2030.242831]  print_report+0x58/0x70\n[ 2030.242848]  kasan_report+0x117/0x150\n[ 2030.242869]  ? ksmbd_alloc_user+0x278/0x680\n[ 2030.242888]  kasan_check_range+0x3c7/0x3f0\n[ 2030.242908]  ? ksmbd_alloc_user+0x278/0x680\n[ 2030.242925]  __asan_memcpy+0x29/0x70\n[ 2030.242942]  ksmbd_alloc_user+0x278/0x680\n[ 2030.242960]  ksmbd_login_user+0xc3/0x120\n[ 2030.242978]  ntlm_authenticate+0x5e6/0x1b00\n[ 2030.243017]  ? __pfx_ntlm_authenticate+0x10/0x10\n[ 2030.243035]  ? ksmbd_session_lookup+0x188/0x1d0\n[ 2030.243054]  ? __pfx_ksmbd_session_lookup+0x10/0x10\n[ 2030.243090]  ? __sanitizer_cov_trace_switch+0x7b/0x140\n[ 2030.243108]  smb2_sess_setup+0x1e4a/0x27b0\n[ 2030.243126]  ? copy_from_kernel_nofault+0x199/0x300\n[ 2030.243156]  ? __pfx_smb2_sess_setup+0x10/0x10\n[ 2030.243173]  ? get_smb2_cmd_val+0xe3/0x1c0\n[ 2030.243208]  handle_ksmbd_work+0x954/0x1280\n[ 2030.243230]  ? __pfx_handle_ksmbd_work+0x10/0x10\n[ 2030.243249]  ? process_scheduled_works+0xa07/0x1490\n[ 2030.243270]  ? process_scheduled_works+0xa07/0x1490\n[ 2030.243291]  process_scheduled_works+0xa70/0x1490\n[ 2030.243320]  ? __pfx_process_scheduled_works+0x10/0x10\n[ 2030.243340]  ? do_raw_spin_lock+0x130/0x300\n[ 2030.243358]  ? lock_is_held_type+0x7b/0x110\n[ 2030.243388]  worker_thread+0x932/0xe20\n[ 2030.243415]  kthread+0x38a/0x470\n[ 2030.243431]  ? __pfx_worker_thread+0x10/0x10\n[ 2030.243451]  ? __pfx_kthread+0x10/0x10\n[ 2030.243467]  ret_from_fork+0x484/0x910\n[ 2030.243485]  ? __pfx_ret_from_fork+0x10/0x10\n[ 2030.243501]  ? __switch_to+0xc77/0x12c0\n[ 2030.243523]  ? __pfx_kthread+0x10/0x10\n[ 2030.243540]  ret_from_fork_asm+0x1a/0x30\n[ 2030.243564]  </TASK>\n[ 2030.243570]\n[ 2030.290164] Allocated by task 19279:\n[ 2030.290911]  kasan_save_track+0x3e/0x80\n[ 2030.292179]  __kasan_kmalloc+0x72/0x90\n[ 2030.293217]  __kvmalloc_node_noprof+0x3ff/0x6b0\n[ 2030.294467]  handle_generic_event+0x59b/0x750\n[ 2030.295345]  genl_family_rcv_msg_doit+0x238/0x340\n[ 2030.296553]  genl_rcv_msg+0x606/0x7b0\n[ 2030.297129]  netlink_rcv_skb+0x22b/0x4a0\n[ 2030.298500]  genl_rcv+0x2d/0x40\n[ 2030.299273]  netlink_unicast+0x7ba/0x930\n[ 2030.300019]  netlink_sendmsg+0x8c3/0xb00\n[ 2030.301073]  __sock_sendmsg+0xec/0x140\n[ 2030.301579]  __sys_sendto+0x357/0x470\n[ 2030.302255]  __x64_sys_sendto+0xe3/0x100\n[ 2030.303425]  do_syscall_64+0x135/0x460\n[ 2030.304763]  entry_SYSCALL_64_after_hwframe+0x77/0x7f\n[ 2030.305594]\n[ 2030.305819] The buggy address belongs to the object at ffff888121bb6640\n[ 2030.305819]  which belongs to the cache kmalloc-192 of size 192\n[ 2030.309595] The buggy address \n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90174"
+    },
+    {
+      "id": "CVE-2026-90040",
+      "published": "2026-09-16T11:17:17.213",
+      "modified": "2026-10-15T11:17:56.170",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: SEV: Forcefully invalidate SNP VMSA if its backing gmem page is zapped\n\nWire up a gmem_invalidate_range() call for SNP VMs, and use it to force\nvCPUs to reload/recheck their guest-provided VMSA if the backing gmem\npage is being invalidated, e.g. is being PUNCH_HOLE'd.  Use the same core\nlogic to handle invalidations as VMX does for the APIC-access page, as the\ntwo concepts are nearly identical: shove the physical address of a page\ninto the vCPU's control structure:\n\n 1. Snapshot the invalidation sequence counter\n 2. Grab the pfn (from guest_memfd in this case)\n 3. Acquire mmu_lock for read\n 4. Re-request reload if retry is needed, otherwise commit the change.\n\nNote, the re-request action in #4 is necessary as KVM's retry logic is\nfuzzy, i.e. can get false positives.  If the guest_memfd page has been\ndropped, at some point a subsequent reload will fail to get a PFN from\nguest_memfd, and KVM will fail KVM_RUN.  If the retry was due to a false\npositive, KVM will retry until there are no relevant MMU notifier events\n(and will retry in the \"outer\" loop, i.e. will drop locks and resched as\nneeded).\n\nNote #2!  Take care to invalidate the VMSA when a relevant memslot is\nDELETED or MOVED, as invalidations in response to PUNCH_HOLE are predicated\non memslot bindings (KVM doesn't know what GFN range(s) to invalidate\nwithout a binding).  And more importantly, the VMSA mapping requires a\nmemslot, i.e. must be invalidated if its memslots disappears, regardless of\nthe state of the underlying guest_memfd inode.\n\nFailure to invalidate the vCPU's control.vmsa_pa (which is checked by\npre_sev_run()) can prevent KVM from properly freeing the page as firmware\nwill reject the RMPUPDATE to reclaim the page with FAIL_INUSE if the vCPU\nis actively running, i.e. if VMSA page is in-use.  That in turn leads to an\nRMP #PF on the next use, as the page will still be assigned to the SNP VM.\n\n  SEV-SNP: RMPUPDATE failed for PFN 78d198, pg_level: 1, ret: 3\n  SEV-SNP: PFN 0x78d198, RMP entry: [0xfff0000000144001 - 0x000000000000000f]\n  CPU: 3 UID: 0 PID: 31345 Comm: sev_snp_vmsa_pu Tainted: G     U     O\n  Tainted: [U]=USER, [O]=OOT_MODULE\n  Hardware name: Google, Inc. Arcadia_IT_80/Arcadia_IT_80, BIOS 34.86.0-102 01/25/2026\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x54/0x70\n   rmpupdate+0x12c/0x140\n   rmp_make_shared+0x3b/0x60\n   sev_gmem_invalidate+0xe0/0x170 [kvm_amd]\n   delete_from_page_cache_batch+0x1d8/0x220\n   truncate_inode_pages_range+0x120/0x3d0\n   kvm_gmem_fallocate+0x19a/0x270 [kvm]\n   vfs_fallocate+0x1bc/0x1f0\n   __x64_sys_fallocate+0x48/0x70\n   do_syscall_64+0x10a/0x480\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x496c7e\n   </TASK>\n  ------------[ cut here ]------------\n  SEV: Failed to update RMP entry for PFN 0x78d198 error -14\n  WARNING: arch/x86/kvm/svm/sev.c:5160 at sev_gmem_invalidate+0x126/0x170 [kvm_amd], CPU#3: sev_snp_vmsa_pu/31345\n  CPU: 3 UID: 0 PID: 31345 Comm: sev_snp_vmsa_pu Tainted: G     U     O\n  Tainted: [U]=USER, [O]=OOT_MODULE\n  Hardware name: Google, Inc. Arcadia_IT_80/Arcadia_IT_80, BIOS 34.86.0-102 01/25/2026\n  RIP: 0010:sev_gmem_invalidate+0x12b/0x170 [kvm_amd]\n  Call Trace:\n   <TASK>\n   delete_from_page_cache_batch+0x1d8/0x220\n   truncate_inode_pages_range+0x120/0x3d0\n   kvm_gmem_fallocate+0x19a/0x270 [kvm]\n   vfs_fallocate+0x1bc/0x1f0\n   __x64_sys_fallocate+0x48/0x70\n   do_syscall_64+0x10a/0x480\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x496c7e\n   </TASK>\n  irq event stamp: 20689\n  hardirqs last  enabled at (20699): [<ffffffff8e76092c>] __console_unlock+0x5c/0x60\n  hardirqs last disabled at (20708): [<ffffffff8e760911>] __console_unlock+0x41/0x60\n  softirqs last  enabled at (20722): [<ffffffff8e6cd74e>] __irq_exit_rcu+0x7e/0x140\n  softirqs last disabled at (20717): [<ffffffff8e6cd74e>] __irq_exit_rcu+0x7e/0x140\n  ---[ end trace 0000000000000000 ]---\n  BUG: unable to handle page fault for address: ffff99\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90040"
+    },
+    {
+      "id": "CVE-2026-89568",
+      "published": "2026-09-11T20:19:40.810",
+      "modified": "2026-10-15T11:17:54.227",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nkho: fix size calculation in kho_preserved_memory_reserve()\n\nkho_preserved_memory_reserve() calculates the size of a preservation by\ndoing 1 << (order + PAGE_SHIFT). Since the '1' is a 32-bit integer, it\ncan only be shifted by 31. That is, it will only work for preservations\nup to 2 GiB. Larger preservations will trigger undefined behaviour.\n\nWhile preservations larger than 2 GiB can't be obtained via folios\ncurrently, they can be obtained via kho_preserve_pages().\n\nFor example, memblock reserve_mem uses kho_preserve_pages().\nReservations larger than 2 GiB are valid and will trigger this bug if\nproperly aligned.\n\nFix it by using 1UL for shifting.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89568"
+    },
+    {
+      "id": "CVE-2026-88164",
+      "published": "2026-10-14T18:19:30.300",
+      "modified": "2026-10-15T11:17:52.763",
+      "description": "Missing authorization in Microsoft Office SharePoint allows an authorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88164"
+    },
+    {
+      "id": "CVE-2026-74375",
+      "published": "2026-08-15T06:22:39.277",
+      "modified": "2026-10-15T11:17:46.173",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmd/raid1,raid10: fix deadlock in read error recovery path\n\nraid1d and raid10d may resubmit a split md cloned bio while handling\na read error. In this case, resubmitting the bio can lead to a deadlock\nif the array is suspended before md_handle_request() acquires an\nactive_io reference via percpu_ref_tryget_live().\n\nSince the cloned bio already holds an active_io reference,\ntrying to acquire another reference via percpu_ref_tryget_live()\ncan lead to a deadlock while the array is suspended.\n\nFix this by using percpu_ref_get() for md cloned bios.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74375"
+    },
+    {
+      "id": "CVE-2026-74373",
+      "published": "2026-08-15T06:22:39.070",
+      "modified": "2026-10-15T11:17:45.947",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmd/raid1,raid10: fix bio accounting for split md cloned bios\n\nUse md_cloned_bio() to control bio accounting instead of relying\non r1bio_existed in raid1 or the io_accounting flag in raid10.\n\nThe previous logic does not reliably reflect whether a bio is an\nmd cloned bio. When a failed bio is split and resubmitted via\nbio_submit_split_bioset() on the error path, this can lead to either\ndouble accounting for md cloned bios, or missing accounting for bios\nreturned from bio_submit_split_bioset()\n\nFix this by using md_cloned_bio() to detect md cloned bios and\nskip accounting accordingly.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74373"
+    },
+    {
+      "id": "CVE-2026-74307",
+      "published": "2026-08-15T06:22:30.500",
+      "modified": "2026-10-15T11:17:44.937",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\next4: validate donor file superblock early in EXT4_IOC_MOVE_EXT\n\nReject the EXT4_IOC_MOVE_EXT ioctl early if the donor file does not\nbelong to the same superblock as the original file.  Currently, this\nvalidation is performed inside ext4_move_extents() by\nmext_check_validity(), but only after lock_two_nondirectories() has\nalready acquired the inode locks.  When the donor fd refers to a file\non a different filesystem (e.g., overlayfs), this late validation\ncreates a circular lock dependency:\n\n  CPU0 (overlayfs write)            CPU1 (ext4 ioctl)\n  ----                              ----\n  inode_lock(ovl_inode)\n                                    mnt_want_write_file(filp)\n                                      sb_start_write(ext4_sb)   [sb_writers]\n    backing_file_write_iter()\n      vfs_iter_write(real_file)\n        file_start_write(real_file)\n          sb_start_write(ext4_sb)   [blocked by freeze]\n                                    lock_two_nondirectories()\n                                      inode_lock(ovl_inode)     [blocked]\n\nWith a concurrent freeze operation holding sb_writers write side, this\nforms a deadlock cycle: CPU0 waits for freeze to complete, freeze waits\nfor CPU1's sb_writers reader to exit, CPU1 waits for CPU0's inode lock.\n\nSince EXT4_IOC_MOVE_EXT exchanges physical extents between two files,\nit fundamentally requires both files to reside on the same ext4\nfilesystem.  Moving the superblock check before any lock acquisition\nis both semantically correct and eliminates the circular dependency\nby ensuring that cross-filesystem donor fds are rejected before\nsb_writers or inode locks are taken.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74307"
+    },
+    {
+      "id": "CVE-2026-74273",
+      "published": "2026-08-15T06:22:26.697",
+      "modified": "2026-10-15T11:17:44.707",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ncxl/region: Block region delete during region creation\n\nExpand the range lock, rename it \"regions_lock\", to disable region deletion\nin the critical period between construct_region() and attach_target(), as\nwell as the period between device_add() and registering the remove actions.\n\nOtherwise, userspace can confuse the kernel. It can violate the assumption\nthe region stays registered through the completion of cxl_add_to_region().\nIt can violate the assumption that devm_add_action_or_reset() is working\nwith a live 'struct cxl_region'.\n\nIt is ok for the region to disappear outside of those windows as that\nmirrors device hotplug flows where the proper locks are held.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74273"
+    },
+    {
+      "id": "CVE-2026-53124",
+      "published": "2026-06-24T17:17:27.387",
+      "modified": "2026-10-15T11:17:36.610",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nublk: reset per-IO canceled flag on each fetch\n\nIf a ublk server starts recovering devices but dies before issuing fetch\ncommands for all IOs, cancellation of the fetch commands that were\nsuccessfully issued may never complete. This is because the per-IO\ncanceled flag can remain set even after the fetch for that IO has been\nsubmitted - the per-IO canceled flags for all IOs in a queue are reset\ntogether only once all IOs for that queue have been fetched. So if a\nnonempty proper subset of the IOs for a queue are fetched when the ublk\nserver dies, the IOs in that subset will never successfully be canceled,\nas their canceled flags remain set, and this prevents ublk_cancel_cmd\nfrom actually calling io_uring_cmd_done on the commands, despite the\nfact that they are outstanding.\n\nFix this by resetting the per-IO cancel flags immediately when each IO\nis fetched instead of waiting for all IOs for the queue (which may never\nhappen).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:-:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc5:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc6:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.15:rc7:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53124"
+    },
+    {
+      "id": "CVE-2026-53009",
+      "published": "2026-06-24T17:17:12.117",
+      "modified": "2026-10-15T11:17:35.847",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nice: fix double-free of tx_buf skb\n\nIf ice_tso() or ice_tx_csum() fail, the error path in\nice_xmit_frame_ring() frees the skb, but the 'first' tx_buf still points\nto it and is marked as valid (ICE_TX_BUF_SKB).\n'next_to_use' remains unchanged, so the potential problem will\nlikely fix itself when the next packet is transmitted and the tx_buf\ngets overwritten. But if there is no next packet and the interface is\nbrought down instead, ice_clean_tx_ring() -> ice_unmap_and_free_tx_buf()\nwill find the tx_buf and free the skb for the second time.\n\nThe fix is to reset the tx_buf type to ICE_TX_BUF_EMPTY in the error\npath, so that ice_unmap_and_free_tx_buf().\nMove the initialization of 'first' up, to ensure it's already valid in\ncase we hit the linearization error path.\n\nThe bug was spotted by AI while I had it looking for something else.\nIt also proposed an initial version of the patch.\n\nI reproduced the bug and tested the fix by adding code to inject\nfailures, on a build with KASAN.\n\nI looked for similar bugs in related Intel drivers and did not find any.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53009"
+    },
+    {
+      "id": "CVE-2026-52960",
+      "published": "2026-06-24T17:17:06.260",
+      "modified": "2026-10-15T11:17:35.210",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nceph: put folios not suitable for writeback\n\nThe batch holds references to the folios (see `filemap_get_folios`,\n`folio_batch_release`), so we need to `folio_put` the folios we remove.\n\nTested on v6.18.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-52960"
+    },
+    {
+      "id": "CVE-2026-46245",
+      "published": "2026-06-03T18:16:24.637",
+      "modified": "2026-10-15T11:17:32.330",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amd/display: Fix dc_link NULL handling in HPD init\n\namdgpu_dm_hpd_init() may see connectors without a valid dc_link.\n\nThe code already checks dc_link for the polling decision, but later\nunconditionally dereferences it when setting up HPD interrupts.\n\nAssign dc_link early and skip connectors where it is NULL.\n\nFixes the below:\ndrivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_irq.c:940 amdgpu_dm_hpd_init()\nerror: we previously assumed 'dc_link' could be null (see line 931)\n\ndrivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_irq.c\n    923                 /*\n    924                  * Analog connectors may be hot-plugged unlike other connector\n    925                  * types that don't support HPD. Only poll analog connectors.\n    926                  */\n    927                 use_polling |=\n    928                         amdgpu_dm_connector->dc_link &&\n                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ The patch adds this NULL check but hopefully it can be removed\n\n    929                         dc_connector_supports_analog(amdgpu_dm_connector->dc_link->link_id.id);\n    930\n    931                 dc_link = amdgpu_dm_connector->dc_link;\n\ndc_link assigned here.\n\n    932\n    933                 /*\n    934                  * Get a base driver irq reference for hpd ints for the lifetime\n    935                  * of dm. Note that only hpd interrupt types are registered with\n    936                  * base driver; hpd_rx types aren't. IOW, amdgpu_irq_get/put on\n    937                  * hpd_rx isn't available. DM currently controls hpd_rx\n    938                  * explicitly with dc_interrupt_set()\n    939                  */\n--> 940                 if (dc_link->irq_source_hpd != DC_IRQ_SOURCE_INVALID) {\n                            ^^^^^^^^^^^^^^^^^^^^^^^ If it's NULL then we are trouble because we dereference it here.\n\n    941                         irq_type = dc_link->irq_source_hpd - DC_IRQ_SOURCE_HPD1;\n    942                         /*\n    943                          * TODO: There's a mismatch between mode_info.num_hpd\n    944                          * and what bios reports as the # of connectors with hpd",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46245"
+    },
+    {
+      "id": "CVE-2026-43299",
+      "published": "2026-05-08T14:16:37.100",
+      "modified": "2026-10-15T11:17:30.560",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: do not ASSERT() when the fs flips RO inside btrfs_repair_io_failure()\n\n[BUG]\nThere is a bug report that when btrfs hits ENOSPC error in a critical\npath, btrfs flips RO (this part is expected, although the ENOSPC bug\nstill needs to be addressed).\n\nThe problem is after the RO flip, if there is a read repair pending, we\ncan hit the ASSERT() inside btrfs_repair_io_failure() like the following:\n\n  BTRFS info (device vdc): relocating block group 30408704 flags metadata|raid1\n  ------------[ cut here ]------------\n  BTRFS: Transaction aborted (error -28)\n  WARNING: fs/btrfs/extent-tree.c:3235 at __btrfs_free_extent.isra.0+0x453/0xfd0, CPU#1: btrfs/383844\n  Modules linked in: kvm_intel kvm irqbypass\n  [...]\n  ---[ end trace 0000000000000000 ]---\n  BTRFS info (device vdc state EA): 2 enospc errors during balance\n  BTRFS info (device vdc state EA): balance: ended with status: -30\n  BTRFS error (device vdc state EA): parent transid verify failed on logical 30556160 mirror 2 wanted 8 found 6\n  BTRFS error (device vdc state EA): bdev /dev/nvme0n1 errs: wr 0, rd 0, flush 0, corrupt 10, gen 0\n  [...]\n  assertion failed: !(fs_info->sb->s_flags & SB_RDONLY) :: 0, in fs/btrfs/bio.c:938\n  ------------[ cut here ]------------\n  assertion failed: !(fs_info->sb->s_flags & SB_RDONLY) :: 0, in fs/btrfs/bio.c:938\n  kernel BUG at fs/btrfs/bio.c:938!\n  Oops: invalid opcode: 0000 [#1] SMP NOPTI\n  CPU: 0 UID: 0 PID: 868 Comm: kworker/u8:13 Tainted: G        W        N  6.19.0-rc6+ #4788 PREEMPT(full)\n  Tainted: [W]=WARN, [N]=TEST\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014\n  Workqueue: btrfs-endio simple_end_io_work\n  RIP: 0010:btrfs_repair_io_failure.cold+0xb2/0x120\n  RSP: 0000:ffffc90001d2bcf0 EFLAGS: 00010246\n  RAX: 0000000000000051 RBX: 0000000000001000 RCX: 0000000000000000\n  RDX: 0000000000000000 RSI: ffffffff8305cf42 RDI: 00000000ffffffff\n  RBP: 0000000000000002 R08: 00000000fffeffff R09: ffffffff837fa988\n  R10: ffffffff8327a9e0 R11: 6f69747265737361 R12: ffff88813018d310\n  R13: ffff888168b8a000 R14: ffffc90001d2bd90 R15: ffff88810a169000\n  FS:  0000000000000000(0000) GS:ffff8885e752c000(0000) knlGS:0000000000000000\n  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  ------------[ cut here ]------------\n\n[CAUSE]\nThe cause of -ENOSPC error during the test case btrfs/124 is still\nunknown, although it's known that we still have cases where metadata can\nbe over-committed but can not be fulfilled correctly, thus if we hit\nsuch ENOSPC error inside a critical path, we have no choice but abort\nthe current transaction.\n\nThis will mark the fs read-only.\n\nThe problem is inside the btrfs_repair_io_failure() path that we require\nthe fs not to be mount read-only. This is normally fine, but if we are\ndoing a read-repair meanwhile the fs flips RO due to a critical error,\nwe can enter btrfs_repair_io_failure() with super block set to\nread-only, thus triggering the above crash.\n\n[FIX]\nJust replace the ASSERT() with a proper return if the fs is already\nread-only.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43299"
+    },
+    {
+      "id": "CVE-2026-31775",
+      "published": "2026-05-01T15:16:40.863",
+      "modified": "2026-10-15T11:17:29.420",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nALSA: ctxfi: Don't enumerate SPDIF1 at DAIO initialization\n\nThe recent refactoring of xfi driver changed the assignment of\natc->daios[] at atc_get_resources(); now it loops over all enum\nDAIOTYP entries while it looped formerly only a part of them.\nThe problem is that the last entry, SPDIF1, is a special type that\nis used only for hw20k1 CTSB073X model (as a replacement of SPDIFIO),\nand there is no corresponding definition for hw20k2.  Due to the lack\nof the info, it caused a kernel crash on hw20k2, which was already\nworked around by the commit b045ab3dff97 (\"ALSA: ctxfi: Fix missing\nSPDIFI1 index handling\").\n\nThis patch addresses the root cause of the regression above properly,\nsimply by skipping the incorrect SPDIF1 type in the parser loop.\n\nFor making the change clearer, the code is slightly arranged, too.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31775"
+    },
+    {
+      "id": "CVE-2026-23374",
+      "published": "2026-03-25T11:16:37.077",
+      "modified": "2026-10-15T11:17:28.827",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nblktrace: fix __this_cpu_read/write in preemptible context\n\ntracing_record_cmdline() internally uses __this_cpu_read() and\n__this_cpu_write() on the per-CPU variable trace_cmdline_save, and\ntrace_save_cmdline() explicitly asserts preemption is disabled via\nlockdep_assert_preemption_disabled(). These operations are only safe\nwhen preemption is off, as they were designed to be called from the\nscheduler context (probe_wakeup_sched_switch() / probe_wakeup()).\n\n__blk_add_trace() was calling tracing_record_cmdline(current) early in\nthe blk_tracer path, before ring buffer reservation, from process\ncontext where preemption is fully enabled. This triggers the following\nusing blktests/blktrace/002:\n\nblktrace/002 (blktrace ftrace corruption with sysfs trace)   [failed]\n    runtime  0.367s  ...  0.437s\n    something found in dmesg:\n    [   81.211018] run blktests blktrace/002 at 2026-02-25 22:24:33\n    [   81.239580] null_blk: disk nullb1 created\n    [   81.357294] BUG: using __this_cpu_read() in preemptible [00000000] code: dd/2516\n    [   81.362842] caller is tracing_record_cmdline+0x10/0x40\n    [   81.362872] CPU: 16 UID: 0 PID: 2516 Comm: dd Tainted: G                 N  7.0.0-rc1lblk+ #84 PREEMPT(full)\n    [   81.362877] Tainted: [N]=TEST\n    [   81.362878] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014\n    [   81.362881] Call Trace:\n    [   81.362884]  <TASK>\n    [   81.362886]  dump_stack_lvl+0x8d/0xb0\n    ...\n    (See '/mnt/sda/blktests/results/nodev/blktrace/002.dmesg' for the entire message)\n\n[   81.211018] run blktests blktrace/002 at 2026-02-25 22:24:33\n[   81.239580] null_blk: disk nullb1 created\n[   81.357294] BUG: using __this_cpu_read() in preemptible [00000000] code: dd/2516\n[   81.362842] caller is tracing_record_cmdline+0x10/0x40\n[   81.362872] CPU: 16 UID: 0 PID: 2516 Comm: dd Tainted: G                 N  7.0.0-rc1lblk+ #84 PREEMPT(full)\n[   81.362877] Tainted: [N]=TEST\n[   81.362878] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.17.0-0-gb52ca86e094d-prebuilt.qemu.org 04/01/2014\n[   81.362881] Call Trace:\n[   81.362884]  <TASK>\n[   81.362886]  dump_stack_lvl+0x8d/0xb0\n[   81.362895]  check_preemption_disabled+0xce/0xe0\n[   81.362902]  tracing_record_cmdline+0x10/0x40\n[   81.362923]  __blk_add_trace+0x307/0x5d0\n[   81.362934]  ? lock_acquire+0xe0/0x300\n[   81.362940]  ? iov_iter_extract_pages+0x101/0xa30\n[   81.362959]  blk_add_trace_bio+0x106/0x1e0\n[   81.362968]  submit_bio_noacct_nocheck+0x24b/0x3a0\n[   81.362979]  ? lockdep_init_map_type+0x58/0x260\n[   81.362988]  submit_bio_wait+0x56/0x90\n[   81.363009]  __blkdev_direct_IO_simple+0x16c/0x250\n[   81.363026]  ? __pfx_submit_bio_wait_endio+0x10/0x10\n[   81.363038]  ? rcu_read_lock_any_held+0x73/0xa0\n[   81.363051]  blkdev_read_iter+0xc1/0x140\n[   81.363059]  vfs_read+0x20b/0x330\n[   81.363083]  ksys_read+0x67/0xe0\n[   81.363090]  do_syscall_64+0xbf/0xf00\n[   81.363102]  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n[   81.363106] RIP: 0033:0x7f281906029d\n[   81.363111] Code: 31 c0 e9 c6 fe ff ff 50 48 8d 3d 66 63 0a 00 e8 59 ff 01 00 66 0f 1f 84 00 00 00 00 00 80 3d 41 33 0e 00 00 74 17 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 5b c3 66 2e 0f 1f 84 00 00 00 00 00 48 83 ec\n[   81.363113] RSP: 002b:00007ffca127dd48 EFLAGS: 00000246 ORIG_RAX: 0000000000000000\n[   81.363120] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f281906029d\n[   81.363122] RDX: 0000000000001000 RSI: 0000559f8bfae000 RDI: 0000000000000000\n[   81.363123] RBP: 0000000000001000 R08: 0000002863a10a81 R09: 00007f281915f000\n[   81.363124] R10: 00007f2818f77b60 R11: 0000000000000246 R12: 0000559f8bfae000\n[   81.363126] R13: 0000000000000000 R14: 0000000000000000 R15: 000000000000000a\n[   81.363142]  </TASK>\n\nThe same BUG fires from blk_add_trace_plug(), blk_add_trace_unplug(),\nand blk_add_trace_rq() paths as well.\n\nThe purpose of tracin\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:3.8:-:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23374"
+    },
+    {
+      "id": "CVE-2025-2586",
+      "published": "2025-03-31T12:15:15.073",
+      "modified": "2026-10-15T11:17:15.603",
+      "description": "A flaw was found in the OpenShift Lightspeed Service, which is vulnerable to unauthenticated API request flooding. Repeated queries to non-existent endpoints inflate metrics storage and processing, consuming excessive resources. This issue can lead to monitoring system degradation, increased disk usage, and potential service unavailability. Since the issue does not require authentication, an external attacker can exhaust CPU, RAM, and disk space, impacting both application and cluster stability.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-2586"
+    },
     {
       "id": "CVE-2026-63315",
       "published": "2026-10-15T09:17:17.857",
@@ -461,28 +1049,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11861"
-    },
-    {
-      "id": "CVE-2026-88164",
-      "published": "2026-10-14T18:19:30.300",
-      "modified": "2026-10-15T04:18:27.370",
-      "description": "Missing authorization in Microsoft Office SharePoint allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88164"
     },
     {
       "id": "CVE-2026-110156",
@@ -50654,516 +51220,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85375"
-    },
-    {
-      "id": "CVE-2026-85373",
-      "published": "2026-10-13T19:21:01.203",
-      "modified": "2026-10-14T04:18:46.047",
-      "description": "Heap-based buffer overflow in Windows Universal Plug and Play (UPnP) Device Host allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85373"
-    },
-    {
-      "id": "CVE-2026-85368",
-      "published": "2026-10-13T19:21:00.337",
-      "modified": "2026-10-14T04:18:45.840",
-      "description": "Heap-based buffer overflow in Windows TCP/IP allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85368"
-    },
-    {
-      "id": "CVE-2026-85363",
-      "published": "2026-10-13T19:20:59.480",
-      "modified": "2026-10-14T04:18:45.643",
-      "description": "Integer overflow or wraparound in .NET Framework allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85363"
-    },
-    {
-      "id": "CVE-2026-85356",
-      "published": "2026-10-13T19:20:58.300",
-      "modified": "2026-10-14T04:18:45.440",
-      "description": "Out-of-bounds read in Windows Volume Manager Extension Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85356"
-    },
-    {
-      "id": "CVE-2026-85341",
-      "published": "2026-10-13T19:20:57.057",
-      "modified": "2026-10-14T04:18:45.227",
-      "description": "Heap-based buffer overflow in Windows USB Video Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85341"
-    },
-    {
-      "id": "CVE-2026-85329",
-      "published": "2026-10-13T19:20:55.353",
-      "modified": "2026-10-14T04:18:45.023",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Microsoft Account allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85329"
-    },
-    {
-      "id": "CVE-2026-84013",
-      "published": "2026-10-13T19:20:51.363",
-      "modified": "2026-10-14T04:18:44.597",
-      "description": "Use after free in Windows Telephony Server allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84013"
-    },
-    {
-      "id": "CVE-2026-83935",
-      "published": "2026-10-13T19:20:50.337",
-      "modified": "2026-10-14T04:18:44.383",
-      "description": "Heap-based buffer overflow in Microsoft XML allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83935"
-    },
-    {
-      "id": "CVE-2026-83930",
-      "published": "2026-10-13T19:20:49.570",
-      "modified": "2026-10-14T04:18:44.227",
-      "description": "Use after free in Windows Update Orchestrator Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83930"
-    },
-    {
-      "id": "CVE-2026-83911",
-      "published": "2026-10-13T19:20:46.250",
-      "modified": "2026-10-14T04:18:44.010",
-      "description": "Heap-based buffer overflow in Windows Storage allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83911"
-    },
-    {
-      "id": "CVE-2026-83901",
-      "published": "2026-10-13T19:20:44.220",
-      "modified": "2026-10-14T04:18:43.820",
-      "description": "Use after free in Windows Win32 Kernel Subsystem allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83901"
-    },
-    {
-      "id": "CVE-2026-83886",
-      "published": "2026-10-13T19:20:39.427",
-      "modified": "2026-10-14T04:18:43.663",
-      "description": "Use after free in Windows Update Orchestrator Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83886"
-    },
-    {
-      "id": "CVE-2026-83883",
-      "published": "2026-10-13T19:20:38.973",
-      "modified": "2026-10-14T04:18:43.457",
-      "description": "Use after free in Windows Win32K allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83883"
-    },
-    {
-      "id": "CVE-2026-83872",
-      "published": "2026-10-13T19:20:37.157",
-      "modified": "2026-10-14T04:18:43.257",
-      "description": "Incorrect conversion between numeric types in Windows TCP/IP allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83872"
-    },
-    {
-      "id": "CVE-2026-83868",
-      "published": "2026-10-13T19:20:36.517",
-      "modified": "2026-10-14T04:18:42.860",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Microsoft Bluetooth Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83868"
-    },
-    {
-      "id": "CVE-2026-83866",
-      "published": "2026-10-13T19:20:36.197",
-      "modified": "2026-10-14T04:18:42.663",
-      "description": "Use after free in Windows Win32K allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83866"
-    },
-    {
-      "id": "CVE-2026-83862",
-      "published": "2026-10-13T19:20:35.520",
-      "modified": "2026-10-14T04:18:42.487",
-      "description": "Use after free in Windows Network Load Balancing allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83862"
-    },
-    {
-      "id": "CVE-2026-83857",
-      "published": "2026-10-13T19:20:34.800",
-      "modified": "2026-10-14T04:18:42.277",
-      "description": "Use after free in Windows Universal Disk Format File System Driver (UDFS) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83857"
-    },
-    {
-      "id": "CVE-2026-83847",
-      "published": "2026-10-13T19:20:33.300",
-      "modified": "2026-10-14T04:18:42.067",
-      "description": "Heap-based buffer overflow in Microsoft Account allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83847"
-    },
-    {
-      "id": "CVE-2026-83842",
-      "published": "2026-10-13T19:20:32.560",
-      "modified": "2026-10-14T04:18:41.697",
-      "description": "Double free in Windows TCP/IP allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83842"
-    },
-    {
-      "id": "CVE-2026-83841",
-      "published": "2026-10-13T19:20:32.407",
-      "modified": "2026-10-14T04:18:41.517",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Win32K allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83841"
-    },
-    {
-      "id": "CVE-2026-83793",
-      "published": "2026-10-13T19:20:29.150",
-      "modified": "2026-10-14T04:18:41.340",
-      "description": "Improper link resolution before file access ('link following') in Windows Update Orchestrator Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83793"
-    },
-    {
-      "id": "CVE-2026-83782",
-      "published": "2026-10-13T19:20:27.183",
-      "modified": "2026-10-14T04:18:41.130",
-      "description": "Heap-based buffer overflow in Windows Shell allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83782"
-    },
-    {
-      "id": "CVE-2026-83748",
-      "published": "2026-10-13T19:20:20.500",
-      "modified": "2026-10-14T04:18:40.917",
-      "description": "Heap-based buffer overflow in Windows Error Reporting allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83748"
-    },
-    {
-      "id": "CVE-2026-83694",
-      "published": "2026-10-13T19:20:12.597",
-      "modified": "2026-10-14T04:18:40.720",
-      "description": "Out-of-bounds read in Windows Volume Manager Extension Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83694"
     }
   ],
   "kev": [
@@ -52915,11 +52971,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 59,
-    "high": 554,
-    "medium": 337,
+    "critical": 55,
+    "high": 539,
+    "medium": 342,
     "kev": 3,
-    "p1": 37,
-    "p2": 576
+    "p1": 33,
+    "p2": 561
   }
 }
