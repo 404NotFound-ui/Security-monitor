@@ -1,6 +1,79 @@
 {
-  "updated": "2026-10-15T12:39:41.246687+00:00",
+  "updated": "2026-10-15T13:24:01.380115+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-102558",
+      "published": "2026-09-29T18:17:08.340",
+      "modified": "2026-10-15T13:18:14.023",
+      "description": "A flaw was found in libsoup. When max-incoming-payload-size is unlimited (0), SoupWebsocketConnection could grow its incoming GByteArray based on an attacker-controlled frame length until the length wrapped, causing a heap buffer overflow while reading frame data.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnome:libsoup:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102558"
+    },
+    {
+      "id": "CVE-2026-104025",
+      "published": "2026-10-15T13:17:10.617",
+      "modified": "2026-10-15T13:17:10.617",
+      "description": "Path Traversal (CWE-22) in the execute_obj function of the archive object viewer (peach.pas) in PeaZip 11.2.0 and earlier on Windows allows an attacker who convinces a victim to preview an entry of a crafted archive via the \"Preview with... -> Associated application\" action (Shift+Ctrl+O) to execute an arbitrary program already present on the victim's system, with no warning dialog. The function validates only outname (PeaZip's own temporary directory) with checkfiledirname, while the string actually executed is the concatenation outname+tempstring; tempstring is taken verbatim from the archive entry name (StringGridList.Cells[12,...]) and is never validated. checkfiledirname (list_utils.pas) rejects control and reserved characters in the file name but performs no \"..\" path-containment check, so an entry named ../../../../Windows/System32/calc.exe escapes the extraction directory and is passed to cp_open -> ShellExecuteW; the extracting backend (7-Zip) strips the traversal while the opener does not. In addition, the SECEXTCONST dangerous-extension confirmation prompt is implemented only in the double-click handler (grid_obj_open) and not on this preview route, so an executable inside an archive reaches ShellExecuteW unannounced, and where the prompt does fire it names the entry's display name rather than the resolved path that will run. Arbitrary code execution was demonstrated with a proof of concept against official PeaZip builds, confirmed on two archive formats (.zip and .tar) to show the defect is in PeaZip's own path handling and not in a single format parser.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104025"
+    },
     {
       "id": "CVE-2025-66769",
       "published": "2026-04-13T16:16:24.620",
@@ -51212,48 +51285,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85820"
-    },
-    {
-      "id": "CVE-2026-85814",
-      "published": "2026-10-13T19:21:05.980",
-      "modified": "2026-10-14T04:18:47.863",
-      "description": "Heap-based buffer overflow in Microsoft Windows Media Foundation allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85814"
-    },
-    {
-      "id": "CVE-2026-85810",
-      "published": "2026-10-13T19:21:05.477",
-      "modified": "2026-10-14T04:18:47.657",
-      "description": "Use after free in Windows Telephony Server allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85810"
     }
   ],
   "kev": [
@@ -53005,11 +53036,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 53,
-    "high": 541,
+    "critical": 52,
+    "high": 542,
     "medium": 342,
     "kev": 3,
-    "p1": 31,
-    "p2": 563
+    "p1": 30,
+    "p2": 564
   }
 }
