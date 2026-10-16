@@ -1,6 +1,47 @@
 {
-  "updated": "2026-10-16T14:46:57.657468+00:00",
+  "updated": "2026-10-16T15:24:19.903607+00:00",
   "cves": [
+    {
+      "id": "CVE-2024-0607",
+      "published": "2024-01-18T16:15:08.690",
+      "modified": "2026-10-16T15:16:08.413",
+      "description": "A flaw was found in the Netfilter subsystem in the Linux kernel. The issue is in the nft_byteorder_eval() function, where the code iterates through a loop and writes to the `dst` array. On each iteration, 8 bytes are written, but `dst` is an array of u32, so each element only has space for 4 bytes. That means every iteration overwrites part of the previous element corrupting this array of u32. This flaw allows a local user to cause a denial of service or potentially break NetFilter functionality.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:39:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0607"
+    },
     {
       "id": "CVE-2026-102559",
       "published": "2026-09-29T18:17:08.503",
@@ -51299,38 +51340,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55313"
-    },
-    {
-      "id": "CVE-2025-55314",
-      "published": "2025-12-11T16:16:25.953",
-      "modified": "2026-10-14T21:10:00.183",
-      "description": "An issue was discovered in Foxit PDF and Editor for Windows and macOS before 13.2 and 2025 before 2025.2. When pages in a PDF are deleted via JavaScript, the application may fail to properly update internal states. Subsequent annotation management operations assume these states are valid, causing dereference of invalid or released memory. This can lead to memory corruption, application crashes, and potentially allow an attacker to execute arbitrary code.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:foxit:pdf_editor:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:foxit:pdf_editor:2025.1.0.27937:*:*:*:*:*:*:*",
-        "cpe:2.3:a:foxit:pdf_reader:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-55314"
     }
   ],
   "kev": [
@@ -53084,10 +53093,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 63,
-    "high": 613,
-    "medium": 272,
+    "high": 612,
+    "medium": 273,
     "kev": 3,
     "p1": 36,
-    "p2": 640
+    "p2": 639
   }
 }
