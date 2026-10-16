@@ -1,6 +1,86 @@
 {
-  "updated": "2026-10-16T22:56:16.260371+00:00",
+  "updated": "2026-10-16T23:21:42.001424+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-110226",
+      "published": "2026-10-13T19:18:47.390",
+      "modified": "2026-10-16T23:17:00.277",
+      "description": "QloApps through 1.7.0 contains a broken access control vulnerability that allows hotel-restricted back-office employees to create room types under unassigned hotels by supplying an arbitrary id_hotel. Attackers can enumerate all hotels via the unfiltered room type form selector and post foreign hotel IDs to AdminProductsController, creating rooms and inventory under other hotels.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110226"
+    },
+    {
+      "id": "CVE-2026-110221",
+      "published": "2026-10-13T19:18:46.563",
+      "modified": "2026-10-16T23:17:00.147",
+      "description": "QloApps through 1.7.0 contains a reflected cross-site scripting vulnerability in the AdminHotelFeaturePricesSettings form that echoes feature_price_name and impact_value POST values unescaped after validation fails. Attackers can lure an authenticated back-office user into submitting a crafted request via a malicious link or auto-submitting form, executing JavaScript in their administrative session.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110221"
+    },
+    {
+      "id": "CVE-2026-104710",
+      "published": "2026-10-12T09:16:41.740",
+      "modified": "2026-10-16T23:10:00.113",
+      "description": "Rejected reason: Duplicate of CVE-2026-71364, which was publicly disclosed and fixed in Red Hat Ansible Automation Platform on 2026-08-24. No separate identifier is required.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104710"
+    },
+    {
+      "id": "CVE-2026-88836",
+      "published": "2026-10-13T16:17:23.960",
+      "modified": "2026-10-16T23:10:00.113",
+      "description": "Rejected reason: Red Hat Product Security determined this is not a security vulnerability. BusyBox internal TLS is intentionally minimal and documents in FEATURE_WGET_HTTPS that it does not verify peer identity or provide full TLS security; missing Finished verify_data checking is consistent with that documented design and does not cross a separate security boundary warranting a CVE.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88836"
+    },
     {
       "id": "CVE-2026-85114",
       "published": "2026-10-13T10:17:20.640",
@@ -55043,107 +55123,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-22105"
-    },
-    {
-      "id": "CVE-2025-22056",
-      "published": "2025-04-16T15:15:59.087",
-      "modified": "2026-10-15T02:17:43.900",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnetfilter: nft_tunnel: fix geneve_opt type confusion addition\n\nWhen handling multiple NFTA_TUNNEL_KEY_OPTS_GENEVE attributes, the\nparsing logic should place every geneve_opt structure one by one\ncompactly. Hence, when deciding the next geneve_opt position, the\npointer addition should be in units of char *.\n\nHowever, the current implementation erroneously does type conversion\nbefore the addition, which will lead to heap out-of-bounds write.\n\n[    6.989857] ==================================================================\n[    6.990293] BUG: KASAN: slab-out-of-bounds in nft_tunnel_obj_init+0x977/0xa70\n[    6.990725] Write of size 124 at addr ffff888005f18974 by task poc/178\n[    6.991162]\n[    6.991259] CPU: 0 PID: 178 Comm: poc-oob-write Not tainted 6.1.132 #1\n[    6.991655] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014\n[    6.992281] Call Trace:\n[    6.992423]  <TASK>\n[    6.992586]  dump_stack_lvl+0x44/0x5c\n[    6.992801]  print_report+0x184/0x4be\n[    6.993790]  kasan_report+0xc5/0x100\n[    6.994252]  kasan_check_range+0xf3/0x1a0\n[    6.994486]  memcpy+0x38/0x60\n[    6.994692]  nft_tunnel_obj_init+0x977/0xa70\n[    6.995677]  nft_obj_init+0x10c/0x1b0\n[    6.995891]  nf_tables_newobj+0x585/0x950\n[    6.996922]  nfnetlink_rcv_batch+0xdf9/0x1020\n[    6.998997]  nfnetlink_rcv+0x1df/0x220\n[    6.999537]  netlink_unicast+0x395/0x530\n[    7.000771]  netlink_sendmsg+0x3d0/0x6d0\n[    7.001462]  __sock_sendmsg+0x99/0xa0\n[    7.001707]  ____sys_sendmsg+0x409/0x450\n[    7.002391]  ___sys_sendmsg+0xfd/0x170\n[    7.003145]  __sys_sendmsg+0xea/0x170\n[    7.004359]  do_syscall_64+0x5e/0x90\n[    7.005817]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8\n[    7.006127] RIP: 0033:0x7ec756d4e407\n[    7.006339] Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 faf\n[    7.007364] RSP: 002b:00007ffed5d46760 EFLAGS: 00000202 ORIG_RAX: 000000000000002e\n[    7.007827] RAX: ffffffffffffffda RBX: 00007ec756cc4740 RCX: 00007ec756d4e407\n[    7.008223] RDX: 0000000000000000 RSI: 00007ffed5d467f0 RDI: 0000000000000003\n[    7.008620] RBP: 00007ffed5d468a0 R08: 0000000000000000 R09: 0000000000000000\n[    7.009039] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000\n[    7.009429] R13: 00007ffed5d478b0 R14: 00007ec756ee5000 R15: 00005cbd4e655cb8\n\nFix this bug with correct pointer addition and conversion in parse\nand dump code.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-22056"
-    },
-    {
-      "id": "CVE-2025-22055",
-      "published": "2025-04-16T15:15:58.983",
-      "modified": "2026-10-15T02:17:43.653",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: fix geneve_opt length integer overflow\n\nstruct geneve_opt uses 5 bit length for each single option, which\nmeans every vary size option should be smaller than 128 bytes.\n\nHowever, all current related Netlink policies cannot promise this\nlength condition and the attacker can exploit a exact 128-byte size\noption to *fake* a zero length option and confuse the parsing logic,\nfurther achieve heap out-of-bounds read.\n\nOne example crash log is like below:\n\n[    3.905425] ==================================================================\n[    3.905925] BUG: KASAN: slab-out-of-bounds in nla_put+0xa9/0xe0\n[    3.906255] Read of size 124 at addr ffff888005f291cc by task poc/177\n[    3.906646]\n[    3.906775] CPU: 0 PID: 177 Comm: poc-oob-read Not tainted 6.1.132 #1\n[    3.907131] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014\n[    3.907784] Call Trace:\n[    3.907925]  <TASK>\n[    3.908048]  dump_stack_lvl+0x44/0x5c\n[    3.908258]  print_report+0x184/0x4be\n[    3.909151]  kasan_report+0xc5/0x100\n[    3.909539]  kasan_check_range+0xf3/0x1a0\n[    3.909794]  memcpy+0x1f/0x60\n[    3.909968]  nla_put+0xa9/0xe0\n[    3.910147]  tunnel_key_dump+0x945/0xba0\n[    3.911536]  tcf_action_dump_1+0x1c1/0x340\n[    3.912436]  tcf_action_dump+0x101/0x180\n[    3.912689]  tcf_exts_dump+0x164/0x1e0\n[    3.912905]  fw_dump+0x18b/0x2d0\n[    3.913483]  tcf_fill_node+0x2ee/0x460\n[    3.914778]  tfilter_notify+0xf4/0x180\n[    3.915208]  tc_new_tfilter+0xd51/0x10d0\n[    3.918615]  rtnetlink_rcv_msg+0x4a2/0x560\n[    3.919118]  netlink_rcv_skb+0xcd/0x200\n[    3.919787]  netlink_unicast+0x395/0x530\n[    3.921032]  netlink_sendmsg+0x3d0/0x6d0\n[    3.921987]  __sock_sendmsg+0x99/0xa0\n[    3.922220]  __sys_sendto+0x1b7/0x240\n[    3.922682]  __x64_sys_sendto+0x72/0x90\n[    3.922906]  do_syscall_64+0x5e/0x90\n[    3.923814]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8\n[    3.924122] RIP: 0033:0x7e83eab84407\n[    3.924331] Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 faf\n[    3.925330] RSP: 002b:00007ffff505e370 EFLAGS: 00000202 ORIG_RAX: 000000000000002c\n[    3.925752] RAX: ffffffffffffffda RBX: 00007e83eaafa740 RCX: 00007e83eab84407\n[    3.926173] RDX: 00000000000001a8 RSI: 00007ffff505e3c0 RDI: 0000000000000003\n[    3.926587] RBP: 00007ffff505f460 R08: 00007e83eace1000 R09: 000000000000000c\n[    3.926977] R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffff505f3c0\n[    3.927367] R13: 00007ffff505f5c8 R14: 00007e83ead1b000 R15: 00005d4fbbe6dcb8\n\nFix these issues by enforing correct length condition in related\npolicies.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-22055"
-    },
-    {
-      "id": "CVE-2025-21925",
-      "published": "2025-04-01T16:15:23.227",
-      "modified": "2026-10-15T02:17:41.870",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nllc: do not use skb_get() before dev_queue_xmit()\n\nsyzbot is able to crash hosts [1], using llc and devices\nnot supporting IFF_TX_SKB_SHARING.\n\nIn this case, e1000 driver calls eth_skb_pad(), while\nthe skb is shared.\n\nSimply replace skb_get() by skb_clone() in net/llc/llc_s_ac.c\n\nNote that e1000 driver might have an issue with pktgen,\nbecause it does not clear IFF_TX_SKB_SHARING, this is an\northogonal change.\n\nWe need to audit other skb_get() uses in net/llc.\n\n[1]\n\nkernel BUG at net/core/skbuff.c:2178 !\nOops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI\nCPU: 0 UID: 0 PID: 16371 Comm: syz.2.2764 Not tainted 6.14.0-rc4-syzkaller-00052-gac9c34d1e45a #0\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014\n RIP: 0010:pskb_expand_head+0x6ce/0x1240 net/core/skbuff.c:2178\nCall Trace:\n <TASK>\n  __skb_pad+0x18a/0x610 net/core/skbuff.c:2466\n  __skb_put_padto include/linux/skbuff.h:3843 [inline]\n  skb_put_padto include/linux/skbuff.h:3862 [inline]\n  eth_skb_pad include/linux/etherdevice.h:656 [inline]\n  e1000_xmit_frame+0x2d99/0x5800 drivers/net/ethernet/intel/e1000/e1000_main.c:3128\n  __netdev_start_xmit include/linux/netdevice.h:5151 [inline]\n  netdev_start_xmit include/linux/netdevice.h:5160 [inline]\n  xmit_one net/core/dev.c:3806 [inline]\n  dev_hard_start_xmit+0x9a/0x7b0 net/core/dev.c:3822\n  sch_direct_xmit+0x1ae/0xc30 net/sched/sch_generic.c:343\n  __dev_xmit_skb net/core/dev.c:4045 [inline]\n  __dev_queue_xmit+0x13d4/0x43e0 net/core/dev.c:4621\n  dev_queue_xmit include/linux/netdevice.h:3313 [inline]\n  llc_sap_action_send_test_c+0x268/0x320 net/llc/llc_s_ac.c:144\n  llc_exec_sap_trans_actions net/llc/llc_sap.c:153 [inline]\n  llc_sap_next_state net/llc/llc_sap.c:182 [inline]\n  llc_sap_state_process+0x239/0x510 net/llc/llc_sap.c:209\n  llc_ui_sendmsg+0xd0d/0x14e0 net/llc/af_llc.c:993\n  sock_sendmsg_nosec net/socket.c:718 [inline]",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21925"
-    },
-    {
-      "id": "CVE-2025-21867",
-      "published": "2025-03-27T14:15:47.750",
-      "modified": "2026-10-15T02:17:40.617",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbpf, test_run: Fix use-after-free issue in eth_skb_pkt_type()\n\nKMSAN reported a use-after-free issue in eth_skb_pkt_type()[1]. The\ncause of the issue was that eth_skb_pkt_type() accessed skb's data\nthat didn't contain an Ethernet header. This occurs when\nbpf_prog_test_run_xdp() passes an invalid value as the user_data\nargument to bpf_test_init().\n\nFix this by returning an error when user_data is less than ETH_HLEN in\nbpf_test_init(). Additionally, remove the check for \"if (user_size >\nsize)\" as it is unnecessary.\n\n[1]\nBUG: KMSAN: use-after-free in eth_skb_pkt_type include/linux/etherdevice.h:627 [inline]\nBUG: KMSAN: use-after-free in eth_type_trans+0x4ee/0x980 net/ethernet/eth.c:165\n eth_skb_pkt_type include/linux/etherdevice.h:627 [inline]\n eth_type_trans+0x4ee/0x980 net/ethernet/eth.c:165\n __xdp_build_skb_from_frame+0x5a8/0xa50 net/core/xdp.c:635\n xdp_recv_frames net/bpf/test_run.c:272 [inline]\n xdp_test_run_batch net/bpf/test_run.c:361 [inline]\n bpf_test_run_xdp_live+0x2954/0x3330 net/bpf/test_run.c:390\n bpf_prog_test_run_xdp+0x148e/0x1b10 net/bpf/test_run.c:1318\n bpf_prog_test_run+0x5b7/0xa30 kernel/bpf/syscall.c:4371\n __sys_bpf+0x6a6/0xe20 kernel/bpf/syscall.c:5777\n __do_sys_bpf kernel/bpf/syscall.c:5866 [inline]\n __se_sys_bpf kernel/bpf/syscall.c:5864 [inline]\n __x64_sys_bpf+0xa4/0xf0 kernel/bpf/syscall.c:5864\n x64_sys_call+0x2ea0/0x3d90 arch/x86/include/generated/asm/syscalls_64.h:322\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xd9/0x1d0 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nUninit was created at:\n free_pages_prepare mm/page_alloc.c:1056 [inline]\n free_unref_page+0x156/0x1320 mm/page_alloc.c:2657\n __free_pages+0xa3/0x1b0 mm/page_alloc.c:4838\n bpf_ringbuf_free kernel/bpf/ringbuf.c:226 [inline]\n ringbuf_map_free+0xff/0x1e0 kernel/bpf/ringbuf.c:235\n bpf_map_free kernel/bpf/syscall.c:838 [inline]\n bpf_map_free_deferred+0x17c/0x310 kernel/bpf/syscall.c:862\n process_one_work kernel/workqueue.c:3229 [inline]\n process_scheduled_works+0xa2b/0x1b60 kernel/workqueue.c:3310\n worker_thread+0xedf/0x1550 kernel/workqueue.c:3391\n kthread+0x535/0x6b0 kernel/kthread.c:389\n ret_from_fork+0x6e/0x90 arch/x86/kernel/process.c:147\n ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244\n\nCPU: 1 UID: 0 PID: 17276 Comm: syz.1.16450 Not tainted 6.12.0-05490-g9bb88c659673 #8\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc3:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21867"
     }
   ],
   "kev": [
@@ -56899,10 +56878,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 85,
-    "high": 616,
-    "medium": 264,
+    "high": 613,
+    "medium": 265,
     "kev": 3,
     "p1": 50,
-    "p2": 652
+    "p2": 649
   }
 }
