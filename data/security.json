@@ -1,6 +1,150 @@
 {
-  "updated": "2026-10-16T21:12:48.548045+00:00",
+  "updated": "2026-10-16T21:46:04.939278+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-96542",
+      "published": "2026-10-16T21:21:02.040",
+      "modified": "2026-10-16T21:21:02.040",
+      "description": "Incorrect permission assignment (CWE-732) in the standalone installer for EA Javelin Anticheat (versions 1.0.14329371, 1.0.14547437, 1.0.14789537, and 1.0.14940698) on Windows allows a local non-administrative user to elevate privileges to NT AUTHORITY\\SYSTEM by modifying the EAAntiCheatService service configuration and executable path. This vulnerability requires non-standard manual execution of the standalone installer and does not affect standard game installations via the EA App and Steam. This issue is corrected in version 1.0.14940699 and later; service permissions automatically self-heal upon launching an integrated EA game title.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96542"
+    },
+    {
+      "id": "CVE-2026-80092",
+      "published": "2026-10-16T18:18:37.640",
+      "modified": "2026-10-16T21:19:53.973",
+      "description": "Authentication bypass by assumed-immutable data in Microsoft Identity Web allows an authorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "AUTH_BYPASS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80092"
+    },
+    {
+      "id": "CVE-2026-79957",
+      "published": "2026-10-14T18:18:19.133",
+      "modified": "2026-10-16T21:19:53.860",
+      "description": "ServiceNext contains an insecure direct object reference (IDOR) in the /api/Usuario/GetUsuarios endpoint, which accepts a user-controlled numeric ID in the request body without verifying that the authenticated token belongs to the requested account (CWE-639). Any authenticated user can iterate the ID parameter to retrieve the full profile record of every other user, including passwords stored in cleartext (CWE-256), enabling account takeover and credential-stuffing attacks.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79957"
+    },
+    {
+      "id": "CVE-2026-104040",
+      "published": "2026-10-06T02:17:03.177",
+      "modified": "2026-10-16T21:19:16.957",
+      "description": "A flaw was found in SSSD. When configured with the Entra ID identity provider, input lookup names containing single quotes are not properly escaped before being included in Microsoft Graph Open Data Protocol (OData) queries. A low-privileged local user can exploit this flaw by submitting a crafted search request, altering query filters to broaden user or group searches. This can lead to information disclosure by retrieving unintended directory objects, as well as a Denial of Service (DoS) through excessive processing and cache population.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "DOS",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104040"
+    },
+    {
+      "id": "CVE-2026-106465",
+      "published": "2026-10-14T18:17:25.093",
+      "modified": "2026-10-16T21:17:18.130",
+      "description": "The NetX Secure DTLS server sends a HelloVerifyRequest carrying a freshly generated cookie, but never checks the cookie a client returns. The ClientHello parser copies the client's cookie bytes over the value the server issued, and the server then decides whether the client has been verified from the cookie's length alone. A peer that puts any single cookie byte in its first ClientHello skips the verification exchange entirely, so the server has no return-routability check and completes handshakes for forged source addresses.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106465"
+    },
     {
       "id": "CVE-2026-96915",
       "published": "2026-10-13T19:22:02.523",
@@ -685,26 +829,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97381"
-    },
-    {
-      "id": "CVE-2026-79957",
-      "published": "2026-10-14T18:18:19.133",
-      "modified": "2026-10-16T20:04:29.760",
-      "description": "ServiceNext contains an insecure direct object reference (IDOR) in the /api/Usuario/GetUsuarios endpoint, which accepts a user-controlled numeric ID in the request body without verifying that the authenticated token belongs to the requested account (CWE-639). Any authenticated user can iterate the ID parameter to retrieve the full profile record of every other user, including passwords stored in cleartext (CWE-256), enabling account takeover and credential-stuffing attacks.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79957"
     },
     {
       "id": "CVE-2026-53999",
@@ -7704,29 +7828,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109461"
-    },
-    {
-      "id": "CVE-2026-80092",
-      "published": "2026-10-16T18:18:37.640",
-      "modified": "2026-10-16T19:23:18.623",
-      "description": "Authentication bypass by assumed-immutable data in Microsoft Identity Web allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "AUTH_BYPASS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80092"
     },
     {
       "id": "CVE-2026-96852",
@@ -51655,26 +51756,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19673"
     },
     {
-      "id": "CVE-2026-106465",
-      "published": "2026-10-14T18:17:25.093",
-      "modified": "2026-10-15T14:41:34.110",
-      "description": "The NetX Secure DTLS server sends a HelloVerifyRequest carrying a freshly generated cookie, but never checks the cookie a client returns. The ClientHello parser copies the client's cookie bytes over the value the server issued, and the server then decides whether the client has been verified from the cookie's length alone. A peer that puts any single cookie byte in its first ClientHello skips the verification exchange entirely, so the server has no return-routability check and completes handshakes for forged source addresses.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106465"
-    },
-    {
       "id": "CVE-2026-49484",
       "published": "2026-10-12T22:17:04.480",
       "modified": "2026-10-15T14:17:25.903",
@@ -55071,56 +55152,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21865"
-    },
-    {
-      "id": "CVE-2025-21862",
-      "published": "2025-03-12T10:15:19.253",
-      "modified": "2026-10-15T02:17:39.560",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrop_monitor: fix incorrect initialization order\n\nSyzkaller reports the following bug:\n\nBUG: spinlock bad magic on CPU#1, syz-executor.0/7995\n lock: 0xffff88805303f3e0, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0\nCPU: 1 PID: 7995 Comm: syz-executor.0 Tainted: G            E     5.10.209+ #1\nHardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020\nCall Trace:\n __dump_stack lib/dump_stack.c:77 [inline]\n dump_stack+0x119/0x179 lib/dump_stack.c:118\n debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]\n do_raw_spin_lock+0x1f6/0x270 kernel/locking/spinlock_debug.c:112\n __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:117 [inline]\n _raw_spin_lock_irqsave+0x50/0x70 kernel/locking/spinlock.c:159\n reset_per_cpu_data+0xe6/0x240 [drop_monitor]\n net_dm_cmd_trace+0x43d/0x17a0 [drop_monitor]\n genl_family_rcv_msg_doit+0x22f/0x330 net/netlink/genetlink.c:739\n genl_family_rcv_msg net/netlink/genetlink.c:783 [inline]\n genl_rcv_msg+0x341/0x5a0 net/netlink/genetlink.c:800\n netlink_rcv_skb+0x14d/0x440 net/netlink/af_netlink.c:2497\n genl_rcv+0x29/0x40 net/netlink/genetlink.c:811\n netlink_unicast_kernel net/netlink/af_netlink.c:1322 [inline]\n netlink_unicast+0x54b/0x800 net/netlink/af_netlink.c:1348\n netlink_sendmsg+0x914/0xe00 net/netlink/af_netlink.c:1916\n sock_sendmsg_nosec net/socket.c:651 [inline]\n __sock_sendmsg+0x157/0x190 net/socket.c:663\n ____sys_sendmsg+0x712/0x870 net/socket.c:2378\n ___sys_sendmsg+0xf8/0x170 net/socket.c:2432\n __sys_sendmsg+0xea/0x1b0 net/socket.c:2461\n do_syscall_64+0x30/0x40 arch/x86/entry/common.c:46\n entry_SYSCALL_64_after_hwframe+0x62/0xc7\nRIP: 0033:0x7f3f9815aee9\nCode: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48\nRSP: 002b:00007f3f972bf0c8 EFLAGS: 00000246 ORIG_RAX: 000000000000002e\nRAX: ffffffffffffffda RBX: 00007f3f9826d050 RCX: 00007f3f9815aee9\nRDX: 0000000020000000 RSI: 0000000020001300 RDI: 0000000000000007\nRBP: 00007f3f981b63bd R08: 0000000000000000 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000\nR13: 000000000000006e R14: 00007f3f9826d050 R15: 00007ffe01ee6768\n\nIf drop_monitor is built as a kernel module, syzkaller may have time\nto send a netlink NET_DM_CMD_START message during the module loading.\nThis will call the net_dm_monitor_start() function that uses\na spinlock that has not yet been initialized.\n\nTo fix this, let's place resource initialization above the registration\nof a generic netlink family.\n\nFound by InfoTeCS on behalf of Linux Verification Center\n(linuxtesting.org) with Syzkaller.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc3:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21862"
-    },
-    {
-      "id": "CVE-2025-21861",
-      "published": "2025-03-12T10:15:19.117",
-      "modified": "2026-10-15T02:17:39.300",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/migrate_device: don't add folio to be freed to LRU in migrate_device_finalize()\n\nIf migration succeeded, we called\nfolio_migrate_flags()->mem_cgroup_migrate() to migrate the memcg from the\nold to the new folio.  This will set memcg_data of the old folio to 0.\n\nSimilarly, if migration failed, memcg_data of the dst folio is left unset.\n\nIf we call folio_putback_lru() on such folios (memcg_data == 0), we will\nadd the folio to be freed to the LRU, making memcg code unhappy.  Running\nthe hmm selftests:\n\n  # ./hmm-tests\n  ...\n  #  RUN           hmm.hmm_device_private.migrate ...\n  [  102.078007][T14893] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x7ff27d200 pfn:0x13cc00\n  [  102.079974][T14893] anon flags: 0x17ff00000020018(uptodate|dirty|swapbacked|node=0|zone=2|lastcpupid=0x7ff)\n  [  102.082037][T14893] raw: 017ff00000020018 dead000000000100 dead000000000122 ffff8881353896c9\n  [  102.083687][T14893] raw: 00000007ff27d200 0000000000000000 00000001ffffffff 0000000000000000\n  [  102.085331][T14893] page dumped because: VM_WARN_ON_ONCE_FOLIO(!memcg && !mem_cgroup_disabled())\n  [  102.087230][T14893] ------------[ cut here ]------------\n  [  102.088279][T14893] WARNING: CPU: 0 PID: 14893 at ./include/linux/memcontrol.h:726 folio_lruvec_lock_irqsave+0x10e/0x170\n  [  102.090478][T14893] Modules linked in:\n  [  102.091244][T14893] CPU: 0 UID: 0 PID: 14893 Comm: hmm-tests Not tainted 6.13.0-09623-g6c216bc522fd #151\n  [  102.093089][T14893] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-2.fc40 04/01/2014\n  [  102.094848][T14893] RIP: 0010:folio_lruvec_lock_irqsave+0x10e/0x170\n  [  102.096104][T14893] Code: ...\n  [  102.099908][T14893] RSP: 0018:ffffc900236c37b0 EFLAGS: 00010293\n  [  102.101152][T14893] RAX: 0000000000000000 RBX: ffffea0004f30000 RCX: ffffffff8183f426\n  [  102.102684][T14893] RDX: ffff8881063cb880 RSI: ffffffff81b8117f RDI: ffff8881063cb880\n  [  102.104227][T14893] RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000\n  [  102.105757][T14893] R10: 0000000000000001 R11: 0000000000000002 R12: ffffc900236c37d8\n  [  102.107296][T14893] R13: ffff888277a2bcb0 R14: 000000000000001f R15: 0000000000000000\n  [  102.108830][T14893] FS:  00007ff27dbdd740(0000) GS:ffff888277a00000(0000) knlGS:0000000000000000\n  [  102.110643][T14893] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  [  102.111924][T14893] CR2: 00007ff27d400000 CR3: 000000010866e000 CR4: 0000000000750ef0\n  [  102.113478][T14893] PKRU: 55555554\n  [  102.114172][T14893] Call Trace:\n  [  102.114805][T14893]  <TASK>\n  [  102.115397][T14893]  ? folio_lruvec_lock_irqsave+0x10e/0x170\n  [  102.116547][T14893]  ? __warn.cold+0x110/0x210\n  [  102.117461][T14893]  ? folio_lruvec_lock_irqsave+0x10e/0x170\n  [  102.118667][T14893]  ? report_bug+0x1b9/0x320\n  [  102.119571][T14893]  ? handle_bug+0x54/0x90\n  [  102.120494][T14893]  ? exc_invalid_op+0x17/0x50\n  [  102.121433][T14893]  ? asm_exc_invalid_op+0x1a/0x20\n  [  102.122435][T14893]  ? __wake_up_klogd.part.0+0x76/0xd0\n  [  102.123506][T14893]  ? dump_page+0x4f/0x60\n  [  102.124352][T14893]  ? folio_lruvec_lock_irqsave+0x10e/0x170\n  [  102.125500][T14893]  folio_batch_move_lru+0xd4/0x200\n  [  102.126577][T14893]  ? __pfx_lru_add+0x10/0x10\n  [  102.127505][T14893]  __folio_batch_add_and_move+0x391/0x720\n  [  102.128633][T14893]  ? __pfx_lru_add+0x10/0x10\n  [  102.129550][T14893]  folio_putback_lru+0x16/0x80\n  [  102.130564][T14893]  migrate_device_finalize+0x9b/0x530\n  [  102.131640][T14893]  dmirror_migrate_to_device.constprop.0+0x7c5/0xad0\n  [  102.133047][T14893]  dmirror_fops_unlocked_ioctl+0x89b/0xc80\n\nLikely, nothing else goes wrong: putting the last folio reference will\nremove the folio from the LRU again.  So besides memcg complaining, adding\nthe folio to be freed to the LRU is just an unnecessary step.\n\nThe new flow resembles what we have in migrate_folio_move(): add the dst\nto the lru, rem\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc3:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21861"
     }
   ],
   "kev": [
