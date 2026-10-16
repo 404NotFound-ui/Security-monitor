@@ -1,6 +1,330 @@
 {
-  "updated": "2026-10-16T20:05:33.231488+00:00",
+  "updated": "2026-10-16T20:44:58.524478+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-89483",
+      "published": "2026-09-11T20:19:29.880",
+      "modified": "2026-10-16T20:18:14.297",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme: zero the discard fallback page\n\nnvme_setup_discard() always maps sizeof(struct nvme_dsm_range) *\nNVME_DSM_MAX_RANGES = 4096 bytes as the DSM payload however many ranges\nthe command declares, because some devices ignore the 'Number of Ranges'\nfield - the Fixes: commit records two that read past the declared ranges.\nA single-range discard fills only the first 16 bytes.\n\nNormally the buffer comes from kzalloc() and the other 4080 bytes are\nzero.  When that allocation fails the code falls back to the\nper-controller ctrl->discard_page, which nvme_init_ctrl() obtains with\nalloc_page(GFP_KERNEL) and nothing ever zeroes, so those 4080 bytes are\nwhatever the page last held and are handed to the controller.  Reaching\nit requires the kzalloc(GFP_ATOMIC | __GFP_NOWARN) to fail, that is\nmemory pressure; it is not remotely triggerable.  Failing the allocation\nunder KMSAN reproduces it, with the leaked tail full of vmemmap struct\npage pointers.  The extent in the report is a partial transfer of the\npayload, not the whole 4096 bytes; the 16-byte boundary in it is the one\ndeclared range:\n\n[   11.991601] BUG: KMSAN: uninit-value in dma_map_phys+0x14c8/0x1900\n[   11.991969]  dma_map_phys+0x14c8/0x1900\n[   11.992220]  dma_map_page_attrs+0xcf/0x130\n[   11.992485]  e1000_xmit_frame+0x4099/0x6d10\n[   11.992768]  dev_hard_start_xmit+0x22f/0xa80\n[   11.993068]  sch_direct_xmit+0x35c/0xcb0\n[   11.993315]  __dev_queue_xmit+0x1ee5/0x5eb0\n[   11.993608]  ip_finish_output2+0x1903/0x1c30\n[   11.993881]  ip_finish_output+0x288/0x870\n[   11.994125]  ip_output+0x15e/0x400\n[   11.994365]  __ip_queue_xmit+0x1e85/0x1fb0\n[   11.994639]  ip_queue_xmit+0x60/0x80\n[   11.994899]  __tcp_transmit_skb+0x4e71/0x5fa0\n[   11.995210]  tcp_write_xmit+0x3a36/0x9160\n[   11.995533]  __tcp_push_pending_frames+0xc5/0x3c0\n[   11.995854]  tcp_push+0x7dc/0x840\n[   11.996076]  tcp_sendmsg_locked+0x766c/0x8400\n[   11.996371]  tcp_sendmsg+0x4b/0x90\n[   11.996572]  inet_sendmsg+0x134/0x2a0\n[   11.996823]  __sock_sendmsg+0x265/0x360\n[   11.997076]  sock_sendmsg+0x100/0x1e0\n[   11.997293]  nvme_tcp_try_send+0x196f/0x6370\n[   11.997605]  nvme_tcp_queue_rq+0x1d54/0x20b0\n[   11.997882]  blk_mq_dispatch_rq_list+0x5ee/0x2e50\n[   11.998175]  __blk_mq_sched_dispatch_requests+0x16dc/0x24a0\n[   11.998539]  blk_mq_sched_dispatch_requests+0x11b/0x2c0\n[   11.998865]  blk_mq_run_work_fn+0x13b/0x280\n[   11.999146]  process_scheduled_works+0x966/0x1ad0\n[   11.999465]  worker_thread+0xe44/0x1480\n[   11.999709]  kthread+0x53b/0x600\n[   11.999927]  ret_from_fork+0x29f/0x7c0\n[   12.000191]  ret_from_fork_asm+0x1a/0x30\n[   12.000460]\n[   12.000558] Uninit was created at:\n[   12.000788]  __alloc_frozen_pages_noprof+0x8bf/0xd30\n[   12.001096]  alloc_pages_mpol+0x1d0/0x5f0\n[   12.001326]  alloc_pages_noprof+0x102/0x290\n[   12.001627]  nvme_init_ctrl+0x5a3/0x9f0\n[   12.001891]  nvme_tcp_create_ctrl+0xd75/0x19b0\n[   12.002170]  nvmf_dev_write+0x4c68/0x4fd0\n[   12.002426]  vfs_write+0x587/0x1a10\n[   12.002636]  __x64_sys_write+0x207/0x4f0\n[   12.002874]  x64_sys_call+0x2ff0/0x3ea0\n[   12.003123]  do_syscall_64+0x147/0x3b0\n[   12.003400]  entry_SYSCALL_64_after_hwframe+0x77/0x7f\n[   12.003680]\n[   12.003777] Bytes 16-2843 of 2844 are uninitialized\n[   12.004068] Memory access of size 2844 starts at ffff888109f82000\n[   12.004412]\n[   12.004530] CPU: 0 UID: 0 PID: 101 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMECTL-gf5098b6bae76 #1 PREEMPT(lazy)\n[   12.005127] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[   12.005762] Workqueue: kblockd blk_mq_run_work_fn\n[   12.006073] =====================================================\n\nAllocate the page with __GFP_ZERO.  The single allocation site covers\nevery use of it: bytes no discard has written stay zero, and bytes one\ndid write hold that controller's own range list, which it has already\nbeen sent.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89483"
+    },
+    {
+      "id": "CVE-2026-89482",
+      "published": "2026-09-11T20:19:29.730",
+      "modified": "2026-10-16T20:18:14.097",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme-tcp: do not accept C2HData based on blk_rq_payload_bytes() alone\n\nCommit 25e5cb780e62 (\"nvme-tcp: fix possible crash in write_zeroes\nprocessing\") established that blk_rq_payload_bytes() must not be read\nwithout first checking blk_rq_nr_phys_segments(), and recorded the\nresult in nvme_tcp_setup_cmd_pdu() as req->data_len. The receive side\nwas left as it was.\n\nThe two differ for REQ_OP_WRITE_ZEROES, which has no physical segments\nbut a non-zero blk_rq_bytes(), so setup leaves req->iter untouched\nwhile the receive gate lets a C2HData through and nvme_tcp_recv_data()\ncopies into whatever the previous command on that tag left there. The\ndriver-private area is zeroed only when the tag set is allocated.\n\nReproduced with a test target that leaves a residual iterator on a tag\nand then sends a C2HData for a WRITE_ZEROES command on the same tag:\n\nBUG: KASAN: wild-memory-access in _copy_to_iter+0x642/0x1330\nWrite of size 512 at addr ffe728c2175dfa81 by task kworker/0:1H/103\n\nCPU: 0 UID: 0 PID: 103 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMETCP-gf5098b6bae76 #1 PREEMPT(lazy)\nHardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nWorkqueue: nvme_tcp_wq nvme_tcp_io_work\nCall Trace:\n <TASK>\n dump_stack_lvl+0x53/0x70\n kasan_report+0xce/0x100\n ? _copy_to_iter+0x642/0x1330\n kasan_check_range+0x105/0x1b0\n __asan_memcpy+0x3c/0x60\n _copy_to_iter+0x642/0x1330\n ? __pfx_sock_has_perm+0x10/0x10\n ? worker_thread+0x45b/0xd10\n ? __pfx__copy_to_iter+0x10/0x10\n ? _raw_spin_lock_bh+0x83/0xe0\n ? __pfx__raw_spin_lock_bh+0x10/0x10\n __skb_datagram_iter+0xf3/0x820\n ? __pfx_simple_copy_to_iter+0x10/0x10\n ? __asan_memcpy+0x3c/0x60\n ? skb_copy_bits+0x58d/0x830\n skb_copy_datagram_iter+0x37/0x120\n nvme_tcp_recv_skb+0xa07/0x4320\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n __tcp_read_sock+0x1ab/0x810\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n ? __pfx_lock_sock_nested+0x10/0x10\n ? __pfx___tcp_read_sock+0x10/0x10\n nvme_tcp_try_recv+0x152/0x1e0\n ? __pfx_nvme_tcp_try_recv+0x10/0x10\n ? __pfx_mutex_unlock+0x10/0x10\n nvme_tcp_io_work+0x1e4/0x6c0\n ? __schedule+0x181a/0x49f0\n ? __pfx_nvme_tcp_io_work+0x10/0x10\n process_one_work+0x633/0x1030\n\nKeep the blk_rq_payload_bytes() test and add req->data_len to it. The\nold test is what rejects a C2HData naming a tag that is no longer in\nflight, because blk_update_request() zeroes rq->__data_len on\ncompletion; req->data_len and req->curr_bio are driver-private and\nsurvive completion, so they cannot stand in for it. Setup initialises\nthe iterator only when both req->curr_bio and req->data_len are set, so\nthe gate now tests the same two.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89482"
+    },
+    {
+      "id": "CVE-2026-89477",
+      "published": "2026-09-11T20:19:29.063",
+      "modified": "2026-10-16T20:18:13.200",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsctp: fix NULL deref on untransmitted RECONF completion\n\nsctp_process_strreset_outreq(), sctp_process_strreset_addstrm_out() and\nsctp_process_strreset_resp() complete a pending stream reconfiguration\nrequest by stopping the reconf timer on the transport it was sent on:\n\n\tt = asoc->strreset_chunk->transport;\n\tif (timer_delete(&t->reconf_timer))\n\t\tsctp_transport_put(t);\n\nchunk->transport is assigned by __sctp_packet_append_chunk() when the\nchunk is appended to an outbound packet, and sctp_outq_flush_ctrl() arms\nthe reconf timer at that same point. A request already published in\nasoc->strreset_chunk but not yet transmitted has neither, so completing\nit dereferences NULL.\n\nTwo ways to get there. sctp_send_asconf_del_ip() sets\nasoc->src_out_of_asoc_ok without sending anything when the address being\nremoved is the association's last one, and sctp_outq_flush_ctrl() then\nleaves every non-ASCONF control chunk queued; as only\nsctp_process_asconf_ack() clears that flag, it persists. An unprivileged\nprocess that removes such an address and then asks for a stream reset\npanics the kernel from softirq. A peer needs neither ASCONF nor local\nhelp: sctp_cmd_interpreter() uncorks the outqueue only once the whole\npacket has been processed, so a reply built while walking a RECONF chunk\nstays untransmitted for the rest of that walk, and one RECONF chunk\ncarrying [Incoming SSN Reset Request, Outgoing SSN Reset Request,\nResponse] -- or two RECONF chunks in one packet -- reaches the same\ndereference.\n\n  KASAN: null-ptr-deref in range [0x00000000000001e8-0x00000000000001ef]\n  RIP: 0010:timer_delete+0x67/0x110\n  Call Trace:\n   <IRQ>\n   sctp_process_strreset_addstrm_out (net/sctp/stream.c:832)\n   sctp_sf_do_reconf (net/sctp/sm_statefuns.c:4212)\n   sctp_do_sm (net/sctp/sm_sideeffect.c:1172)\n   sctp_assoc_bh_rcv (net/sctp/associola.c:1044)\n   sctp_rcv (net/sctp/input.c:243)\n   ip_local_deliver (net/ipv4/ip_input.c:262)\n   process_backlog (net/core/dev.c:6680)\n   </IRQ>\n\nA response can only acknowledge a request that was actually sent, so do\nnot match asoc->strreset_chunk while chunk->transport is NULL. Guarding\nthe lookup covers all three completion sites.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89477"
+    },
+    {
+      "id": "CVE-2026-81001",
+      "published": "2026-09-11T20:19:08.160",
+      "modified": "2026-10-16T20:18:11.817",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nslip: fix use-after-free in sl_sync()\n\nslip_devs[] stores bare net_device pointers and takes no reference on\nthem.  sl_sync() and sl_alloc() walk that table from slip_open() under\nrtnl_lock(), while an entry is dropped by sl_free_netdev(), which\nsl_setup() installs as dev->priv_destructor.\n\npriv_destructor is called from netdev_run_todo(), which deliberately\nruns with the RTNL semaphore released so that it can sleep while waiting\nfor the device refcount to drop:\n\n\t/* Snapshot list, allow later requests */\n\tlist_replace_init(&net_todo_list, &list);\n\n\t__rtnl_unlock();\n\t...\n\t\tif (dev->priv_destructor)\n\t\t\tdev->priv_destructor(dev);\t/* slip_devs[i] = NULL */\n\t\tif (dev->needs_free_netdev)\n\t\t\tfree_netdev(dev);\n\t\t...\n\t\t/* Free network device */\n\t\tkobject_put(&dev->dev.kobj);\n\nSo rtnl_lock() does not serialise slip_open() against the teardown at\nall.  sl_sync() can load slip_devs[i] while the entry is still published\nand dereference it after netdev_run_todo() has run the destructor and\nreleased the device:\n\n  CPU0 (slip_open)                 CPU1 (slip_close)\n                                   unregister_netdev()\n                                     rtnl_unlock()\n                                       netdev_run_todo()\n                                         __rtnl_unlock()\n  rtnl_lock()\n  sl_sync()\n    dev = slip_devs[i]\n                                         priv_destructor(dev)\n                                           slip_devs[i] = NULL\n                                         kobject_put(&dev->dev.kobj)\n                                           /* dev is freed */\n    sl = netdev_priv(dev)\n    if (sl->tty || sl->leased)     /* use-after-free */\n\n  BUG: KASAN: use-after-free in sl_sync drivers/net/slip/slip.c:730 [inline]\n  BUG: KASAN: use-after-free in slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n  Read of size 1 at addr ffff8880712dac71 by task syz-executor.2/6506\n\n  CPU: 2 PID: 6506 Comm: syz-executor.2 Not tainted 6.1.134-syzkaller-00260-g0c8fc3469765 #0\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014\n  Call Trace:\n   sl_sync drivers/net/slip/slip.c:730 [inline]\n   slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n   tiocsetd drivers/tty/tty_io.c:2428 [inline]\n   tty_ioctl+0x5f0/0x1530 drivers/tty/tty_io.c:2712\n\n  Allocated by task 6502:\n   alloc_netdev_mqs+0x98/0xfe0 net/core/dev.c:10719\n   sl_alloc drivers/net/slip/slip.c:756 [inline]\n   slip_open+0x36d/0x1210 drivers/net/slip/slip.c:817\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n\n  Freed by task 6497:\n   device_release+0xa2/0x240 drivers/base/core.c:2507\n   kobject_put+0x179/0x280 lib/kobject.c:729\n   netdev_run_todo+0x6c8/0xef0 net/core/dev.c:10509\n   slip_close+0x166/0x1c0 drivers/net/slip/slip.c:906\n   tty_ldisc_close+0x113/0x1a0 drivers/tty/tty_ldisc.c:456\n   tty_ldisc_kill+0x94/0x160 drivers/tty/tty_ldisc.c:614\n   tty_ldisc_release+0xe3/0x2b0 drivers/tty/tty_ldisc.c:782\n   tty_release+0xbcc/0xe70 drivers/tty/tty_io.c:1860\n\nCommit e58c19124189 (\"slip: Fix use-after-free Read in slip_open\") fixed\na different source of stale entries - a device left in slip_devs[] after\nslip_open() freed it on the registration error path - and does not\naddress this race, which is why the report survives it.\n\nDrop the entry from ndo_uninit instead.  unregister_netdevice() calls\nndo_uninit under RTNL, before the device is queued to netdev_run_todo(),\nso an entry that sl_sync() can still see while holding RTNL belongs to a\ndevice that cannot be freed until RTNL is dropped.  sl_free_netdev()\nstays only for the slip_open() error path, where register_netdevice()\nmay have failed before ndo_init and ndo_uninit is then not called\neither.  Both running for the same device is harmless: the\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81001"
+    },
+    {
+      "id": "CVE-2026-80994",
+      "published": "2026-09-11T20:19:06.357",
+      "modified": "2026-10-16T20:18:11.463",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: openvswitch: fix flow mask use-after-free on flow deletion\n\nThe commit in the Fixes tag below made so flow->mask free is scheduled\nvia RCU right after it is removed from the flow table.  The pointer\nstays in the flow structure and it can be accessible while in the same\nRCU critical section.  This is done to avoid requiring ovs_mutex for\nthe ovs_flow_free().\n\nHowever, while removing the flow during processing of CMD_DEL, we do\nnot take RCU read lock before the removal, and ovs_flow_cmd_fill_info()\nuses the flow->mask pointer afterwards.  The RCU read lock is taken,\nbut it's already late at that point.  The comment on that line\nacknowledges that the lock is cosmetic and doesn't serve a real purpose.\n\nThis leads to use-after-free if the RCU grace period passes between\nremoval and the filling.  It is a short race window, but it is there\nand can lead to a real crash in case memory allocation for the info\ntakes a bit longer:\n\n BUG: KASAN: slab-use-after-free in __ovs_nla_put_key\n             net/openvswitch/flow_netlink.c:1996\n BUG: KASAN: slab-use-after-free in ovs_nla_put_key+0x2463/0x2e30\n             net/openvswitch/flow_netlink.c:2250\n Read of size 4 at addr ffff88801ee89970 by task ovs_flow_del_ec/9487\n\n Call Trace:\n  <TASK>\n  __ovs_nla_put_key net/openvswitch/flow_netlink.c:1996\n  ovs_nla_put_key+0x2463/0x2e30 net/openvswitch/flow_netlink.c:2250\n  ovs_flow_cmd_fill_info+0x420/0x9c0 net/openvswitch/datapath.c:930\n  ovs_flow_cmd_del+0x53a/0x970 net/openvswitch/datapath.c:1467\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n  </TASK>\n\n Allocated by task 9487:\n  mask_alloc net/openvswitch/flow_table.c:967\n  flow_mask_insert net/openvswitch/flow_table.c:1012\n  ovs_flow_tbl_insert+0xea2/0x1a90 net/openvswitch/flow_table.c:1084\n  ovs_flow_cmd_new+0x7e3/0xd90 net/openvswitch/datapath.c:1086\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n\n Freed by task 9485:\n  rcu_free_sheaf+0x1e/0x100 mm/slub.c:5978\n  rcu_do_batch kernel/rcu/tree.c:2645\n  rcu_core+0x59c/0x10c0 kernel/rcu/tree.c:2897\n  handle_softirqs+0x1e4/0x9a0 kernel/softirq.c:622\n  ...\n  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062\n\novs_flow_tbl_remove() must be called after the ovs_flow_cmd_fill_info()\nto avoid this race.  This also helps with cleaning up the forced cast\nand the cosmetic RCU read lock.  Before the commit in the Fixes tag the\norder did not matter as long as the flow object itself was not freed.\n\nA wider RCU critical section could be another option, but we have a\nGFP_KERNEL allocation in the way.\n\nReported by Trend Micro's Zero Day Initiative as ZDI-CAN-32042.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80994"
+    },
+    {
+      "id": "CVE-2026-80726",
+      "published": "2026-09-03T13:06:11.020",
+      "modified": "2026-10-16T20:18:09.240",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86/mmu: WARN and clear role.invalid when creating a child shadow page\n\nExplicitly clear role.invalid when deriving a child shadow page's role from\nits parent to harden against bugs elsewhere in KVM, as violating KVM's\ninvariant that invalid pages are NOT on the list of active MMU pages leads\nto use-after-free due to __kvm_mmu_prepare_zap_page() using list_add()\ninstead of list_move() when processing an invalid shadow page, i.e. makes a\nbad situation far worse.\n\nYell loudly if the parent is invalid, as it means KVM has missed a validity\ncheck, i.e. KVM is attempting to map memory using an invalid/obsolete root,\nbut continue on as the child is otherwise still a valid shadow page.\n\n  ==================================================================\n  BUG: KASAN: slab-use-after-free in __kvm_mmu_get_shadow_page+0x1817/0x1860 [kvm]\n  Write of size 8 at addr ff11000153dd1368 by task repro/853\n\n  CPU: 1 UID: 1000 PID: 853 Comm: repro Not tainted 7.2.0-rc2-3aec122bdcaf-next-vm #5 PREEMPT\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x4b/0x70\n   print_report+0x153/0x49c\n   kasan_report+0xbc/0xf0\n   __kvm_mmu_get_shadow_page+0x1817/0x1860 [kvm]\n   mmu_alloc_root+0x141/0x320 [kvm]\n   kvm_mmu_load+0x612/0x20f0 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x3dd5/0x6150 [kvm]\n   kvm_vcpu_ioctl+0x5e4/0x10d0 [kvm]\n   __x64_sys_ioctl+0x131/0x1b0\n   do_syscall_64+0x67/0x5f0\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n   </TASK>\n\n  Allocated by task 853:\n   kasan_save_stack+0x20/0x40\n   kasan_save_track+0x14/0x30\n   __kasan_slab_alloc+0x5f/0x70\n   kmem_cache_alloc_noprof+0xfe/0x2e0\n   __kvm_mmu_topup_memory_cache+0x135/0x530 [kvm]\n   paging64_page_fault+0x318/0x1e30 [kvm]\n   kvm_mmu_do_page_fault+0x21d/0x630 [kvm]\n   kvm_mmu_page_fault+0x18c/0x17b0 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x1f35/0x6150 [kvm]\n   kvm_vcpu_ioctl+0x5e4/0x10d0 [kvm]\n   __x64_sys_ioctl+0x131/0x1b0\n   do_syscall_64+0x67/0x5f0\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n\n  Freed by task 853:\n   kasan_save_stack+0x20/0x40\n   kasan_save_track+0x14/0x30\n   kasan_save_free_info+0x3b/0x60\n   __kasan_slab_free+0x43/0x70\n   kmem_cache_free+0xe2/0x400\n   kvm_mmu_commit_zap_page.part.0+0x1e2/0x310 [kvm]\n   kvm_mmu_free_roots+0x283/0x560 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x33c8/0x6150 [kvm]\n   kvm_vcpu_ioctl+0x5e4/0x10d0 [kvm]\n   __x64_sys_ioctl+0x131/0x1b0\n   do_syscall_64+0x67/0x5f0\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80726"
+    },
+    {
+      "id": "CVE-2026-80630",
+      "published": "2026-08-28T08:16:47.850",
+      "modified": "2026-10-16T20:18:04.520",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: sch_fq_codel: Do not call qdisc_tree_reduce_backlog during peek before restoring qlen\n\nWhenever fq_codel drops packets during peek, it calls\nqdisc_tree_reduce_backlog. An issue arises because it calls\nqdisc_tree_reduce_backlog before it reincrements the qlen. If qlen drops\nto zero, but peek returns an skb, the parent's qlen_notify callback will be\nexecuted even though fq_codel still has 1 packet on the queue and, thus,\nwill mistakenly deactivate the parent's class causing issues like a recent\nreport [1] and a wild memory access in qfq:\n\n[   29.371146][  T360] Oops: general protection fault, probably for non-canonical address 0xfbd59c0000000024: 0000 [#1] SMP KASAN NOPTI\n[   29.371666][  T360] KASAN: maybe wild-memory-access in range [0xdead000000000120-0xdead000000000127]\n[   29.371987][  T360] CPU: 6 UID: 0 PID: 360 Comm: tc Not tainted 7.1.0-rc5-00285-gc530e5b2dbc6-dirty #82 PREEMPT(full)\n[   29.372384][  T360] Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011\n[   29.372620][  T360] RIP: 0010:qfq_deactivate_agg (include/linux/list.h:1029 (discriminator 2) include/linux/list.h:1043 (discriminator 2) net/sched/sch_qfq.c:1369 (discriminator 2) net/sched/sch_qfq.c:1395 (discriminator 2)) sch_qfq\n[   29.373544][  T360] RSP: 0018:ffff888102417370 EFLAGS: 00010216\n[   29.373800][  T360] RAX: 0000000000000000 RBX: ffff88811224d568 RCX: dffffc0000000000\n[   29.374079][  T360] RDX: 1ffff11021fe1543 RSI: ffff88810ff0aa00 RDI: dffffc0000000000\n[   29.374368][  T360] RBP: ffff88811224c280 R08: dead000000000122 R09: 1bd5a00000000024\n[   29.374649][  T360] R10: fffffbfff7940329 R11: fffffbfff7940329 R12: 0000000000000000\n[   29.374926][  T360] R13: dead000000000100 R14: ffff88811224d580 R15: ffff88811224d578\n[   29.375207][  T360] FS:  00007f5b794e5780(0000) GS:ffff88815d1e9000(0000) knlGS:0000000000000000\n[   29.375545][  T360] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[   29.375823][  T360] CR2: 000055ffb091f000 CR3: 000000010a305000 CR4: 0000000000750ef0\n[   29.376103][  T360] PKRU: 55555554\n[   29.376258][  T360] Call Trace:\n[   29.376401][  T360]  <TASK>\n...\n[   29.376885][  T360] qfq_reset_qdisc (net/sched/sch_qfq.c:357 net/sched/sch_qfq.c:1487) sch_qfq\n[   29.377074][  T360]  qdisc_reset (net/sched/sch_generic.c:1057)\n[   29.377414][  T360]  __qdisc_destroy (net/sched/sch_generic.c:1096)\n[   29.377600][  T360]  qdisc_graft (net/sched/sch_api.c:1062 net/sched/sch_api.c:1053 net/sched/sch_api.c:1159)\n[   29.378593][  T360]  tc_get_qdisc (net/sched/sch_api.c:1528 net/sched/sch_api.c:1556)\n\nFix this by only calling qdisc_tree_reduce_backlog in peek after the\nqlen is restored.\n\n[1] http://lore.kernel.org/netdev/CAN2cbVe79oj0O9==m4+4x3v+O+qzRagA=2=wkrp9i9=CqYvyZA@mail.gmail.com/",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80630"
+    },
+    {
+      "id": "CVE-2026-80588",
+      "published": "2026-08-26T15:17:15.180",
+      "modified": "2026-10-16T20:18:02.090",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmptcp: reclaim forward-allocated memory on RX path errors\n\nAfter commit 9db5b3cec4ec (\"mptcp: borrow forward memory from subflow\"),\nerrors in the receive path prior to queueing skbs into the receive\nqueue do not trigger forward-allocated memory reclaiming.\n\nPrevent forward memory from growing unboundedly in pathological drop\nscenarios by explicitly reclaiming memory when skbs are dropped.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80588"
+    },
+    {
+      "id": "CVE-2026-80548",
+      "published": "2026-08-26T15:17:09.200",
+      "modified": "2026-10-16T20:17:58.900",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ns390/vfio_ccw: Selectively expand io_mutex\n\nThe io_mutex was defined to serialize the io_regions, but then has\nalso sort of been associated with the I/O themselves because of\nthe close relationship they share.\n\nWith the handful of races that are possible, the choices are either to:\n A) expand the scope of io_mutex to close these remaining windows, or\n B) reduce the scope of io_mutex to just io_region, and introduce a new\n    lock mechanism for the remaining I/O resources\n\nThis patch implements A, since B brings with it a lot more interactions\nthat would need to be tracked and kept in a correct hierarchy. It also\ntakes advantage of the workqueue element for cp_free() that now gets\ncalled out of fsm_notoper(), which could be invoked out of an interrupt\ncontext and thus cannot acquire a mutex itself.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80548"
+    },
+    {
+      "id": "CVE-2026-80530",
+      "published": "2026-08-26T15:17:06.990",
+      "modified": "2026-10-16T20:17:57.880",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nxfs: fix exchange-range reflink flag clearing issue with INO1_WRITTEN\n\nWhen exchanging two full-file ranges, xmi_can_exchange_reflink_flags()\ncan move the reflink inode flag from the file that currently has it to\nthe other file, as long as exactly one side is marked.  This assumes\nthat the file contents, and therefore all shared extents, are exchanged.\n\nThat assumption is not true when XFS_EXCHMAPS_INO1_WRITTEN is set.\nxfs_exchmaps_can_skip_mapping() can skip hole and unwritten mappings\nfrom file1, so an exchange can complete without moving every mapping\nthat the earlier flag-swap decision accounted for.  In that case the\npost-operation cleanup can clear the reflink flag from an inode that\nstill owns shared written extents.  Later writes then take the\nnon-reflink write path and may update blocks that should still have\nbeen protected by CoW, which shows up as data corruption between\nreflink-related files.\n\nFix this by disabling the reflink flag exchange whenever\nXFS_EXCHMAPS_INO1_WRITTEN is requested.  The contents exchange can still\nproceed; the conservative outcome is that both inodes keep the reflink\nflag.  The regular reflink flag cleanup path can drop the extra flag\nlater once the inode no longer has shared extents.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80530"
+    },
+    {
+      "id": "CVE-2026-74700",
+      "published": "2026-08-22T16:16:44.610",
+      "modified": "2026-10-16T20:17:52.793",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: cls_api: Always acquire rtnl_lock when destroying locked classifiers\n\nAnother challenge with unlocked filters.\nThere is a short window in tc_new_tfilter where a tcf_proto can be found\nand briefly referenced by a totally unrelated, unlocked classifier's request\nand cause a race.\n\nFeng created a poc which created this race with two threads, one creating a\nu32 filter and other a flower filter in the same chain/prio:\n\n1. Both threads enter tc_new_tfilter, both find the chain empty, both\n   drop filter_chain_lock\n2. u32 finishes tcf_proto_create(\"u32\") first, calls\n   tcf_chain_tp_insert_unique() -> inserts u32_tp into the chain\n3. flower finishes tcf_proto_create(\"flower\") later, calls\n   tcf_chain_tp_insert_unique() -> tcf_chain_tp_find() now sees u32_tp\n   already there, takes a reference on it, destroys flower's own tp_new\n   and returns u32_tp to the caller.\n\nFlower then hits the kind mismatch check (because it requested for kind\n\"flower\" but tp->ops->kind is \"u32\") and goes through the errout path\nwhich calls tcf_proto_put() on u32_tp. If the u32 thread has already\ngone through its own errout (its change() call failed on the PoC's empty\noptions) and dropped its create and insert refs, flower's put is the\nlast one and drops u32_tp's refcnt to zero.\n\nAt this point tp->ops->destroy() runs in a context that never took\nrtnl_lock. When that happens, it might cause a UAF like the following\n(illustrated by the PoC):\n\n[  +0.000710] BUG: KASAN: slab-use-after-free in u32_init (net/sched/cls_u32.c:393)\n[  +0.000281] Read of size 8 at addr ffff888120022f00 by task poc_feng_xue/524\n\n  Call Trace:\n   u32_init (net/sched/cls_u32.c:393)\n   tc_new_tfilter (net/sched/cls_api.c:2378)\n\n  Allocated by task 526:\n   u32_init (net/sched/cls_u32.c:378)\n   tc_new_tfilter (net/sched/cls_api.c:2378)\n\n  Freed by task 522:\n   kfree\n   u32_destroy (net/sched/cls_u32.c:662)\n   tcf_proto_destroy (net/sched/cls_api.c:446)\n   tcf_proto_put (net/sched/cls_api.c:459)\n   tc_new_tfilter (net/sched/cls_api.c:2459)\n\nFix this by having tcf_proto_destroy() take rtnl_lock around\ntp->ops->destroy() for locked classifiers whenever rtnl is not held.\n\nTo explain why I used a temp variable \"not_lockless\" I'd like to point to a\nsemi-related note on rtnl_held vs TCF_PROTO_OPS_DOIT_UNLOCKED (adding here\nfor future cleanup if deemed necessary):\nThe rtnl_held parameter and the TCF_PROTO_OPS_DOIT_UNLOCKED flag are\nredundant sources of truth for whether rtnl_lock is held. Among the nine\nclassifier destroy(..rtnl_held..) callbacks, only flower consults the\nrtnl_held parameter which it propagates to tc_setup_cb_destroy()\nand tc_setup_cb_call(). The other eight (u32, flow, bpf, cgroup, route, basic,\nfw, mall) ignore it entirely;-> those that call tc_setup_cb_destroy()\n(u32, bpf, mall) hardcode true always instead of forwarding the parameter.\n\nA future cleanup should remove the rtnl_held parameter from the destroy callback\nsignature entirely and have callers rely solely on their knowledge whether\nthey are running in an unlocked context.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74700"
+    },
+    {
+      "id": "CVE-2026-74523",
+      "published": "2026-08-15T13:17:57.543",
+      "modified": "2026-10-16T20:17:34.927",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nqede: sync udp_tunnel ports outside qede_lock in the recovery path\n\nA TX timeout on a qede NIC that has VXLAN/GENEVE tunnel ports\nconfigured wedges the rtnetlink control plane of the whole machine:\n\n  NETDEV WATCHDOG: ens6f1 (qede): transmit queue 2 timed out 10226 ms\n  [qede_tx_timeout:586(ens6f1)]TX timeout on queue 2!\n  [qede_recovery_handler:2665(ens6f0)]Starting a recovery process\n\nThe recovery path deadlocks on the driver's own mutex:\n\n  qede_sp_task\n   rtnl_lock()\n   mutex_lock(&edev->qede_lock)        <- taken\n   qede_recovery_handler\n    qede_load\n    udp_tunnel_nic_reset_ntf\n     __udp_tunnel_nic_device_sync\n      info->sync_table == qede_udp_tunnel_sync\n       mutex_lock(&edev->qede_lock)    <- same task: deadlock\n\nThe mutex is not recursive, so the kworker blocks on itself with\nrtnl_lock held, and neither lock is ever released. Every task that\ncalls rtnl_lock() afterwards (ip, ovs-vswitchd, lldpad, IPv6\naddrconf, sshd) blocks forever while the node still answers ping.\nIn a vmcore from an affected production node rtnl_mutex.owner\ndecodes to the very kworker blocked at the innermost mutex_lock()\nabove.\n\nRe-sync the tunnel ports from qede_sp_task() after the internal lock\nis dropped, still under rtnl_lock as the udp_tunnel API requires.\nThis mirrors qede_open(), which calls udp_tunnel_nic_reset_ntf()\nunder rtnl without the internal lock.\n\nqede_recovery_handler() now returns whether it has successfully\nreloaded an open device, and the caller re-syncs the ports only in\nthat case. This keeps the old gating exactly: a device that was down\nor a failed recovery returns false, as those paths never reached the\nudp_tunnel_nic_reset_ntf() call before either.\n\nThis was the only user of the qede_lock()/qede_unlock() helpers, so\nremove them.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74523"
+    },
+    {
+      "id": "CVE-2026-74517",
+      "published": "2026-08-15T13:17:56.850",
+      "modified": "2026-10-16T20:17:34.317",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86: Cancel delayed I/O APIC EOI handling before destroying vCPUs\n\nCancel (and flush) the I/O APIC's delayed EOI handling work during the\n\"pre VM destroy\" phase, before vCPUs are destroyed, as processing the EOI\nbroadcast will inject another IRQ if the line is asserted, i.e. will try\nto deliver an IRQ to the target vCPU(s).  Canceling the work after vCPUs\nare destroyed leads to UAF if the delayed work is processed after vCPUs are\ndestroyed.\n\n  BUG: KASAN: slab-use-after-free in __kvm_irq_delivery_to_apic_fast+0x9bf/0xa20 arch/x86/kvm/lapic.c:1250\n  Read of size 8 at addr ffff8880499abea0 by task kworker/1:2/1218\n\n  CPU: 1 UID: 0 PID: 1218 Comm: kworker/1:2 Not tainted 7.1.0-rc7 #5 PREEMPT(lazy)\n  Hardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 10.1 machine, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  Workqueue: events kvm_ioapic_eoi_inject_work\n  Call Trace:\n   <TASK>\n   __dump_stack lib/dump_stack.c:94\n   dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120\n   print_address_description mm/kasan/report.c:378\n   print_report+0x139/0x4ad mm/kasan/report.c:482\n   kasan_report+0xe4/0x1d0 mm/kasan/report.c:595\n   __kvm_irq_delivery_to_apic_fast+0x9bf/0xa20 arch/x86/kvm/lapic.c:1250\n   __kvm_irq_delivery_to_apic+0xd8/0xbf0 arch/x86/kvm/lapic.c:1345\n   kvm_irq_delivery_to_apic arch/x86/kvm/lapic.h:129\n   ioapic_service+0x308/0x590 arch/x86/kvm/ioapic.c:492\n   kvm_ioapic_eoi_inject_work+0x13c/0x190 arch/x86/kvm/ioapic.c:532\n   process_one_work+0xa59/0x19a0 kernel/workqueue.c:3314\n   process_scheduled_works kernel/workqueue.c:3397\n   worker_thread+0x5eb/0xe50 kernel/workqueue.c:3478\n   kthread+0x370/0x450 kernel/kthread.c:436\n   ret_from_fork+0x72b/0xd30 arch/x86/kernel/process.c:158\n   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245\n   </TASK>\n\nNote, the VM is unreachable once kvm_destroy_vm() starts, and scheduling\nnew work via kvm_ioapic_send_eoi() can only be done via KVM_RUN, i.e.\nrequires a live vCPU.\n\nAlternatively, KVM could simply destroy the I/O APIC during the \"pre\" phase\nof VM destruction, but that gets more than a bit sketchy as KVM expects the\nI/O APIC to exist if ioapic_in_kernel() is true, and nested virtualization\nin particular has a bad habit of touching VM-scope state during vCPU\ndestruction.  E.g. attempting to free the PIC during the pre phase would\nlead to a NULL pointer dereference in kvm_cpu_has_extint(), and it's not\nhard to imagine the I/O APIC having a similar flaw.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74517"
+    },
+    {
+      "id": "CVE-2026-74516",
+      "published": "2026-08-15T13:17:56.737",
+      "modified": "2026-10-16T20:17:34.160",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: SVM: Update x2APIC MSR intercepts if AVIC is inhibited while L2 is active\n\nAlways update x2APIC MSR intercepts for L1 when AVIC is deactivated, even\nif L2 is active and KVM is using a separate MSR bitmap to run L2.  If AVIC\nis fully enabled prior to running L2, and is then inhibited while L2 is\nactive (for a VM-scoped inhibit), then KVM will run L1 with AVIC disabled,\nbut with x2APIC MSR intercepts disabled, i.e. will allow L1 to read most of\nthe host's APIC state, send arbitrary interrupts, change task priority, and\nultimately trivially DoS the host.\n\nE.g. sending a self-IPI in L1 on HYPERV_REENLIGHTENMENT_VECTOR, 0xee, with\nCONFIG_HYPERV=n in the host kernel as a \"safe\" PoC, yields:\n\n  Spurious interrupt (vector 0xee) on CPU#425. Acked\n\nAnd hacking KVM to abuse kvm_set_posted_intr_wakeup_handler() to register a\nhandler and WARN on POSTED_INTR_WAKEUP_VECTOR yields:\n\n  ------------[ cut here ]------------\n  WARNING: arch/x86/kvm/svm/svm.c:5594 at pi_wakeup_handler+0x9/0x10 [kvm_amd], CPU#156: nested_x2apic_t/316940\n  CPU: 156 UID: 0 PID: 316940 Comm: nested_x2apic_t Tainted: G S   U\n  Tainted: [S]=CPU_OUT_OF_SPEC, [U]=USER\n  Hardware name: Google Astoria-Turin/astoria, BIOS 0.20260209.0-0 02/09/2026\n  RIP: 0010:pi_wakeup_handler+0x9/0x10 [kvm_amd]\n  Call Trace:\n   <IRQ>\n   sysvec_kvm_posted_intr_wakeup_ipi+0x64/0x80\n   </IRQ>\n   <TASK>\n   asm_sysvec_kvm_posted_intr_wakeup_ipi+0x1a/0x20\n  RIP: 0010:vcpu_run+0x1430/0x1e40 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x2c1/0x600 [kvm]\n   kvm_vcpu_ioctl+0x580/0x6b0 [kvm]\n   __se_sys_ioctl+0x6d/0xb0\n   do_syscall_64+0x10a/0x480\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x46ff4b\n   </TASK>\n  ---[ end trace 0000000000000000 ]---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74516"
+    },
+    {
+      "id": "CVE-2026-74482",
+      "published": "2026-08-15T13:17:53.053",
+      "modified": "2026-10-16T20:17:31.267",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/huge_memory: unlock i_mmap_rwsem before releasing after-split folios\n\n__folio_split() keeps dereferencing the mapping after the split:\nshmem_uncharge(mapping->host) and remap_page() while the folios are still\nfrozen/locked, and i_mmap_unlock_read(mapping) at the very end, after the\nafter-split folios have been unlocked and freed.\n\nNothing holds an inode reference across that.  The split relies on @folio\n-- which the beyond-EOF drop loop never removes, as it starts at\nfolio_next(folio) -- staying locked and in the page cache to hold off\neviction.  But the unlock loop unlocks @folio before i_mmap_unlock_read()\nruns.  If the caller's @lock_at is a tail beyond EOF, as memory_failure()\npasses when splitting a poisoned tail of a shmem THP that reaches past\ni_size during truncation, it too is gone from the page cache; so once\n@folio is unlocked no locked, in-cache folio pins the inode, and a\nconcurrent final iput() can evict and RCU-free it before\ni_mmap_unlock_read() touches i_mmap_rwsem:\n\n  BUG: KASAN: slab-use-after-free in __up_read+0x634/0x790\n   i_mmap_unlock_read include/linux/fs.h:537 [inline]\n   __folio_split+0x732/0x1640 mm/huge_memory.c:4100\n   try_to_split_thp_page+0xab/0x390 mm/memory-failure.c:1675\n   memory_failure+0x1394/0x26e0 mm/memory-failure.c:2470\n\n  Freed by task 4601:\n   shmem_free_in_core_inode+0x54/0xb0 mm/shmem.c:5177\n   evict+0x57f/0xac0 fs/inode.c:870\n\nDo every mapping dereference while @folio still pins the inode: drop\ni_mmap_rwsem right after remap_page(), before the loop that unlocks and\nfrees the after-split folios, and clear @mapping so the exit path does not\nunlock it again.  shmem_uncharge() and remap_page() already run before\nthat point, so after this nothing past the unlock loop touches the inode\nor the mapping.\n\nThis is now a rule the split depends on, alongside keeping @folio frozen\nuntil the page cache is updated: no inode or mapping dereference once the\nafter-split folios start being unlocked.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74482"
+    },
+    {
+      "id": "CVE-2026-105036",
+      "published": "2026-10-15T21:17:04.230",
+      "modified": "2026-10-16T20:17:18.217",
+      "description": "EnergizeLab AI Station firmware, EilikO Linux robot firmware v2.1_20260617182218_release, and the EnergizeLab Windows desktop app 3.1.2 download firmware updates over plain HTTP and do not verify their integrity or authenticity. An attacker able to intercept or modify the traffic can substitute a malicious update.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105036"
+    },
     {
       "id": "CVE-2026-103902",
       "published": "2026-10-12T11:17:08.617",
@@ -43298,26 +43622,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105599"
     },
     {
-      "id": "CVE-2026-105036",
-      "published": "2026-10-15T21:17:04.230",
-      "modified": "2026-10-15T21:17:04.230",
-      "description": "EnergizeLab AI Station firmware, EilikO Linux robot firmware v2.1_20260617182218_release, and the EnergizeLab Windows desktop app 3.1.2 download firmware updates over plain HTTP and do not verify their integrity or authenticity. An attacker able to intercept or modify the traffic can substitute a malicious update.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105036"
-    },
-    {
       "id": "CVE-2026-102858",
       "published": "2026-10-13T19:17:50.217",
       "modified": "2026-10-15T21:17:00.603",
@@ -54703,383 +55007,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21796"
-    },
-    {
-      "id": "CVE-2025-21790",
-      "published": "2025-02-27T03:15:19.870",
-      "modified": "2026-10-15T02:17:35.623",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nvxlan: check vxlan_vnigroup_init() return value\n\nvxlan_init() must check vxlan_vnigroup_init() success\notherwise a crash happens later, spotted by syzbot.\n\nOops: general protection fault, probably for non-canonical address 0xdffffc000000002c: 0000 [#1] PREEMPT SMP KASAN NOPTI\nKASAN: null-ptr-deref in range [0x0000000000000160-0x0000000000000167]\nCPU: 0 UID: 0 PID: 7313 Comm: syz-executor147 Not tainted 6.14.0-rc1-syzkaller-00276-g69b54314c975 #0\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014\n RIP: 0010:vxlan_vnigroup_uninit+0x89/0x500 drivers/net/vxlan/vxlan_vnifilter.c:912\nCode: 00 48 8b 44 24 08 4c 8b b0 98 41 00 00 49 8d 86 60 01 00 00 48 89 c2 48 89 44 24 10 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 4d 04 00 00 49 8b 86 60 01 00 00 48 ba 00 00 00\nRSP: 0018:ffffc9000cc1eea8 EFLAGS: 00010202\nRAX: dffffc0000000000 RBX: 0000000000000001 RCX: ffffffff8672effb\nRDX: 000000000000002c RSI: ffffffff8672ecb9 RDI: ffff8880461b4f18\nRBP: ffff8880461b4ef4 R08: 0000000000000001 R09: 0000000000000000\nR10: 0000000000000001 R11: 0000000000000000 R12: 0000000000020000\nR13: ffff8880461b0d80 R14: 0000000000000000 R15: dffffc0000000000\nFS:  00007fecfa95d6c0(0000) GS:ffff88806a600000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007fecfa95cfb8 CR3: 000000004472c000 CR4: 0000000000352ef0\nDR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\nDR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\nCall Trace:\n <TASK>\n  vxlan_uninit+0x1ab/0x200 drivers/net/vxlan/vxlan_core.c:2942\n  unregister_netdevice_many_notify+0x12d6/0x1f30 net/core/dev.c:11824\n  unregister_netdevice_many net/core/dev.c:11866 [inline]\n  unregister_netdevice_queue+0x307/0x3f0 net/core/dev.c:11736\n  register_netdevice+0x1829/0x1eb0 net/core/dev.c:10901\n  __vxlan_dev_create+0x7c6/0xa30 drivers/net/vxlan/vxlan_core.c:3981\n  vxlan_newlink+0xd1/0x130 drivers/net/vxlan/vxlan_core.c:4407\n  rtnl_newlink_create net/core/rtnetlink.c:3795 [inline]\n  __rtnl_newlink net/core/rtnetlink.c:3906 [inline]",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21790"
-    },
-    {
-      "id": "CVE-2025-21776",
-      "published": "2025-02-27T03:15:18.263",
-      "modified": "2026-10-15T02:17:34.870",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nUSB: hub: Ignore non-compliant devices with too many configs or interfaces\n\nRobert Morris created a test program which can cause\nusb_hub_to_struct_hub() to dereference a NULL or inappropriate\npointer:\n\nOops: general protection fault, probably for non-canonical address\n0xcccccccccccccccc: 0000 [#1] SMP DEBUG_PAGEALLOC PTI\nCPU: 7 UID: 0 PID: 117 Comm: kworker/7:1 Not tainted 6.13.0-rc3-00017-gf44d154d6e3d #14\nHardware name: FreeBSD BHYVE/BHYVE, BIOS 14.0 10/17/2021\nWorkqueue: usb_hub_wq hub_event\nRIP: 0010:usb_hub_adjust_deviceremovable+0x78/0x110\n...\nCall Trace:\n <TASK>\n ? die_addr+0x31/0x80\n ? exc_general_protection+0x1b4/0x3c0\n ? asm_exc_general_protection+0x26/0x30\n ? usb_hub_adjust_deviceremovable+0x78/0x110\n hub_probe+0x7c7/0xab0\n usb_probe_interface+0x14b/0x350\n really_probe+0xd0/0x2d0\n ? __pfx___device_attach_driver+0x10/0x10\n __driver_probe_device+0x6e/0x110\n driver_probe_device+0x1a/0x90\n __device_attach_driver+0x7e/0xc0\n bus_for_each_drv+0x7f/0xd0\n __device_attach+0xaa/0x1a0\n bus_probe_device+0x8b/0xa0\n device_add+0x62e/0x810\n usb_set_configuration+0x65d/0x990\n usb_generic_driver_probe+0x4b/0x70\n usb_probe_device+0x36/0xd0\n\nThe cause of this error is that the device has two interfaces, and the\nhub driver binds to interface 1 instead of interface 0, which is where\nusb_hub_to_struct_hub() looks.\n\nWe can prevent the problem from occurring by refusing to accept hub\ndevices that violate the USB spec by having more than one\nconfiguration or interface.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc2:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21776"
-    },
-    {
-      "id": "CVE-2025-21753",
-      "published": "2025-02-27T03:15:15.950",
-      "modified": "2026-10-15T02:17:32.183",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbtrfs: fix use-after-free when attempting to join an aborted transaction\n\nWhen we are trying to join the current transaction and if it's aborted,\nwe read its 'aborted' field after unlocking fs_info->trans_lock and\nwithout holding any extra reference count on it. This means that a\nconcurrent task that is aborting the transaction may free the transaction\nbefore we read its 'aborted' field, leading to a use-after-free.\n\nFix this by reading the 'aborted' field while holding fs_info->trans_lock\nsince any freeing task must first acquire that lock and set\nfs_info->running_transaction to NULL before freeing the transaction.\n\nThis was reported by syzbot and Dmitry with the following stack traces\nfrom KASAN:\n\n   ==================================================================\n   BUG: KASAN: slab-use-after-free in join_transaction+0xd9b/0xda0 fs/btrfs/transaction.c:278\n   Read of size 4 at addr ffff888011839024 by task kworker/u4:9/1128\n\n   CPU: 0 UID: 0 PID: 1128 Comm: kworker/u4:9 Not tainted 6.13.0-rc7-syzkaller-00019-gc45323b7560e #0\n   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014\n   Workqueue: events_unbound btrfs_async_reclaim_data_space\n   Call Trace:\n    <TASK>\n    __dump_stack lib/dump_stack.c:94 [inline]\n    dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120\n    print_address_description mm/kasan/report.c:378 [inline]\n    print_report+0x169/0x550 mm/kasan/report.c:489\n    kasan_report+0x143/0x180 mm/kasan/report.c:602\n    join_transaction+0xd9b/0xda0 fs/btrfs/transaction.c:278\n    start_transaction+0xaf8/0x1670 fs/btrfs/transaction.c:697\n    flush_space+0x448/0xcf0 fs/btrfs/space-info.c:803\n    btrfs_async_reclaim_data_space+0x159/0x510 fs/btrfs/space-info.c:1321\n    process_one_work kernel/workqueue.c:3236 [inline]\n    process_scheduled_works+0xa66/0x1840 kernel/workqueue.c:3317\n    worker_thread+0x870/0xd30 kernel/workqueue.c:3398\n    kthread+0x2f0/0x390 kernel/kthread.c:389\n    ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147\n    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244\n    </TASK>\n\n   Allocated by task 5315:\n    kasan_save_stack mm/kasan/common.c:47 [inline]\n    kasan_save_track+0x3f/0x80 mm/kasan/common.c:68\n    poison_kmalloc_redzone mm/kasan/common.c:377 [inline]\n    __kasan_kmalloc+0x98/0xb0 mm/kasan/common.c:394\n    kasan_kmalloc include/linux/kasan.h:260 [inline]\n    __kmalloc_cache_noprof+0x243/0x390 mm/slub.c:4329\n    kmalloc_noprof include/linux/slab.h:901 [inline]\n    join_transaction+0x144/0xda0 fs/btrfs/transaction.c:308\n    start_transaction+0xaf8/0x1670 fs/btrfs/transaction.c:697\n    btrfs_create_common+0x1b2/0x2e0 fs/btrfs/inode.c:6572\n    lookup_open fs/namei.c:3649 [inline]\n    open_last_lookups fs/namei.c:3748 [inline]\n    path_openat+0x1c03/0x3590 fs/namei.c:3984\n    do_filp_open+0x27f/0x4e0 fs/namei.c:4014\n    do_sys_openat2+0x13e/0x1d0 fs/open.c:1402\n    do_sys_open fs/open.c:1417 [inline]\n    __do_sys_creat fs/open.c:1495 [inline]\n    __se_sys_creat fs/open.c:1489 [inline]\n    __x64_sys_creat+0x123/0x170 fs/open.c:1489\n    do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n    do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83\n    entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\n   Freed by task 5336:\n    kasan_save_stack mm/kasan/common.c:47 [inline]\n    kasan_save_track+0x3f/0x80 mm/kasan/common.c:68\n    kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:582\n    poison_slab_object mm/kasan/common.c:247 [inline]\n    __kasan_slab_free+0x59/0x70 mm/kasan/common.c:264\n    kasan_slab_free include/linux/kasan.h:233 [inline]\n    slab_free_hook mm/slub.c:2353 [inline]\n    slab_free mm/slub.c:4613 [inline]\n    kfree+0x196/0x430 mm/slub.c:4761\n    cleanup_transaction fs/btrfs/transaction.c:2063 [inline]\n    btrfs_commit_transaction+0x2c97/0x3720 fs/btrfs/transaction.c:2598\n    insert_balance_item+0x1284/0x20b0 fs/btrfs/volumes.c:3757\n    btrfs_balance+0x992/\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.14:rc1:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21753"
-    },
-    {
-      "id": "CVE-2025-21745",
-      "published": "2025-02-27T03:15:15.137",
-      "modified": "2026-10-15T02:17:31.997",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nblk-cgroup: Fix class @block_class's subsystem refcount leakage\n\nblkcg_fill_root_iostats() iterates over @block_class's devices by\nclass_dev_iter_(init|next)(), but does not end iterating with\nclass_dev_iter_exit(), so causes the class's subsystem refcount leakage.\n\nFix by ending the iterating with class_dev_iter_exit().",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21745"
-    },
-    {
-      "id": "CVE-2025-21725",
-      "published": "2025-02-27T02:15:16.220",
-      "modified": "2026-10-15T02:17:30.327",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsmb: client: fix oops due to unset link speed\n\nIt isn't guaranteed that NETWORK_INTERFACE_INFO::LinkSpeed will always\nbe set by the server, so the client must handle any values and then\nprevent oopses like below from happening:\n\nOops: divide error: 0000 [#1] PREEMPT SMP KASAN NOPTI\nCPU: 0 UID: 0 PID: 1323 Comm: cat Not tainted 6.13.0-rc7 #2\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-3.fc41\n04/01/2014\nRIP: 0010:cifs_debug_data_proc_show+0xa45/0x1460 [cifs] Code: 00 00 48\n89 df e8 3b cd 1b c1 41 f6 44 24 2c 04 0f 84 50 01 00 00 48 89 ef e8\ne7 d0 1b c1 49 8b 44 24 18 31 d2 49 8d 7c 24 28 <48> f7 74 24 18 48 89\nc3 e8 6e cf 1b c1 41 8b 6c 24 28 49 8d 7c 24\nRSP: 0018:ffffc90001817be0 EFLAGS: 00010246\nRAX: 0000000000000000 RBX: ffff88811230022c RCX: ffffffffc041bd99\nRDX: 0000000000000000 RSI: 0000000000000567 RDI: ffff888112300228\nRBP: ffff888112300218 R08: fffff52000302f5f R09: ffffed1022fa58ac\nR10: ffff888117d2c566 R11: 00000000fffffffe R12: ffff888112300200\nR13: 000000012a15343f R14: 0000000000000001 R15: ffff888113f2db58\nFS: 00007fe27119e740(0000) GS:ffff888148600000(0000)\nknlGS:0000000000000000\nCS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007fe2633c5000 CR3: 0000000124da0000 CR4: 0000000000750ef0\nPKRU: 55555554\nCall Trace:\n <TASK>\n ? __die_body.cold+0x19/0x27\n ? die+0x2e/0x50\n ? do_trap+0x159/0x1b0\n ? cifs_debug_data_proc_show+0xa45/0x1460 [cifs]\n ? do_error_trap+0x90/0x130\n ? cifs_debug_data_proc_show+0xa45/0x1460 [cifs]\n ? exc_divide_error+0x39/0x50\n ? cifs_debug_data_proc_show+0xa45/0x1460 [cifs]\n ? asm_exc_divide_error+0x1a/0x20\n ? cifs_debug_data_proc_show+0xa39/0x1460 [cifs]\n ? cifs_debug_data_proc_show+0xa45/0x1460 [cifs]\n ? seq_read_iter+0x42e/0x790\n seq_read_iter+0x19a/0x790\n proc_reg_read_iter+0xbe/0x110\n ? __pfx_proc_reg_read_iter+0x10/0x10\n vfs_read+0x469/0x570\n ? do_user_addr_fault+0x398/0x760\n ? __pfx_vfs_read+0x10/0x10\n ? find_held_lock+0x8a/0xa0\n ? __pfx_lock_release+0x10/0x10\n ksys_read+0xd3/0x170\n ? __pfx_ksys_read+0x10/0x10\n ? __rcu_read_unlock+0x50/0x270\n ? mark_held_locks+0x1a/0x90\n do_syscall_64+0xbb/0x1d0\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\nRIP: 0033:0x7fe271288911\nCode: 00 48 8b 15 01 25 10 00 f7 d8 64 89 02 b8 ff ff ff ff eb bd e8\n20 ad 01 00 f3 0f 1e fa 80 3d b5 a7 10 00 00 74 13 31 c0 0f 05 <48> 3d\n00 f0 ff ff 77 4f c3 66 0f 1f 44 00 00 55 48 89 e5 48 83 ec\nRSP: 002b:00007ffe87c079d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000\nRAX: ffffffffffffffda RBX: 0000000000040000 RCX: 00007fe271288911\nRDX: 0000000000040000 RSI: 00007fe2633c6000 RDI: 0000000000000003\nRBP: 00007ffe87c07a00 R08: 0000000000000000 R09: 00007fe2713e6380\nR10: 0000000000000022 R11: 0000000000000246 R12: 0000000000040000\nR13: 00007fe2633c6000 R14: 0000000000000003 R15: 0000000000000000\n </TASK>\n\nFix this by setting cifs_server_iface::speed to a sane value (1Gbps)\nby default when link speed is unset.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21725"
-    },
-    {
-      "id": "CVE-2025-21718",
-      "published": "2025-02-27T02:15:15.473",
-      "modified": "2026-10-15T02:17:29.733",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: rose: fix timer races against user threads\n\nRose timers only acquire the socket spinlock, without\nchecking if the socket is owned by one user thread.\n\nAdd a check and rearm the timers if needed.\n\nBUG: KASAN: slab-use-after-free in rose_timer_expiry+0x31d/0x360 net/rose/rose_timer.c:174\nRead of size 2 at addr ffff88802f09b82a by task swapper/0/0\n\nCPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.13.0-rc5-syzkaller-00172-gd1bf27c4e176 #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024\nCall Trace:\n <IRQ>\n  __dump_stack lib/dump_stack.c:94 [inline]\n  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120\n  print_address_description mm/kasan/report.c:378 [inline]\n  print_report+0x169/0x550 mm/kasan/report.c:489\n  kasan_report+0x143/0x180 mm/kasan/report.c:602\n  rose_timer_expiry+0x31d/0x360 net/rose/rose_timer.c:174\n  call_timer_fn+0x187/0x650 kernel/time/timer.c:1793\n  expire_timers kernel/time/timer.c:1844 [inline]\n  __run_timers kernel/time/timer.c:2418 [inline]\n  __run_timer_base+0x66a/0x8e0 kernel/time/timer.c:2430\n  run_timer_base kernel/time/timer.c:2439 [inline]\n  run_timer_softirq+0xb7/0x170 kernel/time/timer.c:2449\n  handle_softirqs+0x2d4/0x9b0 kernel/softirq.c:561\n  __do_softirq kernel/softirq.c:595 [inline]\n  invoke_softirq kernel/softirq.c:435 [inline]\n  __irq_exit_rcu+0xf7/0x220 kernel/softirq.c:662\n  irq_exit_rcu+0x9/0x30 kernel/softirq.c:678\n  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]\n  sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1049\n </IRQ>",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21718"
-    },
-    {
-      "id": "CVE-2025-21716",
-      "published": "2025-02-27T02:15:15.273",
-      "modified": "2026-10-15T02:17:29.487",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nvxlan: Fix uninit-value in vxlan_vnifilter_dump()\n\nKMSAN reported an uninit-value access in vxlan_vnifilter_dump() [1].\n\nIf the length of the netlink message payload is less than\nsizeof(struct tunnel_msg), vxlan_vnifilter_dump() accesses bytes\nbeyond the message. This can lead to uninit-value access. Fix this by\nreturning an error in such situations.\n\n[1]\nBUG: KMSAN: uninit-value in vxlan_vnifilter_dump+0x328/0x920 drivers/net/vxlan/vxlan_vnifilter.c:422\n vxlan_vnifilter_dump+0x328/0x920 drivers/net/vxlan/vxlan_vnifilter.c:422\n rtnl_dumpit+0xd5/0x2f0 net/core/rtnetlink.c:6786\n netlink_dump+0x93e/0x15f0 net/netlink/af_netlink.c:2317\n __netlink_dump_start+0x716/0xd60 net/netlink/af_netlink.c:2432\n netlink_dump_start include/linux/netlink.h:340 [inline]\n rtnetlink_dump_start net/core/rtnetlink.c:6815 [inline]\n rtnetlink_rcv_msg+0x1256/0x14a0 net/core/rtnetlink.c:6882\n netlink_rcv_skb+0x467/0x660 net/netlink/af_netlink.c:2542\n rtnetlink_rcv+0x35/0x40 net/core/rtnetlink.c:6944\n netlink_unicast_kernel net/netlink/af_netlink.c:1321 [inline]\n netlink_unicast+0xed6/0x1290 net/netlink/af_netlink.c:1347\n netlink_sendmsg+0x1092/0x1230 net/netlink/af_netlink.c:1891\n sock_sendmsg_nosec net/socket.c:711 [inline]\n __sock_sendmsg+0x330/0x3d0 net/socket.c:726\n ____sys_sendmsg+0x7f4/0xb50 net/socket.c:2583\n ___sys_sendmsg+0x271/0x3b0 net/socket.c:2637\n __sys_sendmsg net/socket.c:2669 [inline]\n __do_sys_sendmsg net/socket.c:2674 [inline]\n __se_sys_sendmsg net/socket.c:2672 [inline]\n __x64_sys_sendmsg+0x211/0x3e0 net/socket.c:2672\n x64_sys_call+0x3878/0x3d90 arch/x86/include/generated/asm/syscalls_64.h:47\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xd9/0x1d0 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nUninit was created at:\n slab_post_alloc_hook mm/slub.c:4110 [inline]\n slab_alloc_node mm/slub.c:4153 [inline]\n kmem_cache_alloc_node_noprof+0x800/0xe80 mm/slub.c:4205\n kmalloc_reserve+0x13b/0x4b0 net/core/skbuff.c:587\n __alloc_skb+0x347/0x7d0 net/core/skbuff.c:678\n alloc_skb include/linux/skbuff.h:1323 [inline]\n netlink_alloc_large_skb+0xa5/0x280 net/netlink/af_netlink.c:1196\n netlink_sendmsg+0xac9/0x1230 net/netlink/af_netlink.c:1866\n sock_sendmsg_nosec net/socket.c:711 [inline]\n __sock_sendmsg+0x330/0x3d0 net/socket.c:726\n ____sys_sendmsg+0x7f4/0xb50 net/socket.c:2583\n ___sys_sendmsg+0x271/0x3b0 net/socket.c:2637\n __sys_sendmsg net/socket.c:2669 [inline]\n __do_sys_sendmsg net/socket.c:2674 [inline]\n __se_sys_sendmsg net/socket.c:2672 [inline]\n __x64_sys_sendmsg+0x211/0x3e0 net/socket.c:2672\n x64_sys_call+0x3878/0x3d90 arch/x86/include/generated/asm/syscalls_64.h:47\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xd9/0x1d0 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nCPU: 0 UID: 0 PID: 30991 Comm: syz.4.10630 Not tainted 6.12.0-10694-gc44daa7e3c73 #29\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21716"
-    },
-    {
-      "id": "CVE-2025-21708",
-      "published": "2025-02-27T02:15:14.447",
-      "modified": "2026-10-15T02:17:29.120",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: usb: rtl8150: enable basic endpoint checking\n\nSyzkaller reports [1] encountering a common issue of utilizing a wrong\nusb endpoint type during URB submitting stage. This, in turn, triggers\na warning shown below.\n\nFor now, enable simple endpoint checking (specifically, bulk and\ninterrupt eps, testing control one is not essential) to mitigate\nthe issue with a view to do other related cosmetic changes later,\nif they are necessary.\n\n[1] Syzkaller report:\nusb 1-1: BOGUS urb xfer, pipe 3 != type 1\nWARNING: CPU: 1 PID: 2586 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 driv>\nModules linked in:\nCPU: 1 UID: 0 PID: 2586 Comm: dhcpcd Not tainted 6.11.0-rc4-syzkaller-00069-gfc88bb11617>\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/06/2024\nRIP: 0010:usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503\nCode: 84 3c 02 00 00 e8 05 e4 fc fc 4c 89 ef e8 fd 25 d7 fe 45 89 e0 89 e9 4c 89 f2 48 8>\nRSP: 0018:ffffc9000441f740 EFLAGS: 00010282\nRAX: 0000000000000000 RBX: ffff888112487a00 RCX: ffffffff811a99a9\nRDX: ffff88810df6ba80 RSI: ffffffff811a99b6 RDI: 0000000000000001\nRBP: 0000000000000003 R08: 0000000000000001 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000001\nR13: ffff8881023bf0a8 R14: ffff888112452a20 R15: ffff888112487a7c\nFS:  00007fc04eea5740(0000) GS:ffff8881f6300000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007f0a1de9f870 CR3: 000000010dbd0000 CR4: 00000000003506f0\nDR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\nDR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\nCall Trace:\n <TASK>\n rtl8150_open+0x300/0xe30 drivers/net/usb/rtl8150.c:733\n __dev_open+0x2d4/0x4e0 net/core/dev.c:1474\n __dev_change_flags+0x561/0x720 net/core/dev.c:8838\n dev_change_flags+0x8f/0x160 net/core/dev.c:8910\n devinet_ioctl+0x127a/0x1f10 net/ipv4/devinet.c:1177\n inet_ioctl+0x3aa/0x3f0 net/ipv4/af_inet.c:1003\n sock_do_ioctl+0x116/0x280 net/socket.c:1222\n sock_ioctl+0x22e/0x6c0 net/socket.c:1341\n vfs_ioctl fs/ioctl.c:51 [inline]\n __do_sys_ioctl fs/ioctl.c:907 [inline]\n __se_sys_ioctl fs/ioctl.c:893 [inline]\n __x64_sys_ioctl+0x193/0x220 fs/ioctl.c:893\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\nRIP: 0033:0x7fc04ef73d49\n...\n\nThis change has not been tested on real hardware.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.12:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21708"
-    },
-    {
-      "id": "CVE-2025-21706",
-      "published": "2025-02-27T02:15:14.237",
-      "modified": "2026-10-15T02:17:28.683",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmptcp: pm: only set fullmesh for subflow endp\n\nWith the in-kernel path-manager, it is possible to change the 'fullmesh'\nflag. The code in mptcp_pm_nl_fullmesh() expects to change it only on\n'subflow' endpoints, to recreate more or less subflows using the linked\naddress.\n\nUnfortunately, the set_flags() hook was a bit more permissive, and\nallowed 'implicit' endpoints to get the 'fullmesh' flag while it is not\nallowed before.\n\nThat's what syzbot found, triggering the following warning:\n\n  WARNING: CPU: 0 PID: 6499 at net/mptcp/pm_netlink.c:1496 __mark_subflow_endp_available net/mptcp/pm_netlink.c:1496 [inline]\n  WARNING: CPU: 0 PID: 6499 at net/mptcp/pm_netlink.c:1496 mptcp_pm_nl_fullmesh net/mptcp/pm_netlink.c:1980 [inline]\n  WARNING: CPU: 0 PID: 6499 at net/mptcp/pm_netlink.c:1496 mptcp_nl_set_flags net/mptcp/pm_netlink.c:2003 [inline]\n  WARNING: CPU: 0 PID: 6499 at net/mptcp/pm_netlink.c:1496 mptcp_pm_nl_set_flags+0x974/0xdc0 net/mptcp/pm_netlink.c:2064\n  Modules linked in:\n  CPU: 0 UID: 0 PID: 6499 Comm: syz.1.413 Not tainted 6.13.0-rc5-syzkaller-00172-gd1bf27c4e176 #0\n  Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024\n  RIP: 0010:__mark_subflow_endp_available net/mptcp/pm_netlink.c:1496 [inline]\n  RIP: 0010:mptcp_pm_nl_fullmesh net/mptcp/pm_netlink.c:1980 [inline]\n  RIP: 0010:mptcp_nl_set_flags net/mptcp/pm_netlink.c:2003 [inline]\n  RIP: 0010:mptcp_pm_nl_set_flags+0x974/0xdc0 net/mptcp/pm_netlink.c:2064\n  Code: 01 00 00 49 89 c5 e8 fb 45 e8 f5 e9 b8 fc ff ff e8 f1 45 e8 f5 4c 89 f7 be 03 00 00 00 e8 44 1d 0b f9 eb a0 e8 dd 45 e8 f5 90 <0f> 0b 90 e9 17 ff ff ff 89 d9 80 e1 07 38 c1 0f 8c c9 fc ff ff 48\n  RSP: 0018:ffffc9000d307240 EFLAGS: 00010293\n  RAX: ffffffff8bb72e03 RBX: 0000000000000000 RCX: ffff88807da88000\n  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000\n  RBP: ffffc9000d307430 R08: ffffffff8bb72cf0 R09: 1ffff1100b842a5e\n  R10: dffffc0000000000 R11: ffffed100b842a5f R12: ffff88801e2e5ac0\n  R13: ffff88805c214800 R14: ffff88805c2152e8 R15: 1ffff1100b842a5d\n  FS:  00005555619f6500(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000\n  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  CR2: 0000000020002840 CR3: 00000000247e6000 CR4: 00000000003526f0\n  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n  Call Trace:\n   <TASK>\n   genl_family_rcv_msg_doit net/netlink/genetlink.c:1115 [inline]\n   genl_family_rcv_msg net/netlink/genetlink.c:1195 [inline]\n   genl_rcv_msg+0xb14/0xec0 net/netlink/genetlink.c:1210\n   netlink_rcv_skb+0x1e3/0x430 net/netlink/af_netlink.c:2542\n   genl_rcv+0x28/0x40 net/netlink/genetlink.c:1219\n   netlink_unicast_kernel net/netlink/af_netlink.c:1321 [inline]\n   netlink_unicast+0x7f6/0x990 net/netlink/af_netlink.c:1347\n   netlink_sendmsg+0x8e4/0xcb0 net/netlink/af_netlink.c:1891\n   sock_sendmsg_nosec net/socket.c:711 [inline]\n   __sock_sendmsg+0x221/0x270 net/socket.c:726\n   ____sys_sendmsg+0x52a/0x7e0 net/socket.c:2583\n   ___sys_sendmsg net/socket.c:2637 [inline]\n   __sys_sendmsg+0x269/0x350 net/socket.c:2669\n   do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n   do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83\n   entry_SYSCALL_64_after_hwframe+0x77/0x7f\n  RIP: 0033:0x7f5fe8785d29\n  Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48\n  RSP: 002b:00007fff571f5558 EFLAGS: 00000246 ORIG_RAX: 000000000000002e\n  RAX: ffffffffffffffda RBX: 00007f5fe8975fa0 RCX: 00007f5fe8785d29\n  RDX: 0000000000000000 RSI: 0000000020000480 RDI: 0000000000000007\n  RBP: 00007f5fe8801b08 R08: 0000000000000000 R09: 0000000000000000\n  R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000\n  R13: 00007f5fe8975fa0 R14: 00007f5fe8975fa0 R15: 000000\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21706"
-    },
-    {
-      "id": "CVE-2025-21705",
-      "published": "2025-02-27T02:15:14.137",
-      "modified": "2026-10-15T02:17:28.493",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmptcp: handle fastopen disconnect correctly\n\nSyzbot was able to trigger a data stream corruption:\n\n  WARNING: CPU: 0 PID: 9846 at net/mptcp/protocol.c:1024 __mptcp_clean_una+0xddb/0xff0 net/mptcp/protocol.c:1024\n  Modules linked in:\n  CPU: 0 UID: 0 PID: 9846 Comm: syz-executor351 Not tainted 6.13.0-rc2-syzkaller-00059-g00a5acdbf398 #0\n  Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 11/25/2024\n  RIP: 0010:__mptcp_clean_una+0xddb/0xff0 net/mptcp/protocol.c:1024\n  Code: fa ff ff 48 8b 4c 24 18 80 e1 07 fe c1 38 c1 0f 8c 8e fa ff ff 48 8b 7c 24 18 e8 e0 db 54 f6 e9 7f fa ff ff e8 e6 80 ee f5 90 <0f> 0b 90 4c 8b 6c 24 40 4d 89 f4 e9 04 f5 ff ff 44 89 f1 80 e1 07\n  RSP: 0018:ffffc9000c0cf400 EFLAGS: 00010293\n  RAX: ffffffff8bb0dd5a RBX: ffff888033f5d230 RCX: ffff888059ce8000\n  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000\n  RBP: ffffc9000c0cf518 R08: ffffffff8bb0d1dd R09: 1ffff110170c8928\n  R10: dffffc0000000000 R11: ffffed10170c8929 R12: 0000000000000000\n  R13: ffff888033f5d220 R14: dffffc0000000000 R15: ffff8880592b8000\n  FS:  00007f6e866496c0(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000\n  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  CR2: 00007f6e86f491a0 CR3: 00000000310e6000 CR4: 00000000003526f0\n  DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n  DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n  Call Trace:\n   <TASK>\n   __mptcp_clean_una_wakeup+0x7f/0x2d0 net/mptcp/protocol.c:1074\n   mptcp_release_cb+0x7cb/0xb30 net/mptcp/protocol.c:3493\n   release_sock+0x1aa/0x1f0 net/core/sock.c:3640\n   inet_wait_for_connect net/ipv4/af_inet.c:609 [inline]\n   __inet_stream_connect+0x8bd/0xf30 net/ipv4/af_inet.c:703\n   mptcp_sendmsg_fastopen+0x2a2/0x530 net/mptcp/protocol.c:1755\n   mptcp_sendmsg+0x1884/0x1b10 net/mptcp/protocol.c:1830\n   sock_sendmsg_nosec net/socket.c:711 [inline]\n   __sock_sendmsg+0x1a6/0x270 net/socket.c:726\n   ____sys_sendmsg+0x52a/0x7e0 net/socket.c:2583\n   ___sys_sendmsg net/socket.c:2637 [inline]\n   __sys_sendmsg+0x269/0x350 net/socket.c:2669\n   do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n   do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83\n   entry_SYSCALL_64_after_hwframe+0x77/0x7f\n  RIP: 0033:0x7f6e86ebfe69\n  Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 1f 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48\n  RSP: 002b:00007f6e86649168 EFLAGS: 00000246 ORIG_RAX: 000000000000002e\n  RAX: ffffffffffffffda RBX: 00007f6e86f491b8 RCX: 00007f6e86ebfe69\n  RDX: 0000000030004001 RSI: 0000000020000080 RDI: 0000000000000003\n  RBP: 00007f6e86f491b0 R08: 00007f6e866496c0 R09: 0000000000000000\n  R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6e86f491bc\n  R13: 000000000000006e R14: 00007ffe445d9420 R15: 00007ffe445d9508\n   </TASK>\n\nThe root cause is the bad handling of disconnect() generated internally\nby the MPTCP protocol in case of connect FASTOPEN errors.\n\nAddress the issue increasing the socket disconnect counter even on such\na case, to allow other threads waiting on the same socket lock to\nproperly error out.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.4:-:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21705"
-    },
-    {
-      "id": "CVE-2025-21692",
-      "published": "2025-02-10T16:15:38.763",
-      "modified": "2026-10-15T02:17:26.860",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: sched: fix ets qdisc OOB Indexing\n\nHaowei Yan <g1042620637@gmail.com> found that ets_class_from_arg() can\nindex an Out-Of-Bound class in ets_class_from_arg() when passed clid of\n0. The overflow may cause local privilege escalation.\n\n [   18.852298] ------------[ cut here ]------------\n [   18.853271] UBSAN: array-index-out-of-bounds in net/sched/sch_ets.c:93:20\n [   18.853743] index 18446744073709551615 is out of range for type 'ets_class [16]'\n [   18.854254] CPU: 0 UID: 0 PID: 1275 Comm: poc Not tainted 6.12.6-dirty #17\n [   18.854821] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014\n [   18.856532] Call Trace:\n [   18.857441]  <TASK>\n [   18.858227]  dump_stack_lvl+0xc2/0xf0\n [   18.859607]  dump_stack+0x10/0x20\n [   18.860908]  __ubsan_handle_out_of_bounds+0xa7/0xf0\n [   18.864022]  ets_class_change+0x3d6/0x3f0\n [   18.864322]  tc_ctl_tclass+0x251/0x910\n [   18.864587]  ? lock_acquire+0x5e/0x140\n [   18.865113]  ? __mutex_lock+0x9c/0xe70\n [   18.866009]  ? __mutex_lock+0xa34/0xe70\n [   18.866401]  rtnetlink_rcv_msg+0x170/0x6f0\n [   18.866806]  ? __lock_acquire+0x578/0xc10\n [   18.867184]  ? __pfx_rtnetlink_rcv_msg+0x10/0x10\n [   18.867503]  netlink_rcv_skb+0x59/0x110\n [   18.867776]  rtnetlink_rcv+0x15/0x30\n [   18.868159]  netlink_unicast+0x1c3/0x2b0\n [   18.868440]  netlink_sendmsg+0x239/0x4b0\n [   18.868721]  ____sys_sendmsg+0x3e2/0x410\n [   18.869012]  ___sys_sendmsg+0x88/0xe0\n [   18.869276]  ? rseq_ip_fixup+0x198/0x260\n [   18.869563]  ? rseq_update_cpu_node_id+0x10a/0x190\n [   18.869900]  ? trace_hardirqs_off+0x5a/0xd0\n [   18.870196]  ? syscall_exit_to_user_mode+0xcc/0x220\n [   18.870547]  ? do_syscall_64+0x93/0x150\n [   18.870821]  ? __memcg_slab_free_hook+0x69/0x290\n [   18.871157]  __sys_sendmsg+0x69/0xd0\n [   18.871416]  __x64_sys_sendmsg+0x1d/0x30\n [   18.871699]  x64_sys_call+0x9e2/0x2670\n [   18.871979]  do_syscall_64+0x87/0x150\n [   18.873280]  ? do_syscall_64+0x93/0x150\n [   18.874742]  ? lock_release+0x7b/0x160\n [   18.876157]  ? do_user_addr_fault+0x5ce/0x8f0\n [   18.877833]  ? irqentry_exit_to_user_mode+0xc2/0x210\n [   18.879608]  ? irqentry_exit+0x77/0xb0\n [   18.879808]  ? clear_bhb_loop+0x15/0x70\n [   18.880023]  ? clear_bhb_loop+0x15/0x70\n [   18.880223]  ? clear_bhb_loop+0x15/0x70\n [   18.880426]  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n [   18.880683] RIP: 0033:0x44a957\n [   18.880851] Code: ff ff e8 fc 00 00 00 66 2e 0f 1f 84 00 00 00 00 00 66 90 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 2e 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 89 54 24 1c 48 8974 24 10\n [   18.881766] RSP: 002b:00007ffcdd00fad8 EFLAGS: 00000246 ORIG_RAX: 000000000000002e\n [   18.882149] RAX: ffffffffffffffda RBX: 00007ffcdd010db8 RCX: 000000000044a957\n [   18.882507] RDX: 0000000000000000 RSI: 00007ffcdd00fb70 RDI: 0000000000000003\n [   18.885037] RBP: 00007ffcdd010bc0 R08: 000000000703c770 R09: 000000000703c7c0\n [   18.887203] R10: 0000000000000080 R11: 0000000000000246 R12: 0000000000000001\n [   18.888026] R13: 00007ffcdd010da8 R14: 00000000004ca7d0 R15: 0000000000000001\n [   18.888395]  </TASK>\n [   18.888610] ---[ end trace ]---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.13:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-21692"
-    },
-    {
-      "id": "CVE-2025-0167",
-      "published": "2025-02-05T10:15:22.710",
-      "modified": "2026-10-15T02:17:21.680",
-      "description": "When asked to use a `.netrc` file for credentials **and** to follow HTTP\nredirects, curl could leak the password used for the first host to the\nfollowed-to host under certain circumstances.\n\nThis flaw only manifests itself if the netrc file has a `default` entry that\nomits both login and password. A rare circumstance.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:haxx:curl:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h700s_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h700s:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h615c_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h615c:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h610s_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h610s:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h610c_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h610c:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h500s_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h500s:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h410s_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h410s:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h410c_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h410c:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:h300s_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:h300s:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:netapp:bootstrap_os:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:netapp:hci_compute_node:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:netapp:element_software:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:netapp:ontap:9:*:*:*:*:*:*:*",
-        "cpe:2.3:a:netapp:ontap_select_deploy_administration_utility:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:netapp:ontap_tools:9:*:*:*:*:vmware_vsphere:*:*",
-        "cpe:2.3:a:netapp:solidfire_\\&_hci_management_node:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:netapp:solidfire_\\&_hci_storage_node:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.4,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0167"
-    },
-    {
-      "id": "CVE-2024-58071",
-      "published": "2025-03-06T16:15:53.593",
-      "modified": "2026-10-15T02:17:20.293",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nteam: prevent adding a device which is already a team device lower\n\nPrevent adding a device which is already a team device lower,\ne.g. adding veth0 if vlan1 was already added and veth0 is a lower of\nvlan1.\n\nThis is not useful in practice and can lead to recursive locking:\n\n$ ip link add veth0 type veth peer name veth1\n$ ip link set veth0 up\n$ ip link set veth1 up\n$ ip link add link veth0 name veth0.1 type vlan protocol 802.1Q id 1\n$ ip link add team0 type team\n$ ip link set veth0.1 down\n$ ip link set veth0.1 master team0\nteam0: Port device veth0.1 added\n$ ip link set veth0 down\n$ ip link set veth0 master team0\n\n============================================\nWARNING: possible recursive locking detected\n6.13.0-rc2-virtme-00441-ga14a429069bb #46 Not tainted\n--------------------------------------------\nip/7684 is trying to acquire lock:\nffff888016848e00 (team->team_lock_key){+.+.}-{4:4}, at: team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n\nbut task is already holding lock:\nffff888016848e00 (team->team_lock_key){+.+.}-{4:4}, at: team_add_slave (drivers/net/team/team_core.c:1147 drivers/net/team/team_core.c:1977)\n\nother info that might help us debug this:\nPossible unsafe locking scenario:\n\nCPU0\n----\nlock(team->team_lock_key);\nlock(team->team_lock_key);\n\n*** DEADLOCK ***\n\nMay be due to missing lock nesting notation\n\n2 locks held by ip/7684:\n\nstack backtrace:\nCPU: 3 UID: 0 PID: 7684 Comm: ip Not tainted 6.13.0-rc2-virtme-00441-ga14a429069bb #46\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nCall Trace:\n<TASK>\ndump_stack_lvl (lib/dump_stack.c:122)\nprint_deadlock_bug.cold (kernel/locking/lockdep.c:3040)\n__lock_acquire (kernel/locking/lockdep.c:3893 kernel/locking/lockdep.c:5226)\n? netlink_broadcast_filtered (net/netlink/af_netlink.c:1548)\nlock_acquire.part.0 (kernel/locking/lockdep.c:467 kernel/locking/lockdep.c:5851)\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n? trace_lock_acquire (./include/trace/events/lock.h:24 (discriminator 2))\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n? lock_acquire (kernel/locking/lockdep.c:5822)\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n__mutex_lock (kernel/locking/mutex.c:587 kernel/locking/mutex.c:735)\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\n? fib_sync_up (net/ipv4/fib_semantics.c:2167)\n? team_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\nteam_device_event (drivers/net/team/team_core.c:2928 drivers/net/team/team_core.c:2951 drivers/net/team/team_core.c:2973)\nnotifier_call_chain (kernel/notifier.c:85)\ncall_netdevice_notifiers_info (net/core/dev.c:1996)\n__dev_notify_flags (net/core/dev.c:8993)\n? __dev_change_flags (net/core/dev.c:8975)\ndev_change_flags (net/core/dev.c:9027)\nvlan_device_event (net/8021q/vlan.c:85 net/8021q/vlan.c:470)\n? br_device_event (net/bridge/br.c:143)\nnotifier_call_chain (kernel/notifier.c:85)\ncall_netdevice_notifiers_info (net/core/dev.c:1996)\ndev_open (net/core/dev.c:1519 net/core/dev.c:1505)\nteam_add_slave (drivers/net/team/team_core.c:1219 drivers/net/team/team_core.c:1977)\n? __pfx_team_add_slave (drivers/net/team/team_core.c:1972)\ndo_set_master (net/core/rtnetlink.c:2917)\ndo_setlink.isra.0 (net/core/rtnetlink.c:3117)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58071"
-    },
-    {
-      "id": "CVE-2024-58013",
-      "published": "2025-02-27T03:15:12.287",
-      "modified": "2026-10-15T02:17:18.067",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nBluetooth: MGMT: Fix slab-use-after-free Read in mgmt_remove_adv_monitor_sync\n\nThis fixes the following crash:\n\n==================================================================\nBUG: KASAN: slab-use-after-free in mgmt_remove_adv_monitor_sync+0x3a/0xd0 net/bluetooth/mgmt.c:5543\nRead of size 8 at addr ffff88814128f898 by task kworker/u9:4/5961\n\nCPU: 1 UID: 0 PID: 5961 Comm: kworker/u9:4 Not tainted 6.12.0-syzkaller-10684-gf1cd565ce577 #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024\nWorkqueue: hci0 hci_cmd_sync_work\nCall Trace:\n <TASK>\n __dump_stack lib/dump_stack.c:94 [inline]\n dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120\n print_address_description mm/kasan/report.c:378 [inline]\n print_report+0x169/0x550 mm/kasan/report.c:489\n kasan_report+0x143/0x180 mm/kasan/report.c:602\n mgmt_remove_adv_monitor_sync+0x3a/0xd0 net/bluetooth/mgmt.c:5543\n hci_cmd_sync_work+0x22b/0x400 net/bluetooth/hci_sync.c:332\n process_one_work kernel/workqueue.c:3229 [inline]\n process_scheduled_works+0xa63/0x1850 kernel/workqueue.c:3310\n worker_thread+0x870/0xd30 kernel/workqueue.c:3391\n kthread+0x2f0/0x390 kernel/kthread.c:389\n ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147\n ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244\n </TASK>\n\nAllocated by task 16026:\n kasan_save_stack mm/kasan/common.c:47 [inline]\n kasan_save_track+0x3f/0x80 mm/kasan/common.c:68\n poison_kmalloc_redzone mm/kasan/common.c:377 [inline]\n __kasan_kmalloc+0x98/0xb0 mm/kasan/common.c:394\n kasan_kmalloc include/linux/kasan.h:260 [inline]\n __kmalloc_cache_noprof+0x243/0x390 mm/slub.c:4314\n kmalloc_noprof include/linux/slab.h:901 [inline]\n kzalloc_noprof include/linux/slab.h:1037 [inline]\n mgmt_pending_new+0x65/0x250 net/bluetooth/mgmt_util.c:269\n mgmt_pending_add+0x36/0x120 net/bluetooth/mgmt_util.c:296\n remove_adv_monitor+0x102/0x1b0 net/bluetooth/mgmt.c:5568\n hci_mgmt_cmd+0xc47/0x11d0 net/bluetooth/hci_sock.c:1712\n hci_sock_sendmsg+0x7b8/0x11c0 net/bluetooth/hci_sock.c:1832\n sock_sendmsg_nosec net/socket.c:711 [inline]\n __sock_sendmsg+0x221/0x270 net/socket.c:726\n sock_write_iter+0x2d7/0x3f0 net/socket.c:1147\n new_sync_write fs/read_write.c:586 [inline]\n vfs_write+0xaeb/0xd30 fs/read_write.c:679\n ksys_write+0x18f/0x2b0 fs/read_write.c:731\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nFreed by task 16022:\n kasan_save_stack mm/kasan/common.c:47 [inline]\n kasan_save_track+0x3f/0x80 mm/kasan/common.c:68\n kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:582\n poison_slab_object mm/kasan/common.c:247 [inline]\n __kasan_slab_free+0x59/0x70 mm/kasan/common.c:264\n kasan_slab_free include/linux/kasan.h:233 [inline]\n slab_free_hook mm/slub.c:2338 [inline]\n slab_free mm/slub.c:4598 [inline]\n kfree+0x196/0x420 mm/slub.c:4746\n mgmt_pending_foreach+0xd1/0x130 net/bluetooth/mgmt_util.c:259\n __mgmt_power_off+0x183/0x430 net/bluetooth/mgmt.c:9550\n hci_dev_close_sync+0x6c4/0x11c0 net/bluetooth/hci_sync.c:5208\n hci_dev_do_close net/bluetooth/hci_core.c:483 [inline]\n hci_dev_close+0x112/0x210 net/bluetooth/hci_core.c:508\n sock_do_ioctl+0x158/0x460 net/socket.c:1209\n sock_ioctl+0x626/0x8e0 net/socket.c:1328\n vfs_ioctl fs/ioctl.c:51 [inline]\n __do_sys_ioctl fs/ioctl.c:906 [inline]\n __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892\n do_syscall_x64 arch/x86/entry/common.c:52 [inline]\n do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83\n entry_SYSCALL_64_after_hwframe+0x77/0x7f",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58013"
-    },
-    {
-      "id": "CVE-2024-58005",
-      "published": "2025-02-27T03:15:11.480",
-      "modified": "2026-10-15T02:17:17.457",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ntpm: Change to kvalloc() in eventlog/acpi.c\n\nThe following failure was reported on HPE ProLiant D320:\n\n[   10.693310][    T1] tpm_tis STM0925:00: 2.0 TPM (device-id 0x3, rev-id 0)\n[   10.848132][    T1] ------------[ cut here ]------------\n[   10.853559][    T1] WARNING: CPU: 59 PID: 1 at mm/page_alloc.c:4727 __alloc_pages_noprof+0x2ca/0x330\n[   10.862827][    T1] Modules linked in:\n[   10.866671][    T1] CPU: 59 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.12.0-lp155.2.g52785e2-default #1 openSUSE Tumbleweed (unreleased) 588cd98293a7c9eba9013378d807364c088c9375\n[   10.882741][    T1] Hardware name: HPE ProLiant DL320 Gen12/ProLiant DL320 Gen12, BIOS 1.20 10/28/2024\n[   10.892170][    T1] RIP: 0010:__alloc_pages_noprof+0x2ca/0x330\n[   10.898103][    T1] Code: 24 08 e9 4a fe ff ff e8 34 36 fa ff e9 88 fe ff ff 83 fe 0a 0f 86 b3 fd ff ff 80 3d 01 e7 ce 01 00 75 09 c6 05 f8 e6 ce 01 01 <0f> 0b 45 31 ff e9 e5 fe ff ff f7 c2 00 00 08 00 75 42 89 d9 80 e1\n[   10.917750][    T1] RSP: 0000:ffffb7cf40077980 EFLAGS: 00010246\n[   10.923777][    T1] RAX: 0000000000000000 RBX: 0000000000040cc0 RCX: 0000000000000000\n[   10.931727][    T1] RDX: 0000000000000000 RSI: 000000000000000c RDI: 0000000000040cc0\n\nThe above transcript shows that ACPI pointed a 16 MiB buffer for the log\nevents because RSI maps to the 'order' parameter of __alloc_pages_noprof().\nAddress the bug by moving from devm_kmalloc() to devm_add_action() and\nkvmalloc() and devm_add_action().",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58005"
     }
   ],
   "kev": [
@@ -56834,11 +56761,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 82,
-    "high": 609,
-    "medium": 273,
+    "critical": 86,
+    "high": 615,
+    "medium": 264,
     "kev": 3,
     "p1": 50,
-    "p2": 642
+    "p2": 652
   }
 }
