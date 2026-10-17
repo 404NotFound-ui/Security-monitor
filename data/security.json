@@ -1,6 +1,111 @@
 {
-  "updated": "2026-10-17T02:09:25.254188+00:00",
+  "updated": "2026-10-17T02:43:03.314345+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-97381",
+      "published": "2026-10-13T22:19:45.427",
+      "modified": "2026-10-17T02:19:04.007",
+      "description": "Legacy Update is a tool for activating and installing updates on legacy Windows PCs. Legacy Update 1.12.0 through 1.13.1 contains an origin validation error in the IsPermitted method of its ActiveX control. After successfully reading the hosting document's hostname, a hostname that is not on the permitted list falls through without setting E_ACCESSDENIED, causing IsPermitted to return S_OK. An attacker who induces a user to visit a malicious webpage in Internet Explorer can invoke the control to enumerate update and system information, install updates without consent, display dialogs, or restart the computer when a reboot is pending. This issue was fixed in Legacy Update 1.13.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97381"
+    },
+    {
+      "id": "CVE-2026-50215",
+      "published": "2026-10-14T05:16:44.260",
+      "modified": "2026-10-17T02:17:19.260",
+      "description": "A use-after-free exists in the Windows WFP packet-capture driver shipped with Akamai Guardicore Platform Agent (GPA) before 7.4. When an IPv6 proxy/redirect rule is active, a local attacker with Administrator privileges can send a single crafted outbound IPv6 packet via a raw IPV6_HDRINCL socket to trigger this at DISPATCH_LEVEL, resulting in an immediate system crash.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50215"
+    },
+    {
+      "id": "CVE-2026-110112",
+      "published": "2026-10-13T19:18:43.257",
+      "modified": "2026-10-17T02:17:18.083",
+      "description": "Dockhand before 1.0.50 contains a privilege escalation vulnerability that allows users from another tenant to gain admin access because OIDC iss, aud, nonce and exp claims are not validated. Attackers with admin rights in another tenant of a shared provider like Microsoft Entra ID can recreate the mapped admin group and log in as Dockhand administrators.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110112"
+    },
+    {
+      "id": "CVE-2026-109461",
+      "published": "2026-10-16T18:17:31.150",
+      "modified": "2026-10-17T02:17:17.537",
+      "description": "Origin validation error in Microsoft Authentication Library (MSAL) for Node.js allows an unauthorized attacker to disclose information over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109461"
+    },
+    {
+      "id": "CVE-2024-3220",
+      "published": "2025-02-14T17:15:15.567",
+      "modified": "2026-10-17T02:17:02.560",
+      "description": "There is a defect in the CPython standard library module “mimetypes” where on Windows the default list of known file locations are writable meaning other users can create invalid files to cause MemoryError to be raised on Python runtime startup or have file extensions be interpreted as the incorrect file type.\n\nThis defect is caused by the default locations of Linux and macOS platforms (such as “/etc/mime.types”) also being used on Windows, where they are user-writable locations (“C:\\etc\\mime.types”).\n\nTo work-around this issue a user can call mimetypes.init() with an empty list (“[]”) on Windows platforms to avoid using the default list of known file locations.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.3,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3220"
+    },
     {
       "id": "CVE-2026-110226",
       "published": "2026-10-13T19:18:47.390",
@@ -142,28 +247,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109962"
-    },
-    {
-      "id": "CVE-2026-109461",
-      "published": "2026-10-16T18:17:31.150",
-      "modified": "2026-10-16T22:17:19.107",
-      "description": "Origin validation error in Microsoft Authentication Library (MSAL) for Node.js allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109461"
     },
     {
       "id": "CVE-2026-96542",
@@ -973,26 +1056,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86022"
-    },
-    {
-      "id": "CVE-2026-97381",
-      "published": "2026-10-13T22:19:45.427",
-      "modified": "2026-10-16T20:04:29.760",
-      "description": "Legacy Update is a tool for activating and installing updates on legacy Windows PCs. Legacy Update 1.12.0 through 1.13.1 contains an origin validation error in the IsPermitted method of its ActiveX control. After successfully reading the hosting document's hostname, a hostname that is not on the permitted list falls through without setting E_ACCESSDENIED, causing IsPermitted to return S_OK. An attacker who induces a user to visit a malicious webpage in Internet Explorer can invoke the control to enumerate update and system information, install updates without consent, display dialogs, or restart the computer when a reboot is pending. This issue was fixed in Legacy Update 1.13.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97381"
     },
     {
       "id": "CVE-2026-53999",
@@ -2031,26 +2094,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46449"
-    },
-    {
-      "id": "CVE-2026-50215",
-      "published": "2026-10-14T05:16:44.260",
-      "modified": "2026-10-16T19:55:59.740",
-      "description": "A use-after-free exists in the Windows WFP packet-capture driver shipped with Akamai Guardicore Platform Agent (GPA) before 7.4. When an IPv6 proxy/redirect rule is active, a local attacker with Administrator privileges can send a single crafted outbound IPv6 packet via a raw IPV6_HDRINCL socket to trigger this at DISPATCH_LEVEL, resulting in an immediate system crash.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50215"
     },
     {
       "id": "CVE-2026-50216",
@@ -36094,27 +36137,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111375"
     },
     {
-      "id": "CVE-2024-3220",
-      "published": "2025-02-14T17:15:15.567",
-      "modified": "2026-10-16T03:17:55.840",
-      "description": "There is a defect in the CPython standard library module “mimetypes” where on Windows the default list of known file locations are writable meaning other users can create invalid files to cause MemoryError to be raised on Python runtime startup or have file extensions be interpreted as the incorrect file type.\n\nThis defect is caused by the default locations of Linux and macOS platforms (such as “/etc/mime.types”) also being used on Windows, where they are user-writable locations (“C:\\etc\\mime.types”).\n\nTo work-around this issue a user can call mimetypes.init() with an empty list (“[]”) on Windows platforms to avoid using the default list of known file locations.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.3,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3220"
-    },
-    {
       "id": "CVE-2026-10668",
       "published": "2026-07-12T17:16:24.787",
       "modified": "2026-10-15T23:17:33.667",
@@ -55101,28 +55123,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-23143"
-    },
-    {
-      "id": "CVE-2025-22105",
-      "published": "2025-04-16T15:16:04.827",
-      "modified": "2026-10-15T02:17:44.977",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbonding: check xdp prog when set bond mode\n\nFollowing operations can trigger a warning[1]:\n\n    ip netns add ns1\n    ip netns exec ns1 ip link add bond0 type bond mode balance-rr\n    ip netns exec ns1 ip link set dev bond0 xdp obj af_xdp_kern.o sec xdp\n    ip netns exec ns1 ip link set bond0 type bond mode broadcast\n    ip netns del ns1\n\nWhen delete the namespace, dev_xdp_uninstall() is called to remove xdp\nprogram on bond dev, and bond_xdp_set() will check the bond mode. If bond\nmode is changed after attaching xdp program, the warning may occur.\n\nSome bond modes (broadcast, etc.) do not support native xdp. Set bond mode\nwith xdp program attached is not good. Add check for xdp program when set\nbond mode.\n\n    [1]\n    ------------[ cut here ]------------\n    WARNING: CPU: 0 PID: 11 at net/core/dev.c:9912 unregister_netdevice_many_notify+0x8d9/0x930\n    Modules linked in:\n    CPU: 0 UID: 0 PID: 11 Comm: kworker/u4:0 Not tainted 6.14.0-rc4 #107\n    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014\n    Workqueue: netns cleanup_net\n    RIP: 0010:unregister_netdevice_many_notify+0x8d9/0x930\n    Code: 00 00 48 c7 c6 6f e3 a2 82 48 c7 c7 d0 b3 96 82 e8 9c 10 3e ...\n    RSP: 0018:ffffc90000063d80 EFLAGS: 00000282\n    RAX: 00000000ffffffa1 RBX: ffff888004959000 RCX: 00000000ffffdfff\n    RDX: 0000000000000000 RSI: 00000000ffffffea RDI: ffffc90000063b48\n    RBP: ffffc90000063e28 R08: ffffffff82d39b28 R09: 0000000000009ffb\n    R10: 0000000000000175 R11: ffffffff82d09b40 R12: ffff8880049598e8\n    R13: 0000000000000001 R14: dead000000000100 R15: ffffc90000045000\n    FS:  0000000000000000(0000) GS:ffff888007a00000(0000) knlGS:0000000000000000\n    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n    CR2: 000000000d406b60 CR3: 000000000483e000 CR4: 00000000000006f0\n    Call Trace:\n     <TASK>\n     ? __warn+0x83/0x130\n     ? unregister_netdevice_many_notify+0x8d9/0x930\n     ? report_bug+0x18e/0x1a0\n     ? handle_bug+0x54/0x90\n     ? exc_invalid_op+0x18/0x70\n     ? asm_exc_invalid_op+0x1a/0x20\n     ? unregister_netdevice_many_notify+0x8d9/0x930\n     ? bond_net_exit_batch_rtnl+0x5c/0x90\n     cleanup_net+0x237/0x3d0\n     process_one_work+0x163/0x390\n     worker_thread+0x293/0x3b0\n     ? __pfx_worker_thread+0x10/0x10\n     kthread+0xec/0x1e0\n     ? __pfx_kthread+0x10/0x10\n     ? __pfx_kthread+0x10/0x10\n     ret_from_fork+0x2f/0x50\n     ? __pfx_kthread+0x10/0x10\n     ret_from_fork_asm+0x1a/0x30\n     </TASK>\n    ---[ end trace 0000000000000000 ]---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-22105"
     }
   ],
   "kev": [
@@ -56877,11 +56877,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 85,
+    "critical": 86,
     "high": 613,
-    "medium": 265,
+    "medium": 264,
     "kev": 3,
     "p1": 50,
-    "p2": 649
+    "p2": 650
   }
 }
