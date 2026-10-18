@@ -1,6 +1,26 @@
 {
-  "updated": "2026-10-18T13:02:59.507992+00:00",
+  "updated": "2026-10-18T13:40:13.417538+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-112051",
+      "published": "2026-10-18T13:16:37.190",
+      "modified": "2026-10-18T13:16:37.190",
+      "description": "Xinference through 4.0.1 contains a path traversal vulnerability on Windows that allows unauthenticated attackers to write and delete arbitrary .json files via backslash sequences in model_name. Attackers can register a persisted custom model through POST /v1/model_registrations/{model_type} with names like ..\\..\\evil to overwrite configuration or data files writable by the Xinference process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112051"
+    },
     {
       "id": "CVE-2026-112000",
       "published": "2026-10-18T12:17:12.007",
@@ -55023,30 +55043,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23273"
-    },
-    {
-      "id": "CVE-2026-23270",
-      "published": "2026-03-18T18:16:26.053",
-      "modified": "2026-10-15T02:18:45.140",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: Only allow act_ct to bind to clsact/ingress qdiscs and shared blocks\n\nAs Paolo said earlier [1]:\n\n\"Since the blamed commit below, classify can return TC_ACT_CONSUMED while\nthe current skb being held by the defragmentation engine. As reported by\nGangMin Kim, if such packet is that may cause a UaF when the defrag engine\nlater on tries to tuch again such packet.\"\n\nact_ct was never meant to be used in the egress path, however some users\nare attaching it to egress today [2]. Attempting to reach a middle\nground, we noticed that, while most qdiscs are not handling\nTC_ACT_CONSUMED, clsact/ingress qdiscs are. With that in mind, we\naddress the issue by only allowing act_ct to bind to clsact/ingress\nqdiscs and shared blocks. That way it's still possible to attach act_ct to\negress (albeit only with clsact).\n\n[1] https://lore.kernel.org/netdev/674b8cbfc385c6f37fb29a1de08d8fe5c2b0fbee.1771321118.git.pabeni@redhat.com/\n[2] https://lore.kernel.org/netdev/cc6bfb4a-4a2b-42d8-b9ce-7ef6644fb22b@ovn.org/",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23270"
     }
   ],
   "kev": [
