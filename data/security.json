@@ -1,6 +1,46 @@
 {
-  "updated": "2026-10-18T14:04:35.472052+00:00",
+  "updated": "2026-10-18T14:40:41.681424+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-14765",
+      "published": "2026-10-14T03:17:21.927",
+      "modified": "2026-10-18T14:16:54.843",
+      "description": "Epic Games Unreal Engine versions up to and including 5.8.0 ship with an insecure default configuration for the LaunchURL Blueprint node (UKismetSystemLibrary::LaunchURL). The URL scheme filter (FURLRequestFilter) is empty by default, which permits all URL schemes. On Windows, this results in a call to ShellExecuteW() with the open verb, so a supplied file:/// URI causes the referenced file to be executed. Any Unreal Engine game that loads user-generated content containing Blueprints is vulnerable to command execution via a malicious local file or a remote file on a WebDAV share. This is an instance of CWE-1188 (Initialization of a Resource with an Insecure Default).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-14765"
+    },
+    {
+      "id": "CVE-2025-40295",
+      "published": "2025-12-08T01:16:01.557",
+      "modified": "2026-10-18T14:10:00.110",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nfscrypt: fix left shift underflow when inode->i_blkbits > PAGE_SHIFT\n\nWhen simulating an nvme device on qemu with both logical_block_size and\nphysical_block_size set to 8 KiB, an error trace appears during\npartition table reading at boot time. The issue is caused by\ninode->i_blkbits being larger than PAGE_SHIFT, which leads to a left\nshift of -1 and triggering a UBSAN warning.\n\n[    2.697306] ------------[ cut here ]------------\n[    2.697309] UBSAN: shift-out-of-bounds in fs/crypto/inline_crypt.c:336:37\n[    2.697311] shift exponent -1 is negative\n[    2.697315] CPU: 3 UID: 0 PID: 274 Comm: (udev-worker) Not tainted 6.18.0-rc2+ #34 PREEMPT(voluntary)\n[    2.697317] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014\n[    2.697320] Call Trace:\n[    2.697324]  <TASK>\n[    2.697325]  dump_stack_lvl+0x76/0xa0\n[    2.697340]  dump_stack+0x10/0x20\n[    2.697342]  __ubsan_handle_shift_out_of_bounds+0x1e3/0x390\n[    2.697351]  bh_get_inode_and_lblk_num.cold+0x12/0x94\n[    2.697359]  fscrypt_set_bio_crypt_ctx_bh+0x44/0x90\n[    2.697365]  submit_bh_wbc+0xb6/0x190\n[    2.697370]  block_read_full_folio+0x194/0x270\n[    2.697371]  ? __pfx_blkdev_get_block+0x10/0x10\n[    2.697375]  ? __pfx_blkdev_read_folio+0x10/0x10\n[    2.697377]  blkdev_read_folio+0x18/0x30\n[    2.697379]  filemap_read_folio+0x40/0xe0\n[    2.697382]  filemap_get_pages+0x5ef/0x7a0\n[    2.697385]  ? mmap_region+0x63/0xd0\n[    2.697389]  filemap_read+0x11d/0x520\n[    2.697392]  blkdev_read_iter+0x7c/0x180\n[    2.697393]  vfs_read+0x261/0x390\n[    2.697397]  ksys_read+0x71/0xf0\n[    2.697398]  __x64_sys_read+0x19/0x30\n[    2.697399]  x64_sys_call+0x1e88/0x26a0\n[    2.697405]  do_syscall_64+0x80/0x670\n[    2.697410]  ? __x64_sys_newfstat+0x15/0x20\n[    2.697414]  ? x64_sys_call+0x204a/0x26a0\n[    2.697415]  ? do_syscall_64+0xb8/0x670\n[    2.697417]  ? irqentry_exit_to_user_mode+0x2e/0x2a0\n[    2.697420]  ? irqentry_exit+0x43/0x50\n[    2.697421]  ? exc_page_fault+0x90/0x1b0\n[    2.697422]  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n[    2.697425] RIP: 0033:0x75054cba4a06\n[    2.697426] Code: 5d e8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 75 19 83 e2 39 83 fa 08 75 11 e8 26 ff ff ff 66 0f 1f 44 00 00 48 8b 45 10 0f 05 <48> 8b 5d f8 c9 c3 0f 1f 40 00 f3 0f 1e fa 55 48 89 e5 48 83 ec 08\n[    2.697427] RSP: 002b:00007fff973723a0 EFLAGS: 00000202 ORIG_RAX: 0000000000000000\n[    2.697430] RAX: ffffffffffffffda RBX: 00005ea9a2c02760 RCX: 000075054cba4a06\n[    2.697432] RDX: 0000000000002000 RSI: 000075054c190000 RDI: 000000000000001b\n[    2.697433] RBP: 00007fff973723c0 R08: 0000000000000000 R09: 0000000000000000\n[    2.697434] R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000\n[    2.697434] R13: 00005ea9a2c027c0 R14: 00005ea9a2be5608 R15: 00005ea9a2be55f0\n[    2.697436]  </TASK>\n[    2.697436] ---[ end trace ]---\n\nThis situation can happen for block devices because when\nCONFIG_TRANSPARENT_HUGEPAGE is enabled, the maximum logical_block_size\nis 64 KiB. set_init_blocksize() then sets the block device\ninode->i_blkbits to 13, which is within this limit.\n\nFile I/O does not trigger this problem because for filesystems that do\nnot support the FS_LBS feature, sb_set_blocksize() prevents\nsb->s_blocksize_bits from being larger than PAGE_SHIFT. During inode\nallocation, alloc_inode()->inode_init_always() assigns inode->i_blkbits\nfrom sb->s_blocksize_bits. Currently, only xfs_fs_type has the FS_LBS\nflag, and since xfs I/O paths do not reach submit_bh_wbc(), it does not\nhit the left-shift underflow issue.\n\n[EB: use folio_pos() and consolidate the two shifts by i_blkbits]",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40295"
+    },
     {
       "id": "CVE-2026-112051",
       "published": "2026-10-18T13:16:37.190",
@@ -54989,60 +55029,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23336"
-    },
-    {
-      "id": "CVE-2026-23321",
-      "published": "2026-03-25T11:16:28.900",
-      "modified": "2026-10-15T02:18:49.773",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmptcp: pm: in-kernel: always mark signal+subflow endp as used\n\nSyzkaller managed to find a combination of actions that was generating\nthis warning:\n\n  msk->pm.local_addr_used == 0\n  WARNING: net/mptcp/pm_kernel.c:1071 at __mark_subflow_endp_available net/mptcp/pm_kernel.c:1071 [inline], CPU#1: syz.2.17/961\n  WARNING: net/mptcp/pm_kernel.c:1071 at mptcp_nl_remove_subflow_and_signal_addr net/mptcp/pm_kernel.c:1103 [inline], CPU#1: syz.2.17/961\n  WARNING: net/mptcp/pm_kernel.c:1071 at mptcp_pm_nl_del_addr_doit+0x81d/0x8f0 net/mptcp/pm_kernel.c:1210, CPU#1: syz.2.17/961\n  Modules linked in:\n  CPU: 1 UID: 0 PID: 961 Comm: syz.2.17 Not tainted 6.19.0-08368-gfafda3b4b06b #22 PREEMPT(full)\n  Hardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 10.1 machine, 1996), BIOS 1.17.0-debian-1.17.0-1build1 04/01/2014\n  RIP: 0010:__mark_subflow_endp_available net/mptcp/pm_kernel.c:1071 [inline]\n  RIP: 0010:mptcp_nl_remove_subflow_and_signal_addr net/mptcp/pm_kernel.c:1103 [inline]\n  RIP: 0010:mptcp_pm_nl_del_addr_doit+0x81d/0x8f0 net/mptcp/pm_kernel.c:1210\n  Code: 89 c5 e8 46 30 6f fe e9 21 fd ff ff 49 83 ed 80 e8 38 30 6f fe 4c 89 ef be 03 00 00 00 e8 db 49 df fe eb ac e8 24 30 6f fe 90 <0f> 0b 90 e9 1d ff ff ff e8 16 30 6f fe eb 05 e8 0f 30 6f fe e8 9a\n  RSP: 0018:ffffc90001663880 EFLAGS: 00010293\n  RAX: ffffffff82de1a6c RBX: 0000000000000000 RCX: ffff88800722b500\n  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000\n  RBP: ffff8880158b22d0 R08: 0000000000010425 R09: ffffffffffffffff\n  R10: ffffffff82de18ba R11: 0000000000000000 R12: ffff88800641a640\n  R13: ffff8880158b1880 R14: ffff88801ec3c900 R15: ffff88800641a650\n  FS:  00005555722c3500(0000) GS:ffff8880f909d000(0000) knlGS:0000000000000000\n  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n  CR2: 00007f66346e0f60 CR3: 000000001607c000 CR4: 0000000000350ef0\n  Call Trace:\n   <TASK>\n   genl_family_rcv_msg_doit+0x117/0x180 net/netlink/genetlink.c:1115\n   genl_family_rcv_msg net/netlink/genetlink.c:1195 [inline]\n   genl_rcv_msg+0x3a8/0x3f0 net/netlink/genetlink.c:1210\n   netlink_rcv_skb+0x16d/0x240 net/netlink/af_netlink.c:2550\n   genl_rcv+0x28/0x40 net/netlink/genetlink.c:1219\n   netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]\n   netlink_unicast+0x3e9/0x4c0 net/netlink/af_netlink.c:1344\n   netlink_sendmsg+0x4aa/0x5b0 net/netlink/af_netlink.c:1894\n   sock_sendmsg_nosec net/socket.c:727 [inline]\n   __sock_sendmsg+0xc9/0xf0 net/socket.c:742\n   ____sys_sendmsg+0x272/0x3b0 net/socket.c:2592\n   ___sys_sendmsg+0x2de/0x320 net/socket.c:2646\n   __sys_sendmsg net/socket.c:2678 [inline]\n   __do_sys_sendmsg net/socket.c:2683 [inline]\n   __se_sys_sendmsg net/socket.c:2681 [inline]\n   __x64_sys_sendmsg+0x110/0x1a0 net/socket.c:2681\n   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n   do_syscall_64+0x143/0x440 arch/x86/entry/syscall_64.c:94\n   entry_SYSCALL_64_after_hwframe+0x77/0x7f\n  RIP: 0033:0x7f66346f826d\n  Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48\n  RSP: 002b:00007ffc83d8bdc8 EFLAGS: 00000246 ORIG_RAX: 000000000000002e\n  RAX: ffffffffffffffda RBX: 00007f6634985fa0 RCX: 00007f66346f826d\n  RDX: 00000000040000b0 RSI: 0000200000000740 RDI: 0000000000000007\n  RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000\n  R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6634985fa8\n  R13: 00007f6634985fac R14: 0000000000000000 R15: 0000000000001770\n   </TASK>\n\nThe actions that caused that seem to be:\n\n - Set the MPTCP subflows limit to 0\n - Create an MPTCP endpoint with both the 'signal' and 'subflow' flags\n - Create a new MPTCP connection from a different address: an ADD_ADDR\n   linked to the MPTCP endpoint will be sent ('signal' flag), but no\n   subflows is initiated ('subflow' flag)\n - Remove the MPTCP endpoint\n\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.11:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23321"
-    },
-    {
-      "id": "CVE-2026-23273",
-      "published": "2026-03-20T09:16:12.847",
-      "modified": "2026-10-15T02:18:45.720",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmacvlan: observe an RCU grace period in macvlan_common_newlink() error path\n\nvalis reported that a race condition still happens after my prior patch.\n\nmacvlan_common_newlink() might have made @dev visible before\ndetecting an error, and its caller will directly call free_netdev(dev).\n\nWe must respect an RCU period, either in macvlan or the core networking\nstack.\n\nAfter adding a temporary mdelay(1000) in macvlan_forward_source_one()\nto open the race window, valis repro was:\n\nip link add p1 type veth peer p2\nip link set address 00:00:00:00:00:20 dev p1\nip link set up dev p1\nip link set up dev p2\nip link add mv0 link p2 type macvlan mode source\n\n(ip link add invalid% link p2 type macvlan mode source macaddr add\n00:00:00:00:00:20 &) ; sleep 0.5 ; ping -c1 -I p1 1.2.3.4\nPING 1.2.3.4 (1.2.3.4): 56 data bytes\nRTNETLINK answers: Invalid argument\n\nBUG: KASAN: slab-use-after-free in macvlan_forward_source\n(drivers/net/macvlan.c:408 drivers/net/macvlan.c:444)\nRead of size 8 at addr ffff888016bb89c0 by task e/175\n\nCPU: 1 UID: 1000 PID: 175 Comm: e Not tainted 6.19.0-rc8+ #33 NONE\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014\nCall Trace:\n<IRQ>\ndump_stack_lvl (lib/dump_stack.c:123)\nprint_report (mm/kasan/report.c:379 mm/kasan/report.c:482)\n? macvlan_forward_source (drivers/net/macvlan.c:408 drivers/net/macvlan.c:444)\nkasan_report (mm/kasan/report.c:597)\n? macvlan_forward_source (drivers/net/macvlan.c:408 drivers/net/macvlan.c:444)\nmacvlan_forward_source (drivers/net/macvlan.c:408 drivers/net/macvlan.c:444)\n? tasklet_init (kernel/softirq.c:983)\nmacvlan_handle_frame (drivers/net/macvlan.c:501)\n\nAllocated by task 169:\nkasan_save_stack (mm/kasan/common.c:58)\nkasan_save_track (./arch/x86/include/asm/current.h:25\nmm/kasan/common.c:70 mm/kasan/common.c:79)\n__kasan_kmalloc (mm/kasan/common.c:419)\n__kvmalloc_node_noprof (./include/linux/kasan.h:263 mm/slub.c:5657\nmm/slub.c:7140)\nalloc_netdev_mqs (net/core/dev.c:12012)\nrtnl_create_link (net/core/rtnetlink.c:3648)\nrtnl_newlink (net/core/rtnetlink.c:3830 net/core/rtnetlink.c:3957\nnet/core/rtnetlink.c:4072)\nrtnetlink_rcv_msg (net/core/rtnetlink.c:6958)\nnetlink_rcv_skb (net/netlink/af_netlink.c:2550)\nnetlink_unicast (net/netlink/af_netlink.c:1319 net/netlink/af_netlink.c:1344)\nnetlink_sendmsg (net/netlink/af_netlink.c:1894)\n__sys_sendto (net/socket.c:727 net/socket.c:742 net/socket.c:2206)\n__x64_sys_sendto (net/socket.c:2209)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:131)\n\nFreed by task 169:\nkasan_save_stack (mm/kasan/common.c:58)\nkasan_save_track (./arch/x86/include/asm/current.h:25\nmm/kasan/common.c:70 mm/kasan/common.c:79)\nkasan_save_free_info (mm/kasan/generic.c:587)\n__kasan_slab_free (mm/kasan/common.c:287)\nkfree (mm/slub.c:6674 mm/slub.c:6882)\nrtnl_newlink (net/core/rtnetlink.c:3845 net/core/rtnetlink.c:3957\nnet/core/rtnetlink.c:4072)\nrtnetlink_rcv_msg (net/core/rtnetlink.c:6958)\nnetlink_rcv_skb (net/netlink/af_netlink.c:2550)\nnetlink_unicast (net/netlink/af_netlink.c:1319 net/netlink/af_netlink.c:1344)\nnetlink_sendmsg (net/netlink/af_netlink.c:1894)\n__sys_sendto (net/socket.c:727 net/socket.c:742 net/socket.c:2206)\n__x64_sys_sendto (net/socket.c:2209)\ndo_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)\nentry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:131)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23273"
     }
   ],
   "kev": [
@@ -56799,7 +56785,7 @@
     "total_relevant_cves": 1000,
     "critical": 84,
     "high": 626,
-    "medium": 256,
+    "medium": 255,
     "kev": 3,
     "p1": 49,
     "p2": 662
