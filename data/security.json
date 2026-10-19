@@ -1,6 +1,304 @@
 {
-  "updated": "2026-10-19T21:58:29.219271+00:00",
+  "updated": "2026-10-19T22:28:56.804707+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-72029",
+      "published": "2026-08-15T06:21:02.083",
+      "modified": "2026-10-19T22:17:22.783",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: wwan: iosm: bound device offsets in the MUX downlink decoder\n\nmux_dl_adb_decode() walks a chain of aggregated datagram tables using\noffsets and lengths taken from the modem. first_table_index,\nnext_table_index, table_length, datagram_index and datagram_length are\nall device supplied le values. Only first_table_index was checked, and\nonly for being non zero. The decoder then formed adth = block +\nadth_index and read the table header and the datagram entries with no\nbound against the received skb. A modem that reports an index or a\nlength past the downlink buffer makes the decoder read out of bounds.\n\nThe buffer is IPC_MEM_MAX_DL_MUX_LITE_BUF_SIZE and skb->len is at most\nthat, so skb->len is the real limit, but none of these in band offsets\nwere checked against it.\n\nThe table chain is also followed with no forward progress check. The loop\ntakes the next table from adth->next_table_index and stops only when that\nreaches zero. A modem can stage two tables that point at each other, so\nthe loop never ends. It runs in softirq and clones the skb on every pass.\n\nValidate every device offset and length against skb->len before use.\nThe block header must fit. Each table header, on entry and after every\nnext_table_index, must lie inside the skb. The datagram table must fit.\nEach datagram index and length must stay inside the skb. The header\npadding must not exceed the datagram length so the receive length does\nnot wrap. Require each next_table_index to move forward so the chain\ncannot cycle.\n\nThis was reproduced under KASAN as a slab out of bounds read on a normal\ndownlink receive once the iosm net device is up.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72029"
+    },
+    {
+      "id": "CVE-2026-72003",
+      "published": "2026-08-15T06:20:53.557",
+      "modified": "2026-10-19T22:17:21.247",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nwifi: brcmfmac: cyw: fix heap overflow on a short auth frame\n\nbrcmf_notify_auth_frame_rx() takes the frame length from the firmware\nevent and copies the frame body with the management header offset\nsubtracted:\n\n\tu32 mgmt_frame_len = e->datalen - sizeof(struct brcmf_rx_mgmt_data);\n\t...\n\tmemcpy(&mgmt_frame->u, frame,\n\t       mgmt_frame_len - offsetof(struct ieee80211_mgmt, u));\n\nThe only length check is e->datalen >= sizeof(*rxframe), so mgmt_frame_len\ncan be anything from 0 up. offsetof(struct ieee80211_mgmt, u) is 24. When\nmgmt_frame_len is below that, the subtraction wraps as an unsigned value to\na huge length. The memcpy then runs far past the kzalloc'd buffer. A\nmalicious or malfunctioning AP can make the frame short during the\nexternal SAE auth exchange, so this is a remotely triggered heap overflow.\n\nReject frames shorter than the management header offset before the copy.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72003"
+    },
+    {
+      "id": "CVE-2026-68377",
+      "published": "2026-08-10T13:20:30.647",
+      "modified": "2026-10-19T22:17:15.410",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: act_tunnel_key: Defer dst_release to RCU callback\n\nFix a race-condition use-after-free in tunnel_key_release_params().\n\nThe function releases the metadata_dst of the old params synchronously\nvia dst_release() while deferring the params struct free with\nkfree_rcu(). A concurrent tunnel_key_act() reader on the datapath may\nstill hold the old params pointer (under rcu_read_lock_bh) and proceed\nto call dst_clone(&params->tcft_enc_metadata->dst) after the writer's\ndst_release has already pushed the dst's rcuref to RCUREF_DEAD.\n\nzdi-disclosures@trendmicro.com produced a poc which i (and Victor) verified\nthat KASAN reports:\n\n==================================================================\nBUG: KASAN: slab-use-after-free in instrument_atomic_read_write include/linux/instrumented.h:112\nBUG: KASAN: slab-use-after-free in atomic_sub_return_release include/linux/atomic/atomic-instrumented.h:326\nBUG: KASAN: slab-use-after-free in __rcuref_put include/linux/rcuref.h:109\nBUG: KASAN: slab-use-after-free in rcuref_put include/linux/rcuref.h:173\nBUG: KASAN: slab-use-after-free in dst_release+0x5b/0x370 net/core/dst.c:168\nWrite of size 4 at addr ffff88806158de40 by task poc/9388\n\nCPU: 0 UID: 0 PID: 9388 Comm: poc Tainted: G        W           7.1.0-rc7 #7 PREEMPT(lazy)\nTainted: [W]=WARN\nHardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 10.1 machine, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nCall Trace:\n <TASK>\n __dump_stack lib/dump_stack.c:94\n dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120\n print_address_description mm/kasan/report.c:378\n print_report+0x139/0x4ad mm/kasan/report.c:482\n kasan_report+0xe4/0x1d0 mm/kasan/report.c:595\n check_region_inline mm/kasan/generic.c:186\n kasan_check_range+0x125/0x200 mm/kasan/generic.c:200\n instrument_atomic_read_write include/linux/instrumented.h:112\n atomic_sub_return_release include/linux/atomic/atomic-instrumented.h:326\n __rcuref_put include/linux/rcuref.h:109\n rcuref_put include/linux/rcuref.h:173\n dst_release+0x5b/0x370 net/core/dst.c:168\n refdst_drop include/net/dst.h:272\n skb_dst_drop include/net/dst.h:284\n skb_release_head_state+0x293/0x400 net/core/skbuff.c:1163\n skb_release_all net/core/skbuff.c:1187\n[..]\nAllocated by task 9391:\n kasan_save_stack+0x30/0x50 mm/kasan/common.c:57\n kasan_save_track+0x14/0x30 mm/kasan/common.c:78\n poison_kmalloc_redzone mm/kasan/common.c:398\n __kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:415\n kasan_kmalloc include/linux/kasan.h:263\n __do_kmalloc_node mm/slub.c:5296\n __kmalloc_noprof+0x2f1/0x830 mm/slub.c:5308\n kmalloc_noprof include/linux/slab.h:954\n kzalloc_noprof include/linux/slab.h:1188\n offload_action_alloc+0x2f/0x130 net/core/flow_offload.c:35\n tcf_action_offload_add_ex+0x1ba/0x880 net/sched/act_api.c:258\n tcf_action_offload_add net/sched/act_api.c:293\n tcf_action_init+0x66e/0xa20 net/sched/act_api.c:1547\n tcf_action_add+0xf6/0x5d0 net/sched/act_api.c:2101\n[..]\nFreed by task 9391:\n kasan_save_stack+0x30/0x50 mm/kasan/common.c:57\n kasan_save_track+0x14/0x30 mm/kasan/common.c:78\n kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584\n poison_slab_object mm/kasan/common.c:253\n __kasan_slab_free+0x6b/0x90 mm/kasan/common.c:285\n kasan_slab_free include/linux/kasan.h:235\n slab_free_hook mm/slub.c:2689\n slab_free mm/slub.c:6251\n kfree+0x21f/0x6b0 mm/slub.c:6566\n tcf_action_offload_add_ex+0x4ad/0x880 net/sched/act_api.c:284\n tcf_action_offload_add net/sched/act_api.c:293\n tcf_action_init+0x66e/0xa20 net/sched/act_api.c:1547\n tcf_action_add+0xf6/0x5d0 net/sched/act_api.c:2101\n\nThe buggy address belongs to the object at ffff88806158de00\n which belongs to the cache kmalloc-256 of size 256\nThe buggy address is located 64 bytes inside of\n freed 256-byte region [ffff88806158de00, ffff88806158df00)\n\nThe buggy address belongs to the physical page:\npage: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff88806158d600 pfn:0x6158c\nhead: order:1 mapcount:0 entire_map\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68377"
+    },
+    {
+      "id": "CVE-2026-68354",
+      "published": "2026-08-10T13:20:27.820",
+      "modified": "2026-10-19T22:17:14.737",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nfirewire: net: Fix fragmented datagram reassembly\n\nfwnet_frag_new() keeps a sorted list of received fragments for a partial\ndatagram. When a new fragment is adjacent to an existing fragment, the\ncode checks whether the new fragment also closes the gap to the next or\nprevious list entry.\n\nThose neighbor lookups currently assume that the current fragment always\nhas a real next or previous fragment. At a list edge, the next or\nprevious entry is the list head, not a struct fwnet_fragment_info.\n\nThe gap checks also compare against the old edge of the current fragment\ninstead of the edge after adding the new fragment. As a result, a\nfragment that bridges two existing ranges may leave two adjacent ranges\nunmerged, so fwnet_pd_is_complete() can miss a complete datagram.\n\nCheck for the list head before looking up the neighboring fragment, and\ncompare the neighbor against the new fragment's far edge when deciding\nwhether to merge all three ranges.\n\nThis issue was found by a static analysis checker and confirmed by\nmanual source review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68354"
+    },
+    {
+      "id": "CVE-2025-39974",
+      "published": "2025-10-15T08:15:35.153",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ntracing/osnoise: Fix slab-out-of-bounds in _parse_integer_limit()\n\nWhen config osnoise cpus by write() syscall, the following KASAN splat may\nbe observed:\n\nBUG: KASAN: slab-out-of-bounds in _parse_integer_limit+0x103/0x130\nRead of size 1 at addr ffff88810121e3a1 by task test/447\nCPU: 1 UID: 0 PID: 447 Comm: test Not tainted 6.17.0-rc6-dirty #288 PREEMPT(voluntary)\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014\nCall Trace:\n <TASK>\n dump_stack_lvl+0x55/0x70\n print_report+0xcb/0x610\n kasan_report+0xb8/0xf0\n _parse_integer_limit+0x103/0x130\n bitmap_parselist+0x16d/0x6f0\n osnoise_cpus_write+0x116/0x2d0\n vfs_write+0x21e/0xcc0\n ksys_write+0xee/0x1c0\n do_syscall_64+0xa8/0x2a0\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n </TASK>\n\nThis issue can be reproduced by below code:\n\nconst char *cpulist = \"1\";\nint fd=open(\"/sys/kernel/debug/tracing/osnoise/cpus\", O_WRONLY);\nwrite(fd, cpulist, strlen(cpulist));\n\nFunction bitmap_parselist() was called to parse cpulist, it require that\nthe parameter 'buf' must be terminated with a '\\0' or '\\n'. Fix this issue\nby adding a '\\0' to 'buf' in osnoise_cpus_write().",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-39974"
+    },
+    {
+      "id": "CVE-2025-40016",
+      "published": "2025-10-20T16:15:38.387",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmedia: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID\n\nPer UVC 1.1+ specification 3.7.2, units and terminals must have a non-zero\nunique ID.\n\n```\nEach Unit and Terminal within the video function is assigned a unique\nidentification number, the Unit ID (UID) or Terminal ID (TID), contained in\nthe bUnitID or bTerminalID field of the descriptor. The value 0x00 is\nreserved for undefined ID,\n```\n\nIf we add a new entity with id 0 or a duplicated ID, it will be marked\nas UVC_INVALID_ENTITY_ID.\n\nIn a previous attempt commit 3dd075fe8ebb (\"media: uvcvideo: Require\nentities to have a non-zero unique ID\"), we ignored all the invalid units,\nthis broke a lot of non-compatible cameras. Hopefully we are more lucky\nthis time.\n\nThis also prevents some syzkaller reproducers from triggering warnings due\nto a chain of entities referring to themselves. In one particular case, an\nOutput Unit is connected to an Input Unit, both with the same ID of 1. But\nwhen looking up for the source ID of the Output Unit, that same entity is\nfound instead of the input entity, which leads to such warnings.\n\nIn another case, a backward chain was considered finished as the source ID\nwas 0. Later on, that entity was found, but its pads were not valid.\n\nHere is a sample stack trace for one of those cases.\n\n[   20.650953] usb 1-1: new high-speed USB device number 2 using dummy_hcd\n[   20.830206] usb 1-1: Using ep0 maxpacket: 8\n[   20.833501] usb 1-1: config 0 descriptor??\n[   21.038518] usb 1-1: string descriptor 0 read error: -71\n[   21.038893] usb 1-1: Found UVC 0.00 device <unnamed> (2833:0201)\n[   21.039299] uvcvideo 1-1:0.0: Entity type for entity Output 1 was not initialized!\n[   21.041583] uvcvideo 1-1:0.0: Entity type for entity Input 1 was not initialized!\n[   21.042218] ------------[ cut here ]------------\n[   21.042536] WARNING: CPU: 0 PID: 9 at drivers/media/mc/mc-entity.c:1147 media_create_pad_link+0x2c4/0x2e0\n[   21.043195] Modules linked in:\n[   21.043535] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.11.0-rc7-00030-g3480e43aeccf #444\n[   21.044101] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014\n[   21.044639] Workqueue: usb_hub_wq hub_event\n[   21.045100] RIP: 0010:media_create_pad_link+0x2c4/0x2e0\n[   21.045508] Code: fe e8 20 01 00 00 b8 f4 ff ff ff 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 0f 0b eb e9 0f 0b eb 0a 0f 0b eb 06 <0f> 0b eb 02 0f 0b b8 ea ff ff ff eb d4 66 2e 0f 1f 84 00 00 00 00\n[   21.046801] RSP: 0018:ffffc9000004b318 EFLAGS: 00010246\n[   21.047227] RAX: ffff888004e5d458 RBX: 0000000000000000 RCX: ffffffff818fccf1\n[   21.047719] RDX: 000000000000007b RSI: 0000000000000000 RDI: ffff888004313290\n[   21.048241] RBP: ffff888004313290 R08: 0001ffffffffffff R09: 0000000000000000\n[   21.048701] R10: 0000000000000013 R11: 0001888004313290 R12: 0000000000000003\n[   21.049138] R13: ffff888004313080 R14: ffff888004313080 R15: 0000000000000000\n[   21.049648] FS:  0000000000000000(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000\n[   21.050271] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[   21.050688] CR2: 0000592cc27635b0 CR3: 000000000431c000 CR4: 0000000000750ef0\n[   21.051136] PKRU: 55555554\n[   21.051331] Call Trace:\n[   21.051480]  <TASK>\n[   21.051611]  ? __warn+0xc4/0x210\n[   21.051861]  ? media_create_pad_link+0x2c4/0x2e0\n[   21.052252]  ? report_bug+0x11b/0x1a0\n[   21.052540]  ? trace_hardirqs_on+0x31/0x40\n[   21.052901]  ? handle_bug+0x3d/0x70\n[   21.053197]  ? exc_invalid_op+0x1a/0x50\n[   21.053511]  ? asm_exc_invalid_op+0x1a/0x20\n[   21.053924]  ? media_create_pad_link+0x91/0x2e0\n[   21.054364]  ? media_create_pad_link+0x2c4/0x2e0\n[   21.054834]  ? media_create_pad_link+0x91/0x2e0\n[   21.055131]  ? _raw_spin_unlock+0x1e/0x40\n[   21.055441]  ? __v4l2_device_register_subdev+0x202/0x210\n[   21.055837]  uvc_mc_register_entities+0x358/0x400\n[   21.056144]  uvc_register_chains+0x1\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40016"
+    },
+    {
+      "id": "CVE-2025-40265",
+      "published": "2025-12-04T16:16:20.653",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nvfat: fix missing sb_min_blocksize() return value checks\n\nWhen emulating an nvme device on qemu with both logical_block_size and\nphysical_block_size set to 8 KiB, but without format, a kernel panic\nwas triggered during the early boot stage while attempting to mount a\nvfat filesystem.\n\n[95553.682035] EXT4-fs (nvme0n1): unable to set blocksize\n[95553.684326] EXT4-fs (nvme0n1): unable to set blocksize\n[95553.686501] EXT4-fs (nvme0n1): unable to set blocksize\n[95553.696448] ISOFS: unsupported/invalid hardware sector size 8192\n[95553.697117] ------------[ cut here ]------------\n[95553.697567] kernel BUG at fs/buffer.c:1582!\n[95553.697984] Oops: invalid opcode: 0000 [#1] SMP NOPTI\n[95553.698602] CPU: 0 UID: 0 PID: 7212 Comm: mount Kdump: loaded Not tainted 6.18.0-rc2+ #38 PREEMPT(voluntary)\n[95553.699511] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014\n[95553.700534] RIP: 0010:folio_alloc_buffers+0x1bb/0x1c0\n[95553.701018] Code: 48 8b 15 e8 93 18 02 65 48 89 35 e0 93 18 02 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d 31 d2 31 c9 31 f6 31 ff c3 cc cc cc cc <0f> 0b 90 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f\n[95553.702648] RSP: 0018:ffffd1b0c676f990 EFLAGS: 00010246\n[95553.703132] RAX: ffff8cfc4176d820 RBX: 0000000000508c48 RCX: 0000000000000001\n[95553.703805] RDX: 0000000000002000 RSI: 0000000000000000 RDI: 0000000000000000\n[95553.704481] RBP: ffffd1b0c676f9c8 R08: 0000000000000000 R09: 0000000000000000\n[95553.705148] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001\n[95553.705816] R13: 0000000000002000 R14: fffff8bc8257e800 R15: 0000000000000000\n[95553.706483] FS:  000072ee77315840(0000) GS:ffff8cfdd2c8d000(0000) knlGS:0000000000000000\n[95553.707248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[95553.707782] CR2: 00007d8f2a9e5a20 CR3: 0000000039d0c006 CR4: 0000000000772ef0\n[95553.708439] PKRU: 55555554\n[95553.708734] Call Trace:\n[95553.709015]  <TASK>\n[95553.709266]  __getblk_slow+0xd2/0x230\n[95553.709641]  ? find_get_block_common+0x8b/0x530\n[95553.710084]  bdev_getblk+0x77/0xa0\n[95553.710449]  __bread_gfp+0x22/0x140\n[95553.710810]  fat_fill_super+0x23a/0xfc0\n[95553.711216]  ? __pfx_setup+0x10/0x10\n[95553.711580]  ? __pfx_vfat_fill_super+0x10/0x10\n[95553.712014]  vfat_fill_super+0x15/0x30\n[95553.712401]  get_tree_bdev_flags+0x141/0x1e0\n[95553.712817]  get_tree_bdev+0x10/0x20\n[95553.713177]  vfat_get_tree+0x15/0x20\n[95553.713550]  vfs_get_tree+0x2a/0x100\n[95553.713910]  vfs_cmd_create+0x62/0xf0\n[95553.714273]  __do_sys_fsconfig+0x4e7/0x660\n[95553.714669]  __x64_sys_fsconfig+0x20/0x40\n[95553.715062]  x64_sys_call+0x21ee/0x26a0\n[95553.715453]  do_syscall_64+0x80/0x670\n[95553.715816]  ? __fs_parse+0x65/0x1e0\n[95553.716172]  ? fat_parse_param+0x103/0x4b0\n[95553.716587]  ? vfs_parse_fs_param_source+0x21/0xa0\n[95553.717034]  ? __do_sys_fsconfig+0x3d9/0x660\n[95553.717548]  ? __x64_sys_fsconfig+0x20/0x40\n[95553.717957]  ? x64_sys_call+0x21ee/0x26a0\n[95553.718360]  ? do_syscall_64+0xb8/0x670\n[95553.718734]  ? __x64_sys_fsconfig+0x20/0x40\n[95553.719141]  ? x64_sys_call+0x21ee/0x26a0\n[95553.719545]  ? do_syscall_64+0xb8/0x670\n[95553.719922]  ? x64_sys_call+0x1405/0x26a0\n[95553.720317]  ? do_syscall_64+0xb8/0x670\n[95553.720702]  ? __x64_sys_close+0x3e/0x90\n[95553.721080]  ? x64_sys_call+0x1b5e/0x26a0\n[95553.721478]  ? do_syscall_64+0xb8/0x670\n[95553.721841]  ? irqentry_exit+0x43/0x50\n[95553.722211]  ? exc_page_fault+0x90/0x1b0\n[95553.722681]  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n[95553.723166] RIP: 0033:0x72ee774f3afe\n[95553.723562] Code: 73 01 c3 48 8b 0d 0a 33 0f 00 f7 d8 64 89 01 48 83 c8 ff c3 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 49 89 ca b8 af 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d da 32 0f 00 f7 d8 64 89 01 48\n[95553.725188] RSP: 002b:00007ffe97148978 EFLAGS: 00000246 ORIG_RAX: 00000000000001af\n[95553.725892] RAX: ffffffffffffffda RBX: \n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40265"
+    },
+    {
+      "id": "CVE-2025-68297",
+      "published": "2025-12-16T16:16:08.640",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nceph: fix crash in process_v2_sparse_read() for encrypted directories\n\nThe crash in process_v2_sparse_read() for fscrypt-encrypted directories\nhas been reported. Issue takes place for Ceph msgr2 protocol in secure\nmode. It can be reproduced by the steps:\n\nsudo mount -t ceph :/ /mnt/cephfs/ -o name=admin,fs=cephfs,ms_mode=secure\n\n(1) mkdir /mnt/cephfs/fscrypt-test-3\n(2) cp area_decrypted.tar /mnt/cephfs/fscrypt-test-3\n(3) fscrypt encrypt --source=raw_key --key=./my.key /mnt/cephfs/fscrypt-test-3\n(4) fscrypt lock /mnt/cephfs/fscrypt-test-3\n(5) fscrypt unlock --key=my.key /mnt/cephfs/fscrypt-test-3\n(6) cat /mnt/cephfs/fscrypt-test-3/area_decrypted.tar\n(7) Issue has been triggered\n\n[  408.072247] ------------[ cut here ]------------\n[  408.072251] WARNING: CPU: 1 PID: 392 at net/ceph/messenger_v2.c:865\nceph_con_v2_try_read+0x4b39/0x72f0\n[  408.072267] Modules linked in: intel_rapl_msr intel_rapl_common\nintel_uncore_frequency_common intel_pmc_core pmt_telemetry pmt_discovery\npmt_class intel_pmc_ssram_telemetry intel_vsec kvm_intel joydev kvm irqbypass\npolyval_clmulni ghash_clmulni_intel aesni_intel rapl input_leds psmouse\nserio_raw i2c_piix4 vga16fb bochs vgastate i2c_smbus floppy mac_hid qemu_fw_cfg\npata_acpi sch_fq_codel rbd msr parport_pc ppdev lp parport efi_pstore\n[  408.072304] CPU: 1 UID: 0 PID: 392 Comm: kworker/1:3 Not tainted 6.17.0-rc7+\n[  408.072307] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS\n1.17.0-5.fc42 04/01/2014\n[  408.072310] Workqueue: ceph-msgr ceph_con_workfn\n[  408.072314] RIP: 0010:ceph_con_v2_try_read+0x4b39/0x72f0\n[  408.072317] Code: c7 c1 20 f0 d4 ae 50 31 d2 48 c7 c6 60 27 d5 ae 48 c7 c7 f8\n8e 6f b0 68 60 38 d5 ae e8 00 47 61 fe 48 83 c4 18 e9 ac fc ff ff <0f> 0b e9 06\nfe ff ff 4c 8b 9d 98 fd ff ff 0f 84 64 e7 ff ff 89 85\n[  408.072319] RSP: 0018:ffff88811c3e7a30 EFLAGS: 00010246\n[  408.072322] RAX: ffffed1024874c6f RBX: ffffea00042c2b40 RCX: 0000000000000f38\n[  408.072324] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000\n[  408.072325] RBP: ffff88811c3e7ca8 R08: 0000000000000000 R09: 00000000000000c8\n[  408.072326] R10: 00000000000000c8 R11: 0000000000000000 R12: 00000000000000c8\n[  408.072327] R13: dffffc0000000000 R14: ffff8881243a6030 R15: 0000000000003000\n[  408.072329] FS:  0000000000000000(0000) GS:ffff88823eadf000(0000)\nknlGS:0000000000000000\n[  408.072331] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[  408.072332] CR2: 000000c0003c6000 CR3: 000000010c106005 CR4: 0000000000772ef0\n[  408.072336] PKRU: 55555554\n[  408.072337] Call Trace:\n[  408.072338]  <TASK>\n[  408.072340]  ? sched_clock_noinstr+0x9/0x10\n[  408.072344]  ? __pfx_ceph_con_v2_try_read+0x10/0x10\n[  408.072347]  ? _raw_spin_unlock+0xe/0x40\n[  408.072349]  ? finish_task_switch.isra.0+0x15d/0x830\n[  408.072353]  ? __kasan_check_write+0x14/0x30\n[  408.072357]  ? mutex_lock+0x84/0xe0\n[  408.072359]  ? __pfx_mutex_lock+0x10/0x10\n[  408.072361]  ceph_con_workfn+0x27e/0x10e0\n[  408.072364]  ? metric_delayed_work+0x311/0x2c50\n[  408.072367]  process_one_work+0x611/0xe20\n[  408.072371]  ? __kasan_check_write+0x14/0x30\n[  408.072373]  worker_thread+0x7e3/0x1580\n[  408.072375]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n[  408.072378]  ? __pfx_worker_thread+0x10/0x10\n[  408.072381]  kthread+0x381/0x7a0\n[  408.072383]  ? __pfx__raw_spin_lock_irq+0x10/0x10\n[  408.072385]  ? __pfx_kthread+0x10/0x10\n[  408.072387]  ? __kasan_check_write+0x14/0x30\n[  408.072389]  ? recalc_sigpending+0x160/0x220\n[  408.072392]  ? _raw_spin_unlock_irq+0xe/0x50\n[  408.072394]  ? calculate_sigpending+0x78/0xb0\n[  408.072395]  ? __pfx_kthread+0x10/0x10\n[  408.072397]  ret_from_fork+0x2b6/0x380\n[  408.072400]  ? __pfx_kthread+0x10/0x10\n[  408.072402]  ret_from_fork_asm+0x1a/0x30\n[  408.072406]  </TASK>\n[  408.072407] ---[ end trace 0000000000000000 ]---\n[  408.072418] Oops: general protection fault, probably for non-canonical\naddress 0xdffffc00000000\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68297"
+    },
+    {
+      "id": "CVE-2025-8304",
+      "published": "2025-12-22T08:15:45.947",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "An authenticated local user can obtain information that allows claiming security policy rules of another user due to sensitive information being accessible in the Windows Registry keys for Check Point Identity Agent running on a Terminal Server.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8304"
+    },
+    {
+      "id": "CVE-2025-10021",
+      "published": "2025-12-22T16:15:43.437",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "A Use of Uninitialized Variable vulnerability exists in Open Design Alliance Drawings SDK static versions (mt) before 2026.12. Static object `COdaMfcAppApp theApp` may access `OdString::kEmpty` before its initialization. Due to undefined initialization order of static objects across translation units (Static Initialization Order Fiasco), the application accesses uninitialized memory. This results in application crash on startup, causing denial of service. Due to undefined behavior,  memory corruption and potential arbitrary code execution cannot be ruled out in specific exploitation scenarios.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:U/V:D/RE:L/U:Amber"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10021"
+    },
+    {
+      "id": "CVE-2025-67743",
+      "published": "2025-12-23T01:15:43.160",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "Local Deep Research is an AI-powered research assistant for deep, iterative research. In versions from 1.3.0 to before 1.3.9, the download service (download_service.py) makes HTTP requests using raw requests.get() without utilizing the application's SSRF protection (safe_requests.py). This can allow attackers to access internal services and attempt to reach cloud provider metadata endpoints (AWS/GCP/Azure), as well as perform internal network reconnaissance, by submitting malicious URLs through the API, depending on the deployment and surrounding controls. This issue has been patched in version 1.3.9.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:learningcircuit:local_deep_research:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67743"
+    },
+    {
+      "id": "CVE-2025-15048",
+      "published": "2025-12-23T23:15:44.167",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "A vulnerability was determined in Tenda WH450 1.0.0.18. This impacts an unknown function of the file /goform/CheckTools of the component HTTP Request Handler. Executing a manipulation of the argument ipaddress can lead to command injection. The attack can be launched remotely. The exploit has been publicly disclosed and may be utilized.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:tenda:wh450_firmware:1.0.0.18:*:*:*:*:*:*:*",
+        "cpe:2.3:h:tenda:wh450:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15048"
+    },
+    {
+      "id": "CVE-2025-62341",
+      "published": "2026-08-26T23:17:10.317",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "HCL Connections is vulnerable to server-side request forgery (SSRF) when an internal server is compromised possibly allowing an attacker to send unauthorized requests in certain scenarios leading to information disclosure or security bypass.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62341"
+    },
+    {
+      "id": "CVE-2025-15647",
+      "published": "2026-09-05T12:16:46.490",
+      "modified": "2026-10-19T22:10:00.130",
+      "description": "CDT before 1.4.5 contains an out-of-bounds read vulnerability in the opposedVertexInd() function when constraint edge intersections are computed in floating point and round outside adjacent triangles. Attackers can supply nearly-degenerate constraint edges through geometry data to trigger an out-of-bounds array access that crashes the calling process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15647"
+    },
     {
       "id": "CVE-2026-64599",
       "published": "2026-08-06T08:16:35.603",
@@ -2502,6 +2800,28 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68335"
+    },
+    {
+      "id": "CVE-2025-51619",
+      "published": "2026-09-09T19:17:26.563",
+      "modified": "2026-10-19T21:10:00.160",
+      "description": "A vulnerability in the Thesycon DPC Latency Checker driver (dpc.sys) thru 1.4.0 allows local unprivileged users to cause a denial-of-service (BSOD) condition on Windows systems. The driver exposes an IOCTL interface (0x81772008) that accepts user-controlled input without validating pointers before passing them to kernel APIs. Specifically, it dereferences a user-supplied pointer and uses the resulting value in a call to ExSetTimerResolution, leading to an arbitrary kernel memory access. Exploiting this flaw results in a system crash.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-51619"
     },
     {
       "id": "CVE-2026-85246",
@@ -32929,330 +33249,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73027"
-    },
-    {
-      "id": "CVE-2026-70222",
-      "published": "2026-10-13T19:19:37.083",
-      "modified": "2026-10-17T04:16:53.100",
-      "description": "Relative path traversal in Windows Shell allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70222"
-    },
-    {
-      "id": "CVE-2026-70123",
-      "published": "2026-10-13T19:19:24.550",
-      "modified": "2026-10-17T04:16:52.880",
-      "description": "Numeric truncation error in Microsoft Graphics Component allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70123"
-    },
-    {
-      "id": "CVE-2026-70051",
-      "published": "2026-10-13T19:19:15.780",
-      "modified": "2026-10-17T04:16:52.680",
-      "description": "Access of resource using incompatible type ('type confusion') in Windows SmartScreen allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70051"
-    },
-    {
-      "id": "CVE-2026-108442",
-      "published": "2026-10-15T21:17:09.727",
-      "modified": "2026-10-17T04:16:50.037",
-      "description": "Use after free in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108442"
-    },
-    {
-      "id": "CVE-2026-108441",
-      "published": "2026-10-15T21:17:09.607",
-      "modified": "2026-10-17T04:16:49.917",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108441"
-    },
-    {
-      "id": "CVE-2026-108440",
-      "published": "2026-10-15T21:17:09.493",
-      "modified": "2026-10-17T04:16:49.763",
-      "description": "Stack-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108440"
-    },
-    {
-      "id": "CVE-2026-108439",
-      "published": "2026-10-15T21:17:09.377",
-      "modified": "2026-10-17T04:16:49.643",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108439"
-    },
-    {
-      "id": "CVE-2026-108437",
-      "published": "2026-10-15T21:17:09.140",
-      "modified": "2026-10-17T04:16:49.517",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108437"
-    },
-    {
-      "id": "CVE-2026-108432",
-      "published": "2026-10-15T21:17:08.540",
-      "modified": "2026-10-17T04:16:49.383",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108432"
-    },
-    {
-      "id": "CVE-2026-108431",
-      "published": "2026-10-15T21:17:08.420",
-      "modified": "2026-10-17T04:16:49.240",
-      "description": "Stack-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108431"
-    },
-    {
-      "id": "CVE-2026-108430",
-      "published": "2026-10-15T21:17:08.303",
-      "modified": "2026-10-17T04:16:49.090",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108430"
-    },
-    {
-      "id": "CVE-2026-108429",
-      "published": "2026-10-15T21:17:08.190",
-      "modified": "2026-10-17T04:16:48.943",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108429"
-    },
-    {
-      "id": "CVE-2026-108428",
-      "published": "2026-10-15T21:17:08.067",
-      "modified": "2026-10-17T04:16:48.827",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108428"
-    },
-    {
-      "id": "CVE-2026-108427",
-      "published": "2026-10-15T21:17:07.947",
-      "modified": "2026-10-17T04:16:48.703",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108427"
-    },
-    {
-      "id": "CVE-2026-108426",
-      "published": "2026-10-15T21:17:07.820",
-      "modified": "2026-10-17T04:16:48.580",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108426"
     }
   ],
   "kev": [
@@ -35008,10 +35004,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 80,
-    "high": 494,
-    "medium": 268,
+    "high": 484,
+    "medium": 273,
     "kev": 5,
     "p1": 40,
-    "p2": 535
+    "p2": 525
   }
 }
