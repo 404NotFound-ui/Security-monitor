@@ -1,10 +1,218 @@
 {
-  "updated": "2026-10-19T17:04:59.385704+00:00",
+  "updated": "2026-10-19T17:43:34.271994+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-85296",
+      "published": "2026-10-19T11:17:24.000",
+      "modified": "2026-10-19T17:17:24.300",
+      "description": "Exposure of Data Element to Wrong Session vulnerability in Apache Camel AS2 component.\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\nSigning material belonging to an individual request was stored in state that is shared across requests rather than confined to the request being processed. Where a deployment serves more than one trading partner, concurrent or successive requests could therefore observe each other's material, and a Message Disposition Notification could be signed with the key of a partner other than the one the receipt was for. The result is cross-partner key confusion: a receipt attributable to the wrong partner, and one partner's signing material used while handling another partner's exchange. AS2 deployments are typically multi-partner by design, so the condition is reached by ordinary concurrent traffic rather than by anything the attacker must arrange.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. Per-request signing keys are now confined to the request being processed in ResponseMDN. For deployments that cannot upgrade immediately, run a separate Camel context per trading partner so that no signing material is shared between them.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85296"
+    },
+    {
+      "id": "CVE-2026-85249",
+      "published": "2026-10-19T11:17:23.117",
+      "modified": "2026-10-19T17:17:23.450",
+      "description": "Improper Input Validation vulnerability in Apache Camel Tika component.\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\nThe Tika producer mapped every metadata key parsed out of the submitted document onto the Exchange as a header, with no filter applied. Document metadata is attacker-controlled content: the party that supplies the file chooses the metadata keys it carries. A crafted document could therefore set Exchange headers that the rest of the route depends on, including headers in the Camel namespace such as CamelFileName, which downstream components use to decide where content is written. The pattern is the same header-injection class as the consumer advisories published previously, reached here through parsed file content rather than through a protocol header.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. Parsed document metadata is now filtered through a HeaderFilterStrategy before it is mapped onto the Exchange. A route that was reading a metadata-derived header the filter now blocks will see it missing. For deployments that cannot upgrade immediately, strip the Camel namespace after the Tika producer with removeHeaders(\"Camel*\") before any component that acts on those headers.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85249"
+    },
+    {
+      "id": "CVE-2026-85248",
+      "published": "2026-10-19T11:17:22.970",
+      "modified": "2026-10-19T17:17:23.307",
+      "description": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition') vulnerability in Apache Camel PQC component.\n\nThis issue affects Apache Camel: from 4.12.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\n\nThe producer held a single java.security.Signature instance and used it for every exchange without synchronizing access. Signature is stateful and is not thread safe: update() accumulates the data to be signed or verified, and verify() consumes that accumulated state. With concurrent exchanges sharing one instance the update and verify calls of different messages interleave, so a verification can complete against data that belongs to another exchange, or against a partially accumulated buffer. The outcome is non-deterministic and includes a verification reporting success for a message whose signature was never actually checked, which defeats the guarantee the component exists to provide. Reaching it requires concurrent traffic through the same endpoint, which is the ordinary condition for a Camel route under load.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. The Signature instance is no longer shared across concurrent exchanges. For deployments that cannot upgrade immediately, restrict the affected route to a single concurrent consumer so that no two exchanges use the instance at once.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85248"
+    },
+    {
+      "id": "CVE-2026-83531",
+      "published": "2026-10-19T11:17:21.507",
+      "modified": "2026-10-19T17:17:22.930",
+      "description": "Improper Control of Generation of Code ('Code Injection'), Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection') vulnerability in Apache Camel.\n\n\n\nThis issue affects Apache Camel: from 4.4.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe dynamic-router-control endpoint, introduced in 4.4.0, lets routing participants manage Dynamic Router subscriptions by sending control messages. When it handled a subscribe or update request, DynamicRouterControlProducer took the subscription predicate and the name of the language used to compile it from the incoming message, either from the predicate and expressionLanguage fields of a DynamicRouterControlMessage body or from the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers. DynamicRouterControlService then resolved that language from the CamelContext and compiled the expression into a Predicate, with no allow-list and no opt-in. The compiled predicate was added to the channel's rule base and evaluated against every exchange routed through the corresponding dynamic-router endpoint for as long as the subscription existed. A route that forwards messages from an external transport to the control endpoint, as shown in the component documentation for routing participants in other JVMs or applications, therefore let any actor able to send a message on that transport supply an expression of their choosing, which was evaluated with the privileges of the Camel process. Any expression language available on the classpath could be selected, including the simple language, which is always present and was the default on the header path, so removing optional expression languages from the classpath did not prevent the issue. Exploitation requires the ability to send a message on a transport whose route forwards it to a dynamic-router-control endpoint; no other authentication or user interaction is needed. Releases before 4.4.0 are not affected, because their control channel took predicate expressions only from the endpoint URI configured by the route author.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. After upgrading, a control message that carries a predicate expression or an expression language is rejected unless the new allowPredicateFromMessage option is enabled on the dynamic-router-control endpoint; enable it only when every sender of control messages is trusted. For deployments that cannot upgrade immediately, do not forward messages from untrusted or shared transports to a dynamic-router-control endpoint. Where control messages must cross such a transport, authenticate the sender and make sure the predicate and expression language of each subscription are set by the route rather than taken from the incoming message, for example by removing the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers and clearing the predicate and expressionLanguage fields of a DynamicRouterControlMessage before it reaches the endpoint. Removing optional expression languages from the classpath is not a sufficient workaround. As defence in depth, restrict who can send to the transports that feed the control endpoint, and on 4.23.0 and 4.22.1 set the allowedSchemes option of the dynamic-router endpoint to limit which endpoints a subscription's destinationUri may name.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83531"
+    },
+    {
+      "id": "CVE-2026-80312",
+      "published": "2026-10-19T11:17:21.073",
+      "modified": "2026-10-19T17:17:22.780",
+      "description": "Improper Authentication vulnerability in Apache Camel OAuth component.\n\n\n\nThis issue affects Apache Camel: from 4.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe camel-oauth processors that guard a route did not stop the exchange when authentication could not be completed. Where a failure to establish an authenticated session should have terminated routing and returned an error to the caller, the processors fell through and returned control to the route, so the request continued to the protected endpoint as though authentication had succeeded. The effect is a fail-open authentication guard: an unauthenticated caller reached whatever the route did next. The condition is reached on the ordinary request path of a route configured to require OAuth, and needs no special configuration or prior access on the caller's part.\n\n\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. The processors now stop the exchange and set the appropriate error status whenever an authenticated session cannot be established, so a failed authentication no longer reaches the protected part of the route. For deployments that cannot upgrade immediately, place an explicit authorization check after the OAuth processor rather than relying on it to halt the exchange, and verify that the route stops on failure.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80312"
+    },
+    {
+      "id": "CVE-2026-79986",
+      "published": "2026-10-19T11:17:20.860",
+      "modified": "2026-10-19T17:17:22.507",
+      "description": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in Apache Camel Azure Files component.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe Camel remote-file consumers poll a directory on a remote server and build the absolute remote path of each file by concatenating the configured directory with the file name reported in the server's directory listing. That concatenation (FtpUtils.absoluteFilePath and GenericFileConsumer) applied no lexical normalization and no check that the result stayed inside the directory being polled, and the resulting path became the operand for every subsequent remote operation on the file: retrieval (FtpOperations.retrieveFile / SftpOperations, reached from GenericFileConsumer where the retrieve name is taken verbatim from GenericFile.getAbsoluteFilePath), deletion when delete=true (GenericFileDeleteProcessStrategy), and renaming when move, preMove, moveFailed or readLock=rename is configured (GenericFileProcessStrategySupport and GenericFileRenameExclusiveReadLockStrategy). Neither isValidFile nor isMatched performed any containment check. A listing entry that is not a single path segment therefore resolved to a path outside the configured polling directory, causing Camel to read, delete or rename files outside it using the endpoint's own credentials. A listing name is not route-controlled data. It is supplied by the remote server, and the FTP control channel carries no integrity protection at all, so an on-path attacker can rewrite a LIST response without holding any credentials; a compromised, malicious or multi-tenant server, or a server backed by a virtual filesystem, can emit such a name directly. Retrieval is reachable in a default consumer configuration, since the remote consumers download every listed file; deletion and renaming additionally require one of the disposition options above, all of which are common. Escape from the directory Camel was configured to poll is unconditional, while escape from the server's own account boundary additionally depends on whether that server confines the account. The jailStartingDirectory option, which is documented as restricting Camel to the starting directory and is enabled by default, governed producer writes and, since the localWorkDirectory containment work, consumer downloads to the local work directory - but it did not constrain this remote operand, so its name and description claimed a boundary that was not enforced here. The same entry point had already been recognised on the local side: the localWorkDirectory download path was constrained so that a remote file name containing parent-directory segments could not resolve outside the local work directory. The remote operand was the remaining half of that surface. This artifact provides the azure-files scheme. Its consumer derives from the same RemoteFileConsumer base class and composed the remote path through a plain concatenation helper, so it inherited the same unconstrained resolution. Reaching it requires a listing name that is not a single path segment, which the Azure Files REST service does not normally return; the exposure was corrected on the same basis as the other remote-file consumers rather than from a demonstrated proof of concept against this scheme.\n\n\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.22.x releases stream should upgrade to 4.22.1. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. The 4.14.x stream reached end of life and does not receive this fix; users on it should move to a supported releases stream.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79986"
+    },
+    {
+      "id": "CVE-2026-78165",
+      "published": "2026-10-19T11:17:19.643",
+      "modified": "2026-10-19T17:17:21.880",
+      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Spring Redis component.\n\n\n\nThis issue affects Apache Camel: from 2.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nRedisConfiguration.getSerializer lazily built a bare JdkSerializationRedisSerializer whenever no serializer option was configured, and that instance was used for every read the component performs. Spring's implementation delegates through DeserializingConverter to DefaultDeserializer, which reads the bytes with a ConfigurableObjectInputStream and installs no java.io.ObjectInputFilter on the stream, so an arbitrary serialized class graph was materialised and its readObject method executed. RedisConsumer.setBody applied that serializer to the raw bytes of every message published to the subscribed channels, before the Exchange was constructed and therefore before any route logic could inspect the message, so an actor able to issue PUBLISH on a subscribed channel reached the deserialization sink directly. The same default serializer backed the RedisTemplate built by RedisConfiguration.createDefaultTemplate, so the producer read commands GET, HGET, HGETALL and HVALS deserialized whatever was stored in the Redis keyspace, and SpringRedisIdempotentRepository shared that template. Configuring a custom redisTemplate did not close the consumer path, because RedisConsumer.setBody reads getSerializer directly rather than the serializer attached to the template, so a deployment that had wired a String serializer into its own template remained exposed on the consumer side unless it also set the serializer option. The component never constructed a java.io.ObjectInputStream itself, which is why earlier passes over the Camel codebase for unfiltered Java deserialization did not reach it. The behaviour dates back to the introduction of the component, first released in 2.11.0, and was unchanged until this fix.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, set the JVM-wide jdk.serialFilter system property, which the affected code path honours because it reads through a java.io.ObjectInputStream, for example -Djdk.serialFilter=!java.net.**;java.**;javax.**;org.apache.camel.**;!* ; or set the serializer endpoint option to a serializer that does not use Java serialization, such as StringRedisSerializer, noting that this must be set as the serializer option and not only on a custom redisTemplate. As defence in depth, require authentication on the Redis instance and restrict which clients may publish to the subscribed channels, and do not expose a Redis instance consumed by Camel to untrusted networks.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
+    },
+    {
+      "id": "CVE-2026-66788",
+      "published": "2026-08-20T19:16:58.823",
+      "modified": "2026-10-19T17:17:21.607",
+      "description": "A flaw was found in Lighthouse. A remote attacker, by compromising a spoke cluster, can exploit a vulnerability where the destination namespace for resource injection is derived from an attacker-controlled label or annotation on the broker object. This allows the attacker to inject unauthorized EndpointSlices and ServiceImports into any namespace on peer clusters, including critical system namespaces like kube-system and openshift-*. This could lead to privilege escalation or other forms of system compromise within the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66788"
+    },
+    {
+      "id": "CVE-2026-66787",
+      "published": "2026-08-20T19:16:58.637",
+      "modified": "2026-10-19T17:17:21.453",
+      "description": "A flaw was found in the lighthouse component of Red Hat Advanced Cluster Management for Kubernetes. This vulnerability stems from insufficient validation of advertised IP addresses within EndpointSlice objects. A compromised spoke cluster can exploit this by creating EndpointSlices with attacker-controlled IP addresses, causing other clusters' lighthouse DNS to redirect legitimate service traffic to malicious endpoints. This enables a remote attacker to conduct transparent Man-in-the-Middle (MITM) attacks on cross-cluster service communications, potentially leading to unauthorized information disclosure and data manipulation.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66787"
+    },
+    {
+      "id": "CVE-2026-66783",
+      "published": "2026-08-18T17:17:00.840",
+      "modified": "2026-10-19T17:17:21.320",
+      "description": "A flaw was found in the `submariner-operator` component of Red Hat Advanced Cluster Management for Kubernetes. This vulnerability allows a cluster administrator, or any user with permissions to modify the Submariner Custom Resource (CR), to specify an unvalidated image path. This lack of validation enables an attacker to execute arbitrary code with elevated privileges across the entire cluster, including control-plane nodes, by deploying a malicious image.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66783"
+    },
     {
       "id": "CVE-2026-112153",
       "published": "2026-10-19T16:17:05.567",
-      "modified": "2026-10-19T16:17:05.567",
+      "modified": "2026-10-19T17:17:13.633",
       "description": "A vulnerability was detected in vraj404 Criminal-Management-System up to 2808d057e7ddc5295519a487365b0cacfd0ba8c4. This affects the function mysqli_error of the file Officers/addOfficer.php of the component Officer Registration Form. Performing a manipulation of the argument offName/offID/ID/contact/gender/weapon/role results in sql injection. It is possible to initiate the attack remotely. The exploit is now public and may be used. This product is using a rolling release to provide continious delivery. Therefore, no version details for affected nor updated releases are available. The project was informed of the problem early through an issue report but has not responded yet.",
       "vendors": [
         "Microsoft"
@@ -26,7 +234,7 @@
     {
       "id": "CVE-2026-112152",
       "published": "2026-10-19T16:17:05.403",
-      "modified": "2026-10-19T16:17:05.403",
+      "modified": "2026-10-19T17:17:13.500",
       "description": "A security vulnerability has been detected in vraj404 Criminal-Management-System up to 2808d057e7ddc5295519a487365b0cacfd0ba8c4. Affected by this issue is the function mysqli_query of the file Officers/searchOff.php of the component Search Page. Such manipulation of the argument Search leads to sql injection. The attack may be performed from remote. The exploit has been disclosed publicly and may be used. This product utilizes a rolling release system for continuous delivery, and as such, version information for affected or updated releases is not disclosed. The project was informed of the problem early through an issue report but has not responded yet.",
       "vendors": [
         "Microsoft"
@@ -42,6 +250,468 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112152"
+    },
+    {
+      "id": "CVE-2026-112051",
+      "published": "2026-10-18T13:16:37.190",
+      "modified": "2026-10-19T17:17:09.823",
+      "description": "Xinference through 4.0.1 contains a path traversal vulnerability on Windows that allows unauthenticated attackers to write and delete arbitrary .json files via backslash sequences in model_name. Attackers can register a persisted custom model through POST /v1/model_registrations/{model_type} with names like ..\\..\\evil to overwrite configuration or data files writable by the Xinference process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112051"
+    },
+    {
+      "id": "CVE-2026-111934",
+      "published": "2026-10-17T19:16:36.497",
+      "modified": "2026-10-19T17:17:06.337",
+      "description": "Coder before 2.34.7 contains an IP spoofing vulnerability in the ExtractRealIPAddress middleware that trusts the leftmost, client-supplied X-Forwarded-For value instead of the client IP appended by a reverse proxy. Attackers can send forged X-Forwarded-For values through appending proxies to bypass per-IP rate limits on login, one-time passcode, and password validation endpoints, enabling brute-force attacks, and to falsify IP addresses recorded in audit logs.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111934"
+    },
+    {
+      "id": "CVE-2026-111923",
+      "published": "2026-10-17T19:16:35.117",
+      "modified": "2026-10-19T17:17:06.083",
+      "description": "Fleet before 4.89.0 contains an unbounded recursion vulnerability in Apple MDM enrollment property list parsing that allows unauthenticated attackers to crash the server. Attackers can send a crafted binary plist payload of about 150 bytes to the enrollment endpoints, triggering exponential allocation or infinite recursion that exhausts CPU and memory.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111923"
+    },
+    {
+      "id": "CVE-2025-7043",
+      "published": "2026-10-19T17:16:59.993",
+      "modified": "2026-10-19T17:16:59.993",
+      "description": "The ForgeRock client fails to correctly validate refresh tokens. This allows a refresh token to be treated as a valid access token, enabling its use for consuming protected resources. This bypasses the intended security control that requires valid client credentials in addition to a refresh token to obtain a new access token.\n\nAn attacker who obtains a stolen or exposed refresh token can leverage this vulnerability to directly access protected resources. This is possible because the standard security flow requiring client credentials to exchange a refresh token for an access token is circumvented.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7043"
+    },
+    {
+      "id": "CVE-2025-23368",
+      "published": "2025-03-04T16:15:39.270",
+      "modified": "2026-10-19T17:16:59.560",
+      "description": "A flaw was found in Wildfly Elytron integration. The component does not implement sufficient measures to prevent multiple failed authentication attempts within a short time frame, making it more susceptible to brute force attacks via CLI.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "wildfly core",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:wildfly_core:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "data grid",
+          "version": "8.0",
+          "cpe": "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "7.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "jboss enterprise application platform",
+          "version": "8.0.0",
+          "cpe": "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:wildfly_core:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:data_grid:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:7.0.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:jboss_enterprise_application_platform:8.0.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-23368"
+    },
+    {
+      "id": "CVE-2025-50234",
+      "published": "2025-08-06T15:15:32.167",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "MCCMS v2.7.0 has an SSRF vulnerability located in the index() method of the sys\\apps\\controllers\\api\\Gf.php file, where the pic parameter is processed. The pic parameter is decrypted using the sys_auth($pic, 1) function, which utilizes a hard-coded key Mc_Encryption_Key (bD2voYwPpNuJ7B8), defined in the db.php file. The decrypted URL is passed to the geturl() method, which uses cURL to make a request to the URL without proper security checks. An attacker can craft a malicious encrypted pic parameter, which, when decrypted, points to internal addresses or local file paths (such as http://127.0.0.1 or file://). By using the file:// protocol, the attacker can access arbitrary files on the local file system (e.g., file:///etc/passwd, file:///C:/Windows/System32/drivers/etc/hosts), allowing them to read sensitive configuration files, log files, and more, leading to information leakage or system exposure. The danger of this SSRF vulnerability includes accessing internal services and local file systems through protocols like http://, ftp://, and file://, which can result in sensitive data leakage, remote code execution, privilege escalation, or full system compromise, severely affecting the system's security and stability.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:chshcms:mccms:2.7:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-50234"
+    },
+    {
+      "id": "CVE-2025-9604",
+      "published": "2025-08-29T02:15:32.730",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "A vulnerability was identified in coze-studio up to 0.2.4. The impacted element is an unknown function of the file backend/domain/plugin/encrypt/aes.go. The manipulation of the argument AuthSecretKey/StateSecretKey/OAuthTokenSecretKey leads to use of hard-coded cryptographic key\r . It is possible to initiate the attack remotely. The attack is considered to have high complexity. The exploitability is regarded as difficult. To fix this issue, it is recommended to deploy a patch. The vendor replied to the GitHub issue (translated from simplified Chinese): \"For scenarios requiring encryption, we will implement user-defined key management through configuration and optimize the use of encryption tools, such as random salt.\"",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9604"
+    },
+    {
+      "id": "CVE-2025-47909",
+      "published": "2025-08-29T16:15:35.990",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Hosts listed in TrustedOrigins implicitly allow requests from the corresponding HTTP origins, allowing network MitMs to perform CSRF attacks. After the CVE-2025-24358 fix, a network attacker that places a form at http://example.com can't get it to submit to https://example.com because the Origin header is checked with sameOrigin against a synthetic URL. However, if a host is added to TrustedOrigins, both its HTTP and HTTPS origins will be allowed, because the schema of the synthetic URL is ignored and only the host is checked. For example, if an application is hosted on https://example.com and adds example.net to TrustedOrigins, a network attacker can serve a form at http://example.net to perform the attack. Applications should migrate to net/http.CrossOriginProtection, introduced in Go 1.25. If that is not an option, a backport is available as a module at filippo.io/csrf, and a drop-in replacement for the github.com/gorilla/csrf API is available at filippo.io/csrf/gorilla.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-47909"
+    },
+    {
+      "id": "CVE-2025-58163",
+      "published": "2025-09-03T02:15:37.193",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "FreeScout is a free help desk and shared inbox built with PHP's Laravel framework. Versions 1.8.185 and earlier contain a deserialization of untrusted data vulnerability that allows authenticated attackers with knowledge of the application's APP_KEY to achieve remote code execution. The vulnerability is exploited via endpoint, e.g.: `/help/{mailbox_id}/auth/{customer_id}/{hash}/{timestamp}` where the `customer_id` and `timestamp` parameters are processed through the decrypt function in `app/Helper.php` without proper validation. The code decrypts using Laravel's built-in encryption functions, which subsequently deserialize the decrypted payload without sanitization, allowing attackers to craft malicious serialized PHP objects using classes to trigger arbitrary command execution. This is fixed in version 1.8.186.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:freescout:freescout:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58163"
+    },
+    {
+      "id": "CVE-2025-9823",
+      "published": "2025-09-03T15:15:49.247",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "SummaryA Cross-Site Scripting (XSS) vulnerability allows an attacker to execute arbitrary JavaScript in the context of another user’s session. This occurs because user-supplied input is reflected back in the server’s response without proper sanitization or escaping, potentially enabling malicious actions such as session hijacking, credential theft, or unauthorized actions in the application.\n\nDetailsThe vulnerability resides in the “Tags” input field on the /s/ajax?action=lead:addLeadTags endpoint. Although the server applies sanitization before storing the data or returning it later, the payload is executed immediately in the victim’s browser upon reflection, allowing an attacker to run arbitrary JavaScript in the user’s session.\n\nImpactA Reflected XSS attack can have a significant impact, allowing attackers to steal sensitive user data like cookies, redirect users to malicious websites, manipulate the web page content, and essentially take control of a user's session within an application by executing malicious JavaScript code within the victim's browser, even if the server-side code is secure; essentially enabling them to perform actions as if they were the logged-in user.\n\nReferences  *   Web Security Academy: Cross-site scripting https://portswigger.net/web-security/cross-site-scripting \n  *   Web Security Academy: Reflected cross-site scripting https://portswigger.net/web-security/cross-site-scripting/reflected",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-9823"
+    },
+    {
+      "id": "CVE-2025-59042",
+      "published": "2025-09-09T23:15:37.403",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "PyInstaller bundles a Python application and all its dependencies into a single package. Due to a special entry being appended to `sys.path` during the bootstrap process of a PyInstaller-frozen application, and due to the bootstrap script attempting to load an optional module for bytecode decryption while this entry is still present in `sys.path`, an application built with PyInstaller < 6.0.0 may be tricked by an unprivileged attacker into executing arbitrary python code when **all** of the following conditions are met. First, the application is built with PyInstaller < 6.0.0; both onedir and onefile mode are affected. Second, the optional bytecode encryption code feature was not enabled during the application build. Third, the attacker can create files/directories in the same directory where the executable is located. Fourth, the filesystem supports creation of files/directories that contain `?` in their name (i.e., non-Windows systems). Fifth, the attacker is able to determine the offset at which the PYZ archive is embedded in the executable. The attacker can create a directory (or a zip archive) next to the executable, with the name that matches the format used by PyInstaller's bootloader to transmit information about the location of PYZ archive to the bootstrap script. If this directory (or zip archive) contains a python module whose name matches the name used by the optional bytecode encryption feature, this module will be loaded and executed by the bootstrap script (in the absence of the real, built-in module that is available when the bytecode-encryption feature is enabled). This results in arbitrary code execution that requires no modification of the executable itself. If the executable is running with elevated privileges (for example, due to having the `setuid` bit set), the code in the injected module is also executed with the said elevated privileges, resulting in a local privilege escalation. PyInstaller 6.0.0 (f5adf291c8b832d5aff7632844f7e3ddf7ad4923) removed support for bytecode encryption; this effectively removes the described attack vector, due to the bootstrap script not attempting to load the optional module for bytecode-decryption anymore. PyInstaller 6.10.0 (cfd60b510f95f92cb81fc42735c399bb781a4739) reworked the bootstrap process to avoid (ab)using `sys.path` for transmitting location of the PYZ archive, which further eliminates the possibility of described injection procedure. If upgrading PyInstaller is not feasible, this issue can be worked around by ensuring proper permissions on directories containing security-sensitive executables (i.e., executables with `setuid` bit set) should mitigate the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59042"
+    },
+    {
+      "id": "CVE-2025-59044",
+      "published": "2025-09-09T23:15:37.583",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Himmelblau is an interoperability suite for Microsoft Azure Entra ID and Intune. Himmelblau 0.9.x derives numeric GIDs for Entra ID groups from the group display name when himmelblau.conf `id_attr_map = name` (the default configuration). Because Microsoft Entra ID allows multiple groups with the same `displayName` (including end-user–created personal/O365 groups, depending on tenant policy), distinct directory groups can collapse to the same numeric GID on Linux. This issue only applies to Himmelblau versions 0.9.0 through 0.9.22. Any resource or service on a Himmelblau-joined host that enforces authorization by numeric GID (files/dirs, etc.) can be unintentionally accessible to a user who creates or joins a different Entra/O365 group that happens to share the same `displayName` as a privileged security group. Users should upgrade to 0.9.23, or 1.0.0 or later, to receive a patch. Group to GID mapping now uses Entra ID object IDs (GUIDs) and does not collide on same-name groups. As a workaround, use tenant policy hardening to restrict arbitrary group creation until all hosts are patched.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59044"
+    },
+    {
+      "id": "CVE-2025-10213",
+      "published": "2025-09-10T12:15:31.250",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "DLL search path hijacking vulnerability in the UPDF.exe executable for Windows version 1.8.5.0 allows attackers with local access to execute arbitrary code by placing a dxtn.dll file of their choice in the 'C:\\Users\\<user>\\AppData\\Local\\Microsoft\\WindowsApps\\' directory, which could lead to arbitrary code execution and persistence.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:updf:updf:1.8.5.0:*:*:*:*:windows:*:*"
+      ],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10213"
+    },
+    {
+      "id": "CVE-2025-58754",
+      "published": "2025-09-12T02:15:46.873",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Axios is a promise based HTTP client for the browser and Node.js. When Axios starting in version 0.28.0 and prior to versions 0.30.2 and 1.12.0 runs on Node.js and is given a URL with the `data:` scheme, it does not perform HTTP. Instead, its Node http adapter decodes the entire payload into memory (`Buffer`/`Blob`) and returns a synthetic 200 response. This path ignores `maxContentLength` / `maxBodyLength` (which only protect HTTP responses), so an attacker can supply a very large `data:` URI and cause the process to allocate unbounded memory and crash (DoS), even if the caller requested `responseType: 'stream'`. Versions 0.30.2 and 1.12.0 contain a patch for the issue.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:axios:axios:*:*:*:*:*:node.js:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58754"
+    },
+    {
+      "id": "CVE-2025-27233",
+      "published": "2025-09-12T11:15:31.237",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Zabbix Agent 2 smartctl plugin does not properly sanitize smart.disk.get parameters, allowing an attacker to inject unexpected arguments into the smartctl command. This can be used to leak the NTLMv2 hash from a Windows system.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:A/AC:H/AT:P/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27233"
+    },
+    {
+      "id": "CVE-2025-59050",
+      "published": "2025-09-16T17:15:41.433",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Greenshot is an open source Windows screenshot utility. Greenshot 1.3.300 and earlier deserializes attacker-controlled data received in a WM_COPYDATA message using BinaryFormatter.Deserialize without prior validation or authentication, allowing a local process at the same integrity level to trigger arbitrary code execution inside the Greenshot process. The vulnerable logic resides in a WinForms WndProc handler for WM_COPYDATA (message 74) that copies the supplied bytes into a MemoryStream and invokes BinaryFormatter.Deserialize, and only afterward checks whether the specified channel is authorized. Because the authorization check occurs after deserialization, any gadget chain embedded in the serialized payload executes regardless of channel membership. A local attacker who can send WM_COPYDATA to the Greenshot main window can achieve in-process code execution, which may aid evasion of application control policies by running payloads within the trusted, signed Greenshot.exe process. This issue is fixed in version 1.3.301. No known workarounds exist.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:getgreenshot:greenshot:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59050"
+    },
+    {
+      "id": "CVE-2025-61588",
+      "published": "2025-10-02T00:15:49.890",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "RISC Zero is a zero-knowledge verifiable general computing platform based on zk-STARKs and the RISC-V microarchitecture. In versions 2.0.2 and below of risc0-zkvm-platform, when the zkVM guest calls sys_read, the host is able to use a crafted response to write to an arbitrary memory location in the guest. This capability can be leveraged to execute arbitrary code within the guest. As sys_read is the mechanism by which input is requested by the guest, all guest programs built with the affected versions are vulnerable. This critically compromises the soundness guarantees of the guest program. Other affected packages include risc0-aggregation versions below 0.9,  risc0-zkos-v1compat below 2.1.0, risc0-zkvm versions between 3.0.0-rc.1 and 3.0.1. This issue has been fixed in the following versions: risc0-zkvm-platform 2.1.0, risc0-zkos-v1compat 2.1.0, risc0-aggregation 0.9, and risc0-zkvm 2.3.2 and 3.0.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61588"
+    },
+    {
+      "id": "CVE-2025-61666",
+      "published": "2025-10-02T22:15:38.240",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Traccar is an open source GPS tracking system. Default installs of Traccar on Windows between versions 6.1-  6.8.1 and non default installs between versions 5.8 - 6.0 are vulnerable to unauthenticated local file inclusion attacks which can lead to leakage of passwords or any file on the file system including the Traccar configuration file. Versions 5.8 - 6.0 are only vulnerable if <entry key='web.override'>./override</entry> is set in the configuration file. Versions 6.1 - 6.8.1 are vulnerable by default as the web override is enabled by default. The vulnerable code is removed in version 6.9.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61666"
+    },
+    {
+      "id": "CVE-2025-27237",
+      "published": "2025-10-03T12:15:43.930",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "In Zabbix Agent and Agent 2 on Windows, the OpenSSL configuration file is loaded from a path writable by low-privileged users, allowing malicious modification and potential local privilege escalation by injecting a DLL.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27237"
+    },
+    {
+      "id": "CVE-2025-61590",
+      "published": "2025-10-03T17:15:47.690",
+      "modified": "2026-10-19T17:10:00.173",
+      "description": "Cursor is a code editor built for programming with AI. Versions 1.6 and below are vulnerable to Remote Code Execution (RCE) attacks through Visual Studio Code Workspaces. Workspaces allow users to open more than a single folder and save specific settings (pretty similar to .vscode/settings.json) for the folders / project. An untitled workspace is automatically created by VS Code (untitled.code-workspace), which contains all the folders and workspace settings from the user's current session, opening up an entire new attack vector if the user has a .code-workspace file in path (either untitled created automatically or a saved one). If an attacker is able to hijack the chat context of the victim (such as via a compromised MCP server), they can use prompt injection to make the Cursor Agent write into this file and modify the workspace. This leads to a bypass of CVE-2025-54130 which can lead to RCE by writing to the settings section. This issue is fixed in version 1.7.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:anysphere:cursor:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61590"
     },
     {
       "id": "CVE-2026-107571",
@@ -5077,66 +5747,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24051"
     },
     {
-      "id": "CVE-2026-85296",
-      "published": "2026-10-19T11:17:24.000",
-      "modified": "2026-10-19T11:17:24.000",
-      "description": "Exposure of Data Element to Wrong Session vulnerability in Apache Camel AS2 component.\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\nSigning material belonging to an individual request was stored in state that is shared across requests rather than confined to the request being processed. Where a deployment serves more than one trading partner, concurrent or successive requests could therefore observe each other's material, and a Message Disposition Notification could be signed with the key of a partner other than the one the receipt was for. The result is cross-partner key confusion: a receipt attributable to the wrong partner, and one partner's signing material used while handling another partner's exchange. AS2 deployments are typically multi-partner by design, so the condition is reached by ordinary concurrent traffic rather than by anything the attacker must arrange.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. Per-request signing keys are now confined to the request being processed in ResponseMDN. For deployments that cannot upgrade immediately, run a separate Camel context per trading partner so that no signing material is shared between them.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85296"
-    },
-    {
-      "id": "CVE-2026-85249",
-      "published": "2026-10-19T11:17:23.117",
-      "modified": "2026-10-19T11:17:23.117",
-      "description": "Improper Input Validation vulnerability in Apache Camel Tika component.\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\nThe Tika producer mapped every metadata key parsed out of the submitted document onto the Exchange as a header, with no filter applied. Document metadata is attacker-controlled content: the party that supplies the file chooses the metadata keys it carries. A crafted document could therefore set Exchange headers that the rest of the route depends on, including headers in the Camel namespace such as CamelFileName, which downstream components use to decide where content is written. The pattern is the same header-injection class as the consumer advisories published previously, reached here through parsed file content rather than through a protocol header.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. Parsed document metadata is now filtered through a HeaderFilterStrategy before it is mapped onto the Exchange. A route that was reading a metadata-derived header the filter now blocks will see it missing. For deployments that cannot upgrade immediately, strip the Camel namespace after the Tika producer with removeHeaders(\"Camel*\") before any component that acts on those headers.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85249"
-    },
-    {
-      "id": "CVE-2026-85248",
-      "published": "2026-10-19T11:17:22.970",
-      "modified": "2026-10-19T11:17:22.970",
-      "description": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition') vulnerability in Apache Camel PQC component.\n\nThis issue affects Apache Camel: from 4.12.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\n\nThe producer held a single java.security.Signature instance and used it for every exchange without synchronizing access. Signature is stateful and is not thread safe: update() accumulates the data to be signed or verified, and verify() consumes that accumulated state. With concurrent exchanges sharing one instance the update and verify calls of different messages interleave, so a verification can complete against data that belongs to another exchange, or against a partially accumulated buffer. The outcome is non-deterministic and includes a verification reporting success for a message whose signature was never actually checked, which defeats the guarantee the component exists to provide. Reaching it requires concurrent traffic through the same endpoint, which is the ordinary condition for a Camel route under load.\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. The Signature instance is no longer shared across concurrent exchanges. For deployments that cannot upgrade immediately, restrict the affected route to a single concurrent consumer so that no two exchanges use the instance at once.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85248"
-    },
-    {
       "id": "CVE-2026-85246",
       "published": "2026-10-19T11:17:22.673",
       "modified": "2026-10-19T11:17:22.673",
@@ -5219,88 +5829,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84180"
-    },
-    {
-      "id": "CVE-2026-83531",
-      "published": "2026-10-19T11:17:21.507",
-      "modified": "2026-10-19T11:17:21.507",
-      "description": "Improper Control of Generation of Code ('Code Injection'), Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection') vulnerability in Apache Camel.\n\n\n\nThis issue affects Apache Camel: from 4.4.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe dynamic-router-control endpoint, introduced in 4.4.0, lets routing participants manage Dynamic Router subscriptions by sending control messages. When it handled a subscribe or update request, DynamicRouterControlProducer took the subscription predicate and the name of the language used to compile it from the incoming message, either from the predicate and expressionLanguage fields of a DynamicRouterControlMessage body or from the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers. DynamicRouterControlService then resolved that language from the CamelContext and compiled the expression into a Predicate, with no allow-list and no opt-in. The compiled predicate was added to the channel's rule base and evaluated against every exchange routed through the corresponding dynamic-router endpoint for as long as the subscription existed. A route that forwards messages from an external transport to the control endpoint, as shown in the component documentation for routing participants in other JVMs or applications, therefore let any actor able to send a message on that transport supply an expression of their choosing, which was evaluated with the privileges of the Camel process. Any expression language available on the classpath could be selected, including the simple language, which is always present and was the default on the header path, so removing optional expression languages from the classpath did not prevent the issue. Exploitation requires the ability to send a message on a transport whose route forwards it to a dynamic-router-control endpoint; no other authentication or user interaction is needed. Releases before 4.4.0 are not affected, because their control channel took predicate expressions only from the endpoint URI configured by the route author.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. After upgrading, a control message that carries a predicate expression or an expression language is rejected unless the new allowPredicateFromMessage option is enabled on the dynamic-router-control endpoint; enable it only when every sender of control messages is trusted. For deployments that cannot upgrade immediately, do not forward messages from untrusted or shared transports to a dynamic-router-control endpoint. Where control messages must cross such a transport, authenticate the sender and make sure the predicate and expression language of each subscription are set by the route rather than taken from the incoming message, for example by removing the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers and clearing the predicate and expressionLanguage fields of a DynamicRouterControlMessage before it reaches the endpoint. Removing optional expression languages from the classpath is not a sufficient workaround. As defence in depth, restrict who can send to the transports that feed the control endpoint, and on 4.23.0 and 4.22.1 set the allowedSchemes option of the dynamic-router endpoint to limit which endpoints a subscription's destinationUri may name.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83531"
-    },
-    {
-      "id": "CVE-2026-80312",
-      "published": "2026-10-19T11:17:21.073",
-      "modified": "2026-10-19T11:17:21.073",
-      "description": "Improper Authentication vulnerability in Apache Camel OAuth component.\n\n\n\nThis issue affects Apache Camel: from 4.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe camel-oauth processors that guard a route did not stop the exchange when authentication could not be completed. Where a failure to establish an authenticated session should have terminated routing and returned an error to the caller, the processors fell through and returned control to the route, so the request continued to the protected endpoint as though authentication had succeeded. The effect is a fail-open authentication guard: an unauthenticated caller reached whatever the route did next. The condition is reached on the ordinary request path of a route configured to require OAuth, and needs no special configuration or prior access on the caller's part.\n\n\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. Users on the 4.22.x LTS releases stream should upgrade to 4.22.1. The processors now stop the exchange and set the appropriate error status whenever an authenticated session cannot be established, so a failed authentication no longer reaches the protected part of the route. For deployments that cannot upgrade immediately, place an explicit authorization check after the OAuth processor rather than relying on it to halt the exchange, and verify that the route stops on failure.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80312"
-    },
-    {
-      "id": "CVE-2026-79986",
-      "published": "2026-10-19T11:17:20.860",
-      "modified": "2026-10-19T11:17:20.860",
-      "description": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in Apache Camel Azure Files component.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe Camel remote-file consumers poll a directory on a remote server and build the absolute remote path of each file by concatenating the configured directory with the file name reported in the server's directory listing. That concatenation (FtpUtils.absoluteFilePath and GenericFileConsumer) applied no lexical normalization and no check that the result stayed inside the directory being polled, and the resulting path became the operand for every subsequent remote operation on the file: retrieval (FtpOperations.retrieveFile / SftpOperations, reached from GenericFileConsumer where the retrieve name is taken verbatim from GenericFile.getAbsoluteFilePath), deletion when delete=true (GenericFileDeleteProcessStrategy), and renaming when move, preMove, moveFailed or readLock=rename is configured (GenericFileProcessStrategySupport and GenericFileRenameExclusiveReadLockStrategy). Neither isValidFile nor isMatched performed any containment check. A listing entry that is not a single path segment therefore resolved to a path outside the configured polling directory, causing Camel to read, delete or rename files outside it using the endpoint's own credentials. A listing name is not route-controlled data. It is supplied by the remote server, and the FTP control channel carries no integrity protection at all, so an on-path attacker can rewrite a LIST response without holding any credentials; a compromised, malicious or multi-tenant server, or a server backed by a virtual filesystem, can emit such a name directly. Retrieval is reachable in a default consumer configuration, since the remote consumers download every listed file; deletion and renaming additionally require one of the disposition options above, all of which are common. Escape from the directory Camel was configured to poll is unconditional, while escape from the server's own account boundary additionally depends on whether that server confines the account. The jailStartingDirectory option, which is documented as restricting Camel to the starting directory and is enabled by default, governed producer writes and, since the localWorkDirectory containment work, consumer downloads to the local work directory - but it did not constrain this remote operand, so its name and description claimed a boundary that was not enforced here. The same entry point had already been recognised on the local side: the localWorkDirectory download path was constrained so that a remote file name containing parent-directory segments could not resolve outside the local work directory. The remote operand was the remaining half of that surface. This artifact provides the azure-files scheme. Its consumer derives from the same RemoteFileConsumer base class and composed the remote path through a plain concatenation helper, so it inherited the same unconstrained resolution. Reaching it requires a listing name that is not a single path segment, which the Azure Files REST service does not normally return; the exposure was corrected on the same basis as the other remote-file consumers rather than from a demonstrated proof of concept against this scheme.\n\n\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.22.x releases stream should upgrade to 4.22.1. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. The 4.14.x stream reached end of life and does not receive this fix; users on it should move to a supported releases stream.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79986"
-    },
-    {
-      "id": "CVE-2026-78165",
-      "published": "2026-10-19T11:17:19.643",
-      "modified": "2026-10-19T11:17:19.643",
-      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Spring Redis component.\n\n\n\nThis issue affects Apache Camel: from 2.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nRedisConfiguration.getSerializer lazily built a bare JdkSerializationRedisSerializer whenever no serializer option was configured, and that instance was used for every read the component performs. Spring's implementation delegates through DeserializingConverter to DefaultDeserializer, which reads the bytes with a ConfigurableObjectInputStream and installs no java.io.ObjectInputFilter on the stream, so an arbitrary serialized class graph was materialised and its readObject method executed. RedisConsumer.setBody applied that serializer to the raw bytes of every message published to the subscribed channels, before the Exchange was constructed and therefore before any route logic could inspect the message, so an actor able to issue PUBLISH on a subscribed channel reached the deserialization sink directly. The same default serializer backed the RedisTemplate built by RedisConfiguration.createDefaultTemplate, so the producer read commands GET, HGET, HGETALL and HVALS deserialized whatever was stored in the Redis keyspace, and SpringRedisIdempotentRepository shared that template. Configuring a custom redisTemplate did not close the consumer path, because RedisConsumer.setBody reads getSerializer directly rather than the serializer attached to the template, so a deployment that had wired a String serializer into its own template remained exposed on the consumer side unless it also set the serializer option. The component never constructed a java.io.ObjectInputStream itself, which is why earlier passes over the Camel codebase for unfiltered Java deserialization did not reach it. The behaviour dates back to the introduction of the component, first released in 2.11.0, and was unchanged until this fix.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, set the JVM-wide jdk.serialFilter system property, which the affected code path honours because it reads through a java.io.ObjectInputStream, for example -Djdk.serialFilter=!java.net.**;java.**;javax.**;org.apache.camel.**;!* ; or set the serializer endpoint option to a serializer that does not use Java serialization, such as StringRedisSerializer, noting that this must be set as the serializer option and not only on a custom redisTemplate. As defence in depth, require authentication on the Redis instance and restrict which clients may publish to the subscribed channels, and do not expose a Redis instance consumed by Camel to untrusted networks.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
     },
     {
       "id": "CVE-2026-78163",
@@ -24046,52 +24574,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64777"
     },
     {
-      "id": "CVE-2026-66787",
-      "published": "2026-08-20T19:16:58.637",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A flaw was found in the lighthouse component of Red Hat Advanced Cluster Management for Kubernetes. This vulnerability stems from insufficient validation of advertised IP addresses within EndpointSlice objects. A compromised spoke cluster can exploit this by creating EndpointSlices with attacker-controlled IP addresses, causing other clusters' lighthouse DNS to redirect legitimate service traffic to malicious endpoints. This enables a remote attacker to conduct transparent Man-in-the-Middle (MITM) attacks on cross-cluster service communications, potentially leading to unauthorized information disclosure and data manipulation.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66787"
-    },
-    {
-      "id": "CVE-2026-66788",
-      "published": "2026-08-20T19:16:58.823",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A flaw was found in Lighthouse. A remote attacker, by compromising a spoke cluster, can exploit a vulnerability where the destination namespace for resource injection is derived from an attacker-controlled label or annotation on the broker object. This allows the attacker to inject unauthorized EndpointSlices and ServiceImports into any namespace on peer clusters, including critical system namespaces like kube-system and openshift-*. This could lead to privilege escalation or other forms of system compromise within the cluster.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION",
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66788"
-    },
-    {
       "id": "CVE-2026-43798",
       "published": "2026-08-20T21:17:06.580",
       "modified": "2026-10-18T20:10:00.110",
@@ -25226,26 +25708,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40295"
     },
     {
-      "id": "CVE-2026-112051",
-      "published": "2026-10-18T13:16:37.190",
-      "modified": "2026-10-18T13:16:37.190",
-      "description": "Xinference through 4.0.1 contains a path traversal vulnerability on Windows that allows unauthenticated attackers to write and delete arbitrary .json files via backslash sequences in model_name. Attackers can register a persisted custom model through POST /v1/model_registrations/{model_type} with names like ..\\..\\evil to overwrite configuration or data files writable by the Xinference process.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112051"
-    },
-    {
       "id": "CVE-2026-112000",
       "published": "2026-10-18T12:17:12.007",
       "modified": "2026-10-18T12:17:12.007",
@@ -25396,46 +25858,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96658"
-    },
-    {
-      "id": "CVE-2026-111934",
-      "published": "2026-10-17T19:16:36.497",
-      "modified": "2026-10-17T19:16:36.497",
-      "description": "Coder before 2.34.7 contains an IP spoofing vulnerability in the ExtractRealIPAddress middleware that trusts the leftmost, client-supplied X-Forwarded-For value instead of the client IP appended by a reverse proxy. Attackers can send forged X-Forwarded-For values through appending proxies to bypass per-IP rate limits on login, one-time passcode, and password validation endpoints, enabling brute-force attacks, and to falsify IP addresses recorded in audit logs.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111934"
-    },
-    {
-      "id": "CVE-2026-111923",
-      "published": "2026-10-17T19:16:35.117",
-      "modified": "2026-10-17T19:16:35.117",
-      "description": "Fleet before 4.89.0 contains an unbounded recursion vulnerability in Apple MDM enrollment property list parsing that allows unauthenticated attackers to crash the server. Attackers can send a crafted binary plist payload of about 150 bytes to the enrollment endpoints, triggering exponential allocation or infinite recursion that exhausts CPU and memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111923"
     },
     {
       "id": "CVE-2026-88127",
@@ -41957,1889 +42379,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69918"
-    },
-    {
-      "id": "CVE-2026-69916",
-      "published": "2026-10-13T19:19:02.873",
-      "modified": "2026-10-16T18:12:23.370",
-      "description": "Integer overflow or wraparound in Windows NTFS allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69916"
-    },
-    {
-      "id": "CVE-2026-69915",
-      "published": "2026-10-13T19:19:02.713",
-      "modified": "2026-10-16T18:11:54.700",
-      "description": "Use after free in Windows NTFS allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69915"
-    },
-    {
-      "id": "CVE-2026-107938",
-      "published": "2026-10-09T11:17:02.213",
-      "modified": "2026-10-16T18:11:30.290",
-      "description": "In Apache CXF, the Netty-based HTTP client transport (cxf-rt-transports-http-netty-client) did not verify that the hostname in the server’s TLS certificate matched the host being called. This applied over both HTTP/1.1 and HTTP/2, even when disableCNCheck was left at its default value of false. The certificate chain was validated against the configured trust store, but the endpoint’s identity was not. A network attacker able to intercept traffic could present any certificate trusted by the client, such as a publicly issued certificate for a domain they control, and impersonate the target service. They could then read or modify the exchanged messages, including credentials. \nUsers are recommended to upgrade to versions 4.2.4 or 4.1.9 or 3.6.13, which fix this issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:apache:cxf:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107938"
-    },
-    {
-      "id": "CVE-2026-69914",
-      "published": "2026-10-13T19:19:02.553",
-      "modified": "2026-10-16T18:10:30.867",
-      "description": "Out-of-bounds read in Windows AppX Deployment Service allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69914"
-    },
-    {
-      "id": "CVE-2026-85795",
-      "published": "2026-10-13T19:21:03.087",
-      "modified": "2026-10-16T18:10:05.550",
-      "description": "Use after free in Windows Text Services Framework allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85795"
-    },
-    {
-      "id": "CVE-2026-69913",
-      "published": "2026-10-13T19:19:02.343",
-      "modified": "2026-10-16T18:10:00.323",
-      "description": "Use after free in Windows TCP/IP allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69913"
-    },
-    {
-      "id": "CVE-2026-85748",
-      "published": "2026-10-16T17:17:51.303",
-      "modified": "2026-10-16T18:09:12.750",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 12.3.1 until 12.3.3 and 13.0.2, SYS_REFCURSOR handling is affected because cursor-array reallocation can leave stale references in routine contexts. A low-privileged attacker can open a large number of SYS_REFCURSORs and then fetch one to trigger a use-after-free that can enable remote code execution when combined with another vulnerability. This issue is fixed in versions 12.3.3 and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85748"
-    },
-    {
-      "id": "CVE-2026-92262",
-      "published": "2026-10-16T17:17:52.710",
-      "modified": "2026-10-16T18:09:12.750",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the #mysql50# bypass prefix is affected because it allows the #mysql50# prefix to bypass normal table-name filesystem encoding. An attacker can trigger the issue with a table name using the #mysql50# prefix, then use a #mysql50# table name to access files under their legacy unencoded name and cause crashes, data corruption, data exfiltration, or remote code execution. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92262"
-    },
-    {
-      "id": "CVE-2026-97380",
-      "published": "2026-10-16T17:18:02.013",
-      "modified": "2026-10-16T18:09:12.750",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 10.6.1 until 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, the GRANT PROXY statement treats an IDENTIFIED clause with an empty password as though authentication were not specified, causing it to check the wrong grantor privileges. A low-privileged attacker who can name another account can exploit this authorization error to set that account's password. This issue is fixed in versions 10.6.28, 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97380"
-    },
-    {
-      "id": "CVE-2026-85796",
-      "published": "2026-10-13T19:21:03.267",
-      "modified": "2026-10-16T18:08:57.073",
-      "description": "Numeric truncation error in Windows Installer allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85796"
-    },
-    {
-      "id": "CVE-2026-69905",
-      "published": "2026-10-13T19:19:02.007",
-      "modified": "2026-10-16T18:08:03.080",
-      "description": "Missing authorization in Windows AppX Deployment Service allows an authorized attacker to perform tampering locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69905"
-    },
-    {
-      "id": "CVE-2026-85797",
-      "published": "2026-10-13T19:21:03.447",
-      "modified": "2026-10-16T18:07:39.827",
-      "description": "Out-of-bounds read in Windows GDI allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85797"
-    },
-    {
-      "id": "CVE-2026-85332",
-      "published": "2026-10-13T19:20:55.717",
-      "modified": "2026-10-16T18:07:01.983",
-      "description": "Use after free in Windows Device Association Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85332"
-    },
-    {
-      "id": "CVE-2026-69909",
-      "published": "2026-10-13T19:19:02.160",
-      "modified": "2026-10-16T18:06:26.203",
-      "description": "Heap-based buffer overflow in Microsoft COM for Windows allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69909"
-    },
-    {
-      "id": "CVE-2026-85798",
-      "published": "2026-10-13T19:21:03.630",
-      "modified": "2026-10-16T18:06:04.450",
-      "description": "Heap-based buffer overflow in Windows Distributed File System (DFS) allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85798"
-    },
-    {
-      "id": "CVE-2026-85329",
-      "published": "2026-10-13T19:20:55.353",
-      "modified": "2026-10-16T18:05:28.897",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Microsoft Account allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85329"
-    },
-    {
-      "id": "CVE-2026-85328",
-      "published": "2026-10-13T19:20:54.223",
-      "modified": "2026-10-16T18:04:50.550",
-      "description": "Weak authentication in Windows Projected File System allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85328"
-    },
-    {
-      "id": "CVE-2026-85799",
-      "published": "2026-10-13T19:21:03.807",
-      "modified": "2026-10-16T18:04:46.387",
-      "description": "Use after free in Network Policy Server (NPS) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85799"
     }
   ],
   "kev": [
@@ -45594,11 +44133,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 90,
-    "high": 485,
-    "medium": 287,
+    "critical": 88,
+    "high": 483,
+    "medium": 291,
     "kev": 5,
-    "p1": 52,
-    "p2": 525
+    "p1": 49,
+    "p2": 524
   }
 }
