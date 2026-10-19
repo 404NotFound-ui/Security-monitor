@@ -1,6 +1,440 @@
 {
-  "updated": "2026-10-19T08:38:49.225881+00:00",
+  "updated": "2026-10-19T09:17:54.651458+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-89483",
+      "published": "2026-09-11T20:19:29.880",
+      "modified": "2026-10-19T09:17:41.727",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme: zero the discard fallback page\n\nnvme_setup_discard() always maps sizeof(struct nvme_dsm_range) *\nNVME_DSM_MAX_RANGES = 4096 bytes as the DSM payload however many ranges\nthe command declares, because some devices ignore the 'Number of Ranges'\nfield - the Fixes: commit records two that read past the declared ranges.\nA single-range discard fills only the first 16 bytes.\n\nNormally the buffer comes from kzalloc() and the other 4080 bytes are\nzero.  When that allocation fails the code falls back to the\nper-controller ctrl->discard_page, which nvme_init_ctrl() obtains with\nalloc_page(GFP_KERNEL) and nothing ever zeroes, so those 4080 bytes are\nwhatever the page last held and are handed to the controller.  Reaching\nit requires the kzalloc(GFP_ATOMIC | __GFP_NOWARN) to fail, that is\nmemory pressure; it is not remotely triggerable.  Failing the allocation\nunder KMSAN reproduces it, with the leaked tail full of vmemmap struct\npage pointers.  The extent in the report is a partial transfer of the\npayload, not the whole 4096 bytes; the 16-byte boundary in it is the one\ndeclared range:\n\n[   11.991601] BUG: KMSAN: uninit-value in dma_map_phys+0x14c8/0x1900\n[   11.991969]  dma_map_phys+0x14c8/0x1900\n[   11.992220]  dma_map_page_attrs+0xcf/0x130\n[   11.992485]  e1000_xmit_frame+0x4099/0x6d10\n[   11.992768]  dev_hard_start_xmit+0x22f/0xa80\n[   11.993068]  sch_direct_xmit+0x35c/0xcb0\n[   11.993315]  __dev_queue_xmit+0x1ee5/0x5eb0\n[   11.993608]  ip_finish_output2+0x1903/0x1c30\n[   11.993881]  ip_finish_output+0x288/0x870\n[   11.994125]  ip_output+0x15e/0x400\n[   11.994365]  __ip_queue_xmit+0x1e85/0x1fb0\n[   11.994639]  ip_queue_xmit+0x60/0x80\n[   11.994899]  __tcp_transmit_skb+0x4e71/0x5fa0\n[   11.995210]  tcp_write_xmit+0x3a36/0x9160\n[   11.995533]  __tcp_push_pending_frames+0xc5/0x3c0\n[   11.995854]  tcp_push+0x7dc/0x840\n[   11.996076]  tcp_sendmsg_locked+0x766c/0x8400\n[   11.996371]  tcp_sendmsg+0x4b/0x90\n[   11.996572]  inet_sendmsg+0x134/0x2a0\n[   11.996823]  __sock_sendmsg+0x265/0x360\n[   11.997076]  sock_sendmsg+0x100/0x1e0\n[   11.997293]  nvme_tcp_try_send+0x196f/0x6370\n[   11.997605]  nvme_tcp_queue_rq+0x1d54/0x20b0\n[   11.997882]  blk_mq_dispatch_rq_list+0x5ee/0x2e50\n[   11.998175]  __blk_mq_sched_dispatch_requests+0x16dc/0x24a0\n[   11.998539]  blk_mq_sched_dispatch_requests+0x11b/0x2c0\n[   11.998865]  blk_mq_run_work_fn+0x13b/0x280\n[   11.999146]  process_scheduled_works+0x966/0x1ad0\n[   11.999465]  worker_thread+0xe44/0x1480\n[   11.999709]  kthread+0x53b/0x600\n[   11.999927]  ret_from_fork+0x29f/0x7c0\n[   12.000191]  ret_from_fork_asm+0x1a/0x30\n[   12.000460]\n[   12.000558] Uninit was created at:\n[   12.000788]  __alloc_frozen_pages_noprof+0x8bf/0xd30\n[   12.001096]  alloc_pages_mpol+0x1d0/0x5f0\n[   12.001326]  alloc_pages_noprof+0x102/0x290\n[   12.001627]  nvme_init_ctrl+0x5a3/0x9f0\n[   12.001891]  nvme_tcp_create_ctrl+0xd75/0x19b0\n[   12.002170]  nvmf_dev_write+0x4c68/0x4fd0\n[   12.002426]  vfs_write+0x587/0x1a10\n[   12.002636]  __x64_sys_write+0x207/0x4f0\n[   12.002874]  x64_sys_call+0x2ff0/0x3ea0\n[   12.003123]  do_syscall_64+0x147/0x3b0\n[   12.003400]  entry_SYSCALL_64_after_hwframe+0x77/0x7f\n[   12.003680]\n[   12.003777] Bytes 16-2843 of 2844 are uninitialized\n[   12.004068] Memory access of size 2844 starts at ffff888109f82000\n[   12.004412]\n[   12.004530] CPU: 0 UID: 0 PID: 101 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMECTL-gf5098b6bae76 #1 PREEMPT(lazy)\n[   12.005127] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[   12.005762] Workqueue: kblockd blk_mq_run_work_fn\n[   12.006073] =====================================================\n\nAllocate the page with __GFP_ZERO.  The single allocation site covers\nevery use of it: bytes no discard has written stay zero, and bytes one\ndid write hold that controller's own range list, which it has already\nbeen sent.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89483"
+    },
+    {
+      "id": "CVE-2026-89482",
+      "published": "2026-09-11T20:19:29.730",
+      "modified": "2026-10-19T09:17:41.540",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme-tcp: do not accept C2HData based on blk_rq_payload_bytes() alone\n\nCommit 25e5cb780e62 (\"nvme-tcp: fix possible crash in write_zeroes\nprocessing\") established that blk_rq_payload_bytes() must not be read\nwithout first checking blk_rq_nr_phys_segments(), and recorded the\nresult in nvme_tcp_setup_cmd_pdu() as req->data_len. The receive side\nwas left as it was.\n\nThe two differ for REQ_OP_WRITE_ZEROES, which has no physical segments\nbut a non-zero blk_rq_bytes(), so setup leaves req->iter untouched\nwhile the receive gate lets a C2HData through and nvme_tcp_recv_data()\ncopies into whatever the previous command on that tag left there. The\ndriver-private area is zeroed only when the tag set is allocated.\n\nReproduced with a test target that leaves a residual iterator on a tag\nand then sends a C2HData for a WRITE_ZEROES command on the same tag:\n\nBUG: KASAN: wild-memory-access in _copy_to_iter+0x642/0x1330\nWrite of size 512 at addr ffe728c2175dfa81 by task kworker/0:1H/103\n\nCPU: 0 UID: 0 PID: 103 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMETCP-gf5098b6bae76 #1 PREEMPT(lazy)\nHardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nWorkqueue: nvme_tcp_wq nvme_tcp_io_work\nCall Trace:\n <TASK>\n dump_stack_lvl+0x53/0x70\n kasan_report+0xce/0x100\n ? _copy_to_iter+0x642/0x1330\n kasan_check_range+0x105/0x1b0\n __asan_memcpy+0x3c/0x60\n _copy_to_iter+0x642/0x1330\n ? __pfx_sock_has_perm+0x10/0x10\n ? worker_thread+0x45b/0xd10\n ? __pfx__copy_to_iter+0x10/0x10\n ? _raw_spin_lock_bh+0x83/0xe0\n ? __pfx__raw_spin_lock_bh+0x10/0x10\n __skb_datagram_iter+0xf3/0x820\n ? __pfx_simple_copy_to_iter+0x10/0x10\n ? __asan_memcpy+0x3c/0x60\n ? skb_copy_bits+0x58d/0x830\n skb_copy_datagram_iter+0x37/0x120\n nvme_tcp_recv_skb+0xa07/0x4320\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n __tcp_read_sock+0x1ab/0x810\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n ? __pfx_lock_sock_nested+0x10/0x10\n ? __pfx___tcp_read_sock+0x10/0x10\n nvme_tcp_try_recv+0x152/0x1e0\n ? __pfx_nvme_tcp_try_recv+0x10/0x10\n ? __pfx_mutex_unlock+0x10/0x10\n nvme_tcp_io_work+0x1e4/0x6c0\n ? __schedule+0x181a/0x49f0\n ? __pfx_nvme_tcp_io_work+0x10/0x10\n process_one_work+0x633/0x1030\n\nKeep the blk_rq_payload_bytes() test and add req->data_len to it. The\nold test is what rejects a C2HData naming a tag that is no longer in\nflight, because blk_update_request() zeroes rq->__data_len on\ncompletion; req->data_len and req->curr_bio are driver-private and\nsurvive completion, so they cannot stand in for it. Setup initialises\nthe iterator only when both req->curr_bio and req->data_len are set, so\nthe gate now tests the same two.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89482"
+    },
+    {
+      "id": "CVE-2026-89477",
+      "published": "2026-09-11T20:19:29.063",
+      "modified": "2026-10-19T09:17:40.697",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsctp: fix NULL deref on untransmitted RECONF completion\n\nsctp_process_strreset_outreq(), sctp_process_strreset_addstrm_out() and\nsctp_process_strreset_resp() complete a pending stream reconfiguration\nrequest by stopping the reconf timer on the transport it was sent on:\n\n\tt = asoc->strreset_chunk->transport;\n\tif (timer_delete(&t->reconf_timer))\n\t\tsctp_transport_put(t);\n\nchunk->transport is assigned by __sctp_packet_append_chunk() when the\nchunk is appended to an outbound packet, and sctp_outq_flush_ctrl() arms\nthe reconf timer at that same point. A request already published in\nasoc->strreset_chunk but not yet transmitted has neither, so completing\nit dereferences NULL.\n\nTwo ways to get there. sctp_send_asconf_del_ip() sets\nasoc->src_out_of_asoc_ok without sending anything when the address being\nremoved is the association's last one, and sctp_outq_flush_ctrl() then\nleaves every non-ASCONF control chunk queued; as only\nsctp_process_asconf_ack() clears that flag, it persists. An unprivileged\nprocess that removes such an address and then asks for a stream reset\npanics the kernel from softirq. A peer needs neither ASCONF nor local\nhelp: sctp_cmd_interpreter() uncorks the outqueue only once the whole\npacket has been processed, so a reply built while walking a RECONF chunk\nstays untransmitted for the rest of that walk, and one RECONF chunk\ncarrying [Incoming SSN Reset Request, Outgoing SSN Reset Request,\nResponse] -- or two RECONF chunks in one packet -- reaches the same\ndereference.\n\n  KASAN: null-ptr-deref in range [0x00000000000001e8-0x00000000000001ef]\n  RIP: 0010:timer_delete+0x67/0x110\n  Call Trace:\n   <IRQ>\n   sctp_process_strreset_addstrm_out (net/sctp/stream.c:832)\n   sctp_sf_do_reconf (net/sctp/sm_statefuns.c:4212)\n   sctp_do_sm (net/sctp/sm_sideeffect.c:1172)\n   sctp_assoc_bh_rcv (net/sctp/associola.c:1044)\n   sctp_rcv (net/sctp/input.c:243)\n   ip_local_deliver (net/ipv4/ip_input.c:262)\n   process_backlog (net/core/dev.c:6680)\n   </IRQ>\n\nA response can only acknowledge a request that was actually sent, so do\nnot match asoc->strreset_chunk while chunk->transport is NULL. Guarding\nthe lookup covers all three completion sites.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89477"
+    },
+    {
+      "id": "CVE-2026-89472",
+      "published": "2026-09-11T20:19:28.393",
+      "modified": "2026-10-19T09:17:40.017",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\npower: supply: charger-manager: register regulators before exposing sysfs\n\ncharger_manager_remove() and the err_reg_extcon probe error path free each\ncharger regulator with regulator_put() before tearing down the power_supply\nsysfs entries (power_supply_unregister()). charger_manager_remove() also\ncalls try_charger_enable(cm, false) after the regulator_put() loop. A\nconcurrent write to a charger's externally_control sysfs attribute that\nlands between regulator_put() and power_supply_unregister() can run\ncharger_externally_control_store() and call try_charger_enable(), which,\nwhen charging is enabled, dereferences the already-freed consumer handle.\nWhen charging is enabled, try_charger_enable(cm, false) in .remove() also\ndereferences the freed handles directly. Both leave use-after-free windows.\nSymmetrically, probe registers the sysfs entries (power_supply_register)\nbefore acquiring the regulators (regulator_get, inside\ncharger_manager_register_extcon), so userspace can reach externally_control\nbefore the regulators are available.\n\nSplit charger_manager_register_extcon() on the sync/async boundary:\ncharger_manager_get_regulators() (regulator_get only, no async producer)\nnow runs before power_supply_register() so sysfs is not live before\nregulators are available, and charger_manager_register_extcon() keeps only\nthe extcon notifier/work setup, still after power_supply_register() so a\npower_supply_register() failure cannot reach extcon setup. This keeps the\nsysfs setup/teardown ordering symmetric without introducing an asynchronous\nproducer on the earlier probe-error path.\n\nMove power_supply_unregister() and try_charger_enable(cm, false) ahead of\nthe regulator_put() loop on both teardown paths, and adjust err_reg_extcon\n(power_supply_unregister() then fall through err_regulator for\nregulator_put(); get_regulators self-rolls back on its own failure).\n\nThis does not address the separate extcon-notifier-driven deref of the same\nhandles, which needs its own synchronization design.\n\nFound by an in-house static analysis tool.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89472"
+    },
+    {
+      "id": "CVE-2026-89444",
+      "published": "2026-09-11T20:19:24.850",
+      "modified": "2026-10-19T09:17:36.473",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: dell-wmi-sysman: Don't hex dump attribute security buffer\n\nset_attribute() populates the security area of the BIOS attribute request\nbuffer with the current admin password via populate_security_buffer(), then\ndumps the whole request buffer with print_hex_dump_bytes(). This can expose\nthe plaintext admin password in the kernel log.\n\nThe same issue was fixed for the password attribute path by\ncommit d1a196e0a6dc (\"platform/x86: dell-wmi-sysman: Don't hex dump\nplaintext password data\"). Remove the remaining dump from the BIOS\nattribute path.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89444"
+    },
+    {
+      "id": "CVE-2026-89436",
+      "published": "2026-09-11T20:19:23.847",
+      "modified": "2026-10-19T09:17:35.440",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: panasonic-laptop: Fix sentinel write past pcc->sinf[]\n\nacpi_pcc_retrieve_biosdata() rejects SINF packages only when\npcc->num_sifr is strictly less than hkey->package.count, then\nunconditionally writes a trailing sentinel at\npcc->sinf[hkey->package.count]. But pcc->sinf[] is allocated with\nexactly pcc->num_sifr elements (valid indices 0..num_sifr-1), so that\nwrite needs num_sifr strictly greater than package.count to stay in\nbounds -- num_sifr == package.count passes the existing check but\nstill overflows by one element.\n\nThis is exactly the case probe()'s existing num_sifr++ workaround\n(\"Some DSDT-s have an off-by-one bug where the SINF package count is\none higher than the SQTY reported value\") is written to accommodate:\nwhen a DSDT's SINF package count equals SQTY+1, the workaround makes\nnum_sifr equal to package.count, which is precisely the boundary that\noverflows here. Found via UBSan (array-index-out-of-bounds) on\nhardware where HKEY.SQTY returns 37 and HKEY.SINF()'s package has 38\nelements: num_sifr becomes 38 after the += 1 workaround, the loop\ncorrectly fills indices 0..37, and the sentinel write then targets\nindex 38, one past the end -- a silent 4-byte heap overflow on kernels\nwithout CONFIG_UBSAN.\n\nTightening the rejection check to num_sifr <= package.count would\navoid the overflow but breaks probe() entirely on exactly this\nhardware, since num_sifr == package.count is the case the off-by-one\nworkaround exists to support. Nothing else in the driver reads this\nsentinel value back, so simply skip the write when there is no room\nfor it instead.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89436"
+    },
+    {
+      "id": "CVE-2026-81014",
+      "published": "2026-09-11T20:19:10.297",
+      "modified": "2026-10-19T09:17:34.820",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: hp-bioscfg: fix heap OOB read in sk_store() and kek_store()\n\nsk_store() and kek_store() strip a trailing newline from the sysfs\nwrite before allocating the key buffer:\n\n\tlength = count;\n\tif (buf[length - 1] == '\\n')\n\t\tlength--;\n\tbioscfg_drv.spm_data.signing_key = kmemdup(buf, length, GFP_KERNEL);\n\nbut then pass the original \"count\" (not \"length\") as the copy size to\nhp_wmi_perform_query(), which memcpy()s that many bytes out of the\n\"length\"-sized allocation, reading one byte past it whenever the write\nends in a newline, the normal case for a shell \"echo\" into sysfs.\n\nKASAN confirms this directly:\n\n  BUG: KASAN: slab-out-of-bounds in hp_wmi_perform_query+0x1e9/0x460 [hp_bioscfg]\n  Read of size 28 at addr ffff88813c8e2b80 by task python3/16022\n  ...\n  sk_store+0xa7/0x240 [hp_bioscfg]\n  kernfs_fop_write_iter+0x3e1/0x5d0\n  ...\n  The buggy address is located 0 bytes inside of\n  allocated 27-byte region [ffff88813c8e2b80, ffff88813c8e2b9b)\n\nReproduced identically for kek_store, and at multiple write sizes\n(28, 57, 201 bytes), each time reading exactly one byte past a\nkmemdup() allocation one byte smaller than the write.\n\nFix by passing \"length\" instead of \"count\" to hp_wmi_perform_query()\nin both functions.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81014"
+    },
+    {
+      "id": "CVE-2026-81013",
+      "published": "2026-09-11T20:19:10.173",
+      "modified": "2026-10-19T09:17:34.727",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: hp-bioscfg: fix heap OOB read on empty password write\n\nvalidate_password_input() computes length = strlen(buf) and then\nchecks buf[length - 1] to strip a trailing newline, without checking\nthat length is nonzero first. Writing an empty string (a bare '\\n')\nto current_password or new_password gives length == 0, and\nbuf[length - 1] reads buf[-1], one byte before the heap allocation\nholding the copied input.\n\nKASAN confirms this directly:\n\n  BUG: KASAN: slab-out-of-bounds in store_password_instance.constprop.0+0x223/0x2a0 [hp_bioscfg]\n  Read of size 1 at addr ffff88811bd8da9f by task sh/13740\n  ...\n  store_password_instance.constprop.0+0x223/0x2a0 [hp_bioscfg]\n  current_password_store+0x14/0x20 [hp_bioscfg]\n  ...\n  The buggy address is located 23 bytes to the right of\n  allocated 8-byte region [ffff88811bd8da80, ffff88811bd8da88)\n\nReproduced identically via new_password_store. Execution continues\npast the bad read (the garbage byte only affects whether \"length\" is\ndecremented by one), so the write completes and returns success; this\nis a pure information read past the buffer, not a crash, but it is\nstill an out-of-bounds access KASAN correctly flags.\n\nFix by only checking buf[length - 1] when length is nonzero.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81013"
+    },
+    {
+      "id": "CVE-2026-81012",
+      "published": "2026-09-11T20:19:10.050",
+      "modified": "2026-10-19T09:17:34.627",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: hp-bioscfg: fix off-by-one write in hp_get_string_from_buffer()\n\nhp_get_string_from_buffer() clamps the converted string length against\nthe destination buffer size with \"size > dst_size\", so when the\nconverted length is exactly equal to dst_size, conv_dst_size is left\nat dst_size and the unconditional NUL terminator write\n\n\tdst[conv_dst_size] = 0;\n\nlands one byte past the destination buffer. This is the same shape of\nbug as the previously fixed off-by-one in hp_convert_hexstr_to_str():\nthe buffer is sized correctly for the content, but the terminator\nwrite is never checked against that size.\n\nFix by changing the comparison to \">=\" so conv_dst_size is always left\nwith room for the terminator.\n\nAll fixed-size destinations that reach this function (path[512],\ncurrent_value[512], current_password/current_value[64], and the\nper-entry buffers in encodings[][512] and prerequisites[][512]) are\naffected.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81012"
+    },
+    {
+      "id": "CVE-2026-81011",
+      "published": "2026-09-11T20:19:09.927",
+      "modified": "2026-10-19T09:17:34.520",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nplatform/x86: hp-bioscfg: pass validated element count to package parsers\n\nThe per-type package parsers are handed the wrong element count.\n\nhp_init_bios_package_attribute() validates obj->package.count and then\ncalls one of the five hp_populate_*_package_data() wrappers (string,\ninteger, enumeration, ordered list, password). Each wrapper forwards a\ncount to its hp_populate_*_elements_from_package() parser, but instead\nof forwarding the validated obj->package.count it derives the count\nfrom elements[0]. elements[0] is the NAME field and is always an\nACPI_TYPE_STRING, so reading ->package.count from it in fact reads\n->string.length through the union acpi_object. The parsers thus bound\nthemselves against the length of the name string rather than against\nthe real number of elements in the package.\n\nThis is safe today because hp_init_bios_package_attribute() refuses any\npackage that has fewer than the type's element count, so a parser only\never runs on a full package and never reads past it regardless of the\nbogus bound.\n\nAn upcoming change relaxes that check to accept shorter packages. Once\na parser can receive fewer elements than its per-type count, a bound\ntaken from the name length no longer reflects the array size, and the\n\"elem < count\" loop conditions and \"elem + n >= count\" sub-loop guards\nread past the end of elements[] - an out-of-bounds heap read.\n\nForward the validated obj->package.count to every *_package_data()\nwrapper so the parsers bound themselves against the real package size.\nThis does not change behaviour for the packages that enumerate\ncorrectly today and is a prerequisite for accepting shorter packages\nsafely.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81011"
+    },
+    {
+      "id": "CVE-2026-81003",
+      "published": "2026-09-11T20:19:08.863",
+      "modified": "2026-10-19T09:17:33.500",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/iucv: filter frames in afiucv_hs_rcv() by ingress device\n\nafiucv_hs_rcv() selects a socket from iucv_sk_list by matching four 8-byte\nname fields in the transport header alone. No check is made against the\nnet_device the frame arrived on.\n\nThis can cause a frame arriving on any netdev to be delivered to an AF_IUCV\nsocket. Three problems follow.\n\nFirst, a frame arriving over HiperSockets can be delivered to a socket\nbound to the classic z/VM IUCV transport, which has iucv->hs_dev == NULL.\niucv_sock_bind() takes the classic path whenever the requested userid\nmatches iucv_userid, even on a guest that also has a HiperSockets device\ncarrying the same identifier. The child socket created by\nafiucv_hs_callback_syn() for such a match inherits hs_dev = NULL and\ntransport = AF_IUCV_TRANS_HIPER, so the first send() on it returns -ENODEV.\nThe socket delivered to accept() is unusable.\n\nSecond, a frame arriving on one netdev can be delivered to a socket bound\nto a different IQD device. Which can lead to\n- Accept-queue exhaustion (DoS)\n- Attacker-controlled peer identity in the child socket\n- Data injection into existing sockets\n- Fabric noise on the IQD fabric, where bogus replies are sent\n- killing established connections\n\nThird, all AF_IUCV sockets live in init_net, as iucv_sock_alloc() calls\nsk_alloc(&init_net, ...). But even frames arriving on netdev devices in a\nnamespace can be delivered to an IUCV socket. So a process in an\nunprivileged user and network namespace holding only the CAP_NET_RAW\ncapability valid within that namespace can send a raw ETH_P_AF_IUCV frame\non its own lo device and have it matched against init_net sockets.\n\nFix all three by skipping any socket whose hs_dev does not match the\ningress device. A classic z/VM IUCV socket has hs_dev == NULL; the ingress\ndev is never NULL, so classic sockets are skipped automatically. An unbound\nHIPER socket also has hs_dev == NULL and is skipped. A bound HIPER socket\nis only reachable from the exact IQD device it was bound to. Because hs_dev\nis always a device in init_net (iucv_sock_bind() scans\nfor_each_netdev_rcu(&init_net, ...) exclusively), a frame whose ingress\ndevice belongs to another namespace never matches any socket.\n\nNote that AF_IUCV over HiperSockets provides no per-connection\nauthentication: no sequence numbers, no TLS, no nonce. The four name fields\nidentifying a connection are exchanged in plaintext on the shared\nHiperSockets segment (VCHID). Any host on the same HiperSockets segment\ncould spoof any frame type against an existing connection. That is a\nprotocol-level property unchanged by this patch. The fix reduces the attack\nsurface to peers present on the same HiperSockets segment.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81003"
+    },
+    {
+      "id": "CVE-2026-81001",
+      "published": "2026-09-11T20:19:08.160",
+      "modified": "2026-10-19T09:17:33.150",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nslip: fix use-after-free in sl_sync()\n\nslip_devs[] stores bare net_device pointers and takes no reference on\nthem.  sl_sync() and sl_alloc() walk that table from slip_open() under\nrtnl_lock(), while an entry is dropped by sl_free_netdev(), which\nsl_setup() installs as dev->priv_destructor.\n\npriv_destructor is called from netdev_run_todo(), which deliberately\nruns with the RTNL semaphore released so that it can sleep while waiting\nfor the device refcount to drop:\n\n\t/* Snapshot list, allow later requests */\n\tlist_replace_init(&net_todo_list, &list);\n\n\t__rtnl_unlock();\n\t...\n\t\tif (dev->priv_destructor)\n\t\t\tdev->priv_destructor(dev);\t/* slip_devs[i] = NULL */\n\t\tif (dev->needs_free_netdev)\n\t\t\tfree_netdev(dev);\n\t\t...\n\t\t/* Free network device */\n\t\tkobject_put(&dev->dev.kobj);\n\nSo rtnl_lock() does not serialise slip_open() against the teardown at\nall.  sl_sync() can load slip_devs[i] while the entry is still published\nand dereference it after netdev_run_todo() has run the destructor and\nreleased the device:\n\n  CPU0 (slip_open)                 CPU1 (slip_close)\n                                   unregister_netdev()\n                                     rtnl_unlock()\n                                       netdev_run_todo()\n                                         __rtnl_unlock()\n  rtnl_lock()\n  sl_sync()\n    dev = slip_devs[i]\n                                         priv_destructor(dev)\n                                           slip_devs[i] = NULL\n                                         kobject_put(&dev->dev.kobj)\n                                           /* dev is freed */\n    sl = netdev_priv(dev)\n    if (sl->tty || sl->leased)     /* use-after-free */\n\n  BUG: KASAN: use-after-free in sl_sync drivers/net/slip/slip.c:730 [inline]\n  BUG: KASAN: use-after-free in slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n  Read of size 1 at addr ffff8880712dac71 by task syz-executor.2/6506\n\n  CPU: 2 PID: 6506 Comm: syz-executor.2 Not tainted 6.1.134-syzkaller-00260-g0c8fc3469765 #0\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014\n  Call Trace:\n   sl_sync drivers/net/slip/slip.c:730 [inline]\n   slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n   tiocsetd drivers/tty/tty_io.c:2428 [inline]\n   tty_ioctl+0x5f0/0x1530 drivers/tty/tty_io.c:2712\n\n  Allocated by task 6502:\n   alloc_netdev_mqs+0x98/0xfe0 net/core/dev.c:10719\n   sl_alloc drivers/net/slip/slip.c:756 [inline]\n   slip_open+0x36d/0x1210 drivers/net/slip/slip.c:817\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n\n  Freed by task 6497:\n   device_release+0xa2/0x240 drivers/base/core.c:2507\n   kobject_put+0x179/0x280 lib/kobject.c:729\n   netdev_run_todo+0x6c8/0xef0 net/core/dev.c:10509\n   slip_close+0x166/0x1c0 drivers/net/slip/slip.c:906\n   tty_ldisc_close+0x113/0x1a0 drivers/tty/tty_ldisc.c:456\n   tty_ldisc_kill+0x94/0x160 drivers/tty/tty_ldisc.c:614\n   tty_ldisc_release+0xe3/0x2b0 drivers/tty/tty_ldisc.c:782\n   tty_release+0xbcc/0xe70 drivers/tty/tty_io.c:1860\n\nCommit e58c19124189 (\"slip: Fix use-after-free Read in slip_open\") fixed\na different source of stale entries - a device left in slip_devs[] after\nslip_open() freed it on the registration error path - and does not\naddress this race, which is why the report survives it.\n\nDrop the entry from ndo_uninit instead.  unregister_netdevice() calls\nndo_uninit under RTNL, before the device is queued to netdev_run_todo(),\nso an entry that sl_sync() can still see while holding RTNL belongs to a\ndevice that cannot be freed until RTNL is dropped.  sl_free_netdev()\nstays only for the slip_open() error path, where register_netdevice()\nmay have failed before ndo_init and ndo_uninit is then not called\neither.  Both running for the same device is harmless: the\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81001"
+    },
+    {
+      "id": "CVE-2026-80994",
+      "published": "2026-09-11T20:19:06.357",
+      "modified": "2026-10-19T09:17:32.273",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: openvswitch: fix flow mask use-after-free on flow deletion\n\nThe commit in the Fixes tag below made so flow->mask free is scheduled\nvia RCU right after it is removed from the flow table.  The pointer\nstays in the flow structure and it can be accessible while in the same\nRCU critical section.  This is done to avoid requiring ovs_mutex for\nthe ovs_flow_free().\n\nHowever, while removing the flow during processing of CMD_DEL, we do\nnot take RCU read lock before the removal, and ovs_flow_cmd_fill_info()\nuses the flow->mask pointer afterwards.  The RCU read lock is taken,\nbut it's already late at that point.  The comment on that line\nacknowledges that the lock is cosmetic and doesn't serve a real purpose.\n\nThis leads to use-after-free if the RCU grace period passes between\nremoval and the filling.  It is a short race window, but it is there\nand can lead to a real crash in case memory allocation for the info\ntakes a bit longer:\n\n BUG: KASAN: slab-use-after-free in __ovs_nla_put_key\n             net/openvswitch/flow_netlink.c:1996\n BUG: KASAN: slab-use-after-free in ovs_nla_put_key+0x2463/0x2e30\n             net/openvswitch/flow_netlink.c:2250\n Read of size 4 at addr ffff88801ee89970 by task ovs_flow_del_ec/9487\n\n Call Trace:\n  <TASK>\n  __ovs_nla_put_key net/openvswitch/flow_netlink.c:1996\n  ovs_nla_put_key+0x2463/0x2e30 net/openvswitch/flow_netlink.c:2250\n  ovs_flow_cmd_fill_info+0x420/0x9c0 net/openvswitch/datapath.c:930\n  ovs_flow_cmd_del+0x53a/0x970 net/openvswitch/datapath.c:1467\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n  </TASK>\n\n Allocated by task 9487:\n  mask_alloc net/openvswitch/flow_table.c:967\n  flow_mask_insert net/openvswitch/flow_table.c:1012\n  ovs_flow_tbl_insert+0xea2/0x1a90 net/openvswitch/flow_table.c:1084\n  ovs_flow_cmd_new+0x7e3/0xd90 net/openvswitch/datapath.c:1086\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n\n Freed by task 9485:\n  rcu_free_sheaf+0x1e/0x100 mm/slub.c:5978\n  rcu_do_batch kernel/rcu/tree.c:2645\n  rcu_core+0x59c/0x10c0 kernel/rcu/tree.c:2897\n  handle_softirqs+0x1e4/0x9a0 kernel/softirq.c:622\n  ...\n  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062\n\novs_flow_tbl_remove() must be called after the ovs_flow_cmd_fill_info()\nto avoid this race.  This also helps with cleaning up the forced cast\nand the cosmetic RCU read lock.  Before the commit in the Fixes tag the\norder did not matter as long as the flow object itself was not freed.\n\nA wider RCU critical section could be another option, but we have a\nGFP_KERNEL allocation in the way.\n\nReported by Trend Micro's Zero Day Initiative as ZDI-CAN-32042.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80994"
+    },
+    {
+      "id": "CVE-2026-80986",
+      "published": "2026-09-11T20:19:05.180",
+      "modified": "2026-10-19T09:17:31.197",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/smc: bound the peer rkey counts in SMC-Rv2 LLC messages\n\nOn a link whose device has max_recv_sge == 1 there is no shared v2 receive\nbuffer, and smc_llc_save_add_link_rkeys() takes the v2 extension from 44\nbytes past the start of the queue entry's inline message:\n\n  ext = (struct smc_llc_msg_add_link_v2_ext *)(llc_msg + SMC_WR_TX_SIZE);\n\nThe entry is a 72-byte allocation and the extension starts at offset 68, so\next->num_rkeys at offset 94 is already past it. This happens on every\nSMC-Rv2 link addition, whatever the peer sends:\n\n  [    2.490065] BUG: KASAN: slab-out-of-bounds in smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.490431] Read of size 2 at addr ffff8880056406de by task smctest/106\n  [    2.490709]\n  [    2.490792] CPU: 0 UID: 0 PID: 106 Comm: smctest Not tainted 7.2.0-rc5-p1-g77a5d9d9c99f #32 PREEMPT(lazy)\n  [    2.490795] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  [    2.490798] Call Trace:\n  [    2.490803]  <TASK>\n  [    2.490805]  dump_stack_lvl+0x53/0x70\n  [    2.490810]  print_report+0xd0/0x630\n  [    2.490828]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n  [    2.490832]  ? smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.490834]  kasan_report+0xce/0x100\n  [    2.490836]  ? smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.490837]  smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.490839]  ? smcr_buf_map_lgr+0x1bf/0x2b0\n  [    2.490844]  smc_llc_cli_add_link+0xca7/0x1e80\n  [    2.490848]  ? smc_llc_wait+0x355/0x810\n  [    2.490850]  ? __pfx_smc_llc_wait+0x10/0x10\n  [    2.490851]  ? __pfx_smc_llc_cli_add_link+0x10/0x10\n  [    2.490853]  ? __pfx_autoremove_wake_function+0x10/0x10\n  [    2.490863]  __smc_connect+0x3f5c/0x4980\n  [    2.490873]  ? __pfx_kernel_connect+0x10/0x10\n  [    2.490888]  ? __pfx___smc_connect+0x10/0x10\n  [    2.490891]  ? release_sock+0x148/0x1d0\n  [    2.490894]  smc_connect+0x42c/0x580\n  [    2.490896]  __sys_connect+0xfc/0x130\n  [    2.490898]  ? __pfx___sys_connect+0x10/0x10\n  [    2.490900]  ? handle_mm_fault+0x1a1/0x430\n  [    2.490908]  __x64_sys_connect+0x6d/0xb0\n  [    2.490909]  ? fpregs_assert_state_consistent+0x56/0xe0\n  [    2.490917]  do_syscall_64+0xf9/0x540\n  [    2.490921]  entry_SYSCALL_64_after_hwframe+0x77/0x7f\n  [    2.490924] RIP: 0033:0x421bb4\n  [    2.490927] Code: ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 80 3d ad 34 09 00 00 74 13 b8 2a 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 4c c3 0f 1f 00 55 48 89 e5 48 83 ec 10 89 55\n  [    2.490929] RSP: 002b:00007ffd473b01a8 EFLAGS: 00000202 ORIG_RAX: 000000000000002a\n  [    2.490935] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 0000000000421bb4\n  [    2.490936] RDX: 0000000000000010 RSI: 00007ffd473b01d0 RDI: 0000000000000003\n  [    2.490937] RBP: 0000000000003930 R08: 0000000000000004 R09: 0000000000000000\n  [    2.490938] R10: 00007ffd473b0f98 R11: 0000000000000202 R12: 0000000000000006\n  [    2.490939] R13: 00007ffd473b0f87 R14: 0000000000000003 R15: 00007ffd473b0f90\n  [    2.490940]  </TASK>\n  [    2.490941]\n  [    2.499545] Allocated by task 44:\n  [    2.499693]  kasan_save_stack+0x33/0x60\n  [    2.499860]  kasan_save_track+0x14/0x30\n  [    2.500026]  __kasan_kmalloc+0x8f/0xa0\n  [    2.500190]  __kmalloc_cache_noprof+0x158/0x370\n  [    2.500393]  smc_llc_enqueue+0x72/0x560\n  [    2.500559]  smc_wr_rx_tasklet_fn+0x474/0xa80\n  [    2.500747]  tasklet_action_common+0x20f/0x8a0\n  [    2.500945]  handle_softirqs+0x18e/0x590\n  [    2.501115]  do_softirq+0x3b/0x60\n  [    2.501266]  __local_bh_enable_ip+0x61/0x70\n  [    2.501446]  __alloc_skb+0x732/0x890\n  [    2.501604]  rxe_init_packet+0x16b/0x4f0\n  [    2.501783]  prepare_ack_packet+0xb8/0x830\n  [    2.501962]  rxe_receiver+0x495/0x96e0\n  [    2.502125]  do_work+0x144/0x470\n  [    2.502269]  process_one_work+0x633/0x1030\n  [    2.502450]  worker_thread+0x45b/0xd10\n  [    2.50261\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80986"
+    },
+    {
+      "id": "CVE-2026-80981",
+      "published": "2026-09-11T20:19:04.520",
+      "modified": "2026-10-19T09:17:30.483",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/smc: fix use-after-free of the LLC qentry in smc_llc_srv_add_link()\n\nsmc_llc_srv_add_link() keeps add_llc pointing into the queue entry:\n\n  add_llc = &qentry->msg.add_link;\t\t\tsmc_llc.c:1482\n  ...\n  smc_llc_save_add_link_info(link_new, add_llc);\tsmc_llc.c:1494\n  smc_llc_flow_qentry_del(&lgr->llc_flow_lcl);\t\tsmc_llc.c:1495\n  ...\n  u8 *llc_msg = smc_link_shared_v2_rxbuf(link) ?\n\t(u8 *)lgr->wr_rx_buf_v2 : (u8 *)add_llc;\tsmc_llc.c:1504\n  smc_llc_save_add_link_rkeys(link, link_new, llc_msg);\tsmc_llc.c:1506\n\nsmc_llc_flow_qentry_del() kfree()s the entry, so on a link without a shared\nv2 receive buffer the pointer handed to smc_llc_save_add_link_rkeys() is\nalready freed. Before the Fixes: commit that branch always used\nlgr->wr_rx_buf_v2 and add_llc was not used after the free.\n\nReproduced on an unpatched tree over rxe, with KASAN, kasan_multi_shot\nand a link forced to max_recv_sge == 1: the entry is freed and read by\nthe same call, and the freeing frame is smc_llc_srv_add_link() itself.\n\n  [    2.523161] BUG: KASAN: slab-use-after-free in smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.523499] Read of size 2 at addr ffff8880052194de by task kworker/0:1/11\n  [    2.523789]\n  [    2.523862] CPU: 0 UID: 0 PID: 11 Comm: kworker/0:1 Not tainted 7.2.0-rc5-p0-g2c9dd296545d #35 PREEMPT(lazy)\n  [    2.523865] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n  [    2.523866] Workqueue: smc_hs_wq smc_listen_work\n  [    2.523869] Call Trace:\n  [    2.523870]  <TASK>\n  [    2.523871]  dump_stack_lvl+0x53/0x70\n  [    2.523872]  print_report+0xd0/0x630\n  [    2.523874]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n  [    2.523876]  ? smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.523878]  kasan_report+0xce/0x100\n  [    2.523879]  ? smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.523881]  smc_llc_save_add_link_rkeys+0x333/0x350\n  [    2.523883]  ? smcr_buf_reg_lgr+0x2a4/0x660\n  [    2.523885]  smc_llc_srv_add_link+0xaa2/0x1e50\n  [    2.523888]  ? _printk+0xba/0xf0\n  [    2.523897]  ? __pfx_smc_llc_srv_add_link+0x10/0x10\n  [    2.523899]  ? down_write+0xb0/0x130\n  [    2.523903]  ? __pfx_down_write+0x10/0x10\n  [    2.523905]  smc_listen_work+0x489e/0x4d00\n  [    2.523907]  ? kmem_cache_free+0x1c6/0x3a0\n  [    2.523911]  ? __pfx_smc_listen_work+0x10/0x10\n  [    2.523913]  ? release_sock+0x148/0x1d0\n  [    2.523915]  ? smc_tcp_listen_work+0xb4f/0xfc0\n  [    2.523917]  ? _raw_spin_lock_irq+0x80/0xe0\n  [    2.523918]  ? __pfx__raw_spin_lock_irq+0x10/0x10\n  [    2.523920]  process_one_work+0x633/0x1030\n  [    2.523922]  ? assign_work+0x11d/0x370\n  [    2.523924]  worker_thread+0x45b/0xd10\n  [    2.523926]  ? __pfx_worker_thread+0x10/0x10\n  [    2.523928]  ? __pfx_worker_thread+0x10/0x10\n  [    2.523929]  kthread+0x2c6/0x3b0\n  [    2.523931]  ? recalc_sigpending+0x15c/0x1e0\n  [    2.523934]  ? __pfx_kthread+0x10/0x10\n  [    2.523935]  ret_from_fork+0x36e/0x5a0\n  [    2.523937]  ? __pfx_ret_from_fork+0x10/0x10\n  [    2.523938]  ? __switch_to+0x572/0xdd0\n  [    2.523943]  ? __pfx_kthread+0x10/0x10\n  [    2.523944]  ret_from_fork_asm+0x1a/0x30\n  [    2.523947]  </TASK>\n  [    2.523948]\n  [    2.531253] Allocated by task 48:\n  [    2.531399]  kasan_save_stack+0x33/0x60\n  [    2.531570]  kasan_save_track+0x14/0x30\n  [    2.531737]  __kasan_kmalloc+0x8f/0xa0\n  [    2.531905]  __kmalloc_cache_noprof+0x158/0x370\n  [    2.532100]  smc_llc_enqueue+0x72/0x560\n  [    2.532268]  smc_wr_rx_tasklet_fn+0x474/0xa80\n  [    2.532491]  tasklet_action_common+0x20f/0x8a0\n  [    2.532714]  handle_softirqs+0x18e/0x590\n  [    2.532886]  do_softirq+0x3b/0x60\n  [    2.533036]  __local_bh_enable_ip+0x61/0x70\n  [    2.533221]  __alloc_skb+0x732/0x890\n  [    2.533384]  rxe_init_packet+0x16b/0x4f0\n  [    2.533567]  prepare_ack_packet+0xb8/0x830\n  [    2.533760]  rxe_receiver+0x495/0x96e0\n  [    2.533933]  do_work+0x144/0x470\n  [    2\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80981"
+    },
+    {
+      "id": "CVE-2026-80863",
+      "published": "2026-09-04T16:18:15.560",
+      "modified": "2026-10-19T09:17:21.997",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nRDMA/rxe: Fix OOB in free_rd_atomic_resources()\n\nfree_rd_atomic_resources() iterates using qp->attr.max_dest_rd_atomic.\nUpdating max_dest_rd_atomic before freeing the old array can make the\nfree path walk past the old allocation and trigger a slab out-of-bounds\nwrite catched by KASAN:\n==================================================================\nBUG: KASAN: slab-out-of-bounds in free_rd_atomic_resource drivers/infiniband/sw/rxe/rxe_qp.c:180 [inline]\nBUG: KASAN: slab-out-of-bounds in free_rd_atomic_resources drivers/infiniband/sw/rxe/rxe_qp.c:171 [inline]\nBUG: KASAN: slab-out-of-bounds in free_rd_atomic_resources drivers/infiniband/sw/rxe/rxe_qp.c:163 [inline]\nBUG: KASAN: slab-out-of-bounds in rxe_qp_from_attr+0x1e88/0x2150 drivers/infiniband/sw/rxe/rxe_qp.c:712\nWrite of size 4 at addr ffff88802b8dddb8 by task syz.3.451/11063\n\nCPU: 0 UID: 0 PID: 11063 Comm: syz.3.451 Not tainted 7.1.0 #2 PREEMPT(full)\nHardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nCall Trace:\n <TASK>\n __dump_stack lib/dump_stack.c:94 [inline]\n dump_stack_lvl+0x10e/0x1f0 lib/dump_stack.c:120\n print_address_description mm/kasan/report.c:378 [inline]\n print_report+0xf7/0x600 mm/kasan/report.c:482\n kasan_report+0xe4/0x120 mm/kasan/report.c:595\n free_rd_atomic_resource drivers/infiniband/sw/rxe/rxe_qp.c:180 [inline]\n free_rd_atomic_resources drivers/infiniband/sw/rxe/rxe_qp.c:171 [inline]\n free_rd_atomic_resources drivers/infiniband/sw/rxe/rxe_qp.c:163 [inline]\n rxe_qp_from_attr+0x1e88/0x2150 drivers/infiniband/sw/rxe/rxe_qp.c:712\n rxe_modify_qp+0x1e2/0x530 drivers/infiniband/sw/rxe/rxe_verbs.c:623\n ib_security_modify_qp+0x223/0xfa0 drivers/infiniband/core/security.c:625\n _ib_modify_qp+0x333/0xec0 drivers/infiniband/core/verbs.c:1915\n modify_qp+0x13ca/0x1940 drivers/infiniband/core/uverbs_cmd.c:1932\n ib_uverbs_modify_qp+0xcb/0x120 drivers/infiniband/core/uverbs_cmd.c:1958\n ib_uverbs_write+0xb86/0x1030 drivers/infiniband/core/uverbs_main.c:680\n vfs_write+0x2aa/0x1070 fs/read_write.c:686\n ksys_write+0x1f8/0x250 fs/read_write.c:740\n do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n do_syscall_64+0x116/0x800 arch/x86/entry/syscall_64.c:94\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\nRIP: 0033:0x7fefc75a70cd\nCode: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48\nRSP: 002b:00007fefc8495018 EFLAGS: 00000246 ORIG_RAX: 0000000000000001\nRAX: ffffffffffffffda RBX: 00007fefc7835fa0 RCX: 00007fefc75a70cd\nRDX: 0000000000000078 RSI: 0000200000000240 RDI: 0000000000000007\nRBP: 00007fefc764f10f R08: 0000000000000000 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000\nR13: 00007fefc7836038 R14: 00007fefc7835fa0 R15: 00007ffcf0586aa0\n </TASK>\n\nAllocated by task 11063:\n kasan_save_stack+0x33/0x60 mm/kasan/common.c:57\n kasan_save_track+0x14/0x30 mm/kasan/common.c:78\n poison_kmalloc_redzone mm/kasan/common.c:398 [inline]\n __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415\n kasan_kmalloc include/linux/kasan.h:263 [inline]\n __do_kmalloc_node mm/slub.c:5296 [inline]\n __kmalloc_noprof+0x32a/0x850 mm/slub.c:5308\n kmalloc_noprof include/linux/slab.h:954 [inline]\n kzalloc_noprof include/linux/slab.h:1188 [inline]\n alloc_rd_atomic_resources drivers/infiniband/sw/rxe/rxe_qp.c:155 [inline]\n rxe_qp_from_attr+0x3f8/0x2150 drivers/infiniband/sw/rxe/rxe_qp.c:714\n rxe_modify_qp+0x1e2/0x530 drivers/infiniband/sw/rxe/rxe_verbs.c:623\n ib_security_modify_qp+0x223/0xfa0 drivers/infiniband/core/security.c:625\n _ib_modify_qp+0x333/0xec0 drivers/infiniband/core/verbs.c:1915\n modify_qp+0x13ca/0x1940 drivers/infiniband/core/uverbs_cmd.c:1932\n ib_uverbs_modify_qp+0xcb/0x120 drivers/infiniband/core/uverbs_cmd.c:1958\n ib_uverbs_write+0xb86/0x1030 drivers/infiniband/core/uverbs_ma\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80863"
+    },
+    {
+      "id": "CVE-2026-80853",
+      "published": "2026-09-04T16:18:14.233",
+      "modified": "2026-10-19T09:17:20.913",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: SEV: Allocate full pages for {DE,EN}CRYPT ops on SNP-enabled hosts\n\nWhen {de,en}crypting memory of an SEV or SEV-ES guest on an SNP-enabled\nhost via a temporary buffer, allocate a full 4KiB page for the buffer to\nensure the page containing the buffer is wholly owned by KVM, i.e. won't\nbe concurrently allocated and accessed by other kernel code while KVM is\nusing the buffer to {de,en}crypt memory.  On SNP-enabled platforms, when\nsending SEV/SEV-ES commands that trigger firmware writes to memory, the\nto-be-written page(s) must be (temporarily) assigned to Firmware (as\nrequired by the SNP architecture, to guard against using such commands as\ngadgets to attack SNP guests).  See snp_map_cmd_buf_desc() and friends.\n\nUnfortunately, transferring ownership of a page to Firmware makes the page\ninaccessible to software, and thus writes generate RMP #PF violations.  If\nKVM uses a sub-page allocation for its temporary buffer, some other actor\nin the kernel can allocate and use the other portions of the page, and thus\ntrigger unexpected (and seemingly spurious) RMP #PF violations due to\nsoftware attempting to access a Firmware-owned page.\n\n  BUG: unable to handle page fault for address: ffff906ae30f0300\n  #PF: supervisor write access in kernel mode\n  #PF: error_code(0x80000003) - RMP violation\n  PGD 6b1b80d067 P4D 6b1b80d067 PUD 100231e2063 PMD 10055a88063 PTE 80000100630f0163\n  SEV-SNP: PFN 0x100630f0 unassigned, dumping non-zero entries in 2M PFN region: [0x10063000 - 0x10063200]\n  Oops: Oops: 0003 [#1] SMP\n  CPU: 70 UID: 0 PID: 10658 Comm: svw_WaiterThrea Tainted: G     U  W  O        7.1.0-smp--c22293789940-seanjc-next #1 PREEMPTLAZY\n  Tainted: [U]=USER, [W]=WARN, [O]=OOT_MODULE\n  Hardware name: Google, Inc.                                                       Arcadia_IT_80/Arcadia_IT_80, BIOS 34.86.0-102 01/25/2026\n  RIP: 0010:memset+0xf/0x20\n  Call Trace:\n   <TASK>\n   __kvmalloc_node_noprof+0x2a4/0x710\n   do_getxattr+0x4e/0x130\n   path_getxattrat+0x125/0x1b0\n   do_syscall_64+0x10a/0x480\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x7f3a22cb6daa\n   </TASK>\n  Modules linked in: kvm_amd kvm irqbypass vfat fat ccp k10temp sha3 libsha3 i2c_piix4 gq(O) cdc_acm xhci_pci xhci_hcd\n  gsmi: Log Shutdown Reason 0x03\n  CR2: ffff906ae30f0300\n  ---[ end trace 0000000000000000 ]---\n  RIP: 0010:memset+0xf/0x20\n  Kernel panic - not syncing: Fatal exception\n  Kernel Offset: 0x39e00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)\n  gsmi: Log Shutdown Reason 0x02",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80853"
+    },
+    {
+      "id": "CVE-2026-80817",
+      "published": "2026-09-04T16:18:09.303",
+      "modified": "2026-10-19T09:17:16.590",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\niommu/iommufd: Fix NULL pointer deref in iommufd_ioas_change_process when racing with iopt_map_file_pages\n\niommufd_ioas_change_process() iterates every IOAS area while only\nholding every IOAS iova_rwsem, so it assumes every area has a non-NULL\npages pointer. That assumption can be false when it runs concurrently\nwith iopt_map_file_pages().\n\niopt_map_pages() executes in two phases. It first creates the area and\ninserts it into the interval tree under iova_rwsem, with area->pages\nstill NULL. It then drops iova_rwsem and later fills area->pages\nunder domains_rwsem. This leaves a window between area creation and\narea->pages fill where a concurrent iommufd_ioas_change_process()\ncan observe the area and dereference a NULL area->pages pointer,\nleading to a NULL pointer dereference:\n\nBUG: kernel NULL pointer dereference, address: 00000000000000c0\n#PF: supervisor read access in kernel mode\n#PF: error_code(0x0000) - not-present page\nPGD 4b655067 P4D 4b655067 PUD 0\nOops: Oops: 0000 [#1] SMP NOPTI\nCPU: 0 UID: 0 PID: 11841 Comm: syz.1.628 Not tainted 7.1.0 #3 PREEMPT(full)\nHardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nRIP: 0010:iommufd_ioas_change_process+0x419/0xd50 drivers/iommu/iommufd/ioas.c:538\nCode: 48 89 c3 48 85 c0 0f 84 cc 00 00 00 e8 10 f5 cb fd 48 8d 7b 68 e8 a7 b5 eb fd 48 8b 6b 68 48 8d bd c0 00 00 00 e8 17 b2 eb fd <8b> ad c0 00 00 00 bf 01 00 00 00 89 ee e8 85 ef cb fd 83 fd 01 74\nRSP: 0018:ffffc90015c17d28 EFLAGS: 00010246\nRAX: ffff8880186d5328 RBX: ffff88801d25e240 RCX: 0000000080000000\nRDX: 00000000000002d7 RSI: ffffffff83ba9e10 RDI: 00000000000000c0\nRBP: 0000000000000000 R08: ffffffff8e781eb8 R09: 0000000000000000\nR10: 00000000000000c0 R11: ffffffff83ba9e29 R12: ffff88802e216008\nR13: ffff88802e216000 R14: 0000000000000001 R15: 0000000000000000\nFS:  00007f4aea3f66c0(0000) GS:ffff8880b1fa1000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00000000000000c0 CR3: 000000004b75c000 CR4: 0000000000350ef0\nCall Trace:\n <TASK>\n iommufd_fops_ioctl+0x287/0x400 drivers/iommu/iommufd/main.c:533\n vfs_ioctl fs/ioctl.c:51 [inline]\n __do_sys_ioctl fs/ioctl.c:597 [inline]\n __se_sys_ioctl fs/ioctl.c:583 [inline]\n __x64_sys_ioctl+0x120/0x170 fs/ioctl.c:583\n x64_sys_call+0x1092/0x1fb0 arch/x86/include/generated/asm/syscalls_64.h:17\n do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n do_syscall_64+0x10a/0x680 arch/x86/entry/syscall_64.c:94\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\nRIP: 0033:0x7f4aec1a82bd\nCode: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48\nRSP: 002b:00007f4aea3f6018 EFLAGS: 00000246 ORIG_RAX: 0000000000000010\nRAX: ffffffffffffffda RBX: 00007f4aec436090 RCX: 00007f4aec1a82bd\nRDX: 0000200000000180 RSI: 0000000000003b92 RDI: 0000000000000003\nRBP: 00007f4aec250295 R08: 0000000000000000 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000\nR13: 00007f4aec436128 R14: 00007f4aec436090 R15: 00007ffd04ef23e0\n </TASK>\nModules linked in:\nCR2: 00000000000000c0\n---[ end trace 0000000000000000 ]---\nRIP: 0010:iommufd_ioas_change_process+0x419/0xd50 drivers/iommu/iommufd/ioas.c:538\nCode: 48 89 c3 48 85 c0 0f 84 cc 00 00 00 e8 10 f5 cb fd 48 8d 7b 68 e8 a7 b5 eb fd 48 8b 6b 68 48 8d bd c0 00 00 00 e8 17 b2 eb fd <8b> ad c0 00 00 00 bf 01 00 00 00 89 ee e8 85 ef cb fd 83 fd 01 74\nRSP: 0018:ffffc90015c17d28 EFLAGS: 00010246\nRAX: ffff8880186d5328 RBX: ffff88801d25e240 RCX: 0000000080000000\nRDX: 00000000000002d7 RSI: ffffffff83ba9e10 RDI: 00000000000000c0\nRBP: 0000000000000000 R08: ffffffff8e781eb8 R09: 0000000000000000\nR10: 00000000000000c0 R11: ffffffff83ba9e29 R12: ffff88802e216008\nR13: ffff88802e216000 R14: 0000000000000001 R15: 0000000000000000\nFS:  00007f4aea3f66c0(000\n---truncated---",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80817"
+    },
+    {
+      "id": "CVE-2026-80807",
+      "published": "2026-09-04T16:18:07.810",
+      "modified": "2026-10-19T09:17:15.380",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnilfs2: reject invalid block index in GC ioctl\n\nSyzbot reported list corruption caused by a double list_add_tail() call on\nbh->b_assoc_buffers within nilfs_lookup_dirty_data_buffers().\n\nAnalysis revealed that the root cause was the insertion of a page/folio\nwith a page index of ULONG_MAX into the page cache via the GC ioctl.\nfilemap_get_folios_tag(), called by nilfs_lookup_dirty_data_buffers(),\nrepeatedly detects a dirty folio with a page index of ULONG_MAX due to\nindex wrap-around, leading to duplicate processing of dirty buffers.\n\nAs a preparatory step, the GC ioctl loads the page/folio of the block to\nbe moved during GC and inserts it into the page cache based on information\nin the nilfs_vdesc structure passed as an argument.  Normally, this does\nnot cause issues because the user-space GC library configures the\nnilfs_vdesc structure properly.  However, since there is no range check on\nthe parameters determining the page index, a request with artificially\ncrafted parameters -- such as those generated by Syzbot -- can result in a\npage/folio being inserted with a page index of ULONG_MAX, triggering the\nabove problem.\n\nThis resolves the issue by checking the ranges of 'vd_offset' and\n'vd_vblocknr' in the nilfs_vdesc structure that determine the page index,\nthereby preventing the invalid page/folio insertions.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80807"
+    },
+    {
+      "id": "CVE-2026-100076",
+      "published": "2026-09-25T14:17:14.440",
+      "modified": "2026-10-19T09:17:06.280",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nstaging: rtl8723bs: fix xmit_frame/xmit_buf leaks on mgnt-frame error paths\n\nissue_beacon(), issue_probersp() and issue_asocrsp() obtain a management\nxmit_frame together with its xmit_buf from the driver's fixed-size\nmanagement-TX pools via alloc_mgtxmitframe(). On the normal path the frame\nis handed to dump_mgntframe(), which transfers ownership and eventually\nreturns both objects to their pools (the frame and, for beacons, the buf\nin rtl8723bs_mgnt_xmit(); other bufs via the pending-xmitbuf/TX-completion\npath).\n\nSeveral error/edge paths return early after a successful\nalloc_mgtxmitframe() but before dump_mgntframe(), so ownership is never\ntransferred and neither object is freed:\n\n  - issue_beacon(): beacon larger than 512 bytes\n  - issue_probersp(): cur_network->ie_length > MAX_IE_SZ\n  - issue_probersp(): kzalloc() of the SSID scratch buffer fails\n  - issue_asocrsp(): pkt_type is neither ASSOCRSP nor REASSOCRSP\n\nBecause alloc_mgtxmitframe() removes the frame and buf from their free\nlists (list_del_init) without placing them on any pending list, an\norphaned pair is on no list and referenced by nobody, so it is only\nreclaimed at driver teardown. Repeated hits progressively exhaust the\nmanagement-TX pools until alloc_mgtxmitframe() returns NULL and the\ninterface can no longer send beacons or probe/assoc responses.\n\nFree the frame and buffer on these paths, matching the existing correct\nerror handling in issue_assocreq().",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100076"
+    },
+    {
+      "id": "CVE-2025-54821",
+      "published": "2025-11-18T17:16:03.490",
+      "modified": "2026-10-19T09:17:04.847",
+      "description": "An Improper Privilege Management vulnerability [CWE-269] vulnerability in Fortinet FortiOS 7.6.0 through 7.6.3, FortiOS 7.4.0 through 7.4.11, FortiOS 7.2 all versions, FortiOS 7.0 all versions, FortiOS 6.4 all versions, FortiPAM 1.6.0, FortiPAM 1.5 all versions, FortiPAM 1.4 all versions, FortiPAM 1.3 all versions, FortiPAM 1.2 all versions, FortiPAM 1.1 all versions, FortiPAM 1.0 all versions may allow an authenticated administrator to bypass the trusted host policy via crafted CLI command.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:fortinet:fortiproxy:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fortinet:fortipam:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 1.9,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54821"
+    },
     {
       "id": "CVE-2026-19654",
       "published": "2026-08-12T21:17:38.517",
@@ -13597,30 +14031,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54660"
     },
     {
-      "id": "CVE-2025-54821",
-      "published": "2025-11-18T17:16:03.490",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "An Improper Privilege Management vulnerability [CWE-269] vulnerability in Fortinet FortiOS 7.6.0 through 7.6.3, FortiOS 7.4.0 through 7.4.11, FortiOS 7.2 all versions, FortiOS 7.0 all versions, FortiOS 6.4 all versions, FortiPAM 1.6.0, FortiPAM 1.5 all versions, FortiPAM 1.4 all versions, FortiPAM 1.3 all versions, FortiPAM 1.2 all versions, FortiPAM 1.1 all versions, FortiPAM 1.0 all versions, FortiSASE 25.2.91 may allow an authenticated administrator to bypass the trusted host policy via crafted CLI command.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:fortinet:fortiproxy:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fortinet:fortipam:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 1.9,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54821"
-    },
-    {
       "id": "CVE-2025-58413",
       "published": "2025-11-18T17:16:06.557",
       "modified": "2026-10-18T20:10:00.110",
@@ -19160,110 +19570,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96915"
-    },
-    {
-      "id": "CVE-2026-89483",
-      "published": "2026-09-11T20:19:29.880",
-      "modified": "2026-10-16T20:18:14.297",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme: zero the discard fallback page\n\nnvme_setup_discard() always maps sizeof(struct nvme_dsm_range) *\nNVME_DSM_MAX_RANGES = 4096 bytes as the DSM payload however many ranges\nthe command declares, because some devices ignore the 'Number of Ranges'\nfield - the Fixes: commit records two that read past the declared ranges.\nA single-range discard fills only the first 16 bytes.\n\nNormally the buffer comes from kzalloc() and the other 4080 bytes are\nzero.  When that allocation fails the code falls back to the\nper-controller ctrl->discard_page, which nvme_init_ctrl() obtains with\nalloc_page(GFP_KERNEL) and nothing ever zeroes, so those 4080 bytes are\nwhatever the page last held and are handed to the controller.  Reaching\nit requires the kzalloc(GFP_ATOMIC | __GFP_NOWARN) to fail, that is\nmemory pressure; it is not remotely triggerable.  Failing the allocation\nunder KMSAN reproduces it, with the leaked tail full of vmemmap struct\npage pointers.  The extent in the report is a partial transfer of the\npayload, not the whole 4096 bytes; the 16-byte boundary in it is the one\ndeclared range:\n\n[   11.991601] BUG: KMSAN: uninit-value in dma_map_phys+0x14c8/0x1900\n[   11.991969]  dma_map_phys+0x14c8/0x1900\n[   11.992220]  dma_map_page_attrs+0xcf/0x130\n[   11.992485]  e1000_xmit_frame+0x4099/0x6d10\n[   11.992768]  dev_hard_start_xmit+0x22f/0xa80\n[   11.993068]  sch_direct_xmit+0x35c/0xcb0\n[   11.993315]  __dev_queue_xmit+0x1ee5/0x5eb0\n[   11.993608]  ip_finish_output2+0x1903/0x1c30\n[   11.993881]  ip_finish_output+0x288/0x870\n[   11.994125]  ip_output+0x15e/0x400\n[   11.994365]  __ip_queue_xmit+0x1e85/0x1fb0\n[   11.994639]  ip_queue_xmit+0x60/0x80\n[   11.994899]  __tcp_transmit_skb+0x4e71/0x5fa0\n[   11.995210]  tcp_write_xmit+0x3a36/0x9160\n[   11.995533]  __tcp_push_pending_frames+0xc5/0x3c0\n[   11.995854]  tcp_push+0x7dc/0x840\n[   11.996076]  tcp_sendmsg_locked+0x766c/0x8400\n[   11.996371]  tcp_sendmsg+0x4b/0x90\n[   11.996572]  inet_sendmsg+0x134/0x2a0\n[   11.996823]  __sock_sendmsg+0x265/0x360\n[   11.997076]  sock_sendmsg+0x100/0x1e0\n[   11.997293]  nvme_tcp_try_send+0x196f/0x6370\n[   11.997605]  nvme_tcp_queue_rq+0x1d54/0x20b0\n[   11.997882]  blk_mq_dispatch_rq_list+0x5ee/0x2e50\n[   11.998175]  __blk_mq_sched_dispatch_requests+0x16dc/0x24a0\n[   11.998539]  blk_mq_sched_dispatch_requests+0x11b/0x2c0\n[   11.998865]  blk_mq_run_work_fn+0x13b/0x280\n[   11.999146]  process_scheduled_works+0x966/0x1ad0\n[   11.999465]  worker_thread+0xe44/0x1480\n[   11.999709]  kthread+0x53b/0x600\n[   11.999927]  ret_from_fork+0x29f/0x7c0\n[   12.000191]  ret_from_fork_asm+0x1a/0x30\n[   12.000460]\n[   12.000558] Uninit was created at:\n[   12.000788]  __alloc_frozen_pages_noprof+0x8bf/0xd30\n[   12.001096]  alloc_pages_mpol+0x1d0/0x5f0\n[   12.001326]  alloc_pages_noprof+0x102/0x290\n[   12.001627]  nvme_init_ctrl+0x5a3/0x9f0\n[   12.001891]  nvme_tcp_create_ctrl+0xd75/0x19b0\n[   12.002170]  nvmf_dev_write+0x4c68/0x4fd0\n[   12.002426]  vfs_write+0x587/0x1a10\n[   12.002636]  __x64_sys_write+0x207/0x4f0\n[   12.002874]  x64_sys_call+0x2ff0/0x3ea0\n[   12.003123]  do_syscall_64+0x147/0x3b0\n[   12.003400]  entry_SYSCALL_64_after_hwframe+0x77/0x7f\n[   12.003680]\n[   12.003777] Bytes 16-2843 of 2844 are uninitialized\n[   12.004068] Memory access of size 2844 starts at ffff888109f82000\n[   12.004412]\n[   12.004530] CPU: 0 UID: 0 PID: 101 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMECTL-gf5098b6bae76 #1 PREEMPT(lazy)\n[   12.005127] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[   12.005762] Workqueue: kblockd blk_mq_run_work_fn\n[   12.006073] =====================================================\n\nAllocate the page with __GFP_ZERO.  The single allocation site covers\nevery use of it: bytes no discard has written stay zero, and bytes one\ndid write hold that controller's own range list, which it has already\nbeen sent.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89483"
-    },
-    {
-      "id": "CVE-2026-89482",
-      "published": "2026-09-11T20:19:29.730",
-      "modified": "2026-10-16T20:18:14.097",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme-tcp: do not accept C2HData based on blk_rq_payload_bytes() alone\n\nCommit 25e5cb780e62 (\"nvme-tcp: fix possible crash in write_zeroes\nprocessing\") established that blk_rq_payload_bytes() must not be read\nwithout first checking blk_rq_nr_phys_segments(), and recorded the\nresult in nvme_tcp_setup_cmd_pdu() as req->data_len. The receive side\nwas left as it was.\n\nThe two differ for REQ_OP_WRITE_ZEROES, which has no physical segments\nbut a non-zero blk_rq_bytes(), so setup leaves req->iter untouched\nwhile the receive gate lets a C2HData through and nvme_tcp_recv_data()\ncopies into whatever the previous command on that tag left there. The\ndriver-private area is zeroed only when the tag set is allocated.\n\nReproduced with a test target that leaves a residual iterator on a tag\nand then sends a C2HData for a WRITE_ZEROES command on the same tag:\n\nBUG: KASAN: wild-memory-access in _copy_to_iter+0x642/0x1330\nWrite of size 512 at addr ffe728c2175dfa81 by task kworker/0:1H/103\n\nCPU: 0 UID: 0 PID: 103 Comm: kworker/0:1H Not tainted 7.2.0-rc5-NVMETCP-gf5098b6bae76 #1 PREEMPT(lazy)\nHardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nWorkqueue: nvme_tcp_wq nvme_tcp_io_work\nCall Trace:\n <TASK>\n dump_stack_lvl+0x53/0x70\n kasan_report+0xce/0x100\n ? _copy_to_iter+0x642/0x1330\n kasan_check_range+0x105/0x1b0\n __asan_memcpy+0x3c/0x60\n _copy_to_iter+0x642/0x1330\n ? __pfx_sock_has_perm+0x10/0x10\n ? worker_thread+0x45b/0xd10\n ? __pfx__copy_to_iter+0x10/0x10\n ? _raw_spin_lock_bh+0x83/0xe0\n ? __pfx__raw_spin_lock_bh+0x10/0x10\n __skb_datagram_iter+0xf3/0x820\n ? __pfx_simple_copy_to_iter+0x10/0x10\n ? __asan_memcpy+0x3c/0x60\n ? skb_copy_bits+0x58d/0x830\n skb_copy_datagram_iter+0x37/0x120\n nvme_tcp_recv_skb+0xa07/0x4320\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n __tcp_read_sock+0x1ab/0x810\n ? __pfx_nvme_tcp_recv_skb+0x10/0x10\n ? __pfx_lock_sock_nested+0x10/0x10\n ? __pfx___tcp_read_sock+0x10/0x10\n nvme_tcp_try_recv+0x152/0x1e0\n ? __pfx_nvme_tcp_try_recv+0x10/0x10\n ? __pfx_mutex_unlock+0x10/0x10\n nvme_tcp_io_work+0x1e4/0x6c0\n ? __schedule+0x181a/0x49f0\n ? __pfx_nvme_tcp_io_work+0x10/0x10\n process_one_work+0x633/0x1030\n\nKeep the blk_rq_payload_bytes() test and add req->data_len to it. The\nold test is what rejects a C2HData naming a tag that is no longer in\nflight, because blk_update_request() zeroes rq->__data_len on\ncompletion; req->data_len and req->curr_bio are driver-private and\nsurvive completion, so they cannot stand in for it. Setup initialises\nthe iterator only when both req->curr_bio and req->data_len are set, so\nthe gate now tests the same two.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89482"
-    },
-    {
-      "id": "CVE-2026-89477",
-      "published": "2026-09-11T20:19:29.063",
-      "modified": "2026-10-16T20:18:13.200",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsctp: fix NULL deref on untransmitted RECONF completion\n\nsctp_process_strreset_outreq(), sctp_process_strreset_addstrm_out() and\nsctp_process_strreset_resp() complete a pending stream reconfiguration\nrequest by stopping the reconf timer on the transport it was sent on:\n\n\tt = asoc->strreset_chunk->transport;\n\tif (timer_delete(&t->reconf_timer))\n\t\tsctp_transport_put(t);\n\nchunk->transport is assigned by __sctp_packet_append_chunk() when the\nchunk is appended to an outbound packet, and sctp_outq_flush_ctrl() arms\nthe reconf timer at that same point. A request already published in\nasoc->strreset_chunk but not yet transmitted has neither, so completing\nit dereferences NULL.\n\nTwo ways to get there. sctp_send_asconf_del_ip() sets\nasoc->src_out_of_asoc_ok without sending anything when the address being\nremoved is the association's last one, and sctp_outq_flush_ctrl() then\nleaves every non-ASCONF control chunk queued; as only\nsctp_process_asconf_ack() clears that flag, it persists. An unprivileged\nprocess that removes such an address and then asks for a stream reset\npanics the kernel from softirq. A peer needs neither ASCONF nor local\nhelp: sctp_cmd_interpreter() uncorks the outqueue only once the whole\npacket has been processed, so a reply built while walking a RECONF chunk\nstays untransmitted for the rest of that walk, and one RECONF chunk\ncarrying [Incoming SSN Reset Request, Outgoing SSN Reset Request,\nResponse] -- or two RECONF chunks in one packet -- reaches the same\ndereference.\n\n  KASAN: null-ptr-deref in range [0x00000000000001e8-0x00000000000001ef]\n  RIP: 0010:timer_delete+0x67/0x110\n  Call Trace:\n   <IRQ>\n   sctp_process_strreset_addstrm_out (net/sctp/stream.c:832)\n   sctp_sf_do_reconf (net/sctp/sm_statefuns.c:4212)\n   sctp_do_sm (net/sctp/sm_sideeffect.c:1172)\n   sctp_assoc_bh_rcv (net/sctp/associola.c:1044)\n   sctp_rcv (net/sctp/input.c:243)\n   ip_local_deliver (net/ipv4/ip_input.c:262)\n   process_backlog (net/core/dev.c:6680)\n   </IRQ>\n\nA response can only acknowledge a request that was actually sent, so do\nnot match asoc->strreset_chunk while chunk->transport is NULL. Guarding\nthe lookup covers all three completion sites.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-89477"
-    },
-    {
-      "id": "CVE-2026-81001",
-      "published": "2026-09-11T20:19:08.160",
-      "modified": "2026-10-16T20:18:11.817",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nslip: fix use-after-free in sl_sync()\n\nslip_devs[] stores bare net_device pointers and takes no reference on\nthem.  sl_sync() and sl_alloc() walk that table from slip_open() under\nrtnl_lock(), while an entry is dropped by sl_free_netdev(), which\nsl_setup() installs as dev->priv_destructor.\n\npriv_destructor is called from netdev_run_todo(), which deliberately\nruns with the RTNL semaphore released so that it can sleep while waiting\nfor the device refcount to drop:\n\n\t/* Snapshot list, allow later requests */\n\tlist_replace_init(&net_todo_list, &list);\n\n\t__rtnl_unlock();\n\t...\n\t\tif (dev->priv_destructor)\n\t\t\tdev->priv_destructor(dev);\t/* slip_devs[i] = NULL */\n\t\tif (dev->needs_free_netdev)\n\t\t\tfree_netdev(dev);\n\t\t...\n\t\t/* Free network device */\n\t\tkobject_put(&dev->dev.kobj);\n\nSo rtnl_lock() does not serialise slip_open() against the teardown at\nall.  sl_sync() can load slip_devs[i] while the entry is still published\nand dereference it after netdev_run_todo() has run the destructor and\nreleased the device:\n\n  CPU0 (slip_open)                 CPU1 (slip_close)\n                                   unregister_netdev()\n                                     rtnl_unlock()\n                                       netdev_run_todo()\n                                         __rtnl_unlock()\n  rtnl_lock()\n  sl_sync()\n    dev = slip_devs[i]\n                                         priv_destructor(dev)\n                                           slip_devs[i] = NULL\n                                         kobject_put(&dev->dev.kobj)\n                                           /* dev is freed */\n    sl = netdev_priv(dev)\n    if (sl->tty || sl->leased)     /* use-after-free */\n\n  BUG: KASAN: use-after-free in sl_sync drivers/net/slip/slip.c:730 [inline]\n  BUG: KASAN: use-after-free in slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n  Read of size 1 at addr ffff8880712dac71 by task syz-executor.2/6506\n\n  CPU: 2 PID: 6506 Comm: syz-executor.2 Not tainted 6.1.134-syzkaller-00260-g0c8fc3469765 #0\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014\n  Call Trace:\n   sl_sync drivers/net/slip/slip.c:730 [inline]\n   slip_open+0xef4/0x1210 drivers/net/slip/slip.c:806\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n   tiocsetd drivers/tty/tty_io.c:2428 [inline]\n   tty_ioctl+0x5f0/0x1530 drivers/tty/tty_io.c:2712\n\n  Allocated by task 6502:\n   alloc_netdev_mqs+0x98/0xfe0 net/core/dev.c:10719\n   sl_alloc drivers/net/slip/slip.c:756 [inline]\n   slip_open+0x36d/0x1210 drivers/net/slip/slip.c:817\n   tty_ldisc_open+0xa2/0x120 drivers/tty/tty_ldisc.c:433\n   tty_set_ldisc+0x324/0x720 drivers/tty/tty_ldisc.c:564\n\n  Freed by task 6497:\n   device_release+0xa2/0x240 drivers/base/core.c:2507\n   kobject_put+0x179/0x280 lib/kobject.c:729\n   netdev_run_todo+0x6c8/0xef0 net/core/dev.c:10509\n   slip_close+0x166/0x1c0 drivers/net/slip/slip.c:906\n   tty_ldisc_close+0x113/0x1a0 drivers/tty/tty_ldisc.c:456\n   tty_ldisc_kill+0x94/0x160 drivers/tty/tty_ldisc.c:614\n   tty_ldisc_release+0xe3/0x2b0 drivers/tty/tty_ldisc.c:782\n   tty_release+0xbcc/0xe70 drivers/tty/tty_io.c:1860\n\nCommit e58c19124189 (\"slip: Fix use-after-free Read in slip_open\") fixed\na different source of stale entries - a device left in slip_devs[] after\nslip_open() freed it on the registration error path - and does not\naddress this race, which is why the report survives it.\n\nDrop the entry from ndo_uninit instead.  unregister_netdevice() calls\nndo_uninit under RTNL, before the device is queued to netdev_run_todo(),\nso an entry that sl_sync() can still see while holding RTNL belongs to a\ndevice that cannot be freed until RTNL is dropped.  sl_free_netdev()\nstays only for the slip_open() error path, where register_netdevice()\nmay have failed before ndo_init and ndo_uninit is then not called\neither.  Both running for the same device is harmless: the\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81001"
-    },
-    {
-      "id": "CVE-2026-80994",
-      "published": "2026-09-11T20:19:06.357",
-      "modified": "2026-10-16T20:18:11.463",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: openvswitch: fix flow mask use-after-free on flow deletion\n\nThe commit in the Fixes tag below made so flow->mask free is scheduled\nvia RCU right after it is removed from the flow table.  The pointer\nstays in the flow structure and it can be accessible while in the same\nRCU critical section.  This is done to avoid requiring ovs_mutex for\nthe ovs_flow_free().\n\nHowever, while removing the flow during processing of CMD_DEL, we do\nnot take RCU read lock before the removal, and ovs_flow_cmd_fill_info()\nuses the flow->mask pointer afterwards.  The RCU read lock is taken,\nbut it's already late at that point.  The comment on that line\nacknowledges that the lock is cosmetic and doesn't serve a real purpose.\n\nThis leads to use-after-free if the RCU grace period passes between\nremoval and the filling.  It is a short race window, but it is there\nand can lead to a real crash in case memory allocation for the info\ntakes a bit longer:\n\n BUG: KASAN: slab-use-after-free in __ovs_nla_put_key\n             net/openvswitch/flow_netlink.c:1996\n BUG: KASAN: slab-use-after-free in ovs_nla_put_key+0x2463/0x2e30\n             net/openvswitch/flow_netlink.c:2250\n Read of size 4 at addr ffff88801ee89970 by task ovs_flow_del_ec/9487\n\n Call Trace:\n  <TASK>\n  __ovs_nla_put_key net/openvswitch/flow_netlink.c:1996\n  ovs_nla_put_key+0x2463/0x2e30 net/openvswitch/flow_netlink.c:2250\n  ovs_flow_cmd_fill_info+0x420/0x9c0 net/openvswitch/datapath.c:930\n  ovs_flow_cmd_del+0x53a/0x970 net/openvswitch/datapath.c:1467\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n  </TASK>\n\n Allocated by task 9487:\n  mask_alloc net/openvswitch/flow_table.c:967\n  flow_mask_insert net/openvswitch/flow_table.c:1012\n  ovs_flow_tbl_insert+0xea2/0x1a90 net/openvswitch/flow_table.c:1084\n  ovs_flow_cmd_new+0x7e3/0xd90 net/openvswitch/datapath.c:1086\n  ...\n  netlink_rcv_skb+0x156/0x420 net/netlink/af_netlink.c:2556\n\n Freed by task 9485:\n  rcu_free_sheaf+0x1e/0x100 mm/slub.c:5978\n  rcu_do_batch kernel/rcu/tree.c:2645\n  rcu_core+0x59c/0x10c0 kernel/rcu/tree.c:2897\n  handle_softirqs+0x1e4/0x9a0 kernel/softirq.c:622\n  ...\n  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062\n\novs_flow_tbl_remove() must be called after the ovs_flow_cmd_fill_info()\nto avoid this race.  This also helps with cleaning up the forced cast\nand the cosmetic RCU read lock.  Before the commit in the Fixes tag the\norder did not matter as long as the flow object itself was not freed.\n\nA wider RCU critical section could be another option, but we have a\nGFP_KERNEL allocation in the way.\n\nReported by Trend Micro's Zero Day Initiative as ZDI-CAN-32042.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80994"
     },
     {
       "id": "CVE-2026-80726",
@@ -53856,336 +54162,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21589"
-    },
-    {
-      "id": "CVE-2026-108471",
-      "published": "2026-10-13T19:18:07.377",
-      "modified": "2026-10-16T04:18:26.340",
-      "description": "Untrusted pointer dereference in Windows Virtualization-Based Security (VBS) Enclave allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108471"
-    },
-    {
-      "id": "CVE-2026-108463",
-      "published": "2026-10-13T19:18:06.310",
-      "modified": "2026-10-16T04:18:24.730",
-      "description": "Improper resolution of path equivalence in Windows SmartScreen allows an unauthorized attacker to bypass a security feature over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108463"
-    },
-    {
-      "id": "CVE-2026-107350",
-      "published": "2026-10-14T18:17:25.670",
-      "modified": "2026-10-16T04:18:23.777",
-      "description": "Improper authentication in PgBouncer 1.17.0 through 1.26.0 allows a remote attacker who knows the password of a user listed in auth_file to log in as any other user that authenticates using SCRAM, including PgBouncer admin users and backend superusers. A second StartupMessage sent during SCRAM authentication against a non-existent database is not rejected and switches the user being logged in as, while the SCRAM exchange is still verified against the keys of the first user.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107350"
-    },
-    {
-      "id": "CVE-2026-105016",
-      "published": "2026-10-13T19:17:57.750",
-      "modified": "2026-10-16T04:18:23.280",
-      "description": "Heap-based buffer overflow in Microsoft QUIC allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105016"
-    },
-    {
-      "id": "CVE-2026-0315",
-      "published": "2026-10-14T21:17:18.517",
-      "modified": "2026-10-16T04:18:05.007",
-      "description": "A local privilege escalation vulnerability in the Palo Alto Networks GlobalProtect™ app enables a local user to escalate their privileges to root on macOS. This enables a non-administrative user to execute arbitrary commands with administrative privileges.\n\nThe GlobalProtect app on Linux, Windows, iOS, Android and Chrome OS is not affected by this vulnerability.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:N/R:U/V:D/RE:M/U:Amber"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION",
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0315"
-    },
-    {
-      "id": "CVE-2026-111380",
-      "published": "2026-10-16T03:18:05.123",
-      "modified": "2026-10-16T03:18:05.123",
-      "description": "FreeRDP from 3.29.0 before 3.32.0 contains an integer overflow in the Apple audin backends (audin_mac.m, audin_ios.m), which compute the audio queue buffer size as FramesPerPacket * 2 * nChannels in UINT32 arithmetic, bypassing the CVE-2026-91962 fix. A malicious RDP server can send FramesPerPacket of 2^30 in the audin Open PDU to wrap the multiplication, causing undersized AudioQueueAllocateBuffer allocations and a heap out-of-bounds write in macOS and iOS clients.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111380"
-    },
-    {
-      "id": "CVE-2026-111376",
-      "published": "2026-10-16T03:18:04.510",
-      "modified": "2026-10-16T03:18:04.510",
-      "description": "FreeRDP from 3.30.0 before 3.32.0 contains a heap out-of-bounds read vulnerability in the Windows client's CliprdrStream_New that allows malicious RDP servers to trigger invalid memory reads via short clipboard responses. Attackers can answer a FILECONTENTS_SIZE request with a cbRequested of fewer than eight bytes when a user pastes a remote file, crashing the client or corrupting the stream size.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.3,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111376"
-    },
-    {
-      "id": "CVE-2026-111375",
-      "published": "2026-10-16T03:18:04.363",
-      "modified": "2026-10-16T03:18:04.363",
-      "description": "FreeRDP from 3.0.0 before 3.32.0 contains an out-of-bounds read vulnerability in the Windows RAIL client that allows malicious RDP servers to trigger heap over-reads by sending non-NUL-terminated window titles. Attackers can send a full-length WINDOW_ORDER_FIELD_TITLE update that wf_rail_window_common passes to SetWindowTextW, corrupting titles or crashing the client.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111375"
-    },
-    {
-      "id": "CVE-2026-10668",
-      "published": "2026-07-12T17:16:24.787",
-      "modified": "2026-10-15T23:17:33.667",
-      "description": "The Nuvoton NuMaker HSUSBD USB device-controller driver (drivers/usb/udc/udc_numaker.c) armed the control Data IN stage unconditionally (base->CEPTXCNT = len in numaker_hsusbd_ep_trigger). Because the HSUSBD hardware cannot disarm a control Data IN already armed for a previous transfer, a USB host that cancels an in-flight control transfer (timeout) and then issues a new SETUP packet can drive the driver out of sync: stale data may be transmitted in the new transfer and the control endpoint can become permanently stuck NAK'ing every subsequent control transfer.\n\nA malicious or buggy host (physical/adjacent attacker driving the bus) can repeatedly cancel-and-re-SETUP to wedge the device's USB control endpoint, denying service to the device's USB function (the device stops enumerating/responding on the control pipe) until a USB reset or re-plug. The flaw is an availability-only denial of service; the FIFO copy loops (bounded by net_buf length and the hardware BUFFULL flag) and the net_buf lifecycle are independent of the arming desync, so there is no out-of-bounds access, use-after-free, or information leak.\n\nThe fix monitors the IN-token and new-SETUP events (k_event) and only arms control Data IN when an IN token is present and no new SETUP has arrived, cancelling the current transfer on a new SETUP. Affects boards using the Nuvoton NuMaker HSUSBD controller (CONFIG_UDC_NUMAKER with DT_HAS_NUVOTON_NUMAKER_HSUSBD_ENABLED); shipped in v4.4.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:zephyrproject:zephyr:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 2.4,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10668"
-    },
-    {
-      "id": "CVE-2026-10666",
-      "published": "2026-07-12T17:16:24.550",
-      "modified": "2026-10-15T23:17:33.397",
-      "description": "parse_ipv4() in subsys/net/ip/utils.c (reached via net_ipaddr_parse() for strings of the form \"a.b.c.d:port\") copies the port substring into a fixed 17-byte stack buffer (char ipaddr[NET_IPV4_ADDR_LEN + 1]) using a length of str_len - end - 1, where str_len is the full, unbounded input length and end is only the (<=15-byte) offset of the ':' delimiter. Because the destination size is never consulted, a crafted address string with a long suffix after the colon (e.g. \"1.2.3.4:\" followed by hundreds of bytes) causes an out-of-bounds stack write whose length and contents are fully attacker-controlled (memcpy of the suffix plus a trailing NUL), enabling memory corruption and at minimum a denial of service, and potentially control-flow hijack. The parser is reached from the standard socket API (zsock_getaddrinfo / literal-address resolution), DNS server-string configuration, and the eswifi Wi-Fi co-processor DNS-response path, so an application that resolves a network-influenced address string is exposed. The bug was introduced when the parser was added (Zephyr v1.9.0) and shipped in all releases through v4.4.0. The fix removes the unbounded copy and validates the port length before copying into a small dedicated buffer. Note: the equivalent IPv6 \"[addr]:port\" path in parse_ipv6() retains the same unbounded copy at this commit and remains a separate, still-reachable instance of the defect.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:zephyrproject:zephyr:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10666"
-    },
-    {
-      "id": "CVE-2026-10657",
-      "published": "2026-07-05T23:16:52.863",
-      "modified": "2026-10-15T23:17:32.637",
-      "description": "Zephyr's DNS resolver detects mDNS (.local) queries in dns_resolve_name_internal() (subsys/net/lib/dns/resolve.c) with memcmp(strrchr(query, '.'), \".local\", 7), which always reads a fixed 7 bytes from the suffix pointer. When the resolved hostname's final label is shorter than 7 bytes (e.g. names ending in .org, .com, .net, .io, or a trailing dot), the comparison reads 1-2 bytes past the string's NUL terminator.\n\nThe hostname (query) is the caller-supplied name passed through the standard getaddrinfo()/dns_get_addr_info()/dns_resolve_name() path and is influenceable by operators or remote inputs (server names from configuration, parsed URLs, or app-facing interfaces).\n\nOn a tightly-sized buffer with no slack (for example a userspace getaddrinfo call where the hostname is copied with k_usermode_string_alloc_copy to exactly strlen+1 bytes), the over-read crosses the allocation boundary; if that boundary is unmapped (guard page, memory-domain boundary under MPU, or an address sanitizer) the over-read faults, causing a denial of service. The over-read bytes are never returned, so there is no information disclosure.\n\nThe flaw is compiled only when CONFIG_MDNS_RESOLVER is enabled, exists since v1.10.0, and is fixed by replacing the fixed-length memcmp with a NUL-safe strcmp(ptr, \".local\").",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:zephyrproject:zephyr:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10657"
-    },
-    {
-      "id": "CVE-2026-10654",
-      "published": "2026-06-30T17:16:20.273",
-      "modified": "2026-10-15T23:17:32.263",
-      "description": "A race condition in the Zephyr Bluetooth Classic RFCOMM host stack (subsys/bluetooth/host/classic/rfcomm.c) mishandles a simultaneous bidirectional session disconnect. When the local device has initiated a session teardown (state BT_RFCOMM_STATE_DISCONNECTING, DISC sent, RTX timer armed) and the connected peer concurrently sends its own DISC frame for dlci 0, rfcomm_handle_disc() invokes rfcomm_session_disconnected(), which unconditionally forced the session to BT_RFCOMM_STATE_DISCONNECTED without ever calling bt_l2cap_chan_disconnect().\n\nBecause the recovery timer was also cancelled and a later UA is ignored in the DISCONNECTED state, the session becomes permanently wedged: the underlying L2CAP channel is never released and the session slot in the fixed bt_rfcomm_pool[CONFIG_BT_MAX_CONN] array is never reclaimed (its conn pointer stays set).\n\nSubsequent bt_rfcomm_dlc_connect() calls on that connection fail with -EINVAL due to the invalid session state, so RFCOMM service is denied for that peer, and repeated occurrences can exhaust the session pool. The DISC frame is peer-controlled over the air, but exploitation requires the peer's DISC to collide with a local-initiated disconnect (a high-complexity timing race). Impact is availability/resource-leak only; there is no memory-safety, confidentiality, or integrity consequence. The defect shipped in released versions (present in v4.4.0 and earlier).\n\nThe fix only transitions to DISCONNECTED when the session is not already in DISCONNECTING, preserving the proper L2CAP teardown path.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:zephyrproject:zephyr:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10654"
-    },
-    {
-      "id": "CVE-2026-10651",
-      "published": "2026-06-23T01:16:26.747",
-      "modified": "2026-10-15T23:17:31.860",
-      "description": "bt_sdp_parse_attribute() in subsys/bluetooth/host/classic/sdp.c validated only that the SDP record buffer held the type-marker byte plus the 2-byte attribute ID (a check of buf->len < 3) but then read a fourth byte, the data-element descriptor (type), via net_buf_simple_pull_u8(). Because net_buf_simple_pull_u8() dereferences buf->data[0] before its only bounds guard (an __ASSERT_NO_MSG that compiles out when CONFIG_ASSERT is disabled, the production default), a record of exactly three bytes (0x09 followed by a 2-byte attribute ID) causes a one-byte read past the end of the logical buffer. The parser is reachable from inbound, remote-controlled data: a Bluetooth BR/EDR peer acting as an SDP server returns discovery-response records that are stored verbatim in the client receive buffer and parsed via the public bt_sdp_get_attr()/bt_sdp_has_attr()/bt_sdp_record_parse() helpers. The over-read is bounded to a single byte that is used only as an internal length selector and is never leaked to the attacker; subsequent length checks then reject the malformed record. Realistic impact is therefore limited to an edge-case denial of service (a fault only if the record ends exactly at a mapped-memory boundary, or a deterministic assert panic when CONFIG_ASSERT=y). Affects Zephyr v4.3.0 and v4.4.0; fixed by adding sizeof(type) to the length check.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:zephyrproject:zephyr:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10651"
-    },
-    {
-      "id": "CVE-2026-111363",
-      "published": "2026-10-15T22:19:34.103",
-      "modified": "2026-10-15T22:19:34.220",
-      "description": "BISHENG through 3.0.0-beta4 contains an insecure direct object reference vulnerability that allows authenticated low-privileged users to read other users' parsed documents by supplying arbitrary file_id values. Attackers can enumerate sequential file ids against GET /api/v1/knowledge/file_bbox to retrieve extracted page text from other users' and tenants' knowledge bases.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111363"
-    },
-    {
-      "id": "CVE-2025-68265",
-      "published": "2025-12-16T15:15:56.030",
-      "modified": "2026-10-15T22:19:11.267",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnvme: fix admin request_queue lifetime\n\nThe namespaces can access the controller's admin request_queue, and\nstale references on the namespaces may exist after tearing down the\ncontroller. Ensure the admin request_queue is active by moving the\ncontroller's 'put' to after all controller references have been released\nto ensure no one is can access the request_queue. This fixes a reported\nuse-after-free bug:\n\n  BUG: KASAN: slab-use-after-free in blk_queue_enter+0x41c/0x4a0\n  Read of size 8 at addr ffff88c0a53819f8 by task nvme/3287\n  CPU: 67 UID: 0 PID: 3287 Comm: nvme Tainted: G            E       6.13.2-ga1582f1a031e #15\n  Tainted: [E]=UNSIGNED_MODULE\n  Hardware name: Jabil /EGS 2S MB1, BIOS 1.00 06/18/2025\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x4f/0x60\n   print_report+0xc4/0x620\n   ? _raw_spin_lock_irqsave+0x70/0xb0\n   ? _raw_read_unlock_irqrestore+0x30/0x30\n   ? blk_queue_enter+0x41c/0x4a0\n   kasan_report+0xab/0xe0\n   ? blk_queue_enter+0x41c/0x4a0\n   blk_queue_enter+0x41c/0x4a0\n   ? __irq_work_queue_local+0x75/0x1d0\n   ? blk_queue_start_drain+0x70/0x70\n   ? irq_work_queue+0x18/0x20\n   ? vprintk_emit.part.0+0x1cc/0x350\n   ? wake_up_klogd_work_func+0x60/0x60\n   blk_mq_alloc_request+0x2b7/0x6b0\n   ? __blk_mq_alloc_requests+0x1060/0x1060\n   ? __switch_to+0x5b7/0x1060\n   nvme_submit_user_cmd+0xa9/0x330\n   nvme_user_cmd.isra.0+0x240/0x3f0\n   ? force_sigsegv+0xe0/0xe0\n   ? nvme_user_cmd64+0x400/0x400\n   ? vfs_fileattr_set+0x9b0/0x9b0\n   ? cgroup_update_frozen_flag+0x24/0x1c0\n   ? cgroup_leave_frozen+0x204/0x330\n   ? nvme_ioctl+0x7c/0x2c0\n   blkdev_ioctl+0x1a8/0x4d0\n   ? blkdev_common_ioctl+0x1930/0x1930\n   ? fdget+0x54/0x380\n   __x64_sys_ioctl+0x129/0x190\n   do_syscall_64+0x5b/0x160\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x7f765f703b0b\n  Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d dd 52 0f 00 f7 d8 64 89 01 48\n  RSP: 002b:00007ffe2cefe808 EFLAGS: 00000202 ORIG_RAX: 0000000000000010\n  RAX: ffffffffffffffda RBX: 00007ffe2cefe860 RCX: 00007f765f703b0b\n  RDX: 00007ffe2cefe860 RSI: 00000000c0484e41 RDI: 0000000000000003\n  RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000\n  R10: 00007f765f611d50 R11: 0000000000000202 R12: 0000000000000003\n  R13: 00000000c0484e41 R14: 0000000000000001 R15: 00007ffe2cefea60\n   </TASK>",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-68265"
     }
   ],
   "kev": [
@@ -55940,11 +55916,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 96,
-    "high": 553,
-    "medium": 294,
+    "critical": 97,
+    "high": 550,
+    "medium": 293,
     "kev": 6,
-    "p1": 63,
-    "p2": 588
+    "p1": 62,
+    "p2": 587
   }
 }
