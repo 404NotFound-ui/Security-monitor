@@ -1,6 +1,155 @@
 {
-  "updated": "2026-10-20T14:08:26.969552+00:00",
+  "updated": "2026-10-20T14:47:09.622051+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-88924",
+      "published": "2026-09-10T15:17:59.253",
+      "modified": "2026-10-20T14:17:04.213",
+      "description": "A flaw was found in the admin backend of gvfs. The privileged gvfsd-admin daemon changes the ownership of newly created private D-Bus sockets by calling the link-following chown() function on a pathname inside a user-controlled directory. A local attacker can exploit this via a Time-of-Check Time-of-Use (TOCTOU) race condition and exchange the socket pathname with a symbolic link pointing to an arbitrary root-owned file (such as /etc/pam.d/su). The daemon subsequently follows the symlink and changes the ownership of the targeted root-owned file to the attacker's user ID. This allows an authenticated local attacker to modify critical system files, leading to a full local privilege escalation to root.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88924"
+    },
+    {
+      "id": "CVE-2026-86961",
+      "published": "2026-10-20T01:17:28.857",
+      "modified": "2026-10-20T14:17:03.937",
+      "description": "A race condition was addressed with additional validation. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. A malicious app may be able to break out of its sandbox.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86961"
+    },
+    {
+      "id": "CVE-2026-80092",
+      "published": "2026-10-16T18:18:37.640",
+      "modified": "2026-10-20T14:17:03.157",
+      "description": "Authentication bypass by assumed-immutable data in Microsoft Identity Web allows an authorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "AUTH_BYPASS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80092"
+    },
+    {
+      "id": "CVE-2026-78165",
+      "published": "2026-10-19T11:17:19.643",
+      "modified": "2026-10-20T14:17:01.450",
+      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Spring Redis component.\n\n\n\nThis issue affects Apache Camel: from 2.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nRedisConfiguration.getSerializer lazily built a bare JdkSerializationRedisSerializer whenever no serializer option was configured, and that instance was used for every read the component performs. Spring's implementation delegates through DeserializingConverter to DefaultDeserializer, which reads the bytes with a ConfigurableObjectInputStream and installs no java.io.ObjectInputFilter on the stream, so an arbitrary serialized class graph was materialised and its readObject method executed. RedisConsumer.setBody applied that serializer to the raw bytes of every message published to the subscribed channels, before the Exchange was constructed and therefore before any route logic could inspect the message, so an actor able to issue PUBLISH on a subscribed channel reached the deserialization sink directly. The same default serializer backed the RedisTemplate built by RedisConfiguration.createDefaultTemplate, so the producer read commands GET, HGET, HGETALL and HVALS deserialized whatever was stored in the Redis keyspace, and SpringRedisIdempotentRepository shared that template. Configuring a custom redisTemplate did not close the consumer path, because RedisConsumer.setBody reads getSerializer directly rather than the serializer attached to the template, so a deployment that had wired a String serializer into its own template remained exposed on the consumer side unless it also set the serializer option. The component never constructed a java.io.ObjectInputStream itself, which is why earlier passes over the Camel codebase for unfiltered Java deserialization did not reach it. The behaviour dates back to the introduction of the component, first released in 2.11.0, and was unchanged until this fix.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, set the JVM-wide jdk.serialFilter system property, which the affected code path honours because it reads through a java.io.ObjectInputStream, for example -Djdk.serialFilter=!java.net.**;java.**;javax.**;org.apache.camel.**;!* ; or set the serializer endpoint option to a serializer that does not use Java serialization, such as StringRedisSerializer, noting that this must be set as the serializer option and not only on a custom redisTemplate. As defence in depth, require authentication on the Redis instance and restrict which clients may publish to the subscribed channels, and do not expose a Redis instance consumed by Camel to untrusted networks.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
+    },
+    {
+      "id": "CVE-2026-113495",
+      "published": "2026-10-20T12:17:29.630",
+      "modified": "2026-10-20T14:16:59.667",
+      "description": "A flaw was found in cockpit-machines. Red Hat Subscription Management (RHSM) authentication tokens are passed as command-line arguments to background helper processes during image retrieval operations. A local, unprivileged attacker on a system permitting cross-user process inspection can view these arguments while the process is active. This flaw can lead to information disclosure, potentially allowing unauthorized access to RHSM resources within the token's validity period.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113495"
+    },
+    {
+      "id": "CVE-2026-112177",
+      "published": "2026-10-20T08:16:42.507",
+      "modified": "2026-10-20T14:16:56.690",
+      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
+    },
+    {
+      "id": "CVE-2026-105941",
+      "published": "2026-10-20T13:16:39.457",
+      "modified": "2026-10-20T14:16:56.207",
+      "description": "The Azure Key Vault KMS provider in Kroxylicious accepts an untrusted vaultName from wire-deserialized EDEK bytes without format validation, enabling SSRF that exfiltrates the proxy's Azure bearer token to an attacker-controlled host. Token replay against the real Key Vault defeats the entire record-encryption trust model.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105941"
+    },
     {
       "id": "CVE-2026-93017",
       "published": "2026-10-08T15:17:56.950",
@@ -42,26 +191,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75888"
-    },
-    {
-      "id": "CVE-2026-105941",
-      "published": "2026-10-20T13:16:39.457",
-      "modified": "2026-10-20T13:16:39.457",
-      "description": "The Azure Key Vault KMS provider in Kroxylicious accepts an untrusted vaultName from wire-deserialized EDEK bytes without format validation, enabling SSRF that exfiltrates the proxy's Azure bearer token to an attacker-controlled host. Token replay against the real Key Vault defeats the entire record-encryption trust model.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105941"
     },
     {
       "id": "CVE-2026-103314",
@@ -1074,28 +1203,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108442"
     },
     {
-      "id": "CVE-2026-113495",
-      "published": "2026-10-20T12:17:29.630",
-      "modified": "2026-10-20T12:17:29.630",
-      "description": "A flaw was found in cockpit-machines. Red Hat Subscription Management (RHSM) authentication tokens are passed as command-line arguments to background helper processes during image retrieval operations. A local, unprivileged attacker on a system permitting cross-user process inspection can view these arguments while the process is active. This flaw can lead to information disclosure, potentially allowing unauthorized access to RHSM resources within the token's validity period.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113495"
-    },
-    {
       "id": "CVE-2026-86981",
       "published": "2026-10-20T01:17:29.540",
       "modified": "2026-10-20T11:17:34.457",
@@ -1403,26 +1510,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43854"
     },
     {
-      "id": "CVE-2026-112177",
-      "published": "2026-10-20T08:16:42.507",
-      "modified": "2026-10-20T08:16:42.507",
-      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
-    },
-    {
       "id": "CVE-2025-54821",
       "published": "2025-11-18T17:16:03.490",
       "modified": "2026-10-20T08:16:42.093",
@@ -1569,28 +1656,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79986"
     },
     {
-      "id": "CVE-2026-78165",
-      "published": "2026-10-19T11:17:19.643",
-      "modified": "2026-10-20T04:17:03.190",
-      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Spring Redis component.\n\n\n\nThis issue affects Apache Camel: from 2.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nRedisConfiguration.getSerializer lazily built a bare JdkSerializationRedisSerializer whenever no serializer option was configured, and that instance was used for every read the component performs. Spring's implementation delegates through DeserializingConverter to DefaultDeserializer, which reads the bytes with a ConfigurableObjectInputStream and installs no java.io.ObjectInputFilter on the stream, so an arbitrary serialized class graph was materialised and its readObject method executed. RedisConsumer.setBody applied that serializer to the raw bytes of every message published to the subscribed channels, before the Exchange was constructed and therefore before any route logic could inspect the message, so an actor able to issue PUBLISH on a subscribed channel reached the deserialization sink directly. The same default serializer backed the RedisTemplate built by RedisConfiguration.createDefaultTemplate, so the producer read commands GET, HGET, HGETALL and HVALS deserialized whatever was stored in the Redis keyspace, and SpringRedisIdempotentRepository shared that template. Configuring a custom redisTemplate did not close the consumer path, because RedisConsumer.setBody reads getSerializer directly rather than the serializer attached to the template, so a deployment that had wired a String serializer into its own template remained exposed on the consumer side unless it also set the serializer option. The component never constructed a java.io.ObjectInputStream itself, which is why earlier passes over the Camel codebase for unfiltered Java deserialization did not reach it. The behaviour dates back to the introduction of the component, first released in 2.11.0, and was unchanged until this fix.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, set the JVM-wide jdk.serialFilter system property, which the affected code path honours because it reads through a java.io.ObjectInputStream, for example -Djdk.serialFilter=!java.net.**;java.**;javax.**;org.apache.camel.**;!* ; or set the serializer endpoint option to a serializer that does not use Java serialization, such as StringRedisSerializer, noting that this must be set as the serializer option and not only on a custom redisTemplate. As defence in depth, require authentication on the Redis instance and restrict which clients may publish to the subscribed channels, and do not expose a Redis instance consumed by Camel to untrusted networks.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
-    },
-    {
       "id": "CVE-2026-78162",
       "published": "2026-10-19T11:17:19.037",
       "modified": "2026-10-20T04:17:02.327",
@@ -1715,26 +1780,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86977"
-    },
-    {
-      "id": "CVE-2026-86961",
-      "published": "2026-10-20T01:17:28.857",
-      "modified": "2026-10-20T01:17:28.857",
-      "description": "A race condition was addressed with additional validation. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. A malicious app may be able to break out of its sandbox.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86961"
     },
     {
       "id": "CVE-2026-86959",
@@ -9657,29 +9702,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21589"
-    },
-    {
-      "id": "CVE-2026-80092",
-      "published": "2026-10-16T18:18:37.640",
-      "modified": "2026-10-19T20:20:04.770",
-      "description": "Authentication bypass by assumed-immutable data in Microsoft Identity Web allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "AUTH_BYPASS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80092"
     },
     {
       "id": "CVE-2026-63829",
@@ -34852,28 +34874,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53843"
-    },
-    {
-      "id": "CVE-2025-54660",
-      "published": "2025-11-18T17:16:03.270",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "An active debug code vulnerability in Fortinet FortiClientWindows 7.4.0 through 7.4.3, FortiClientWindows 7.2.0 through 7.2.10, FortiClientWindows 7.0 all versions may allow a local attacker to run the application step by step and retrieve the saved VPN user password",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:fortinet:forticlient:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54660"
     }
   ],
   "kev": [
@@ -36629,10 +36629,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 58,
-    "high": 482,
-    "medium": 276,
+    "high": 484,
+    "medium": 275,
     "kev": 5,
     "p1": 23,
-    "p2": 518
+    "p2": 520
   }
 }
