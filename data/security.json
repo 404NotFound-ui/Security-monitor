@@ -1,6 +1,461 @@
 {
-  "updated": "2026-10-20T19:18:56.008326+00:00",
+  "updated": "2026-10-20T19:58:48.339119+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-112946",
+      "published": "2026-10-20T16:17:05.210",
+      "modified": "2026-10-20T19:56:45.543",
+      "description": "Vite is a frontend tooling framework for JavaScript. Prior to 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3, import analysis can record a root-relative browser URL in safeModulePaths instead of the cleaned resolved module identifier. On a network-accessible, non-Windows development server, an imported project file whose URL matches an absolute host path can authorize a later raw-filesystem request for that host file, provided server.fs.deny does not block it. The request can disclose the matching file outside the project root, but it does not allow arbitrary path traversal because the host path must correspond to a project-relative URL authorized by the application graph. This issue is fixed in versions 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112946"
+    },
+    {
+      "id": "CVE-2026-112950",
+      "published": "2026-10-20T16:17:05.807",
+      "modified": "2026-10-20T19:56:45.543",
+      "description": "Vitest is a Vite-native testing framework for JavaScript and TypeScript projects. From 4.1.11 until 4.1.12 and 5.0.3, isFileLoadingAllowed and the filesystem read interpret backslashes differently on Windows in packages/mocker/src/node/interceptorPlugin.ts. When a client can reach the Vite dev server on Windows and register a redirect mock containing backslash traversal, POSIX joining preserves a Windows backslash traversal that the later filesystem read interprets as a path separator, so the client can read a file outside server.fs.allow that the Vitest process can access. This issue is fixed in versions 4.1.12 and 5.0.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112950"
+    },
+    {
+      "id": "CVE-2026-112943",
+      "published": "2026-10-20T15:17:17.643",
+      "modified": "2026-10-20T19:55:49.343",
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor did not escape % on Windows when passing an argument to cmd. When an environment variable contained a malicious value, it was possible that that content to be executed. This vulnerability is fixed in 2.14.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112943"
+    },
+    {
+      "id": "CVE-2026-112942",
+      "published": "2026-10-20T15:17:17.230",
+      "modified": "2026-10-20T19:55:49.343",
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor-middleware processes an attacker-controlled Windows file argument where the file argument ends in a parent-directory component plus a line-and-column suffix: the path is resolved while the suffix is still present, and launch-editor removes the suffix before its existsSync check, leaving the existing parent directory for existsSync and allowing the attacker-controlled file argument to pass filename existence validation without requiring the malicious filename to exist. The bypass can lead to OS command injection when combined with the separately described Windows percent-expansion flaw. This issue is fixed in version 2.14.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112942"
+    },
+    {
+      "id": "CVE-2026-113652",
+      "published": "2026-10-20T17:17:36.080",
+      "modified": "2026-10-20T19:53:10.247",
+      "description": "ApostropheCMS is an open-source Node.js content management system. From 1.25.0 until 1.28.0, uploadfs Azure backend leaks account-level SAS token into every public attachment URL. When uploadfs is configured with the Azure backend and sas: true, createContainer() builds the BlobServiceClient from a URL that embeds the full SAS query string, and Azure SDK v12 derived clients inherit that query string. This issue is fixed in version 1.28.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113652"
+    },
+    {
+      "id": "CVE-2026-112392",
+      "published": "2026-10-19T22:17:06.587",
+      "modified": "2026-10-20T19:50:26.943",
+      "description": "Pillow is a Python imaging library. Prior to 13.0.0, Pillow's rank-based filters can dereference invalid image storage for a zero-size image. ImagingExpand() allocates a non-empty output and then faults while replicating edges by reading the first pixel from empty input storage; ImagingRankFilter is never reached. An attacker can supply or cause creation of a zero-size image to an application that applies a rank, median, minimum, or maximum filter. This causes a native process crash. This issue is fixed in version 13.0.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112392"
+    },
+    {
+      "id": "CVE-2026-100208",
+      "published": "2026-09-25T20:17:04.760",
+      "modified": "2026-10-20T19:49:39.833",
+      "description": "Integer overflow or wraparound in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100208"
+    },
+    {
+      "id": "CVE-2026-106160",
+      "published": "2026-10-15T14:17:14.727",
+      "modified": "2026-10-20T19:39:35.483",
+      "description": "In Progress® Kendo® UI for jQuery prior to 2026.3.1015, Model.accept passes server-response keys to kendo.setter without guarding against unsafe object paths containing __proto__, constructor, or prototype. An attacker who can supply data accepted by an affected model can modify object prototype attributes and influence application behavior, potentially compromising the confidentiality and integrity of application data. The impact depends on how the application uses the modified objects, including in server-side JavaScript scenarios. The earliest affected version has not been confirmed. This issue is fixed in version 2026.3.1015.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:progress:kendo_ui:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106160"
+    },
+    {
+      "id": "CVE-2026-88252",
+      "published": "2026-10-06T18:16:56.867",
+      "modified": "2026-10-20T19:39:08.060",
+      "description": "A flaw was found in sssd. A local user can cause a Denial of Service (DoS) by exhausting the responder service's available file descriptors (system handles used for open connections). By opening and maintaining many concurrent connections to a responder socket while continuing to queue new connection attempts, an attacker can trigger an unthrottled retry loop. This condition leads to high CPU utilization and stalls the service, preventing legitimate identity and authentication requests from being processed.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88252"
+    },
+    {
+      "id": "CVE-2026-100134",
+      "published": "2026-10-20T19:17:11.213",
+      "modified": "2026-10-20T19:35:38.940",
+      "description": "Acrobat for Edge is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100134"
+    },
+    {
+      "id": "CVE-2026-100132",
+      "published": "2026-10-20T19:17:11.060",
+      "modified": "2026-10-20T19:35:38.940",
+      "description": "Acrobat for Edge is affected by an out-of-bounds read vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to disclose sensitive information. Exploitation of this issue requires user interaction in that a victim must visit a maliciously crafted URL or interact with a compromised web page.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100132"
+    },
+    {
+      "id": "CVE-2026-43854",
+      "published": "2026-10-20T10:17:06.403",
+      "modified": "2026-10-20T19:30:59.910",
+      "description": "A vulnerability could allow an attacker with access to an encrypted project file to retrieve administrator credentials for EdgeLink-enabled devices.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43854"
+    },
+    {
+      "id": "CVE-2026-102462",
+      "published": "2026-10-15T09:17:15.020",
+      "modified": "2026-10-20T19:29:18.073",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the TDS message decoder in the Vert.x MSSQL client (vertx-mssql-client) aggregates inbound TDS packets into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle SQL Server can send a continuous stream of TDS packets without setting the END_OF_MESSAGE status flag, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mssql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:eclipse:vert.x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:eclipse:vert.x:5.2.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102462"
+    },
+    {
+      "id": "CVE-2026-102463",
+      "published": "2026-10-15T09:17:15.143",
+      "modified": "2026-10-20T19:28:54.520",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the binary array decoder in vertx-pg-client (DataTypeCodec.binaryDecodeArray) allocates a Java array sized by a server-declared 32-bit dimension count with no upper bound. A malicious or compromised PostgreSQL server, or an on-path attacker intercepting an unencrypted connection, can send a crafted DataRow message with an excessively large array dimension value, causing the client to attempt a multi-gigabyte heap allocation and crash with an OutOfMemoryError.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:eclipse:vert.x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:eclipse:vert.x:5.2.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102463"
+    },
+    {
+      "id": "CVE-2026-105815",
+      "published": "2026-10-19T22:17:03.153",
+      "modified": "2026-10-20T19:28:52.970",
+      "description": "TP-Link Tapo\nC210 V3.60 may expose shared credential material and cryptographic metadata\nthrough unauthenticated DS JSON API requests. The exposed shared credential can\nbe accepted by the Streamd Digest authentication mechanism as an administrative\npassword, allowing an unauthenticated adjacent-network attacker to establish\nencrypted media sessions without knowledge of the device account\npassword.  \n\n\n\n\n\n\n\n\n\nSuccessful\nexploitation may disclose credential and cryptographic material and allow\nunauthorized access to encrypted media sessions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105815"
+    },
+    {
+      "id": "CVE-2026-102466",
+      "published": "2026-10-15T09:17:15.427",
+      "modified": "2026-10-20T19:28:02.670",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the Vert.x MySQL client (vertx-mysql-client) pre-allocates an array for column definitions based on a server-declared column count with no upper-bound validation. A malicious or compromised MySQL server, or an attacker with man-in-the-middle positioning, can send a crafted result set packet with an extremely large column count, causing the client to attempt a massive heap allocation. The resulting OutOfMemoryError crashes the Netty event loop thread, causing a complete denial of service for all connections and verticles in the Vert.x application.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:eclipse:vert.x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:eclipse:vert.x:5.2.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102466"
+    },
+    {
+      "id": "CVE-2026-103223",
+      "published": "2026-10-15T09:17:15.853",
+      "modified": "2026-10-20T19:25:52.840",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the PostgreSQL message decoder reads the 4-byte message length field from the PostgreSQL wire protocol without any maximum validation. A malicious, compromised, or man-in-the-middle PostgreSQL server can send a message header with the length field set to an extremely large value (up to Integer.MAX_VALUE), causing the decoder to accumulate subsequent TCP data into a composite buffer without bound, leading to unbounded memory allocation on the client and an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-pg-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:eclipse:vert.x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:eclipse:vert.x:5.2.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103223"
+    },
+    {
+      "id": "CVE-2026-103224",
+      "published": "2026-10-15T09:17:15.990",
+      "modified": "2026-10-20T19:25:24.250",
+      "description": "In Eclipse Vert.x versions [4.0.0, 4.5.34] or [5.0.0,5.0.12] or [5.1.0,5.1.9] or [5.2.0, 5.2.0], the MySQL message decoder aggregates inbound multi-packet payloads into a composite direct-memory buffer without any cumulative size limit. A malicious, compromised, or man-in-the-middle MySQL server can send a continuous stream of packets with the maximum payload length (0xFFFFFF), preventing the end-of-message condition from being reached, causing unbounded direct-memory allocation on the client and leading to an out-of-memory crash. This occurs before authentication completes.\n\n\n\nThe impacted component is io.vertx:vertx-mysql-client.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:eclipse:vert.x:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:eclipse:vert.x:5.2.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103224"
+    },
     {
       "id": "CVE-2026-7791",
       "published": "2026-05-04T22:16:20.697",
@@ -22,26 +477,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7791"
-    },
-    {
-      "id": "CVE-2026-43854",
-      "published": "2026-10-20T10:17:06.403",
-      "modified": "2026-10-20T19:17:38.120",
-      "description": "A vulnerability could allow an attacker with access to an encrypted project file to retrieve administrator credentials for EdgeLink-enabled devices.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43854"
     },
     {
       "id": "CVE-2026-35562",
@@ -279,50 +714,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102204"
-    },
-    {
-      "id": "CVE-2026-100134",
-      "published": "2026-10-20T19:17:11.213",
-      "modified": "2026-10-20T19:17:11.213",
-      "description": "Acrobat for Edge is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100134"
-    },
-    {
-      "id": "CVE-2026-100132",
-      "published": "2026-10-20T19:17:11.060",
-      "modified": "2026-10-20T19:17:11.060",
-      "description": "Acrobat for Edge is affected by an out-of-bounds read vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to disclose sensitive information. Exploitation of this issue requires user interaction in that a victim must visit a maliciously crafted URL or interact with a compromised web page.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100132"
     },
     {
       "id": "CVE-2026-102201",
@@ -1905,48 +2296,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102195"
     },
     {
-      "id": "CVE-2026-113652",
-      "published": "2026-10-20T17:17:36.080",
-      "modified": "2026-10-20T17:17:36.080",
-      "description": "ApostropheCMS is an open-source Node.js content management system. From 1.25.0 until 1.28.0, uploadfs Azure backend leaks account-level SAS token into every public attachment URL. When uploadfs is configured with the Azure backend and sas: true, createContainer() builds the BlobServiceClient from a URL that embeds the full SAS query string, and Azure SDK v12 derived clients inherit that query string. This issue is fixed in version 1.28.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113652"
-    },
-    {
-      "id": "CVE-2026-112946",
-      "published": "2026-10-20T16:17:05.210",
-      "modified": "2026-10-20T17:17:32.503",
-      "description": "Vite is a frontend tooling framework for JavaScript. Prior to 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3, import analysis can record a root-relative browser URL in safeModulePaths instead of the cleaned resolved module identifier. On a network-accessible, non-Windows development server, an imported project file whose URL matches an absolute host path can authorize a later raw-filesystem request for that host file, provided server.fs.deny does not block it. The request can disclose the matching file outside the project root, but it does not allow arbitrary path traversal because the host path must correspond to a project-relative URL authorized by the application graph. This issue is fixed in versions 6.4.4, 7.3.7, 8.1.6, 8.2.4, and 8.3.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112946"
-    },
-    {
       "id": "CVE-2026-102196",
       "published": "2026-10-13T19:17:44.387",
       "modified": "2026-10-20T17:04:49.800",
@@ -2534,46 +2883,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86872"
-    },
-    {
-      "id": "CVE-2026-112950",
-      "published": "2026-10-20T16:17:05.807",
-      "modified": "2026-10-20T16:17:05.807",
-      "description": "Vitest is a Vite-native testing framework for JavaScript and TypeScript projects. From 4.1.11 until 4.1.12 and 5.0.3, isFileLoadingAllowed and the filesystem read interpret backslashes differently on Windows in packages/mocker/src/node/interceptorPlugin.ts. When a client can reach the Vite dev server on Windows and register a redirect mock containing backslash traversal, POSIX joining preserves a Windows backslash traversal that the later filesystem read interprets as a path separator, so the client can read a file outside server.fs.allow that the Vitest process can access. This issue is fixed in versions 4.1.12 and 5.0.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112950"
-    },
-    {
-      "id": "CVE-2026-112943",
-      "published": "2026-10-20T15:17:17.643",
-      "modified": "2026-10-20T16:17:04.763",
-      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor did not escape % on Windows when passing an argument to cmd. When an environment variable contained a malicious value, it was possible that that content to be executed. This vulnerability is fixed in 2.14.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112943"
     },
     {
       "id": "CVE-2026-100200",
@@ -5120,46 +5429,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65356"
-    },
-    {
-      "id": "CVE-2026-112942",
-      "published": "2026-10-20T15:17:17.230",
-      "modified": "2026-10-20T15:17:17.230",
-      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor-middleware processes an attacker-controlled Windows file argument where the file argument ends in a parent-directory component plus a line-and-column suffix: the path is resolved while the suffix is still present, and launch-editor removes the suffix before its existsSync check, leaving the existing parent directory for existsSync and allowing the attacker-controlled file argument to pass filename existence validation without requiring the malicious filename to exist. The bypass can lead to OS command injection when combined with the separately described Windows percent-expansion flaw. This issue is fixed in version 2.14.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112942"
-    },
-    {
-      "id": "CVE-2026-112392",
-      "published": "2026-10-19T22:17:06.587",
-      "modified": "2026-10-20T15:17:14.133",
-      "description": "Pillow is a Python imaging library. Prior to 13.0.0, Pillow's rank-based filters can dereference invalid image storage for a zero-size image. ImagingExpand() allocates a non-empty output and then faults while replicating edges by reading the first pixel from empty input storage; ImagingRankFilter is never reached. An attacker can supply or cause creation of a zero-size image to an application that applies a rank, median, minimum, or maximum filter. This causes a native process crash. This issue is fixed in version 13.0.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112392"
     },
     {
       "id": "CVE-2026-86961",
@@ -10220,28 +10489,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68354"
-    },
-    {
-      "id": "CVE-2026-105815",
-      "published": "2026-10-19T22:17:03.153",
-      "modified": "2026-10-19T22:17:03.153",
-      "description": "TP-Link Tapo\nC210 V3.60 may expose shared credential material and cryptographic metadata\nthrough unauthenticated DS JSON API requests. The exposed shared credential can\nbe accepted by the Streamd Digest authentication mechanism as an administrative\npassword, allowing an unauthenticated adjacent-network attacker to establish\nencrypted media sessions without knowledge of the device account\npassword.  \n\n\n\n\n\n\n\n\n\nSuccessful\nexploitation may disclose credential and cryptographic material and allow\nunauthorized access to encrypted media sessions.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105815"
     },
     {
       "id": "CVE-2025-39974",
@@ -37179,360 +37426,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60718"
-    },
-    {
-      "id": "CVE-2025-60721",
-      "published": "2025-11-11T18:15:40.573",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Privilege context switching error in Windows Administrator Protection allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60721"
-    },
-    {
-      "id": "CVE-2025-60722",
-      "published": "2025-11-11T18:15:40.733",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Improper limitation of a pathname to a restricted directory ('path traversal') in OneDrive for Android allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "onedrive",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:onedrive:*:*:*:*:*:android:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:onedrive:*:*:*:*:*:android:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60722"
-    },
-    {
-      "id": "CVE-2025-60726",
-      "published": "2025-11-11T18:15:41.240",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Out-of-bounds read in Microsoft Office Excel allows an unauthorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "excel",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2021",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2024",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office online server",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:-:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:-:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60726"
-    },
-    {
-      "id": "CVE-2025-60727",
-      "published": "2025-11-11T18:15:41.397",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Out-of-bounds read in Microsoft Office Excel allows an unauthorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "excel",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2021",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2024",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office online server",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:-:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:-:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_online_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60727"
-    },
-    {
-      "id": "CVE-2025-60728",
-      "published": "2025-11-11T18:15:41.550",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Untrusted pointer dereference in Microsoft Office Excel allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2024",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:-:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2024:*:*:*:*:macos:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60728"
-    },
-    {
-      "id": "CVE-2025-61819",
-      "published": "2025-11-11T18:15:41.710",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Photoshop Desktop versions 26.8.1 and earlier are affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:adobe:photoshop:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61819"
-    },
-    {
-      "id": "CVE-2025-61820",
-      "published": "2025-11-11T18:15:41.877",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Illustrator versions 28.7.10, 29.8.2 and earlier are affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:adobe:illustrator:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61820"
-    },
-    {
-      "id": "CVE-2025-61826",
-      "published": "2025-11-11T18:15:42.040",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Illustrator on iPad versions 3.0.9 and earlier are affected by an Integer Underflow (Wrap or Wraparound) vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:adobe:illustrator_on_ipad:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-61826"
     }
   ],
   "kev": [
