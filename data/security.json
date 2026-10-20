@@ -1,6 +1,48 @@
 {
-  "updated": "2026-10-20T02:45:30.777547+00:00",
+  "updated": "2026-10-20T03:24:50.791283+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-54701",
+      "published": "2026-10-14T20:17:47.580",
+      "modified": "2026-10-20T03:17:15.347",
+      "description": "Markdown Preview Enhanced is a Markdown preview extension for Visual Studio Code. Prior to 0.8.30, Markdown Preview Enhanced reads repository-controlled .crossnote/head.html content and passes it through resolvePathsInHeader before inserting it into the head of the preview webview document without removing executable content. Script-capable markup executes while the document loads, before the React application and DOMPurify initialize, and can access acquireVsCodeApi to send messages from the webview to the extension host. Opening a Markdown preview in a malicious repository is sufficient to trigger the injected content, and no additional click within the notification or preview is required. This issue is fixed in version 0.8.30.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:L/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54701"
+    },
+    {
+      "id": "CVE-2026-109430",
+      "published": "2026-10-15T02:18:37.150",
+      "modified": "2026-10-20T03:17:12.903",
+      "description": "Ellucian WebAdvisor 3.2 contains an unauthenticated XML External Entity (XXE) injection vulnerability that allows remote attackers to submit crafted XML POST requests to the /WebAdvisor/WebAdvisor endpoint without disabling external entity and DTD resolution. Attackers can exploit this flaw to force the server into SSRF requests, coerce NTLMv2 hash disclosure via attacker-controlled SMB shares, and read arbitrary files from the underlying Windows host through an out-of-band error-based channel. WebAdvisor entered end-of-support status in June 2022 and users are encouraged to migrate to Colleague Self-Service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109430"
+    },
     {
       "id": "CVE-2026-54554",
       "published": "2026-10-14T18:17:37.693",
@@ -34404,84 +34446,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-31266"
-    },
-    {
-      "id": "CVE-2025-43374",
-      "published": "2025-11-21T22:16:19.863",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 18.5 and iPadOS 18.5, iPadOS 17.7.7, macOS Sequoia 15.5, macOS Sonoma 14.7.3, macOS Ventura 13.7.3, tvOS 18.5, visionOS 2.5, watchOS 11.5. An attacker in physical proximity may be able to cause an out-of-bounds read in kernel memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43374"
-    },
-    {
-      "id": "CVE-2025-65947",
-      "published": "2025-11-21T23:15:45.373",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "thread-amount is a tool that gets the amount of threads in the current process. Prior to version 0.2.2, there are resource leaks when querying thread counts on Windows and Apple platforms. In Windows platforms, the thread_amount function calls CreateToolhelp32Snapshot but fails to close the returned HANDLE using CloseHandle. Repeated calls to this function will cause the handle count of the process to grow indefinitely, eventually leading to system instability or process termination when the handle limit is reached. In Apple platforms, the thread_amount function calls task_threads (via Mach kernel APIs) which allocates memory for the thread list. The function fails to deallocate this memory using vm_deallocate. Repeated calls will result in a steady memory leak, eventually causing the process to be killed by the OOM (Out of Memory) killer. This issue has been patched in version 0.2.2.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-65947"
     }
   ],
   "kev": [
