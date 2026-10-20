@@ -1,6 +1,578 @@
 {
-  "updated": "2026-10-20T12:29:49.822940+00:00",
+  "updated": "2026-10-20T13:18:23.359606+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-93017",
+      "published": "2026-10-08T15:17:56.950",
+      "modified": "2026-10-20T13:16:43.930",
+      "description": "The `insights-operator-gather` ClusterRole grants the operator's service account read access to secrets in the core API group with no namespace or resourceNames restriction — therefore, access to every secret in every namespace in the cluster.\n\nRef: https://github.com/openshift/insights-operator/blob/8f15e3157ff09f54ab22801f5b21da35a195cc6d/manifests/03-clusterrole.yaml#L368-L373\n```\n- apiGroups:\n  - \"\"\n  resources:\n  - secrets\n  verbs:\n  - get\n  - list\n```\n\nBy spawning a pod with the gather service account mounted, an attacker will be able to access any secret in any namespace.\n\n```\nspec:\n serviceAccountName:\"gather\"\n```",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93017"
+    },
+    {
+      "id": "CVE-2026-75888",
+      "published": "2026-10-12T17:17:35.723",
+      "modified": "2026-10-20T13:16:43.800",
+      "description": "A flaw was found in the OpenShift console. An authenticated console user can exploit a Server-Side Request Forgery (SSRF) vulnerability by providing a specially crafted Helm chart URL without proper validation. This allows the user to make the console pod fetch arbitrary URLs, potentially leading to the disclosure of sensitive information through error messages or enabling blind port scanning within the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75888"
+    },
+    {
+      "id": "CVE-2026-105941",
+      "published": "2026-10-20T13:16:39.457",
+      "modified": "2026-10-20T13:16:39.457",
+      "description": "The Azure Key Vault KMS provider in Kroxylicious accepts an untrusted vaultName from wire-deserialized EDEK bytes without format validation, enabling SSRF that exfiltrates the proxy's Azure bearer token to an attacker-controlled host. Token replay against the real Key Vault defeats the entire record-encryption trust model.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105941"
+    },
+    {
+      "id": "CVE-2026-103314",
+      "published": "2026-10-19T13:16:53.617",
+      "modified": "2026-10-20T13:16:38.277",
+      "description": "A flaw was found in Red Hat Advanced Cluster Security for Kubernetes (RHACS). The Central SAML authentication ACS endpoint does not retain used SAML assertion or response identifiers to prevent replay. An attacker who obtains a valid, unexpired signed SAML response can submit it multiple times and receive distinct Central authentication tokens for the mapped identity.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103314"
+    },
+    {
+      "id": "CVE-2026-73179",
+      "published": "2026-10-09T11:17:02.817",
+      "modified": "2026-10-20T12:44:11.663",
+      "description": "Improper enforcement of single-use authorization code semantics in the JPA OAuth2 authorization code grant provider in Apache CXFallows a remote attacker to obtain multiple valid access tokens from a single authorization code via concurrent token exchange requests that race the non-atomic find-then-delete operation against a shared relational database under READ_COMMITTED isolation. Users are recommended to upgrade to versions 4.2.4 or 4.1.9 or 3.6.13, which fixes this issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:cxf:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73179"
+    },
+    {
+      "id": "CVE-2026-102855",
+      "published": "2026-10-13T20:17:07.010",
+      "modified": "2026-10-20T12:37:42.130",
+      "description": "Heap-based buffer overflow in Microsoft Office Visio allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102855"
+    },
+    {
+      "id": "CVE-2026-108426",
+      "published": "2026-10-15T21:17:07.820",
+      "modified": "2026-10-20T12:36:55.687",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108426"
+    },
+    {
+      "id": "CVE-2026-108427",
+      "published": "2026-10-15T21:17:07.947",
+      "modified": "2026-10-20T12:36:32.500",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108427"
+    },
+    {
+      "id": "CVE-2026-108428",
+      "published": "2026-10-15T21:17:08.067",
+      "modified": "2026-10-20T12:35:59.853",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108428"
+    },
+    {
+      "id": "CVE-2026-108429",
+      "published": "2026-10-15T21:17:08.190",
+      "modified": "2026-10-20T12:35:34.387",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108429"
+    },
+    {
+      "id": "CVE-2026-108430",
+      "published": "2026-10-15T21:17:08.303",
+      "modified": "2026-10-20T12:31:30.600",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "microsoft 365",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108430"
+    },
+    {
+      "id": "CVE-2026-108431",
+      "published": "2026-10-15T21:17:08.420",
+      "modified": "2026-10-20T12:31:04.807",
+      "description": "Stack-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "microsoft 365",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108431"
+    },
+    {
+      "id": "CVE-2026-108432",
+      "published": "2026-10-15T21:17:08.540",
+      "modified": "2026-10-20T12:30:37.840",
+      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "microsoft 365",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108432"
+    },
+    {
+      "id": "CVE-2026-108433",
+      "published": "2026-10-15T21:17:08.657",
+      "modified": "2026-10-20T12:30:13.517",
+      "description": "Reliance on untrusted inputs in a security decision in Microsoft Office Word allows an unauthorized attacker to bypass a security feature locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "microsoft 365",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2021",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office 2024",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
+        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108433"
+    },
     {
       "id": "CVE-2026-108434",
       "published": "2026-10-15T21:17:08.777",
@@ -7919,26 +8491,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-7043"
-    },
-    {
-      "id": "CVE-2026-103314",
-      "published": "2026-10-19T13:16:53.617",
-      "modified": "2026-10-19T21:03:27.760",
-      "description": "A flaw was found in Red Hat Advanced Cluster Security for Kubernetes (RHACS). The Central SAML authentication ACS endpoint does not retain used SAML assertion or response identifiers to prevent replay. An attacker who obtains a valid, unexpired signed SAML response can submit it multiple times and receive distinct Central authentication tokens for the mapped identity.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103314"
     },
     {
       "id": "CVE-2026-112000",
@@ -34322,319 +34874,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54660"
-    },
-    {
-      "id": "CVE-2025-58413",
-      "published": "2025-11-18T17:16:06.557",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A stack-based buffer overflow vulnerability in Fortinet FortiOS 7.6.0 through 7.6.3, FortiOS 7.4.0 through 7.4.8, FortiOS 7.2 all versions, FortiOS 7.0 all versions, FortiOS 6.4 all versions, FortiOS 6.2 all versions, FortiOS 6.0 all versions, FortiSASE 25.3.b allows attacker to execute unauthorized code or commands via specially crafted packets",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:fortinet:fortisase:25.3.89:*:*:*:feature:*:*:*",
-        "cpe:2.3:a:fortinet:fortisase:25.3.89:*:*:*:mature:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58413"
-    },
-    {
-      "id": "CVE-2025-13396",
-      "published": "2025-11-19T16:15:47.097",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A weakness has been identified in code-projects Courier Management System 1.0. This affects an unknown function of the file /add-office.php. This manipulation of the argument OfficeName causes sql injection. The attack may be initiated remotely. The exploit has been made available to the public and could be exploited.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:carmelogarcia:courier_management_system:1.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 2.1,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13396"
-    },
-    {
-      "id": "CVE-2025-12766",
-      "published": "2025-11-19T17:15:46.690",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "An Insecure Direct Object Reference (IDOR) vulnerability in the Management Console of BlackBerry® AtHoc® (OnPrem) version 7.21 could allow an attacker to potentially gain unauthorized knowledge about other organizations hosted on the same Interactive Warning System (IWS).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:blackberry:athoc:7.21:-:*:*:onprem:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12766"
-    },
-    {
-      "id": "CVE-2025-34328",
-      "published": "2025-11-19T17:15:47.420",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "AudioCodes Fax Server and Auto-Attendant IVR appliances versions up to and including 2.6.23 include a web administration component (F2MAdmin) that exposes an unauthenticated script-management endpoint at AudioCodes_files/utils/IVR/diagram/ajaxScript.php. The saveScript action writes attacker-supplied data directly to a server-side file path under the privileges of the web service account, which runs as NT AUTHORITY\\\\SYSTEM on Windows deployments. A remote, unauthenticated attacker can write arbitrary files into the product’s web-accessible directory structure and subsequently execute them.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:audiocodes:fax_server:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:audiocodes:interactive_voice_response:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34328"
-    },
-    {
-      "id": "CVE-2025-34329",
-      "published": "2025-11-19T17:15:47.613",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "AudioCodes Fax Server and Auto-Attendant IVR appliances versions up to and including 2.6.23 expose an unauthenticated backup upload endpoint at AudioCodes_files/ajaxBackupUploadFile.php in the F2MAdmin web interface. The script derives a backup folder path from application configuration, creates the directory if it does not exist, and then moves an uploaded file to that location using the attacker-controlled filename, without any authentication, authorization, or file-type validation. On default Windows deployments where the backup directory resolves to the system drive, a remote attacker can upload web server or interpreter configuration files that cause a log file or other server-controlled resource to be treated as executable code. This allows subsequent HTTP requests to trigger arbitrary command execution under the web server account, which runs as NT AUTHORITY\\\\SYSTEM.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:audiocodes:fax_server:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:audiocodes:interactive_voice_response:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34329"
-    },
-    {
-      "id": "CVE-2025-34332",
-      "published": "2025-11-19T17:15:48.133",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "AudioCodes Fax Server and Auto-Attendant IVR appliances versions up to and including 2.6.23 include a web administration component that controls back-end Windows services using helper batch scripts located under C:\\\\F2MAdmin\\\\F2E\\\\AudioCodes_files\\\\utils\\\\Services. When certain service actions are requested through ajaxPost.php, these scripts are invoked by PHP using system() under the NT AUTHORITY\\\\SYSTEM account. The batch files in this directory are writable by any authenticated local user due to overly permissive ACLs, allowing them to replace script contents with arbitrary commands. On the next service start/stop operation, the modified script is executed as SYSTEM, enabling elevation of local privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:audiocodes:fax_server:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:audiocodes:interactive_voice_response:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34332"
-    },
-    {
-      "id": "CVE-2025-13315",
-      "published": "2025-11-19T18:15:47.843",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "Twonky Server 8.5.2 on Linux and Windows is vulnerable to an access control flaw. An unauthenticated attacker can bypass web service API authentication controls to leak a log file and read the administrator's username and encrypted password.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:lynxtechnology:twonky_server:8.5.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13315"
-    },
-    {
-      "id": "CVE-2025-13316",
-      "published": "2025-11-19T18:15:48.017",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "Twonky Server 8.5.2 on Linux and Windows is vulnerable to a cryptographic flaw, use of hard-coded cryptographic keys. An attacker with knowledge of the encrypted administrator password can decrypt the value with static keys to view the plain text password and gain administrator-level access to Twonky Server.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:lynxtechnology:twonky_server:8.5.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13316"
-    },
-    {
-      "id": "CVE-2025-65089",
-      "published": "2025-11-19T18:15:51.487",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "XWiki Remote Macros provides XWiki rendering macros that are useful when migrating content from Confluence. Prior to version 1.27.0, a user with no view rights on a page may see the content of an office attachment displayed with the view file macro. This issue has been patched in version 1.27.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:xwiki:pro_macros:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-65089"
-    },
-    {
-      "id": "CVE-2025-13433",
-      "published": "2025-11-20T15:17:24.337",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A security flaw has been discovered in Muse Group MuseHub 2.1.0.1567. The affected element is an unknown function of the file C:\\Program Files\\WindowsApps\\Muse.MuseHub_2.1.0.1567_x64__rb9pth70m6nz6\\Muse.Updater.exe of the component Windows Service. The manipulation results in unquoted search path. The attack is only possible with local access. A high complexity level is associated with this attack. The exploitability is described as difficult. The vendor was contacted early about this disclosure but did not respond in any way.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13433"
-    },
-    {
-      "id": "CVE-2025-13469",
-      "published": "2025-11-20T15:17:26.853",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A security vulnerability has been detected in Public Knowledge Project omp and ojs 3.3.0/3.4.0/3.5.0. Impacted is an unknown function of the file plugins/paymethod/manual/templates/paymentForm.tpl of the component Payment Instructions Setting Handler. The manipulation of the argument manualInstructions leads to cross site scripting. The attack can be initiated remotely. You should upgrade the affected component.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:P/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13469"
-    },
-    {
-      "id": "CVE-2025-64524",
-      "published": "2025-11-20T18:15:51.250",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "cups-filters contains backends, filters, and other software required to get the cups printing service working on operating systems other than macos. In versions 2.0.1 and prior, a heap-buffer-overflow vulnerability in the rastertopclx filter causes the program to crash with a segmentation fault when processing maliciously crafted input data. This issue can be exploited to trigger memory corruption, potentially leading to arbitrary code execution. This issue has been patched via commit 956283c.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:openprinting:cups-filters:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64524"
-    },
-    {
-      "id": "CVE-2025-10571",
-      "published": "2025-11-20T19:16:11.527",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "Authentication Bypass Using an Alternate Path or Channel vulnerability in ABB ABB Ability Edgenius.This issue affects ABB Ability Edgenius: 3.2.0.0, 3.2.1.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.4,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "AUTH_BYPASS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10571"
     }
   ],
   "kev": [
@@ -36389,11 +36628,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 62,
-    "high": 473,
-    "medium": 279,
+    "critical": 58,
+    "high": 482,
+    "medium": 276,
     "kev": 5,
-    "p1": 24,
-    "p2": 512
+    "p1": 23,
+    "p2": 518
   }
 }
