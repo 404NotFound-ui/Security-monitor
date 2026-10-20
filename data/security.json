@@ -1,10 +1,32 @@
 {
-  "updated": "2026-10-20T14:47:09.622051+00:00",
+  "updated": "2026-10-20T15:28:21.862076+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-8355",
+      "published": "2026-10-20T00:19:20.530",
+      "modified": "2026-10-20T15:17:35.683",
+      "description": "IBM ContextForge MCP Gateway 0.1.0 through 1.0.5 is vulnerable to a server-side request Forgery (SSRF) that allows authenticated users with gateway creation privileges to perform arbitrary HTTP POST requests to internal network resources and cloud metadata endpoints. The vulnerability occurs during OAuth-enabled gateway registration when the system fails to validate the oauth_config.token_url parameter. When registering a gateway with OAuth client credentials authentication, an attacker can supply a malicious token_url pointing to internal services, cloud metadata endpoints (AWS IMDSv1, GCP, Azure), or localhost-bound services. The application immediately performs an HTTP POST request to the attacker-controlled URL with form-encoded credentials in the body. If the response cannot be parsed as a valid OAuth token response, up to 256 characters of the response body are reflected back to the attacker in the HTTP 502 error message. This vulnerability bypasses existing SSRF protections that are applied to the gateway.url field but not to OAuth configuration parameters.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8355"
+    },
     {
       "id": "CVE-2026-88924",
       "published": "2026-09-10T15:17:59.253",
-      "modified": "2026-10-20T14:17:04.213",
+      "modified": "2026-10-20T15:17:35.560",
       "description": "A flaw was found in the admin backend of gvfs. The privileged gvfsd-admin daemon changes the ownership of newly created private D-Bus sockets by calling the link-following chown() function on a pathname inside a user-controlled directory. A local attacker can exploit this via a Time-of-Check Time-of-Use (TOCTOU) race condition and exchange the socket pathname with a symbolic link pointing to an arbitrary root-owned file (such as /etc/pam.d/su). The daemon subsequently follows the symlink and changes the ownership of the targeted root-owned file to the attacker's user ID. This allows an authenticated local attacker to modify critical system files, leading to a full local privilege escalation to root.",
       "vendors": [
         "Microsoft"
@@ -24,9 +46,394 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88924"
     },
     {
+      "id": "CVE-2026-86933",
+      "published": "2026-10-20T01:17:27.890",
+      "modified": "2026-10-20T15:17:35.410",
+      "description": "A permissions issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Golden Gate 27. An app may be able to access information about a user's contacts.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.3,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86933"
+    },
+    {
+      "id": "CVE-2026-86919",
+      "published": "2026-10-20T01:17:27.390",
+      "modified": "2026-10-20T15:17:35.240",
+      "description": "A stack overflow was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, visionOS 27. An attacker with a paired Bluetooth device may be able to execute arbitrary code.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86919"
+    },
+    {
+      "id": "CVE-2026-86918",
+      "published": "2026-10-20T01:17:27.287",
+      "modified": "2026-10-20T15:17:35.073",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted image may lead to unexpected app termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86918"
+    },
+    {
+      "id": "CVE-2026-86915",
+      "published": "2026-10-20T01:17:27.100",
+      "modified": "2026-10-20T15:17:34.913",
+      "description": "A race condition was addressed with improved locking. This issue is fixed in macOS Golden Gate 27. An app may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86915"
+    },
+    {
+      "id": "CVE-2026-86914",
+      "published": "2026-10-20T01:17:27.000",
+      "modified": "2026-10-20T15:17:34.750",
+      "description": "An information disclosure issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive network connection information.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86914"
+    },
+    {
+      "id": "CVE-2026-86913",
+      "published": "2026-10-20T01:17:26.893",
+      "modified": "2026-10-20T15:17:34.577",
+      "description": "A use after free issue was addressed with improved memory management. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted media file may lead to unexpected app termination or corrupt process memory.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86913"
+    },
+    {
+      "id": "CVE-2026-86907",
+      "published": "2026-10-20T01:17:26.530",
+      "modified": "2026-10-20T15:17:34.420",
+      "description": "An authorization issue was addressed with improved entitlement checks. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app with admin privileges may be able to modify the System Keychain.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86907"
+    },
+    {
+      "id": "CVE-2026-86871",
+      "published": "2026-10-20T01:17:25.253",
+      "modified": "2026-10-20T15:17:33.953",
+      "description": "An integer underflow was addressed with improved input validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker with control of a network file server may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86871"
+    },
+    {
+      "id": "CVE-2026-84613",
+      "published": "2026-10-20T01:17:24.163",
+      "modified": "2026-10-20T15:17:31.843",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An attacker in radio range may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84613"
+    },
+    {
+      "id": "CVE-2026-84547",
+      "published": "2026-10-20T01:17:22.190",
+      "modified": "2026-10-20T15:17:31.577",
+      "description": "A memory corruption issue was addressed with improved input validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker in physical proximity may be able to corrupt process memory.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.5,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84547"
+    },
+    {
+      "id": "CVE-2026-84508",
+      "published": "2026-10-20T01:17:20.937",
+      "modified": "2026-10-20T15:17:31.357",
+      "description": "This issue was addressed with improved validation of the caller's access. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Tahoe 26.7, visionOS 27. An app may be able to access protected user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84508"
+    },
+    {
+      "id": "CVE-2026-84490",
+      "published": "2026-10-20T01:17:20.553",
+      "modified": "2026-10-20T15:17:31.200",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 27 and iPadOS 27. An attacker with physical access to a locked device may be able to bypass Digital ID authentication when iPhone Mirroring is active.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.0,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84490"
+    },
+    {
+      "id": "CVE-2026-65396",
+      "published": "2026-10-20T01:17:18.313",
+      "modified": "2026-10-20T15:17:30.450",
+      "description": "A buffer overflow was addressed with improved size validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65396"
+    },
+    {
+      "id": "CVE-2026-65379",
+      "published": "2026-10-20T01:17:17.860",
+      "modified": "2026-10-20T15:17:30.293",
+      "description": "The issue was addressed with improved handling of secure input state. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65379"
+    },
+    {
+      "id": "CVE-2026-65372",
+      "published": "2026-10-20T01:17:17.313",
+      "modified": "2026-10-20T15:17:30.130",
+      "description": "A race condition was addressed with additional validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. A malicious application may be able to bypass Privacy preferences.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65372"
+    },
+    {
+      "id": "CVE-2026-65356",
+      "published": "2026-10-20T01:17:16.570",
+      "modified": "2026-10-20T15:17:29.957",
+      "description": "An access issue was addressed with improved access controls. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65356"
+    },
+    {
+      "id": "CVE-2026-112943",
+      "published": "2026-10-20T15:17:17.643",
+      "modified": "2026-10-20T15:17:17.643",
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor did not escape % on Windows when passing an argument to cmd. When an environment variable contained a malicious value, it was possible that that content to be executed. This vulnerability is fixed in 2.14.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112943"
+    },
+    {
+      "id": "CVE-2026-112942",
+      "published": "2026-10-20T15:17:17.230",
+      "modified": "2026-10-20T15:17:17.230",
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.2, launch-editor-middleware processes an attacker-controlled Windows file argument where the file argument ends in a parent-directory component plus a line-and-column suffix: the path is resolved while the suffix is still present, and launch-editor removes the suffix before its existsSync check, leaving the existing parent directory for existsSync and allowing the attacker-controlled file argument to pass filename existence validation without requiring the malicious filename to exist. The bypass can lead to OS command injection when combined with the separately described Windows percent-expansion flaw. This issue is fixed in version 2.14.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112942"
+    },
+    {
+      "id": "CVE-2026-112392",
+      "published": "2026-10-19T22:17:06.587",
+      "modified": "2026-10-20T15:17:14.133",
+      "description": "Pillow is a Python imaging library. Prior to 13.0.0, Pillow's rank-based filters can dereference invalid image storage for a zero-size image. ImagingExpand() allocates a non-empty output and then faults while replicating edges by reading the first pixel from empty input storage; ImagingRankFilter is never reached. An attacker can supply or cause creation of a zero-size image to an application that applies a rank, median, minimum, or maximum filter. This causes a native process crash. This issue is fixed in version 13.0.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112392"
+    },
+    {
       "id": "CVE-2026-86961",
       "published": "2026-10-20T01:17:28.857",
-      "modified": "2026-10-20T14:17:03.937",
+      "modified": "2026-10-20T15:03:59.857",
       "description": "A race condition was addressed with additional validation. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. A malicious app may be able to break out of its sandbox.",
       "vendors": [
         "Apple"
@@ -42,6 +449,559 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86961"
+    },
+    {
+      "id": "CVE-2026-113495",
+      "published": "2026-10-20T12:17:29.630",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A flaw was found in cockpit-machines. Red Hat Subscription Management (RHSM) authentication tokens are passed as command-line arguments to background helper processes during image retrieval operations. A local, unprivileged attacker on a system permitting cross-user process inspection can view these arguments while the process is active. This flaw can lead to information disclosure, potentially allowing unauthorized access to RHSM resources within the token's validity period.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113495"
+    },
+    {
+      "id": "CVE-2026-112177",
+      "published": "2026-10-20T08:16:42.507",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
+    },
+    {
+      "id": "CVE-2026-105941",
+      "published": "2026-10-20T13:16:39.457",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "The Azure Key Vault KMS provider in Kroxylicious accepts an untrusted vaultName from wire-deserialized EDEK bytes without format validation, enabling SSRF that exfiltrates the proxy's Azure bearer token to an attacker-controlled host. Token replay against the real Key Vault defeats the entire record-encryption trust model.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105941"
+    },
+    {
+      "id": "CVE-2026-86981",
+      "published": "2026-10-20T01:17:29.540",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86981"
+    },
+    {
+      "id": "CVE-2026-86979",
+      "published": "2026-10-20T01:17:29.450",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A privacy issue was addressed with improved checks. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86979"
+    },
+    {
+      "id": "CVE-2026-86976",
+      "published": "2026-10-20T01:17:29.260",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86976"
+    },
+    {
+      "id": "CVE-2026-86975",
+      "published": "2026-10-20T01:17:29.160",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted image may lead to unexpected process termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86975"
+    },
+    {
+      "id": "CVE-2026-86963",
+      "published": "2026-10-20T01:17:29.060",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A denial-of-service issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27. An attacker in a privileged network position may be able to cause a denial-of-service.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86963"
+    },
+    {
+      "id": "CVE-2026-86962",
+      "published": "2026-10-20T01:17:28.957",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A double free issue was addressed with improved memory management. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An app may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86962"
+    },
+    {
+      "id": "CVE-2026-86957",
+      "published": "2026-10-20T01:17:28.660",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An attacker in wireless proximity may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86957"
+    },
+    {
+      "id": "CVE-2026-86955",
+      "published": "2026-10-20T01:17:28.570",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86955"
+    },
+    {
+      "id": "CVE-2026-86953",
+      "published": "2026-10-20T01:17:28.467",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An attacker in physical proximity may be able to cause a denial-of-service.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86953"
+    },
+    {
+      "id": "CVE-2026-86932",
+      "published": "2026-10-20T01:17:27.793",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An authorization issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86932"
+    },
+    {
+      "id": "CVE-2026-86928",
+      "published": "2026-10-20T01:17:27.697",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A path handling issue was addressed with improved validation. This issue is fixed in macOS Golden Gate 27. An app may be able to access protected user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86928"
+    },
+    {
+      "id": "CVE-2026-86922",
+      "published": "2026-10-20T01:17:27.600",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A type confusion issue was addressed with improved state management. This issue is fixed in Safari 27, iOS 27 and iPadOS 27, macOS Golden Gate 27, visionOS 27. Processing maliciously crafted web content may lead to arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86922"
+    },
+    {
+      "id": "CVE-2026-86921",
+      "published": "2026-10-20T01:17:27.493",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A permissions issue was addressed with improved validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, visionOS 27. A local attacker may be able to overwrite restricted files.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86921"
+    },
+    {
+      "id": "CVE-2026-28853",
+      "published": "2026-10-20T01:17:11.460",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "The issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to elevate privileges.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28853"
+    },
+    {
+      "id": "CVE-2026-86977",
+      "published": "2026-10-20T01:17:29.353",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An authorization issue was addressed with improved network restrictions. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to initiate calls or send messages.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86977"
+    },
+    {
+      "id": "CVE-2026-86959",
+      "published": "2026-10-20T01:17:28.763",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An input validation issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. Processing a maliciously crafted image may lead to unexpected process termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86959"
+    },
+    {
+      "id": "CVE-2026-86944",
+      "published": "2026-10-20T01:17:28.177",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86944"
+    },
+    {
+      "id": "CVE-2026-86940",
+      "published": "2026-10-20T01:17:28.080",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Golden Gate 27. An app may be able to disclose kernel memory.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86940"
+    },
+    {
+      "id": "CVE-2026-86935",
+      "published": "2026-10-20T01:17:27.990",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "This issue was addressed by removing additional entitlements. This issue is fixed in macOS Golden Gate 27. An app may be able to access user-sensitive data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86935"
+    },
+    {
+      "id": "CVE-2026-86872",
+      "published": "2026-10-20T01:17:25.357",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A logic issue was addressed with improved state management. This issue is fixed in Safari 27, visionOS 27, watchOS 27. Processing maliciously crafted web content may lead to unexpected behavior.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86872"
+    },
+    {
+      "id": "CVE-2026-86868",
+      "published": "2026-10-20T01:17:24.980",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "An authentication issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker may be able to impersonate other users.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86868"
+    },
+    {
+      "id": "CVE-2026-84582",
+      "published": "2026-10-20T01:17:23.697",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A privacy issue was addressed with improved access restrictions. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84582"
+    },
+    {
+      "id": "CVE-2026-84579",
+      "published": "2026-10-20T01:17:23.593",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "A logic issue was addressed with improved checks. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. Opening a file referencing a network share may lead to unexpected software execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84579"
+    },
+    {
+      "id": "CVE-2026-28854",
+      "published": "2026-10-20T01:17:11.563",
+      "modified": "2026-10-20T15:03:59.857",
+      "description": "The issue was addressed with additional app bundle integrity checks. This issue is fixed in macOS Golden Gate 27. A maliciously modified app may not be prevented from launching.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28854"
     },
     {
       "id": "CVE-2026-80092",
@@ -87,68 +1047,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
-    },
-    {
-      "id": "CVE-2026-113495",
-      "published": "2026-10-20T12:17:29.630",
-      "modified": "2026-10-20T14:16:59.667",
-      "description": "A flaw was found in cockpit-machines. Red Hat Subscription Management (RHSM) authentication tokens are passed as command-line arguments to background helper processes during image retrieval operations. A local, unprivileged attacker on a system permitting cross-user process inspection can view these arguments while the process is active. This flaw can lead to information disclosure, potentially allowing unauthorized access to RHSM resources within the token's validity period.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113495"
-    },
-    {
-      "id": "CVE-2026-112177",
-      "published": "2026-10-20T08:16:42.507",
-      "modified": "2026-10-20T14:16:56.690",
-      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
-    },
-    {
-      "id": "CVE-2026-105941",
-      "published": "2026-10-20T13:16:39.457",
-      "modified": "2026-10-20T14:16:56.207",
-      "description": "The Azure Key Vault KMS provider in Kroxylicious accepts an untrusted vaultName from wire-deserialized EDEK bytes without format validation, enabling SSRF that exfiltrates the proxy's Azure bearer token to an attacker-controlled host. Token replay against the real Key Vault defeats the entire record-encryption trust model.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105941"
     },
     {
       "id": "CVE-2026-93017",
@@ -1203,293 +2101,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108442"
     },
     {
-      "id": "CVE-2026-86981",
-      "published": "2026-10-20T01:17:29.540",
-      "modified": "2026-10-20T11:17:34.457",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86981"
-    },
-    {
-      "id": "CVE-2026-86979",
-      "published": "2026-10-20T01:17:29.450",
-      "modified": "2026-10-20T11:17:33.167",
-      "description": "A privacy issue was addressed with improved checks. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86979"
-    },
-    {
-      "id": "CVE-2026-86976",
-      "published": "2026-10-20T01:17:29.260",
-      "modified": "2026-10-20T11:17:32.210",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86976"
-    },
-    {
-      "id": "CVE-2026-86975",
-      "published": "2026-10-20T01:17:29.160",
-      "modified": "2026-10-20T11:17:31.237",
-      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted image may lead to unexpected process termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86975"
-    },
-    {
-      "id": "CVE-2026-86963",
-      "published": "2026-10-20T01:17:29.060",
-      "modified": "2026-10-20T11:17:30.277",
-      "description": "A denial-of-service issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27. An attacker in a privileged network position may be able to cause a denial-of-service.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86963"
-    },
-    {
-      "id": "CVE-2026-86962",
-      "published": "2026-10-20T01:17:28.957",
-      "modified": "2026-10-20T11:17:29.293",
-      "description": "A double free issue was addressed with improved memory management. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86962"
-    },
-    {
-      "id": "CVE-2026-86957",
-      "published": "2026-10-20T01:17:28.660",
-      "modified": "2026-10-20T11:17:28.320",
-      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An attacker in wireless proximity may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86957"
-    },
-    {
-      "id": "CVE-2026-86955",
-      "published": "2026-10-20T01:17:28.570",
-      "modified": "2026-10-20T11:17:27.357",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86955"
-    },
-    {
-      "id": "CVE-2026-86953",
-      "published": "2026-10-20T01:17:28.467",
-      "modified": "2026-10-20T11:17:26.363",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An attacker in physical proximity may be able to cause a denial-of-service.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86953"
-    },
-    {
-      "id": "CVE-2026-86932",
-      "published": "2026-10-20T01:17:27.793",
-      "modified": "2026-10-20T11:17:25.380",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86932"
-    },
-    {
-      "id": "CVE-2026-86928",
-      "published": "2026-10-20T01:17:27.697",
-      "modified": "2026-10-20T11:17:24.400",
-      "description": "A path handling issue was addressed with improved validation. This issue is fixed in macOS Golden Gate 27. An app may be able to access protected user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86928"
-    },
-    {
-      "id": "CVE-2026-86922",
-      "published": "2026-10-20T01:17:27.600",
-      "modified": "2026-10-20T11:17:23.410",
-      "description": "A type confusion issue was addressed with improved state management. This issue is fixed in Safari 27, iOS 27 and iPadOS 27, macOS Golden Gate 27, visionOS 27. Processing maliciously crafted web content may lead to arbitrary code execution.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86922"
-    },
-    {
-      "id": "CVE-2026-86921",
-      "published": "2026-10-20T01:17:27.493",
-      "modified": "2026-10-20T11:17:22.417",
-      "description": "A permissions issue was addressed with improved validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, visionOS 27. A local attacker may be able to overwrite restricted files.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86921"
-    },
-    {
-      "id": "CVE-2026-28853",
-      "published": "2026-10-20T01:17:11.460",
-      "modified": "2026-10-20T11:17:21.140",
-      "description": "The issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to elevate privileges.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28853"
-    },
-    {
       "id": "CVE-2026-43854",
       "published": "2026-10-20T10:17:06.403",
       "modified": "2026-10-20T10:17:06.403",
@@ -1760,415 +2371,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110646"
     },
     {
-      "id": "CVE-2026-86977",
-      "published": "2026-10-20T01:17:29.353",
-      "modified": "2026-10-20T01:17:29.353",
-      "description": "An authorization issue was addressed with improved network restrictions. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to initiate calls or send messages.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86977"
-    },
-    {
-      "id": "CVE-2026-86959",
-      "published": "2026-10-20T01:17:28.763",
-      "modified": "2026-10-20T01:17:28.763",
-      "description": "An input validation issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. Processing a maliciously crafted image may lead to unexpected process termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86959"
-    },
-    {
-      "id": "CVE-2026-86944",
-      "published": "2026-10-20T01:17:28.177",
-      "modified": "2026-10-20T01:17:28.177",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86944"
-    },
-    {
-      "id": "CVE-2026-86940",
-      "published": "2026-10-20T01:17:28.080",
-      "modified": "2026-10-20T01:17:28.080",
-      "description": "This issue was addressed by removing the vulnerable code. This issue is fixed in macOS Golden Gate 27. An app may be able to disclose kernel memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86940"
-    },
-    {
-      "id": "CVE-2026-86935",
-      "published": "2026-10-20T01:17:27.990",
-      "modified": "2026-10-20T01:17:27.990",
-      "description": "This issue was addressed by removing additional entitlements. This issue is fixed in macOS Golden Gate 27. An app may be able to access user-sensitive data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86935"
-    },
-    {
-      "id": "CVE-2026-86933",
-      "published": "2026-10-20T01:17:27.890",
-      "modified": "2026-10-20T01:17:27.890",
-      "description": "A permissions issue was addressed with additional sandbox restrictions. This issue is fixed in macOS Golden Gate 27. An app may be able to access information about a user's contacts.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86933"
-    },
-    {
-      "id": "CVE-2026-86919",
-      "published": "2026-10-20T01:17:27.390",
-      "modified": "2026-10-20T01:17:27.390",
-      "description": "A stack overflow was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, visionOS 27. An attacker with a paired Bluetooth device may be able to execute arbitrary code.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86919"
-    },
-    {
-      "id": "CVE-2026-86918",
-      "published": "2026-10-20T01:17:27.287",
-      "modified": "2026-10-20T01:17:27.287",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted image may lead to unexpected app termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86918"
-    },
-    {
-      "id": "CVE-2026-86915",
-      "published": "2026-10-20T01:17:27.100",
-      "modified": "2026-10-20T01:17:27.100",
-      "description": "A race condition was addressed with improved locking. This issue is fixed in macOS Golden Gate 27. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86915"
-    },
-    {
-      "id": "CVE-2026-86914",
-      "published": "2026-10-20T01:17:27.000",
-      "modified": "2026-10-20T01:17:27.000",
-      "description": "An information disclosure issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive network connection information.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86914"
-    },
-    {
-      "id": "CVE-2026-86913",
-      "published": "2026-10-20T01:17:26.893",
-      "modified": "2026-10-20T01:17:26.893",
-      "description": "A use after free issue was addressed with improved memory management. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted media file may lead to unexpected app termination or corrupt process memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86913"
-    },
-    {
-      "id": "CVE-2026-86907",
-      "published": "2026-10-20T01:17:26.530",
-      "modified": "2026-10-20T01:17:26.530",
-      "description": "An authorization issue was addressed with improved entitlement checks. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app with admin privileges may be able to modify the System Keychain.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86907"
-    },
-    {
-      "id": "CVE-2026-86872",
-      "published": "2026-10-20T01:17:25.357",
-      "modified": "2026-10-20T01:17:25.357",
-      "description": "A logic issue was addressed with improved state management. This issue is fixed in Safari 27, visionOS 27, watchOS 27. Processing maliciously crafted web content may lead to unexpected behavior.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86872"
-    },
-    {
-      "id": "CVE-2026-86871",
-      "published": "2026-10-20T01:17:25.253",
-      "modified": "2026-10-20T01:17:25.253",
-      "description": "An integer underflow was addressed with improved input validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker with control of a network file server may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86871"
-    },
-    {
-      "id": "CVE-2026-86868",
-      "published": "2026-10-20T01:17:24.980",
-      "modified": "2026-10-20T01:17:24.980",
-      "description": "An authentication issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker may be able to impersonate other users.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86868"
-    },
-    {
-      "id": "CVE-2026-84613",
-      "published": "2026-10-20T01:17:24.163",
-      "modified": "2026-10-20T01:17:24.163",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An attacker in radio range may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84613"
-    },
-    {
-      "id": "CVE-2026-84582",
-      "published": "2026-10-20T01:17:23.697",
-      "modified": "2026-10-20T01:17:23.697",
-      "description": "A privacy issue was addressed with improved access restrictions. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84582"
-    },
-    {
-      "id": "CVE-2026-84579",
-      "published": "2026-10-20T01:17:23.593",
-      "modified": "2026-10-20T01:17:23.593",
-      "description": "A logic issue was addressed with improved checks. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. Opening a file referencing a network share may lead to unexpected software execution.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84579"
-    },
-    {
-      "id": "CVE-2026-84547",
-      "published": "2026-10-20T01:17:22.190",
-      "modified": "2026-10-20T01:17:22.190",
-      "description": "A memory corruption issue was addressed with improved input validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker in physical proximity may be able to corrupt process memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84547"
-    },
-    {
-      "id": "CVE-2026-84508",
-      "published": "2026-10-20T01:17:20.937",
-      "modified": "2026-10-20T01:17:20.937",
-      "description": "This issue was addressed with improved validation of the caller's access. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Tahoe 26.7, visionOS 27. An app may be able to access protected user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84508"
-    },
-    {
       "id": "CVE-2026-84506",
       "published": "2026-09-14T21:17:27.180",
       "modified": "2026-10-20T01:17:20.657",
@@ -2196,106 +2398,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84506"
-    },
-    {
-      "id": "CVE-2026-84490",
-      "published": "2026-10-20T01:17:20.553",
-      "modified": "2026-10-20T01:17:20.553",
-      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 27 and iPadOS 27. An attacker with physical access to a locked device may be able to bypass Digital ID authentication when iPhone Mirroring is active.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84490"
-    },
-    {
-      "id": "CVE-2026-65396",
-      "published": "2026-10-20T01:17:18.313",
-      "modified": "2026-10-20T01:17:18.313",
-      "description": "A buffer overflow was addressed with improved size validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65396"
-    },
-    {
-      "id": "CVE-2026-65379",
-      "published": "2026-10-20T01:17:17.860",
-      "modified": "2026-10-20T01:17:17.860",
-      "description": "The issue was addressed with improved handling of secure input state. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65379"
-    },
-    {
-      "id": "CVE-2026-65372",
-      "published": "2026-10-20T01:17:17.313",
-      "modified": "2026-10-20T01:17:17.313",
-      "description": "A race condition was addressed with additional validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. A malicious application may be able to bypass Privacy preferences.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65372"
-    },
-    {
-      "id": "CVE-2026-65356",
-      "published": "2026-10-20T01:17:16.570",
-      "modified": "2026-10-20T01:17:16.570",
-      "description": "An access issue was addressed with improved access controls. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65356"
     },
     {
       "id": "CVE-2026-64758",
@@ -2389,26 +2491,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28930"
-    },
-    {
-      "id": "CVE-2026-28854",
-      "published": "2026-10-20T01:17:11.563",
-      "modified": "2026-10-20T01:17:11.563",
-      "description": "The issue was addressed with additional app bundle integrity checks. This issue is fixed in macOS Golden Gate 27. A maliciously modified app may not be prevented from launching.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28854"
     },
     {
       "id": "CVE-2026-110260",
@@ -5387,28 +5469,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96857"
     },
     {
-      "id": "CVE-2026-8355",
-      "published": "2026-10-20T00:19:20.530",
-      "modified": "2026-10-20T00:19:20.530",
-      "description": "IBM ContextForge MCP Gateway 0.1.0 through 1.0.5 is vulnerable to a server-side request Forgery (SSRF) that allows authenticated users with gateway creation privileges to perform arbitrary HTTP POST requests to internal network resources and cloud metadata endpoints. The vulnerability occurs during OAuth-enabled gateway registration when the system fails to validate the oauth_config.token_url parameter. When registering a gateway with OAuth client credentials authentication, an attacker can supply a malicious token_url pointing to internal services, cloud metadata endpoints (AWS IMDSv1, GCP, Azure), or localhost-bound services. The application immediately performs an HTTP POST request to the attacker-controlled URL with form-encoded credentials in the body. If the response cannot be parsed as a valid OAuth token response, up to 256 characters of the response body are reflected back to the attacker in the HTTP 502 error message. This vulnerability bypasses existing SSRF protections that are applied to the gateway.url field but not to OAuth configuration parameters.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8355"
-    },
-    {
       "id": "CVE-2026-72029",
       "published": "2026-08-15T06:21:02.083",
       "modified": "2026-10-19T22:17:22.783",
@@ -5489,26 +5549,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68354"
-    },
-    {
-      "id": "CVE-2026-112392",
-      "published": "2026-10-19T22:17:06.587",
-      "modified": "2026-10-19T22:17:06.587",
-      "description": "Pillow is a Python imaging library. Prior to 13.0.0, Pillow's rank-based filters can dereference invalid image storage for a zero-size image. ImagingExpand() allocates a non-empty output and then faults while replicating edges by reading the first pixel from empty input storage; ImagingRankFilter is never reached. An attacker can supply or cause creation of a zero-size image to an application that applies a rank, median, minimum, or maximum filter. This causes a native process crash. This issue is fixed in version 13.0.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112392"
     },
     {
       "id": "CVE-2026-105815",
@@ -34830,50 +34870,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-46373"
-    },
-    {
-      "id": "CVE-2025-47761",
-      "published": "2025-11-18T17:16:02.413",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "An Exposed IOCTL with Insufficient Access Control vulnerability [CWE-782] vulnerability in Fortinet FortiClientWindows 7.4.0 through 7.4.3, FortiClientWindows 7.2.0 through 7.2.9 may allow an authenticated local user to execute unauthorized code via fortips driver.  Success of the attack would require bypassing the Windows memory protections such as Heap integrity and HSP. In addition, it requires a valid and running VPN IPSec connection.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:fortinet:forticlient:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-47761"
-    },
-    {
-      "id": "CVE-2025-53843",
-      "published": "2025-11-18T17:16:03.033",
-      "modified": "2026-10-18T20:10:00.110",
-      "description": "A stack-based buffer overflow vulnerability in Fortinet FortiOS 7.6.0 through 7.6.3, FortiOS 7.4.0 through 7.4.8, FortiOS 7.2 all versions, FortiOS 7.0 all versions, FortiOS 6.4 all versions allows attacker to execute unauthorized code or commands via specially crafted packets",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53843"
     }
   ],
   "kev": [
@@ -36630,7 +36626,7 @@
     "total_relevant_cves": 1000,
     "critical": 58,
     "high": 484,
-    "medium": 275,
+    "medium": 289,
     "kev": 5,
     "p1": 23,
     "p2": 520
