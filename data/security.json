@@ -1,6 +1,28 @@
 {
-  "updated": "2026-10-20T20:31:20.599242+00:00",
+  "updated": "2026-10-20T21:13:17.899377+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-107888",
+      "published": "2026-10-09T05:16:44.407",
+      "modified": "2026-10-20T20:55:06.460",
+      "description": "OpenPrinting CUPS before 2.4.20 contains a NULL pointer dereference in cupsdCheckJobs() when a job marked job-held-on-create refers to a temporary printer that has been automatically deleted. Temporary-printer cleanup can remove the destination without canceling its held jobs, and the scheduler dereferences the NULL result of cupsdFindDest() while checking holding_new_jobs. This terminates cupsd and interrupts all queues managed by that process. In some plausible scenarios, an unprivileged submission can trigger this.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:openprinting:cups:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107888"
+    },
     {
       "id": "CVE-2026-113866",
       "published": "2026-10-20T20:17:19.397",
@@ -37369,49 +37391,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59504"
-    },
-    {
-      "id": "CVE-2025-60710",
-      "published": "2025-11-11T18:15:39.073",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Improper link resolution before file access ('link following') in Host Process for Windows Tasks allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": true,
-      "signals": [],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-60710"
     }
   ],
   "kev": [
@@ -39167,10 +39146,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 62,
-    "high": 482,
-    "medium": 289,
-    "kev": 5,
-    "p1": 28,
+    "high": 481,
+    "medium": 290,
+    "kev": 4,
+    "p1": 27,
     "p2": 517
   }
 }
