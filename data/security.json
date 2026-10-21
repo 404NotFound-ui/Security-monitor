@@ -1,6 +1,66 @@
 {
-  "updated": "2026-10-21T22:25:06.553732+00:00",
+  "updated": "2026-10-21T23:26:55.063226+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-76294",
+      "published": "2026-10-21T23:17:27.323",
+      "modified": "2026-10-21T23:17:27.323",
+      "description": "In Splunk Enterprise versions below 10.4.4, 10.2.8, 10.0.11, and 9.4.16, a user who does not hold the \"admin\" or \"power\" Splunk roles could move field extractions or field transformations to apps for which the user does not have read access.\nThe vulnerability is possible because the Representational State Transfer (REST) API does not validate destination app access before it processes field extraction and field transformation move operations.\nFor more information see Use the Field extractions page (https://help.splunk.com/en/splunk-enterprise/manage-knowledge-objects/knowledge-management-manual/10.6/use-the-settings-pages-for-field-extractions-in-splunk-web/use-the-field-extractions-page) and Manage knowledge object permissions (https://help.splunk.com/en/splunk-enterprise/manage-knowledge-objects/knowledge-management-manual/10.6/get-started-with-knowledge-objects/manage-knowledge-object-permissions) in the Splunk documentation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76294"
+    },
+    {
+      "id": "CVE-2026-76290",
+      "published": "2026-10-21T23:17:26.820",
+      "modified": "2026-10-21T23:17:26.820",
+      "description": "In Splunk Enterprise versions below 10.4.4, 10.2.8, and 10.0.11, an unauthenticated user could send repeated requests to the Edge Processor package download endpoint in the Splunk Pipeline Builders app. The requests could cause the Splunk daemon to consume excessive system resources and potentially stop responding.\nThe vulnerability is possible because the endpoint accepts package download requests without authentication and reads and base64-encodes the complete package in memory for each request.\nAfter upgrading, prepare all existing Edge Processor instances, turn on authentication for Edge Processor package downloads, and restart Splunk Enterprise. For more information, see Enable authentication for Edge Processor package downloads (https://help.splunk.com/en/data-management/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/administer-edge-processors/enable-authentication-for-edge-processor-package-downloads).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76290"
+    },
+    {
+      "id": "CVE-2026-76287",
+      "published": "2026-10-21T23:17:26.383",
+      "modified": "2026-10-21T23:17:26.383",
+      "description": "In Splunk Enterprise versions below 10.4.4, a user that holds a role with the preview_data_management_pipeline capability or edit_data_management_pipeline_job capability could read or delete Data Management SPL2 preview jobs and results outside their ownership scope.\nThe vulnerability is possible because the Data Management Representational State Transfer (REST) API verifies the required capability but does not verify that the requested preview job belongs to the requester.\nThe affected Data Management REST API is available only when the Edge Processor feature is turned on. The Edge Processor feature is turned off by default.\nFor more information see Set up a data management control plane (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/getting-started/set-up-a-data-management-control-plane) and Getting sample data for previewing data transformations (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/working-with-pipelines/getting-sample-data-for-previewing-data-transformations) in the Splunk documentation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76287"
+    },
     {
       "id": "CVE-2026-91403",
       "published": "2026-10-21T22:16:50.243",
@@ -38014,66 +38074,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98300"
-    },
-    {
-      "id": "CVE-2026-98294",
-      "published": "2026-10-06T09:18:19.887",
-      "modified": "2026-10-19T10:18:31.170",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nBluetooth: hci_qca: Do not write to the serial port after it is closed\n\nhci_uart_close() closes the serdev port if HCI_QUIRK_NON_PERSISTENT_SETUP\nis set (for example, for the WCN399x family). A failed hci_dev_open_sync()\nfollowing a successful qca_setup() calls hdev->close() but not\nhdev->shutdown(), so the port is closed while power->vregs_on is left true.\nqca_serdev_remove() then passes its power->vregs_on test and calls\nqca_power_off(), which writes to the closed port unconditionally.\n\nSeen on a WCN3988 by unbinding the driver after a controller failure. The\ntrace below is from a 7.0.0 based kernel, where qca_power_off() was still\nnamed qca_power_shutdown():\n\n  Unable to handle kernel NULL pointer dereference at virtual address\n  0000000000000038\n  Call trace:\n   tty_set_termios+0x50/0x238 (P)\n   ttyport_set_baudrate+0x84/0xc0\n   serdev_device_set_baudrate+0x24/0x40\n   qca_power_shutdown+0x158/0x1fc [hci_uart]\n   qca_serdev_remove+0x54/0x68 [hci_uart]\n   serdev_drv_remove+0x1c/0x2c\n   device_remove+0x4c/0x80\n   device_release_driver_internal+0x1cc/0x224\n   device_driver_detach+0x18/0x24\n   unbind_store+0xb4/0xc0\n\nCheck HCI_UART_PROTO_READY, which hci_uart_close() clears in the same place\nit closes the port, before writing to it. The regulator disable is left\nunconditional so the controller is still powered down.\n\nThe dangling serport->tty that turns this into a use-after-free is\naddressed in a separate patch.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98294"
-    },
-    {
-      "id": "CVE-2026-98289",
-      "published": "2026-10-06T09:18:19.177",
-      "modified": "2026-10-19T10:18:30.560",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\naf_unix: Unify scc_index when finalising SCC in __unix_walk_scc().\n\nCommit bfdb01283ee8 (\"af_unix: Assign a unique index to SCC.\")\nchanged Tarjan's algorithm to update lowlink with lowlink,\nwhich is called lowpoint (unix_vertex.scc_index).\n\nunix_vertex_dead() assumes all vertices in an SCC share the same\nlowpoint, but this is not always true if an SCC has two or more\nback edges, depending on the order of DFS.\n\nFor example, the graph below has two back edges from B to A\nand from C to B.\n\n  A --> B --> C\n  ^    | ^    |\n  `----' `----'\n\nIf DFS walks through A -> B -> C -> B (-> C -> B) -> A (-> B -> A),\neach index and scc_index will be updated as follows.\n\n  A --> B --> C    C = (3, 3)  (index, scc_index)\n                   B = (2, 2)\n                   A = (1, 1)\n\n  A ... B ... C    C = (3, 2)<-.\n         ^    |    B = (2, 2) -'\n         `----'    A = (1, 1)\n\n  A ... B ... C    C = (3, 2)\n  ^    | .    .    B = (2, 1)<-.\n  `----'  ....     A = (1, 1) -'\n\nThen, unix_vertex_dead() thinks that B is passed to another\nSCC with scc_index 2, and the SCC is not garbage-collected.\n\nThis does not happen if DFS walks in a different order below\nor starts from B.\n\n    1      3\n  A --> B --> C\n  ^    | ^    |\n  `----' `----'\n     2      4\n\nLet's unify scc_index across the SCC when finalising it.\n\nNote that updating v->index was previously done in unix_scc_dead(),\nwhen called from __unix_walk_scc(), just to save one loop.  Since\n__unix_walk_scc() now iterates over the SCC anyway, the update is\nmoved back to __unix_walk_scc() and 'fast' argument is dropped.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98289"
-    },
-    {
-      "id": "CVE-2026-98275",
-      "published": "2026-10-06T09:18:17.203",
-      "modified": "2026-10-19T10:18:28.843",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: ethernet: cortina: Ack RX overrun interrupt correctly\n\nThe RX overrun interrupt is reported in interrupt status register 4, but\ngmac_irq() acknowledges it using the RX descriptor error bit from status\nregister 0. For GMAC0 this writes the GMAC1 overrun bit, while for GMAC1\nthe shift leaves no bit in the 32-bit register.\n\nAcknowledge the same per-port RX overrun bit that was detected.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98275"
     }
   ],
   "kev": [
@@ -39835,10 +39835,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 46,
-    "high": 427,
-    "medium": 378,
+    "high": 428,
+    "medium": 380,
     "kev": 2,
     "p1": 24,
-    "p2": 449
+    "p2": 450
   }
 }
