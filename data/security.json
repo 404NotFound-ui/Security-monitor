@@ -1,6 +1,66 @@
 {
-  "updated": "2026-10-21T09:11:22.431829+00:00",
+  "updated": "2026-10-21T09:48:11.320209+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-58224",
+      "published": "2026-08-14T15:17:09.870",
+      "modified": "2026-10-21T09:17:07.617",
+      "description": "A flaw was found in Samba's CTDB, the clustered database service used by Samba. Insufficient integrity validation of received CTDB protocol packets allows malformed packets containing invalid field lengths, improperly terminated strings, or inconsistent packet sizes to be processed without adequate bounds checking. A remote attacker with access to the CTDB private network may trigger a denial of service through process crashes or excessive memory consumption and, in limited cases, disclose adjacent memory contents.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:samba:samba:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58224"
+    },
+    {
+      "id": "CVE-2026-109125",
+      "published": "2026-10-21T09:17:06.417",
+      "modified": "2026-10-21T09:17:06.417",
+      "description": "In NLnet Labs Unbound up to and including version 1.26.1, an observable  cache-level side-channel can be exposed with 'unwanted-reply-threshold > 0' configurations (not a default configuration). If a response-like UDP datagram reaches the upstream source port currently used by a recursive query, but its TXID does not match any pending query, Unbound counts the packet as an unwanted reply. When the accumulated count reaches the configured threshold, Unbound clears the worker's RRset cache and message cache. This cache clear action does not destroy the current upstream UDP pending query. Therefore, an external observer can distinguish whether a candidate port matches the current upstream source port by checking whether an existing cached item has been cleared. This is a cache side-channel vulnerability that can be used to probe the upstream source port. Although the attack is not feasible on default configurations and the suggested value (10 million) makes it an ureliable attack on a public resolver, in scenarios where the attacker can keep a concurrent query window alive, the attacker can first filter the source port and then perform birthday-style guessing against the TXID, making cache poisoning a feasible attack path.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109125"
+    },
     {
       "id": "CVE-2026-17557",
       "published": "2026-10-21T08:16:43.090",
@@ -34007,65 +34067,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34196"
-    },
-    {
-      "id": "CVE-2025-34220",
-      "published": "2025-09-29T21:15:35.600",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Vasion Print (formerly PrinterLogic) Virtual Appliance Host prior to version 25.1.102 and Application prior to version 25.1.1413 (VA/SaaS deployments) contains a /api-gateway/identity/search-groups endpoint that does not require authentication. Requests to https://<tenant>.printercloud10.com/api-gateway/identity/search-groups and adjustments to the `Host` header allow an unauthenticated remote attacker to enumerate every group object stored for that tenant.  The response includes internal identifiers (group ID, source service ID, Azure AD object IDs, creation timestamps, and tenant IDs). This vulnerability has been confirmed to be remediated, but it is unclear as to when the patch was introduced.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:vasion:virtual_appliance_application:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:vasion:virtual_appliance_host:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34220"
-    },
-    {
-      "id": "CVE-2025-34235",
-      "published": "2025-09-29T21:15:37.620",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Vasion Print (formerly PrinterLogic) Virtual Appliance Host prior to version 25.1.102 and Application prior to version 25.1.1413 (Windows client deployments) contain a registry key that can be enabled by administrators, causing the client to skip SSL/TLS certificate validation. An attacker who can intercept HTTPS traffic can then inject malicious driver DLLs, resulting in remote code execution with SYSTEM privileges; a local attacker can achieve local privilege escalation via a junction‑point DLL injection. This vulnerability has been confirmed to be remediated, but it is unclear as to when the patch was introduced.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:vasion:virtual_appliance_application:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:vasion:virtual_appliance_host:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.5,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-34235"
     }
   ],
   "kev": [
@@ -35826,11 +35827,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 55,
+    "critical": 54,
     "high": 428,
-    "medium": 331,
+    "medium": 332,
     "kev": 4,
-    "p1": 26,
+    "p1": 25,
     "p2": 458
   }
 }
