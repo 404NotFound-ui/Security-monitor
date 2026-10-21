@@ -1,6 +1,358 @@
 {
-  "updated": "2026-10-20T23:53:30.090094+00:00",
+  "updated": "2026-10-21T00:29:55.878122+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-88924",
+      "published": "2026-09-10T15:17:59.253",
+      "modified": "2026-10-21T00:17:50.033",
+      "description": "A flaw was found in the admin backend of gvfs. The privileged gvfsd-admin daemon changes the ownership of newly created private D-Bus sockets by calling the link-following chown() function on a pathname inside a user-controlled directory. A local attacker can exploit this via a Time-of-Check Time-of-Use (TOCTOU) race condition and exchange the socket pathname with a symbolic link pointing to an arbitrary root-owned file (such as /etc/pam.d/su). The daemon subsequently follows the symlink and changes the ownership of the targeted root-owned file to the attacker's user ID. This allows an authenticated local attacker to modify critical system files, leading to a full local privilege escalation to root.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88924"
+    },
+    {
+      "id": "CVE-2026-18358",
+      "published": "2026-07-31T13:17:19.933",
+      "modified": "2026-10-21T00:17:49.510",
+      "description": "A flaw was found in gnome-remote-desktop as shipped in Red Hat Enterprise Linux. When the daemon is running in system mode with RDP enabled, the incoming connection handler bypasses the connection throttler, allowing an unauthenticated remote attacker to open many parallel pre-authentication connections to the RDP listener. This can accumulate accepted sockets and pending routing-token operations until timeout, exhausting resources and preventing legitimate users from establishing RDP sessions. This issue does not affect the upstream version.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18358"
+    },
+    {
+      "id": "CVE-2026-113334",
+      "published": "2026-10-20T22:19:27.950",
+      "modified": "2026-10-21T00:17:47.917",
+      "description": "Improper input validation in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113334"
+    },
+    {
+      "id": "CVE-2026-113323",
+      "published": "2026-10-20T22:19:26.683",
+      "modified": "2026-10-21T00:17:47.223",
+      "description": "Use after free in Chrome for iOS in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113323"
+    },
+    {
+      "id": "CVE-2026-113320",
+      "published": "2026-10-20T22:19:26.337",
+      "modified": "2026-10-21T00:17:46.943",
+      "description": "Memory corruption in Navigation in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113320"
+    },
+    {
+      "id": "CVE-2026-113293",
+      "published": "2026-10-20T22:19:23.387",
+      "modified": "2026-10-21T00:17:44.793",
+      "description": "Use after free in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113293"
+    },
+    {
+      "id": "CVE-2026-113285",
+      "published": "2026-10-20T22:19:22.483",
+      "modified": "2026-10-21T00:17:44.360",
+      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113285"
+    },
+    {
+      "id": "CVE-2026-113249",
+      "published": "2026-10-20T22:19:18.467",
+      "modified": "2026-10-21T00:17:40.887",
+      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113249"
+    },
+    {
+      "id": "CVE-2026-113242",
+      "published": "2026-10-20T22:19:17.693",
+      "modified": "2026-10-21T00:17:40.590",
+      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113242"
+    },
+    {
+      "id": "CVE-2026-113236",
+      "published": "2026-10-20T22:19:16.980",
+      "modified": "2026-10-21T00:17:40.010",
+      "description": "Use after free in Navigation in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113236"
+    },
+    {
+      "id": "CVE-2026-113210",
+      "published": "2026-10-20T22:19:14.107",
+      "modified": "2026-10-21T00:17:37.553",
+      "description": "Use after free in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113210"
+    },
+    {
+      "id": "CVE-2026-113134",
+      "published": "2026-10-20T22:19:05.643",
+      "modified": "2026-10-21T00:17:30.610",
+      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113134"
+    },
+    {
+      "id": "CVE-2026-113119",
+      "published": "2026-10-20T22:19:04.010",
+      "modified": "2026-10-21T00:17:29.590",
+      "description": "Use after free in Network in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113119"
+    },
+    {
+      "id": "CVE-2026-113043",
+      "published": "2026-10-20T22:18:55.457",
+      "modified": "2026-10-21T00:17:22.737",
+      "description": "Use after free in iOSWeb in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113043"
+    },
+    {
+      "id": "CVE-2026-113031",
+      "published": "2026-10-20T22:18:54.060",
+      "modified": "2026-10-21T00:17:21.557",
+      "description": "Memory corruption in Media in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113031"
+    },
+    {
+      "id": "CVE-2026-113011",
+      "published": "2026-10-20T22:18:51.677",
+      "modified": "2026-10-21T00:17:20.253",
+      "description": "Use after free in CredentialProvider in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113011"
+    },
     {
       "id": "CVE-2026-69943",
       "published": "2026-10-13T19:19:04.473",
@@ -1362,28 +1714,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113340"
     },
     {
-      "id": "CVE-2026-113334",
-      "published": "2026-10-20T22:19:27.950",
-      "modified": "2026-10-20T22:19:27.950",
-      "description": "Improper input validation in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113334"
-    },
-    {
       "id": "CVE-2026-113326",
       "published": "2026-10-20T22:19:27.027",
       "modified": "2026-10-20T22:19:27.027",
@@ -1428,50 +1758,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113325"
     },
     {
-      "id": "CVE-2026-113323",
-      "published": "2026-10-20T22:19:26.683",
-      "modified": "2026-10-20T22:19:26.683",
-      "description": "Use after free in Chrome for iOS in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Low)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113323"
-    },
-    {
-      "id": "CVE-2026-113320",
-      "published": "2026-10-20T22:19:26.337",
-      "modified": "2026-10-20T22:19:26.337",
-      "description": "Memory corruption in Navigation in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113320"
-    },
-    {
       "id": "CVE-2026-113295",
       "published": "2026-10-20T22:19:23.607",
       "modified": "2026-10-20T22:19:23.607",
@@ -1492,50 +1778,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113295"
-    },
-    {
-      "id": "CVE-2026-113293",
-      "published": "2026-10-20T22:19:23.387",
-      "modified": "2026-10-20T22:19:23.387",
-      "description": "Use after free in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113293"
-    },
-    {
-      "id": "CVE-2026-113285",
-      "published": "2026-10-20T22:19:22.483",
-      "modified": "2026-10-20T22:19:22.483",
-      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113285"
     },
     {
       "id": "CVE-2026-113283",
@@ -1582,28 +1824,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113252"
     },
     {
-      "id": "CVE-2026-113249",
-      "published": "2026-10-20T22:19:18.467",
-      "modified": "2026-10-20T22:19:18.467",
-      "description": "Improper input validation in Mobile in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113249"
-    },
-    {
       "id": "CVE-2026-113246",
       "published": "2026-10-20T22:19:18.137",
       "modified": "2026-10-20T22:19:18.137",
@@ -1624,72 +1844,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113246"
-    },
-    {
-      "id": "CVE-2026-113242",
-      "published": "2026-10-20T22:19:17.693",
-      "modified": "2026-10-20T22:19:17.693",
-      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113242"
-    },
-    {
-      "id": "CVE-2026-113236",
-      "published": "2026-10-20T22:19:16.980",
-      "modified": "2026-10-20T22:19:16.980",
-      "description": "Use after free in Navigation in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113236"
-    },
-    {
-      "id": "CVE-2026-113210",
-      "published": "2026-10-20T22:19:14.107",
-      "modified": "2026-10-20T22:19:14.107",
-      "description": "Use after free in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113210"
     },
     {
       "id": "CVE-2026-113209",
@@ -1759,50 +1913,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113157"
     },
     {
-      "id": "CVE-2026-113134",
-      "published": "2026-10-20T22:19:05.643",
-      "modified": "2026-10-20T22:19:05.643",
-      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113134"
-    },
-    {
-      "id": "CVE-2026-113119",
-      "published": "2026-10-20T22:19:04.010",
-      "modified": "2026-10-20T22:19:04.010",
-      "description": "Use after free in Network in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113119"
-    },
-    {
       "id": "CVE-2026-113082",
       "published": "2026-10-20T22:18:59.823",
       "modified": "2026-10-20T22:18:59.823",
@@ -1823,72 +1933,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113082"
-    },
-    {
-      "id": "CVE-2026-113043",
-      "published": "2026-10-20T22:18:55.457",
-      "modified": "2026-10-20T22:18:55.457",
-      "description": "Use after free in iOSWeb in Google Chrome on on iOS prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113043"
-    },
-    {
-      "id": "CVE-2026-113031",
-      "published": "2026-10-20T22:18:54.060",
-      "modified": "2026-10-20T22:18:54.060",
-      "description": "Memory corruption in Media in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113031"
-    },
-    {
-      "id": "CVE-2026-113011",
-      "published": "2026-10-20T22:18:51.677",
-      "modified": "2026-10-20T22:18:51.677",
-      "description": "Use after free in CredentialProvider in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113011"
     },
     {
       "id": "CVE-2026-101820",
@@ -8958,28 +9002,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8355"
-    },
-    {
-      "id": "CVE-2026-88924",
-      "published": "2026-09-10T15:17:59.253",
-      "modified": "2026-10-20T15:17:35.560",
-      "description": "A flaw was found in the admin backend of gvfs. The privileged gvfsd-admin daemon changes the ownership of newly created private D-Bus sockets by calling the link-following chown() function on a pathname inside a user-controlled directory. A local attacker can exploit this via a Time-of-Check Time-of-Use (TOCTOU) race condition and exchange the socket pathname with a symbolic link pointing to an arbitrary root-owned file (such as /etc/pam.d/su). The daemon subsequently follows the symlink and changes the ownership of the targeted root-owned file to the attacker's user ID. This allows an authenticated local attacker to modify critical system files, leading to a full local privilege escalation to root.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88924"
     },
     {
       "id": "CVE-2026-86933",
@@ -34153,30 +34175,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40812"
-    },
-    {
-      "id": "CVE-2025-11713",
-      "published": "2025-10-14T13:15:37.567",
-      "modified": "2026-10-18T21:10:00.120",
-      "description": "Insufficient escaping in the “Copy as cURL” feature could have been used to trick a user into executing unexpected code on Windows. This did not affect the application when running on other operating systems. This vulnerability was fixed in Firefox 144, Firefox ESR 140.4, Thunderbird 144, and Thunderbird 140.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:mozilla:firefox:*:*:*:*:esr:*:*:*",
-        "cpe:2.3:a:mozilla:firefox:*:*:*:*:-:*:*:*",
-        "cpe:2.3:a:mozilla:thunderbird:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11713"
     }
   ],
   "kev": [
@@ -35938,10 +35936,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 53,
-    "high": 417,
+    "high": 431,
     "medium": 329,
     "kev": 4,
     "p1": 24,
-    "p2": 447
+    "p2": 461
   }
 }
