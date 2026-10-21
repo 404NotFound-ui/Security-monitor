@@ -1,6 +1,156 @@
 {
-  "updated": "2026-10-21T20:00:41.217244+00:00",
+  "updated": "2026-10-21T21:12:56.223701+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-93017",
+      "published": "2026-10-08T15:17:56.950",
+      "modified": "2026-10-21T20:17:27.670",
+      "description": "The `insights-operator-gather` ClusterRole grants the operator's service account read access to secrets in the core API group with no namespace or resourceNames restriction — therefore, access to every secret in every namespace in the cluster.\n\nRef: https://github.com/openshift/insights-operator/blob/8f15e3157ff09f54ab22801f5b21da35a195cc6d/manifests/03-clusterrole.yaml#L368-L373\n```\n- apiGroups:\n  - \"\"\n  resources:\n  - secrets\n  verbs:\n  - get\n  - list\n```\n\nBy spawning a pod with the gather service account mounted, an attacker will be able to access any secret in any namespace.\n\n```\nspec:\n serviceAccountName:\"gather\"\n```",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93017"
+    },
+    {
+      "id": "CVE-2026-86332",
+      "published": "2026-09-07T09:17:17.807",
+      "modified": "2026-10-21T20:17:27.480",
+      "description": "A flaw was found in odh-dashboard in Red Hat OpenShift AI. The backend-for-frontend route GET /api/nim-serving/:nimResource reads Kubernetes Secrets using the dashboard service account and returns the full Secret object, including .data, without an authorization check. Any authenticated dashboard user can retrieve the cluster NVIDIA NGC API key Secret (apiKeySecret) and the NIM image pull secret (nimPullSecret). Create and delete of the same NIM credential are admin-gated; the read path is not. This is missing authorization (CWE-862) and insufficiently protected credentials (CWE-522). It is distinct from CVE-2026-5483 (service-account token leak in the Kubernetes client response wrapper on the same route) and CVE-2026-16456 (odh-model-controller cross-namespace confused deputy).",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86332"
+    },
+    {
+      "id": "CVE-2026-75888",
+      "published": "2026-10-12T17:17:35.723",
+      "modified": "2026-10-21T20:17:27.177",
+      "description": "A flaw was found in the OpenShift console. An authenticated console user can exploit a Server-Side Request Forgery (SSRF) vulnerability by providing a specially crafted Helm chart URL without proper validation. This allows the user to make the console pod fetch arbitrary URLs, potentially leading to the disclosure of sensitive information through error messages or enabling blind port scanning within the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75888"
+    },
+    {
+      "id": "CVE-2026-53986",
+      "published": "2026-10-21T17:18:29.243",
+      "modified": "2026-10-21T20:17:27.047",
+      "description": "Girafit camera app (Android and iOS) version 1.9.1 and earlier, and Girafit camera devices, contain a hardcoded credentials vulnerability that allows attackers to obtain the shared TURN relay username by decompiling the app or intercepting unencrypted network traffic during live view registration. Attackers can extract the static TURN username and session token, which are identical across all installs and not tied to any user or device, potentially enabling tracking, impersonation, or further exploitation if combined with the TURN relay password.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53986"
+    },
+    {
+      "id": "CVE-2026-114376",
+      "published": "2026-10-21T20:17:26.290",
+      "modified": "2026-10-21T20:17:26.290",
+      "description": "A weakness has been identified in leomoon-studios wiki-go up to 1.9.1. Affected by this vulnerability is the function SaveHandler/SourceHandler of the file internal/handlers/editor.go of the component API. Executing a manipulation can lead to path traversal. The attack can be launched remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 1.9.2 addresses this issue. This patch is called 94f7e73ef8df7c58091d72d77a5e26e9fdad98b8. Upgrading the affected component is advised.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114376"
+    },
+    {
+      "id": "CVE-2026-114375",
+      "published": "2026-10-21T20:17:26.100",
+      "modified": "2026-10-21T20:17:26.100",
+      "description": "A security flaw has been discovered in leomoon-studios wiki-go up to 1.9.1. Affected is the function RenameFileHandler of the file internal/handlers/files.go of the component Files Rename API. Performing a manipulation of the argument currentPath/newName results in path traversal. The attack can be initiated remotely. The exploit has been released to the public and may be used for attacks. Upgrading to version 1.9.2 is able to address this issue. The patch is named 81cd12e248314a52605f0f39718c8a76272eac29. It is recommended to upgrade the affected component.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114375"
+    },
+    {
+      "id": "CVE-2026-114374",
+      "published": "2026-10-21T20:17:25.890",
+      "modified": "2026-10-21T20:17:25.890",
+      "description": "A vulnerability was identified in leomoon-studios wiki-go up to 1.9.1. This impacts an unknown function of the file internal/handlers/metadata_api.go of the component fetch-metadata Endpoint. Such manipulation leads to server-side request forgery. It is possible to launch the attack remotely. The exploit is publicly available and might be used. Upgrading to version 1.9.2 will fix this issue. The name of the patch is 25498ebf5c012b870967e38eec2a1e5133fa1a83. Upgrading the affected component is recommended.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114374"
+    },
     {
       "id": "CVE-2026-102214",
       "published": "2026-10-13T19:17:46.843",
@@ -5479,28 +5629,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97783"
-    },
-    {
-      "id": "CVE-2026-53986",
-      "published": "2026-10-21T17:18:29.243",
-      "modified": "2026-10-21T17:18:29.243",
-      "description": "Girafit camera app (Android and iOS) version 1.9.1 and earlier, and Girafit camera devices, contain a hardcoded credentials vulnerability that allows attackers to obtain the shared TURN relay username by decompiling the app or intercepting unencrypted network traffic during live view registration. Attackers can extract the static TURN username and session token, which are identical across all installs and not tied to any user or device, potentially enabling tracking, impersonation, or further exploitation if combined with the TURN relay password.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53986"
     },
     {
       "id": "CVE-2026-114123",
@@ -20215,48 +20343,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
-    },
-    {
-      "id": "CVE-2026-93017",
-      "published": "2026-10-08T15:17:56.950",
-      "modified": "2026-10-20T13:16:43.930",
-      "description": "The `insights-operator-gather` ClusterRole grants the operator's service account read access to secrets in the core API group with no namespace or resourceNames restriction — therefore, access to every secret in every namespace in the cluster.\n\nRef: https://github.com/openshift/insights-operator/blob/8f15e3157ff09f54ab22801f5b21da35a195cc6d/manifests/03-clusterrole.yaml#L368-L373\n```\n- apiGroups:\n  - \"\"\n  resources:\n  - secrets\n  verbs:\n  - get\n  - list\n```\n\nBy spawning a pod with the gather service account mounted, an attacker will be able to access any secret in any namespace.\n\n```\nspec:\n serviceAccountName:\"gather\"\n```",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-93017"
-    },
-    {
-      "id": "CVE-2026-75888",
-      "published": "2026-10-12T17:17:35.723",
-      "modified": "2026-10-20T13:16:43.800",
-      "description": "A flaw was found in the OpenShift console. An authenticated console user can exploit a Server-Side Request Forgery (SSRF) vulnerability by providing a specially crafted Helm chart URL without proper validation. This allows the user to make the console pod fetch arbitrary URLs, potentially leading to the disclosure of sensitive information through error messages or enabling blind port scanning within the cluster.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75888"
     },
     {
       "id": "CVE-2026-103314",
@@ -37828,86 +37914,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98040"
-    },
-    {
-      "id": "CVE-2026-97942",
-      "published": "2026-09-25T11:17:21.633",
-      "modified": "2026-10-19T10:17:45.403",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nx86/alternatives: Exclude text poking against change_page_attr()\n\nFrom time to time, the following BUG can be observed\nin the x86 alternatives patching code [0]:\n\n  > kernel BUG at arch/x86/kernel/alternative.c:2576!\n  > Oops: invalid opcode: 0000 [#1] SMP NOPTI\n  > CPU: 0 UID: 0 PID: 355 Comm: (udev-worker) Not tainted 7.1.3-1-default #1 PREEMPT(full) openSUSE Tumbleweed  8c1795b03ec64f997e57a8ad38b1161e3b98da64\n  > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS unknown 02/02/2022\n  > RIP: 0010:__text_poke+0x2aa/0x450\n  > Call Trace:\n  >  <TASK>\n  >  smp_text_poke_batch_finish+0x2a7/0x320\n  >  __static_call_transform+0xb7/0x220\n  >  arch_static_call_transform+0x5b/0xb0\n  >  __static_call_init+0xe9/0x270\n  >  static_call_module_notify+0x11f/0x150\n  >  notifier_call_chain+0x61/0xe0\n  >  blocking_notifier_call_chain_robust+0x63/0xc0\n  >  load_module+0x1c92/0x20c0\n  >  init_module_from_file+0xd8/0x140\n  >  idempotent_init_module+0x100/0x2f0\n  >  __x64_sys_finit_module+0x71/0xe0\n  >  do_syscall_64+0xe1/0x610\n  >  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n\nwhich matches the following BUG_ON() in alternative.c:\n\n\t/*\n\t * If something went wrong, crash and burn since recovery paths are not\n\t * implemented.\n\t */\n\tBUG_ON(!pages[0] || (cross_page_boundary && !pages[1]));\n\nThis can happen if vmalloc_to_page() fails, for any reason. Such can happen\nif text poking races with CPA, which can possibly result in the collapsing\nof page tables (or breaking of PMD hugepages). It is not a problem for most\nusers of vmalloc_to_page() (they solely own the vmalloc'd range) but, when\nCONFIG_ARCH_HAS_EXECMEM_ROX=y, various modules own a single execmem vmalloc\nrange, and can call set_memory_*() in parallel on it. This can happen to\nrace against __text_poke and cause havoc in vmalloc_to_page().\n\nFix it by excluding against CPA using the init_mm mmap read lock.\n\n[ dhansen: Fix up SoB ordering. The actual code flow here was:\n\t   Pedro=>Lorenzo=>Mike=>Me which is reflected in the SoB chain\n\t   now. I *believe* Mike simply picked up Lorenzo's update to\n\t   Pedro's post from the Link ]",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97942"
-    },
-    {
-      "id": "CVE-2026-97937",
-      "published": "2026-09-25T11:17:21.080",
-      "modified": "2026-10-19T10:17:44.750",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nftrace: fork: Initialize function graph state before copy_exec_state()\n\ndup_task_struct() copies the parent's task_struct, including ret_stack.\nftrace_graph_init_task() clears the copied function graph state, but it\ncurrently runs after copy_exec_state().\n\nFor non-CLONE_VM forks, copy_exec_state() allocates a new task_exec_state.\nIf that allocation fails, copy_process() reaches bad_fork_free and\nfree_task() calls ftrace_graph_exit_task(). Since the child still carries\nthe parent's ret_stack pointer, the unwind frees the parent's active\nfunction graph return stack. The parent subsequently accesses freed memory\nfrom function_graph_enter_regs().\n\nKASAN reports:\n\n[   22.190920] ==================================================================\n[   22.195899] BUG: KASAN: slab-use-after-free in function_graph_enter_regs+0xa76/0xb90\n[   22.200747] Write of size 8 at addr ff110000054dc0a8 by task repro/1\n[   22.205134]\n[   22.210770] CPU: 0 UID: 0 PID: 1 Comm: repro Not tainted 7.2.0-07732-g9328b3b03bdc-dirty #3 PREEMPT(lazy)\n[   22.212576] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[   22.213750] Call Trace:\n[   22.215271]  <TASK>\n[   22.216242]  ? ftrace_stub_direct_tramp+0x10/0x10\n[   22.217774]  dump_stack_lvl+0x4e/0x70\n[   22.220531]  print_report+0x157/0x4b4\n[   22.223202]  ? fixup_red_left+0x9/0x30\n[   22.224407]  ? complete_report_info+0x83/0x110\n[   22.226679]  ? function_graph_enter_regs+0xa76/0xb90\n[   22.228084]  kasan_report+0xce/0x100\n[   22.230109]  ? function_graph_enter_regs+0xa76/0xb90\n[   22.232860]  ? stack_trace_save+0x4/0xd0\n[   22.234156]  function_graph_enter_regs+0xa76/0xb90\n[   22.236090]  ? kasan_save_stack+0x30/0x50\n[   22.237752]  ? __pfx_function_graph_enter_regs+0x10/0x10\n[   22.238694]  ? ring_buffer_lock_reserve+0x345/0xf80\n[   22.239628]  ? stack_trace_save+0x4/0xd0\n[   22.242121]  ? stack_trace_save+0x4/0xd0\n[   22.243588]  ftrace_graph_func+0xda/0x160\n[   22.245362]  ? ftrace_stub_direct_tramp+0x10/0x10\n[   22.246520]  0xffffffffa0000095\n[   22.250528]  ? stack_trace_save+0x9/0xd0\n[   22.251757]  ? ring_buffer_unlock_commit+0x11d/0x5c0\n[   22.253152]  stack_trace_save+0x9/0xd0\n[   22.254264]  kasan_save_stack+0x30/0x50\n[   22.273631]  kasan_save_track+0x14/0x30\n[   22.276763]  kasan_save_free_info+0x3b/0x70\n[   22.278296]  __kasan_slab_free+0x43/0x70\n[   22.280157]  kmem_cache_free+0xbf/0x3b0\n[   22.282963]  ? ftrace_stub_direct_tramp+0x10/0x10\n[   22.284001]  free_task+0xa2/0x160\n[   22.285699]  ? ftrace_stub_direct_tramp+0x10/0x10\n[   22.286752]  copy_process+0x2aae/0x7bc0\n\nInitialize the child function graph state immediately after\ndup_task_struct(), before the first fallible operation.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97937"
-    },
-    {
-      "id": "CVE-2026-97925",
-      "published": "2026-09-25T11:17:19.680",
-      "modified": "2026-10-19T10:17:43.293",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ntick/broadcast: Plug clockevents replacement race\n\n朱恺乾 reported and decoded the following race condition when a broadcast\ndevice is replaced:\n\nCPUA\t\t\t\t\tCPUB\n __tick_broadcast_oneshot_control()\n   bc = tick_broadcast_device.evtdev;\n\t\t\t\t\ttick_install_broadcast_device(dev)\n        \t\t\t\tclockevents_exchange_device(cur, dev)\n\t\t\t\t\t   shutdown(cur);\n\t\t\t\t\t   detach(cur);\n\t\t\t\t\t   cur->handler = noop;\n\t\t\t\t\t   tick_broadcast_device.evtdev = dev;\n\n  tick_broadcast_set_event(bc, next_event); <- FAIL: arms a detached device.\n\nIf the original broadcast device has a restricted interrupt affinity mask\nand the last CPU in that mask goes offline then the BUG() in\ntick_cleanup_dead_cpu() triggers because the clockevent device is not in\ndetached state.\n\nThe reason for this is that tick_install_broadcast_device() is not\nserialized vs. tick broadcast operations.\n\nThe obvious cure is to serialize tick_install_broadcast_device() with\ntick_broadcast_lock against a concurrent tick broadcast operation.\n\nThat requires to split clockevents_exchange_device() into two parts, one\nwhich does the exchange, shutdown and detach operation and the other which\ndrops the module reference count. This is required because the module\nreference cannot be dropped while holding tick_broadcast_lock.\n\nLet clockevents_exchange_device() do both operations as before, but let the\nbroadcast device code take the two step approach and do the device\nexchange under tick_broadcast_lock and drop the module reference count\nafter releasing it.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97925"
-    },
-    {
-      "id": "CVE-2026-97547",
-      "published": "2026-09-25T11:17:05.070",
-      "modified": "2026-10-19T10:17:23.697",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nxfs: fix exchange-range reflink flag clearing issue with INO1_WRITTEN\n\nWhen exchanging two full-file ranges, xmi_can_exchange_reflink_flags()\ncan move the reflink inode flag from the file that currently has it to\nthe other file, as long as exactly one side is marked.  This assumes\nthat the file contents, and therefore all shared extents, are exchanged.\n\nThat assumption is not true when XFS_EXCHMAPS_INO1_WRITTEN is set.\nxfs_exchmaps_can_skip_mapping() can skip hole and unwritten mappings\nfrom file1, so an exchange can complete without moving every mapping\nthat the earlier flag-swap decision accounted for.  In that case the\npost-operation cleanup can clear the reflink flag from an inode that\nstill owns shared written extents.  Later writes then take the\nnon-reflink write path and may update blocks that should still have\nbeen protected by CoW, which shows up as data corruption between\nreflink-related files.\n\nFix this by disabling the reflink flag exchange whenever\nXFS_EXCHMAPS_INO1_WRITTEN is requested.  The contents exchange can still\nproceed; the conservative outcome is that both inodes keep the reflink\nflag.  The regular reflink flag cleanup path can drop the extra flag\nlater once the inode no longer has shared extents.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97547"
     }
   ],
   "kev": [
@@ -39669,10 +39675,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 44,
-    "high": 424,
-    "medium": 376,
+    "high": 423,
+    "medium": 377,
     "kev": 2,
     "p1": 22,
-    "p2": 446
+    "p2": 445
   }
 }
