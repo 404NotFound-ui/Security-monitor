@@ -1,6 +1,247 @@
 {
-  "updated": "2026-10-23T17:58:15.696697+00:00",
+  "updated": "2026-10-23T18:33:26.432435+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-83862",
+      "published": "2026-10-13T19:20:35.520",
+      "modified": "2026-10-23T18:18:27.063",
+      "description": "Use after free in Windows Network Load Balancing allows an unauthorized attacker to execute code over an adjacent network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "r2",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83862"
+    },
+    {
+      "id": "CVE-2026-98095",
+      "published": "2026-09-25T11:17:39.243",
+      "modified": "2026-10-23T18:15:25.107",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\naf_packet: Don't cast tpacket_hdr.tp_len to int in tpacket_parse_header().\n\nsyzbot reported BUG() in sock_sendmsg_nosec(). [0]\n\nThe problem is that tpacket_parse_header() casts user-provided\ntpacket_hdr.tp_len, which is u32, to int.\n\nIf the length is larger than INT_MAX, the following condition\nin tpacket_parse_header() passes,\n\n  if (unlikely(tp_len > size_max))\n\nand any negative value can be returned to the caller, up to\nsock_sendmsg_nosec().\n\nThe repro set tpacket_hdr.tp_len to 0xfffffdef, which is cast\nto -EIOCBQUEUED (-529), triggering BUG() in sock_sendmsg_nosec().\n\n  *(uint64_t*)0x200000000008 = 0xfffffdef;\n  ...\n  syscall(__NR_write, /*fd=*/r[0], /*buf=*/0x200000000000ul, /*count=*/1ul);\n\nLet's define the local tp_len as u32 in tpacket_parse_header().\n\n[0]:\nkernel BUG at net/socket.c:803!\nOops: invalid opcode: 0000 [#1] SMP KASAN PTI\nCPU: 0 UID: 0 PID: 5628 Comm: syz-executor176 Not tainted syzkaller #0 PREEMPT(full)\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026\nRIP: 0010:sock_sendmsg_nosec+0x145/0x180 net/socket.c:803\nCode: 06 67 48 0f b9 3a eb 95 e8 e8 3a 22 f8 48 89 df 4c 89 f6 4c 89 e2 4d 89 fb 2e e8 32 a5 5c 16 e9 51 ff ff ff e8 cc 3a 22 f8 90 <0f> 0b e8 c4 3a 22 f8 48 83 c3 18 48 89 d8 48 c1 e8 03 42 80 3c 28\nRSP: 0018:ffffc90003aefb48 EFLAGS: 00010293\nRAX: ffffffff89a578d4 RBX: ffff8880764c67c0 RCX: ffff88807fb23e80\nRDX: 0000000000000000 RSI: 00000000fffffdef RDI: 00000000fffffdef\nRBP: 00000000fffffdef R08: ffffc90003aef747 R09: 1ffff9200075dee8\nR10: dffffc0000000000 R11: fffff5200075dee9 R12: 0000000000000001\nR13: dffffc0000000000 R14: ffffc90003aefbc0 R15: ffffffff8aac4310\nFS:  000055559101b400(0000) GS:ffff888124ce0000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 0000200000000210 CR3: 0000000073dca000 CR4: 00000000003526f0\nCall Trace:\n <TASK>\n __sock_sendmsg net/socket.c:815 [inline]\n sock_write_iter+0x2de/0x3e0 net/socket.c:1266\n new_sync_write fs/read_write.c:595 [inline]\n vfs_write+0x612/0xba0 fs/read_write.c:687\n ksys_write+0x150/0x270 fs/read_write.c:739\n do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]\n do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\nRIP: 0033:0x7f173130ecb9\nCode: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48\nRSP: 002b:00007ffd67e44248 EFLAGS: 00000246 ORIG_RAX: 0000000000000001\nRAX: ffffffffffffffda RBX: 0000200000000000 RCX: 00007f173130ecb9\nRDX: 0000000000000001 RSI: 0000200000000000 RDI: 0000000000000003\nRBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000246 R12: 00007ffd67e44388\nR13: 0000000000000002 R14: 00002000000000c0 R15: 0000000000000002\n </TASK>",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.3:rc1:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98095"
+    },
+    {
+      "id": "CVE-2026-113117",
+      "published": "2026-10-20T22:19:03.773",
+      "modified": "2026-10-23T18:13:49.110",
+      "description": "Improper input validation in ANGLE in Google Chrome on on Mac prior to 156.0.8078.47 allowed a remote attacker to potentially execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113117"
+    },
+    {
+      "id": "CVE-2026-113119",
+      "published": "2026-10-20T22:19:04.010",
+      "modified": "2026-10-23T18:13:32.463",
+      "description": "Use after free in Network in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113119"
+    },
+    {
+      "id": "CVE-2026-113134",
+      "published": "2026-10-20T22:19:05.643",
+      "modified": "2026-10-23T18:13:01.660",
+      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113134"
+    },
+    {
+      "id": "CVE-2026-28187",
+      "published": "2026-08-13T14:17:00.717",
+      "modified": "2026-10-23T18:10:00.167",
+      "description": "Unauthenticated Cross Site Scripting (XSS) in Knowledge Base for Documentation, FAQs with AI Assistance <= 17.211.0 versions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28187"
+    },
+    {
+      "id": "CVE-2026-63423",
+      "published": "2026-08-13T15:19:55.080",
+      "modified": "2026-10-23T18:10:00.167",
+      "description": "During an internal security assessment, a potential vulnerability was discovered in Lenovo Accessories and Display Manager for Enterprise for Windows that could allow a local authenticated user to execute arbitrary code with elevated privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63423"
+    },
     {
       "id": "CVE-2026-68836",
       "published": "2026-10-13T19:18:53.820",
@@ -20271,88 +20512,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83861"
     },
     {
-      "id": "CVE-2026-83862",
-      "published": "2026-10-13T19:20:35.520",
-      "modified": "2026-10-21T15:34:29.680",
-      "description": "Use after free in Windows Network Load Balancing allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83862"
-    },
-    {
       "id": "CVE-2026-83864",
       "published": "2026-10-13T19:20:35.853",
       "modified": "2026-10-21T15:32:20.350",
@@ -21467,50 +21626,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101516"
-    },
-    {
-      "id": "CVE-2026-113134",
-      "published": "2026-10-20T22:19:05.643",
-      "modified": "2026-10-21T14:27:19.970",
-      "description": "Memory corruption in ANGLE in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113134"
-    },
-    {
-      "id": "CVE-2026-113119",
-      "published": "2026-10-20T22:19:04.010",
-      "modified": "2026-10-21T14:27:19.970",
-      "description": "Use after free in Network in Google Chrome on on Windows prior to 156.0.8078.47 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113119"
     },
     {
       "id": "CVE-2026-113196",
@@ -39998,108 +40113,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46052"
-    },
-    {
-      "id": "CVE-2026-45970",
-      "published": "2026-05-27T14:17:13.920",
-      "modified": "2026-10-19T20:18:22.597",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbonding: alb: fix UAF in rlb_arp_recv during bond up/down\n\nThe ALB RX path may access rx_hashtbl concurrently with bond\nteardown. During rapid bond up/down cycles, rlb_deinitialize()\nfrees rx_hashtbl while RX handlers are still running, leading\nto a null pointer dereference detected by KASAN.\n\nHowever, the root cause is that rlb_arp_recv() can still be accessed\nafter setting recv_probe to NULL, which is actually a use-after-free\n(UAF) issue. That is the reason for using the referenced commit in the\nFixes tag.\n\n[  214.174138] Oops: general protection fault, probably for non-canonical address 0xdffffc000000001d: 0000 [#1] SMP KASAN PTI\n[  214.186478] KASAN: null-ptr-deref in range [0x00000000000000e8-0x00000000000000ef]\n[  214.194933] CPU: 30 UID: 0 PID: 2375 Comm: ping Kdump: loaded Not tainted 6.19.0-rc8+ #2 PREEMPT(voluntary)\n[  214.205907] Hardware name: Dell Inc. PowerEdge R730/0WCJNT, BIOS 2.14.0 01/14/2022\n[  214.214357] RIP: 0010:rlb_arp_recv+0x505/0xab0 [bonding]\n[  214.220320] Code: 0f 85 2b 05 00 00 48 b8 00 00 00 00 00 fc ff df 40 0f b6 ed 48 c1 e5 06 49 03 ad 78 01 00 00 48 8d 7d 28 48 89 fa 48 c1 ea 03 <0f> b6\n 04 02 84 c0 74 06 0f 8e 12 05 00 00 80 7d 28 00 0f 84 8c 00\n[  214.241280] RSP: 0018:ffffc900073d8870 EFLAGS: 00010206\n[  214.247116] RAX: dffffc0000000000 RBX: ffff888168556822 RCX: ffff88816855681e\n[  214.255082] RDX: 000000000000001d RSI: dffffc0000000000 RDI: 00000000000000e8\n[  214.263048] RBP: 00000000000000c0 R08: 0000000000000002 R09: ffffed11192021c8\n[  214.271013] R10: ffff8888c9010e43 R11: 0000000000000001 R12: 1ffff92000e7b119\n[  214.278978] R13: ffff8888c9010e00 R14: ffff888168556822 R15: ffff888168556810\n[  214.286943] FS:  00007f85d2d9cb80(0000) GS:ffff88886ccb3000(0000) knlGS:0000000000000000\n[  214.295966] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[  214.302380] CR2: 00007f0d047b5e34 CR3: 00000008a1c2e002 CR4: 00000000001726f0\n[  214.310347] Call Trace:\n[  214.313070]  <IRQ>\n[  214.315318]  ? __pfx_rlb_arp_recv+0x10/0x10 [bonding]\n[  214.320975]  bond_handle_frame+0x166/0xb60 [bonding]\n[  214.326537]  ? __pfx_bond_handle_frame+0x10/0x10 [bonding]\n[  214.332680]  __netif_receive_skb_core.constprop.0+0x576/0x2710\n[  214.339199]  ? __pfx_arp_process+0x10/0x10\n[  214.343775]  ? sched_balance_find_src_group+0x98/0x630\n[  214.349513]  ? __pfx___netif_receive_skb_core.constprop.0+0x10/0x10\n[  214.356513]  ? arp_rcv+0x307/0x690\n[  214.360311]  ? __pfx_arp_rcv+0x10/0x10\n[  214.364499]  ? __lock_acquire+0x58c/0xbd0\n[  214.368975]  __netif_receive_skb_one_core+0xae/0x1b0\n[  214.374518]  ? __pfx___netif_receive_skb_one_core+0x10/0x10\n[  214.380743]  ? lock_acquire+0x10b/0x140\n[  214.385026]  process_backlog+0x3f1/0x13a0\n[  214.389502]  ? process_backlog+0x3aa/0x13a0\n[  214.394174]  __napi_poll.constprop.0+0x9f/0x370\n[  214.399233]  net_rx_action+0x8c1/0xe60\n[  214.403423]  ? __pfx_net_rx_action+0x10/0x10\n[  214.408193]  ? lock_acquire.part.0+0xbd/0x260\n[  214.413058]  ? sched_clock_cpu+0x6c/0x540\n[  214.417540]  ? mark_held_locks+0x40/0x70\n[  214.421920]  handle_softirqs+0x1fd/0x860\n[  214.426302]  ? __pfx_handle_softirqs+0x10/0x10\n[  214.431264]  ? __neigh_event_send+0x2d6/0xf50\n[  214.436131]  do_softirq+0xb1/0xf0\n[  214.439830]  </IRQ>\n\nThe issue is reproducible by repeatedly running\nip link set bond0 up/down while receiving ARP messages, where\nrlb_arp_recv() can race with rlb_deinitialize() and dereference\na freed rx_hashtbl entry.\n\nFix this by setting recv_probe to NULL and then calling\nsynchronize_net() to wait for any concurrent RX processing to finish.\nThis ensures that no RX handler can access rx_hashtbl after it is freed\nin bond_alb_deinitialize().",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45970"
-    },
-    {
-      "id": "CVE-2026-45898",
-      "published": "2026-05-27T14:17:04.080",
-      "modified": "2026-10-19T20:18:21.030",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nRDMA/iwcm: Fix workqueue list corruption by removing work_list\n\nThe commit e1168f0 (\"RDMA/iwcm: Simplify cm_event_handler()\")\nchanged the work submission logic to unconditionally call\nqueue_work() with the expectation that queue_work() would\nhave no effect if work was already pending. The problem is\nthat a free list of struct iwcm_work is used (for which\nstruct work_struct is embedded), so each call to queue_work()\nis basically unique and therefore does indeed queue the work.\n\nThis causes a problem in the work handler which walks the work_list\nuntil it's empty to process entries. This means that a single\nrun of the work handler could process item N+1 and release it\nback to the free list while the actual workqueue entry is still\nqueued. It could then get reused (INIT_WORK...) and lead to\nlist corruption in the workqueue logic.\n\nFix this by just removing the work_list. The workqueue already\ndoes this for us.\n\nThis fixes the following error that was observed when stress\ntesting with ucmatose on an Intel E830 in iWARP mode:\n\n[  151.465780] list_del corruption. next->prev should be ffff9f0915c69c08, but was ffff9f0a1116be08. (next=ffff9f0a15b11c08)\n[  151.466639] ------------[ cut here ]------------\n[  151.466986] kernel BUG at lib/list_debug.c:67!\n[  151.467349] Oops: invalid opcode: 0000 [#1] SMP NOPTI\n[  151.467753] CPU: 14 UID: 0 PID: 2306 Comm: kworker/u64:18 Not tainted 6.19.0-rc4+ #1 PREEMPT(voluntary)\n[  151.468466] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[  151.469192] Workqueue:  0x0 (iw_cm_wq)\n[  151.469478] RIP: 0010:__list_del_entry_valid_or_report+0xf0/0x100\n[  151.469942] Code: c7 58 5f 4c b2 e8 10 50 aa ff 0f 0b 48 89 ef e8 36 57 cb ff 48 8b 55 08 48 89 e9 48 89 de 48 c7 c7 a8 5f 4c b2 e8 f0 4f aa ff <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90 90\n[  151.471323] RSP: 0000:ffffb15644e7bd68 EFLAGS: 00010046\n[  151.471712] RAX: 000000000000006d RBX: ffff9f0915c69c08 RCX: 0000000000000027\n[  151.472243] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff9f0a37d9c600\n[  151.472768] RBP: ffff9f0a15b11c08 R08: 0000000000000000 R09: c0000000ffff7fff\n[  151.473294] R10: 0000000000000001 R11: ffffb15644e7bba8 R12: ffff9f092339ee68\n[  151.473817] R13: ffff9f0900059c28 R14: ffff9f092339ee78 R15: 0000000000000000\n[  151.474344] FS:  0000000000000000(0000) GS:ffff9f0a847b5000(0000) knlGS:0000000000000000\n[  151.474934] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[  151.475362] CR2: 0000559e233a9088 CR3: 000000020296b004 CR4: 0000000000770ef0\n[  151.475895] PKRU: 55555554\n[  151.476118] Call Trace:\n[  151.476331]  <TASK>\n[  151.476497]  move_linked_works+0x49/0xa0\n[  151.476792]  __pwq_activate_work.isra.46+0x2f/0xa0\n[  151.477151]  pwq_dec_nr_in_flight+0x1e0/0x2f0\n[  151.477479]  process_scheduled_works+0x1c8/0x410\n[  151.477823]  worker_thread+0x125/0x260\n[  151.478108]  ? __pfx_worker_thread+0x10/0x10\n[  151.478430]  kthread+0xfe/0x240\n[  151.478671]  ? __pfx_kthread+0x10/0x10\n[  151.478955]  ? __pfx_kthread+0x10/0x10\n[  151.479240]  ret_from_fork+0x208/0x270\n[  151.479523]  ? __pfx_kthread+0x10/0x10\n[  151.479806]  ret_from_fork_asm+0x1a/0x30\n[  151.480103]  </TASK>",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45898"
-    },
-    {
-      "id": "CVE-2026-43466",
-      "published": "2026-05-08T15:16:59.543",
-      "modified": "2026-10-19T20:18:18.033",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/mlx5e: Fix DMA FIFO desync on error CQE SQ recovery\n\nIn case of a TX error CQE, a recovery flow is triggered,\nmlx5e_reset_txqsq_cc_pc() resets dma_fifo_cc to 0 but not dma_fifo_pc,\ndesyncing the DMA FIFO producer and consumer.\n\nAfter recovery, the producer pushes new DMA entries at the old\ndma_fifo_pc, while the consumer reads from position 0.\nThis causes us to unmap stale DMA addresses from before the recovery.\n\nThe DMA FIFO is a purely software construct with no HW counterpart.\nAt the point of reset, all WQEs have been flushed so dma_fifo_cc is\nalready equal to dma_fifo_pc. There is no need to reset either counter,\nsimilar to how skb_fifo pc/cc are untouched.\n\nRemove the 'dma_fifo_cc = 0' reset.\n\nThis fixes the following WARNING:\n    WARNING: CPU: 0 PID: 0 at drivers/iommu/dma-iommu.c:1240 iommu_dma_unmap_page+0x79/0x90\n    Modules linked in: mlx5_vdpa vringh vdpa bonding mlx5_ib mlx5_vfio_pci ipip mlx5_fwctl tunnel4 mlx5_core ib_ipoib geneve ip6_gre ip_gre gre nf_tables ip6_tunnel rdma_ucm ib_uverbs ib_umad vfio_pci vfio_pci_core act_mirred act_skbedit act_vlan vhost_net vhost tap ip6table_mangle ip6table_nat ip6table_filter ip6_tables iptable_mangle cls_matchall nfnetlink_cttimeout act_gact cls_flower sch_ingress vhost_iotlb iptable_raw tunnel6 vfio_iommu_type1 vfio openvswitch nsh rpcsec_gss_krb5 auth_rpcgss oid_registry xt_conntrack xt_MASQUERADE nf_conntrack_netlink nfnetlink iptable_nat nf_nat xt_addrtype br_netfilter overlay zram zsmalloc rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core fuse [last unloaded: nf_tables]\n    CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.13.0-rc5_for_upstream_min_debug_2024_12_30_21_33 #1\n    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014\n    RIP: 0010:iommu_dma_unmap_page+0x79/0x90\n    Code: 2b 4d 3b 21 72 26 4d 3b 61 08 73 20 49 89 d8 44 89 f9 5b 4c 89 f2 4c 89 e6 48 89 ef 5d 41 5c 41 5d 41 5e 41 5f e9 c7 ae 9e ff <0f> 0b 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00\n    Call Trace:\n     <IRQ>\n     ? __warn+0x7d/0x110\n     ? iommu_dma_unmap_page+0x79/0x90\n     ? report_bug+0x16d/0x180\n     ? handle_bug+0x4f/0x90\n     ? exc_invalid_op+0x14/0x70\n     ? asm_exc_invalid_op+0x16/0x20\n     ? iommu_dma_unmap_page+0x79/0x90\n     ? iommu_dma_unmap_page+0x2e/0x90\n     dma_unmap_page_attrs+0x10d/0x1b0\n     mlx5e_tx_wi_dma_unmap+0xbe/0x120 [mlx5_core]\n     mlx5e_poll_tx_cq+0x16d/0x690 [mlx5_core]\n     mlx5e_napi_poll+0x8b/0xac0 [mlx5_core]\n     __napi_poll+0x24/0x190\n     net_rx_action+0x32a/0x3b0\n     ? mlx5_eq_comp_int+0x7e/0x270 [mlx5_core]\n     ? notifier_call_chain+0x35/0xa0\n     handle_softirqs+0xc9/0x270\n     irq_exit_rcu+0x71/0xd0\n     common_interrupt+0x7f/0xa0\n     </IRQ>\n     <TASK>\n     asm_common_interrupt+0x22/0x40",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43466"
-    },
-    {
-      "id": "CVE-2026-43407",
-      "published": "2026-05-08T15:16:52.250",
-      "modified": "2026-10-19T20:18:16.567",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nlibceph: Fix potential out-of-bounds access in ceph_handle_auth_reply()\n\nThis patch fixes an out-of-bounds access in ceph_handle_auth_reply()\nthat can be triggered by a message of type CEPH_MSG_AUTH_REPLY. In\nceph_handle_auth_reply(), the value of the payload_len field of such a\nmessage is stored in a variable of type int. A value greater than\nINT_MAX leads to an integer overflow and is interpreted as a negative\nvalue. This leads to decrementing the pointer address by this value and\nsubsequently accessing it because ceph_decode_need() only checks that\nthe memory access does not exceed the end address of the allocation.\n\nThis patch fixes the issue by changing the data type of payload_len to\nu32. Additionally, the data type of result_msg_len is changed to u32,\nas it is also a variable holding a non-negative length.\n\nAlso, an additional layer of sanity checks is introduced, ensuring that\ndirectly after reading it from the message, payload_len and\nresult_msg_len are not greater than the overall segment length.\n\nBUG: KASAN: slab-out-of-bounds in ceph_handle_auth_reply+0x642/0x7a0 [libceph]\nRead of size 4 at addr ffff88811404df14 by task kworker/20:1/262\n\nCPU: 20 UID: 0 PID: 262 Comm: kworker/20:1 Not tainted 6.19.2 #5 PREEMPT(voluntary)\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nWorkqueue: ceph-msgr ceph_con_workfn [libceph]\nCall Trace:\n <TASK>\n dump_stack_lvl+0x76/0xa0\n print_report+0xd1/0x620\n ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n ? kasan_complete_mode_report_info+0x72/0x210\n kasan_report+0xe7/0x130\n ? ceph_handle_auth_reply+0x642/0x7a0 [libceph]\n ? ceph_handle_auth_reply+0x642/0x7a0 [libceph]\n __asan_report_load_n_noabort+0xf/0x20\n ceph_handle_auth_reply+0x642/0x7a0 [libceph]\n mon_dispatch+0x973/0x23d0 [libceph]\n ? apparmor_socket_recvmsg+0x6b/0xa0\n ? __pfx_mon_dispatch+0x10/0x10 [libceph]\n ? __kasan_check_write+0x14/0x30i\n ? mutex_unlock+0x7f/0xd0\n ? __pfx_mutex_unlock+0x10/0x10\n ? __pfx_do_recvmsg+0x10/0x10 [libceph]\n ceph_con_process_message+0x1f1/0x650 [libceph]\n process_message+0x1e/0x450 [libceph]\n ceph_con_v2_try_read+0x2e48/0x6c80 [libceph]\n ? __pfx_ceph_con_v2_try_read+0x10/0x10 [libceph]\n ? save_fpregs_to_fpstate+0xb0/0x230\n ? raw_spin_rq_unlock+0x17/0xa0\n ? finish_task_switch.isra.0+0x13b/0x760\n ? __switch_to+0x385/0xda0\n ? __kasan_check_write+0x14/0x30\n ? mutex_lock+0x8d/0xe0\n ? __pfx_mutex_lock+0x10/0x10\n ceph_con_workfn+0x248/0x10c0 [libceph]\n process_one_work+0x629/0xf80\n ? __kasan_check_write+0x14/0x30\n worker_thread+0x87f/0x1570\n ? __pfx__raw_spin_lock_irqsave+0x10/0x10\n ? __pfx_try_to_wake_up+0x10/0x10\n ? kasan_print_address_stack_frame+0x1f7/0x280\n ? __pfx_worker_thread+0x10/0x10\n kthread+0x396/0x830\n ? __pfx__raw_spin_lock_irq+0x10/0x10\n ? __pfx_kthread+0x10/0x10\n ? __kasan_check_write+0x14/0x30\n ? recalc_sigpending+0x180/0x210\n ? __pfx_kthread+0x10/0x10\n ret_from_fork+0x3f7/0x610\n ? __pfx_ret_from_fork+0x10/0x10\n ? __switch_to+0x385/0xda0\n ? __pfx_kthread+0x10/0x10\n ret_from_fork_asm+0x1a/0x30\n </TASK>\n\n[ idryomov: replace if statements with ceph_decode_need() for\n  payload_len and result_msg_len ]",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:2.6.34:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-43407"
     }
   ],
   "kev": [
@@ -41688,6 +41701,7 @@
     "CVE-2026-10520",
     "CVE-2026-106931",
     "CVE-2026-110936",
+    "CVE-2026-114625",
     "CVE-2026-11645",
     "CVE-2026-12569",
     "CVE-2026-1281",
@@ -41860,11 +41874,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 50,
-    "high": 444,
-    "medium": 358,
+    "critical": 47,
+    "high": 446,
+    "medium": 359,
     "kev": 2,
-    "p1": 29,
+    "p1": 28,
     "p2": 465
   }
 }
