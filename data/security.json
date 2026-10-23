@@ -1,6 +1,269 @@
 {
-  "updated": "2026-10-23T14:35:36.294485+00:00",
+  "updated": "2026-10-23T16:07:47.141410+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-109619",
+      "published": "2026-10-21T14:17:09.823",
+      "modified": "2026-10-23T16:06:48.917",
+      "description": "PHP has various global state that temporarily points into request memory. In some scenarios, global state may not be correctly reset, or may be repopulated after being reset. The global state may then refer to request memory even after it has been freed. Subsequent requests may read or branch on this stale state before it is fully initialized. Multiple strategies can trigger this condition and produce remote code execution (RCE).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:siemens:ruggedcom_ape1808_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:siemens:ruggedcom_ape1808:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h13:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h14:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h15:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h16:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h17:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h19:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h20:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h22:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h23:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h24:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h32:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h34:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h35:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h36:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h37:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h38:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.9:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h13:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h14:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h17:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h27:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h30:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h31:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h36:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h37:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h39:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h40:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h41:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.11:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.12:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h15:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h16:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h22:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h23:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h24:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h26:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.14:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.15:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.17:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h7:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109619"
+    },
+    {
+      "id": "CVE-2026-76287",
+      "published": "2026-10-21T23:17:26.383",
+      "modified": "2026-10-23T15:17:34.510",
+      "description": "In Splunk Enterprise versions below 10.4.4, a user that holds a role with the preview_data_management_pipeline capability or edit_data_management_pipeline_job capability could read or delete Data Management SPL2 preview jobs and results outside their ownership scope.\nThe vulnerability is possible because the Data Management Representational State Transfer (REST) API verifies the required capability but does not verify that the requested preview job belongs to the requester.\nThe affected Data Management REST API is available only when the Edge Processor feature is turned on. The Edge Processor feature is turned off by default.\nFor more information see Set up a data management control plane (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/getting-started/set-up-a-data-management-control-plane) and Getting sample data for previewing data transformations (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/working-with-pipelines/getting-sample-data-for-previewing-data-transformations) in the Splunk documentation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76287"
+    },
+    {
+      "id": "CVE-2026-63120",
+      "published": "2026-10-23T13:17:12.010",
+      "modified": "2026-10-23T15:17:34.400",
+      "description": "pghoard is a PostgreSQL backup daemon and restore tooling that stores backup data in cloud object stores. Prior to version 2.7.2, an incomplete path traversal fix in pghoard allows an attacker with write access to the backup object storage (such as S3, GCS, or Azure) to execute arbitrary file writes and directory creation outside the designated PostgreSQL data directory (pgdata). When a database administrator executes a restore operation (via pghoard_restore get-basebackup), a maliciously crafted delta backup manifest with path traversal sequences (e.g., ../../../../etc/cron.d/backdoor) will write arbitrary payloads to the host system. This issue has been patched in version 2.7.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63120"
+    },
+    {
+      "id": "CVE-2026-114124",
+      "published": "2026-10-21T18:17:24.800",
+      "modified": "2026-10-23T15:17:25.250",
+      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9, frame data received from the GPU process for macOS offscreen rendering was not fully validated by the main process. An attacker who had separately gained code execution in the GPU process could provide inconsistent frame geometry and cause the main process to read out-of-bounds memory while producing paint event images, disclosing memory or crashing the application. This issue is fixed in versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.9,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114124"
+    },
+    {
+      "id": "CVE-2026-113796",
+      "published": "2026-10-21T17:18:24.570",
+      "modified": "2026-10-23T15:17:24.973",
+      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 42.11.3, 43.7.0, 44.3.0, and 45.0.0-alpha.6, Electron treated pages opened into a new window from links as application-initiated navigations instead of preserving the page containing the link as the initiator. The resulting top-level request could be classified as same-site, causing SameSite=Strict cookies to be sent and Sec-Fetch-Site not to identify the initiating page. An application that loads untrusted content and permits it to open new windows could therefore allow that content to make a credentialed request to another site that relies on SameSite cookies for CSRF protection. This issue is fixed in versions 42.11.3, 43.7.0, 44.3.0, and 45.0.0-alpha.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113796"
+    },
+    {
+      "id": "CVE-2025-1218",
+      "published": "2026-09-25T21:17:20.993",
+      "modified": "2026-10-23T14:55:37.780",
+      "description": "The mysqlnd wire protocol parser reads fields out of server packets before checking that the packet still holds enough bytes for them. A malicious or compromised MySQL server can send a truncated packet and make the client read past the end of the packet buffer, which is undefined behaviour and can crash the process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 3.4,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-1218"
+    },
+    {
+      "id": "CVE-2026-17545",
+      "published": "2026-09-25T21:17:23.253",
+      "modified": "2026-10-23T14:43:15.817",
+      "description": "On Windows, PHP's filesystem and stream APIs do not reject reserved device names such as CON, PRN, AUX, NUL, COM1 to COM9, LPT1 to LPT9, CONIN$ and CONOUT$ when they appear as a component of a path. An attacker-controlled filename therefore reaches CreateFileW() and opens a device instead of the regular file the application expected, which can block or hang the request and exhaust worker processes.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17545"
+    },
     {
       "id": "CVE-2023-6915",
       "published": "2024-01-15T10:15:26.627",
@@ -489,30 +752,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
     },
     {
-      "id": "CVE-2026-109619",
-      "published": "2026-10-21T14:17:09.823",
-      "modified": "2026-10-23T14:17:30.943",
-      "description": "PHP has various global state that temporarily points into request memory. In some scenarios, global state may not be correctly reset, or may be repopulated after being reset. The global state may then refer to request memory even after it has been freed. Subsequent requests may read or branch on this stale state before it is fully initialized. Multiple strategies can trigger this condition and produce remote code execution (RCE).",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109619"
-    },
-    {
       "id": "CVE-2019-15598",
       "published": "2019-12-18T21:15:12.523",
       "modified": "2026-10-23T13:58:00.743",
@@ -723,26 +962,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98918"
-    },
-    {
-      "id": "CVE-2026-63120",
-      "published": "2026-10-23T13:17:12.010",
-      "modified": "2026-10-23T13:17:12.010",
-      "description": "pghoard is a PostgreSQL backup daemon and restore tooling that stores backup data in cloud object stores. Prior to version 2.7.2, an incomplete path traversal fix in pghoard allows an attacker with write access to the backup object storage (such as S3, GCS, or Azure) to execute arbitrary file writes and directory creation outside the designated PostgreSQL data directory (pgdata). When a database administrator executes a restore operation (via pghoard_restore get-basebackup), a maliciously crafted delta backup manifest with path traversal sequences (e.g., ../../../../etc/cron.d/backdoor) will write arbitrary payloads to the host system. This issue has been patched in version 2.7.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63120"
     },
     {
       "id": "CVE-2026-57210",
@@ -7016,46 +7235,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114121"
     },
     {
-      "id": "CVE-2026-113796",
-      "published": "2026-10-21T17:18:24.570",
-      "modified": "2026-10-22T17:29:28.470",
-      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 42.11.3, 43.7.0, 44.3.0, and 45.0.0-alpha.6, Electron treated pages opened into a new window from links as application-initiated navigations instead of preserving the page containing the link as the initiator. The resulting top-level request could be classified as same-site, causing SameSite=Strict cookies to be sent and Sec-Fetch-Site not to identify the initiating page. An application that loads untrusted content and permits it to open new windows could therefore allow that content to make a credentialed request to another site that relies on SameSite cookies for CSRF protection. This issue is fixed in versions 42.11.3, 43.7.0, 44.3.0, and 45.0.0-alpha.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113796"
-    },
-    {
-      "id": "CVE-2026-114124",
-      "published": "2026-10-21T18:17:24.800",
-      "modified": "2026-10-22T17:21:57.293",
-      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9, frame data received from the GPU process for macOS offscreen rendering was not fully validated by the main process. An attacker who had separately gained code execution in the GPU process could provide inconsistent frame geometry and cause the main process to read out-of-bounds memory while producing paint event images, disclosing memory or crashing the application. This issue is fixed in versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.9,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114124"
-    },
-    {
       "id": "CVE-2026-70906",
       "published": "2026-08-18T21:17:48.393",
       "modified": "2026-10-22T17:09:59.477",
@@ -7293,26 +7472,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76290"
-    },
-    {
-      "id": "CVE-2026-76287",
-      "published": "2026-10-21T23:17:26.383",
-      "modified": "2026-10-22T16:57:10.180",
-      "description": "In Splunk Enterprise versions below 10.4.4, a user that holds a role with the preview_data_management_pipeline capability or edit_data_management_pipeline_job capability could read or delete Data Management SPL2 preview jobs and results outside their ownership scope.\nThe vulnerability is possible because the Data Management Representational State Transfer (REST) API verifies the required capability but does not verify that the requested preview job belongs to the requester.\nThe affected Data Management REST API is available only when the Edge Processor feature is turned on. The Edge Processor feature is turned off by default.\nFor more information see Set up a data management control plane (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/getting-started/set-up-a-data-management-control-plane) and Getting sample data for previewing data transformations (https://help.splunk.com/en/splunk-enterprise/process-data-at-the-edge/use-edge-processors-for-splunk-enterprise/10.4/working-with-pipelines/getting-sample-data-for-previewing-data-transformations) in the Splunk documentation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76287"
     },
     {
       "id": "CVE-2026-105938",
@@ -39304,62 +39463,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31470"
-    },
-    {
-      "id": "CVE-2026-31450",
-      "published": "2026-04-22T14:16:39.083",
-      "modified": "2026-10-19T19:17:54.533",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\next4: publish jinode after initialization\n\next4_inode_attach_jinode() publishes ei->jinode to concurrent users.\nIt used to set ei->jinode before jbd2_journal_init_jbd_inode(),\nallowing a reader to observe a non-NULL jinode with i_vfs_inode\nstill unset.\n\nThe fast commit flush path can then pass this jinode to\njbd2_wait_inode_data(), which dereferences i_vfs_inode->i_mapping and\nmay crash.\n\nBelow is the crash I observe:\n```\nBUG: unable to handle page fault for address: 000000010beb47f4\nPGD 110e51067 P4D 110e51067 PUD 0\nOops: Oops: 0000 [#1] SMP NOPTI\nCPU: 1 UID: 0 PID: 4850 Comm: fc_fsync_bench_ Not tainted 6.18.0-00764-g795a690c06a5 #1 PREEMPT(voluntary)\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.17.0-2-2 04/01/2014\nRIP: 0010:xas_find_marked+0x3d/0x2e0\nCode: e0 03 48 83 f8 02 0f 84 f0 01 00 00 48 8b 47 08 48 89 c3 48 39 c6 0f 82 fd 01 00 00 48 85 c9 74 3d 48 83 f9 03 77 63 4c 8b 0f <49> 8b 71 08 48 c7 47 18 00 00 00 00 48 89 f1 83 e1 03 48 83 f9 02\nRSP: 0018:ffffbbee806e7bf0 EFLAGS: 00010246\nRAX: 000000000010beb4 RBX: 000000000010beb4 RCX: 0000000000000003\nRDX: 0000000000000001 RSI: 0000002000300000 RDI: ffffbbee806e7c10\nRBP: 0000000000000001 R08: 0000002000300000 R09: 000000010beb47ec\nR10: ffff9ea494590090 R11: 0000000000000000 R12: 0000002000300000\nR13: ffffbbee806e7c90 R14: ffff9ea494513788 R15: ffffbbee806e7c88\nFS: 00007fc2f9e3e6c0(0000) GS:ffff9ea6b1444000(0000) knlGS:0000000000000000\nCS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 000000010beb47f4 CR3: 0000000119ac5000 CR4: 0000000000750ef0\nPKRU: 55555554\nCall Trace:\n<TASK>\nfilemap_get_folios_tag+0x87/0x2a0\n__filemap_fdatawait_range+0x5f/0xd0\n? srso_alias_return_thunk+0x5/0xfbef5\n? __schedule+0x3e7/0x10c0\n? srso_alias_return_thunk+0x5/0xfbef5\n? srso_alias_return_thunk+0x5/0xfbef5\n? srso_alias_return_thunk+0x5/0xfbef5\n? preempt_count_sub+0x5f/0x80\n? srso_alias_return_thunk+0x5/0xfbef5\n? cap_safe_nice+0x37/0x70\n? srso_alias_return_thunk+0x5/0xfbef5\n? preempt_count_sub+0x5f/0x80\n? srso_alias_return_thunk+0x5/0xfbef5\nfilemap_fdatawait_range_keep_errors+0x12/0x40\next4_fc_commit+0x697/0x8b0\n? ext4_file_write_iter+0x64b/0x950\n? srso_alias_return_thunk+0x5/0xfbef5\n? preempt_count_sub+0x5f/0x80\n? srso_alias_return_thunk+0x5/0xfbef5\n? vfs_write+0x356/0x480\n? srso_alias_return_thunk+0x5/0xfbef5\n? preempt_count_sub+0x5f/0x80\next4_sync_file+0xf7/0x370\ndo_fsync+0x3b/0x80\n? syscall_trace_enter+0x108/0x1d0\n__x64_sys_fdatasync+0x16/0x20\ndo_syscall_64+0x62/0x2c0\nentry_SYSCALL_64_after_hwframe+0x76/0x7e\n...\n```\n\nFix this by initializing the jbd2_inode first.\nUse smp_wmb() and WRITE_ONCE() to publish ei->jinode after\ninitialization. Readers use READ_ONCE() to fetch the pointer.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:3.11:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:3.11:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:3.11:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31450"
-    },
-    {
-      "id": "CVE-2026-23462",
-      "published": "2026-04-03T16:16:33.313",
-      "modified": "2026-10-19T19:17:50.297",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nBluetooth: HIDP: Fix possible UAF\n\nThis fixes the following trace caused by not dropping l2cap_conn\nreference when user->remove callback is called:\n\n[   97.809249] l2cap_conn_free: freeing conn ffff88810a171c00\n[   97.809907] CPU: 1 UID: 0 PID: 1419 Comm: repro_standalon Not tainted 7.0.0-rc1-dirty #14 PREEMPT(lazy)\n[   97.809935] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-debian-1.17.0-1 04/01/2014\n[   97.809947] Call Trace:\n[   97.809954]  <TASK>\n[   97.809961]  dump_stack_lvl (lib/dump_stack.c:122)\n[   97.809990]  l2cap_conn_free (net/bluetooth/l2cap_core.c:1808)\n[   97.810017]  l2cap_conn_del (./include/linux/kref.h:66 net/bluetooth/l2cap_core.c:1821 net/bluetooth/l2cap_core.c:1798)\n[   97.810055]  l2cap_disconn_cfm (net/bluetooth/l2cap_core.c:7347 (discriminator 1) net/bluetooth/l2cap_core.c:7340 (discriminator 1))\n[   97.810086]  ? __pfx_l2cap_disconn_cfm (net/bluetooth/l2cap_core.c:7341)\n[   97.810117]  hci_conn_hash_flush (./include/net/bluetooth/hci_core.h:2152 (discriminator 2) net/bluetooth/hci_conn.c:2644 (discriminator 2))\n[   97.810148]  hci_dev_close_sync (net/bluetooth/hci_sync.c:5360)\n[   97.810180]  ? __pfx_hci_dev_close_sync (net/bluetooth/hci_sync.c:5285)\n[   97.810212]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810242]  ? up_write (./arch/x86/include/asm/atomic64_64.h:87 (discriminator 5) ./include/linux/atomic/atomic-arch-fallback.h:2852 (discriminator 5) ./include/linux/atomic/atomic-long.h:268 (discriminator 5) ./include/linux/atomic/atomic-instrumented.h:3391 (discriminator 5) kernel/locking/rwsem.c:1385 (discriminator 5) kernel/locking/rwsem.c:1643 (discriminator 5))\n[   97.810267]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810290]  ? rcu_is_watching (./arch/x86/include/asm/atomic.h:23 ./include/linux/atomic/atomic-arch-fallback.h:457 ./include/linux/context_tracking.h:128 kernel/rcu/tree.c:752)\n[   97.810320]  hci_unregister_dev (net/bluetooth/hci_core.c:504 net/bluetooth/hci_core.c:2716)\n[   97.810346]  vhci_release (drivers/bluetooth/hci_vhci.c:691)\n[   97.810375]  ? __pfx_vhci_release (drivers/bluetooth/hci_vhci.c:678)\n[   97.810404]  __fput (fs/file_table.c:470)\n[   97.810430]  task_work_run (kernel/task_work.c:235)\n[   97.810451]  ? __pfx_task_work_run (kernel/task_work.c:201)\n[   97.810472]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810495]  ? do_raw_spin_unlock (./include/asm-generic/qspinlock.h:128 (discriminator 5) kernel/locking/spinlock_debug.c:142 (discriminator 5))\n[   97.810527]  do_exit (kernel/exit.c:972)\n[   97.810547]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810574]  ? __pfx_do_exit (kernel/exit.c:897)\n[   97.810594]  ? lock_acquire (kernel/locking/lockdep.c:470 (discriminator 6) kernel/locking/lockdep.c:5870 (discriminator 6) kernel/locking/lockdep.c:5825 (discriminator 6))\n[   97.810616]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810639]  ? do_raw_spin_lock (kernel/locking/spinlock_debug.c:95 (discriminator 4) kernel/locking/spinlock_debug.c:118 (discriminator 4))\n[   97.810664]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810688]  ? find_held_lock (kernel/locking/lockdep.c:5350 (discriminator 1))\n[   97.810721]  do_group_exit (kernel/exit.c:1093)\n[   97.810745]  get_signal (kernel/signal.c:3007 (discriminator 1))\n[   97.810772]  ? security_file_permission (./arch/x86/include/asm/jump_label.h:37 security/security.c:2366)\n[   97.810803]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810826]  ? vfs_read (fs/read_write.c:555)\n[   97.810854]  ? __pfx_get_signal (kernel/signal.c:2800)\n[   97.810880]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810905]  ? __pfx_vfs_read (fs/read_write.c:555)\n[   97.810932]  ? srso_alias_return_thunk (arch/x86/lib/retpoline.S:221)\n[   97.810960]  arch_do_signal_or_restart (arch/\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23462"
     }
   ],
   "kev": [
@@ -41121,10 +41224,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 50,
-    "high": 453,
-    "medium": 351,
+    "high": 451,
+    "medium": 352,
     "kev": 2,
     "p1": 30,
-    "p2": 473
+    "p2": 471
   }
 }
