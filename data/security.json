@@ -1,10 +1,72 @@
 {
-  "updated": "2026-10-23T11:46:04.155643+00:00",
+  "updated": "2026-10-23T12:26:56.491164+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-98901",
+      "published": "2026-10-23T12:18:24.143",
+      "modified": "2026-10-23T12:18:24.143",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: fix lease break and ack state handling\n\nDo not skip valid lease states containing WRITE_CACHING when breaking\nlevel-II/read leases for writes and truncates.\n\nHandle lease break acknowledgments according to the SMB2 rule that the\nacknowledged state must be a subset of the server's break target. Apply\nthe acknowledged state directly and keep the break pending on failed ACKs.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98901"
+    },
+    {
+      "id": "CVE-2026-98885",
+      "published": "2026-10-23T12:18:22.213",
+      "modified": "2026-10-23T12:18:22.213",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nima: return error early if file xattr cannot be changed\n\nDuring early boot, the filesystem is read-only and any changes\nto xattrs are not allowed. This fails in case of ext4 because\nchanging xattr starts an ext4 transaction which fails with the\nfollowing warning.\n\nWARNING: fs/ext4/ext4_jbd2.c:75 at ext4_journal_check_start+0x63/0xa0 [ext4], CPU#1: systemd-sysroot/561\nCPU: 1 UID: 0 PID: 561 Comm: systemd-sysroot Not tainted 6.19.12-1-default #1 PREEMPT(voluntary) openSUSE Tumbleweed  c2dfc3c9d9f6f1233251c5d4410574fe82a348ee\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 02/02/2022\nRIP: 0010:ext4_journal_check_start+0x63/0xa0 [ext4]\nCall Trace:\n  __ext4_journal_start_sb+0x3e/0x180 [ext4 6d025f3bc52c89a957b89a89d211fadf5e9434e1]\n  ext4_xattr_set+0x104/0x150 [ext4 6d025f3bc52c89a957b89a89d211fadf5e9434e1]\n  __vfs_setxattr+0x9a/0xd0\n  __vfs_setxattr_noperm+0x76/0x1f0\n  ima_appraise_measurement+0x23e/0xe40\n  ima_d_path+0x5a/0xd0\n  process_measurement+0xb29/0xc40\n  ? copy_from_kernel_nofault+0x21/0xe0\n  ? fscrypt_file_open+0xc0/0xe0\n  ? ext4_file_open+0x60/0x490 [ext4 6d025f3bc52c89a957b89a89d211fadf5e9434e1]\n  ? bpf_prog_31efb7c56239148b_restrict_filesystems+0xab/0x126\n  ? __bpf_prog_exit+0x23/0xd0\n  ? __bpf_tramp_exit+0xd/0x50\n  ? bpf_trampoline_6442530367+0x9f/0xea\n  ima_file_check+0x57/0x80\n  security_file_post_open+0x50/0xf0\n  path_openat+0x493/0x1650\n  do_filp_open+0xc7/0x170\n\nDetect the state of the file early and return the error.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-98885"
+    },
+    {
+      "id": "CVE-2026-91403",
+      "published": "2026-10-21T22:16:50.243",
+      "modified": "2026-10-23T12:18:17.197",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JSSE).  Supported versions that are affected are Oracle Java SE: 8u511, 8u511-perf, 11.0.33, 17.0.21, 21.0.13, 25.0.5, 27.0.1; Oracle GraalVM for JDK: 17.0.21 and  21.0.13; Oracle GraalVM Enterprise Edition: 21.3.20. Easily exploitable vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data as well as  unauthorized access to critical data or complete access to all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 9.1 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91403"
+    },
     {
       "id": "CVE-2026-114406",
       "published": "2026-10-21T21:17:58.547",
-      "modified": "2026-10-23T10:16:41.410",
+      "modified": "2026-10-23T12:18:11.980",
       "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
       "vendors": [
         "Red Hat"
@@ -192,28 +254,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
-    },
-    {
-      "id": "CVE-2026-91403",
-      "published": "2026-10-21T22:16:50.243",
-      "modified": "2026-10-23T04:18:19.637",
-      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JSSE).  Supported versions that are affected are Oracle Java SE: 8u511, 8u511-perf, 11.0.33, 17.0.21, 21.0.13, 25.0.5, 27.0.1; Oracle GraalVM for JDK: 17.0.21 and  21.0.13; Oracle GraalVM Enterprise Edition: 21.3.20. Easily exploitable vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data as well as  unauthorized access to critical data or complete access to all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 9.1 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N).",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-91403"
     },
     {
       "id": "CVE-2026-91398",
@@ -39002,68 +39042,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23011"
-    },
-    {
-      "id": "CVE-2026-23005",
-      "published": "2026-01-25T15:15:55.377",
-      "modified": "2026-10-19T19:17:32.367",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nx86/fpu: Clear XSTATE_BV[i] in guest XSAVE state whenever XFD[i]=1\n\nWhen loading guest XSAVE state via KVM_SET_XSAVE, and when updating XFD in\nresponse to a guest WRMSR, clear XFD-disabled features in the saved (or to\nbe restored) XSTATE_BV to ensure KVM doesn't attempt to load state for\nfeatures that are disabled via the guest's XFD.  Because the kernel\nexecutes XRSTOR with the guest's XFD, saving XSTATE_BV[i]=1 with XFD[i]=1\nwill cause XRSTOR to #NM and panic the kernel.\n\nE.g. if fpu_update_guest_xfd() sets XFD without clearing XSTATE_BV:\n\n  ------------[ cut here ]------------\n  WARNING: arch/x86/kernel/traps.c:1524 at exc_device_not_available+0x101/0x110, CPU#29: amx_test/848\n  Modules linked in: kvm_intel kvm irqbypass\n  CPU: 29 UID: 1000 PID: 848 Comm: amx_test Not tainted 6.19.0-rc2-ffa07f7fd437-x86_amx_nm_xfd_non_init-vm #171 NONE\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015\n  RIP: 0010:exc_device_not_available+0x101/0x110\n  Call Trace:\n   <TASK>\n   asm_exc_device_not_available+0x1a/0x20\n  RIP: 0010:restore_fpregs_from_fpstate+0x36/0x90\n   switch_fpu_return+0x4a/0xb0\n   kvm_arch_vcpu_ioctl_run+0x1245/0x1e40 [kvm]\n   kvm_vcpu_ioctl+0x2c3/0x8f0 [kvm]\n   __x64_sys_ioctl+0x8f/0xd0\n   do_syscall_64+0x62/0x940\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n   </TASK>\n  ---[ end trace 0000000000000000 ]---\n\nThis can happen if the guest executes WRMSR(MSR_IA32_XFD) to set XFD[18] = 1,\nand a host IRQ triggers kernel_fpu_begin() prior to the vmexit handler's\ncall to fpu_update_guest_xfd().\n\nand if userspace stuffs XSTATE_BV[i]=1 via KVM_SET_XSAVE:\n\n  ------------[ cut here ]------------\n  WARNING: arch/x86/kernel/traps.c:1524 at exc_device_not_available+0x101/0x110, CPU#14: amx_test/867\n  Modules linked in: kvm_intel kvm irqbypass\n  CPU: 14 UID: 1000 PID: 867 Comm: amx_test Not tainted 6.19.0-rc2-2dace9faccd6-x86_amx_nm_xfd_non_init-vm #168 NONE\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015\n  RIP: 0010:exc_device_not_available+0x101/0x110\n  Call Trace:\n   <TASK>\n   asm_exc_device_not_available+0x1a/0x20\n  RIP: 0010:restore_fpregs_from_fpstate+0x36/0x90\n   fpu_swap_kvm_fpstate+0x6b/0x120\n   kvm_load_guest_fpu+0x30/0x80 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x85/0x1e40 [kvm]\n   kvm_vcpu_ioctl+0x2c3/0x8f0 [kvm]\n   __x64_sys_ioctl+0x8f/0xd0\n   do_syscall_64+0x62/0x940\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n   </TASK>\n  ---[ end trace 0000000000000000 ]---\n\nThe new behavior is consistent with the AMX architecture.  Per Intel's SDM,\nXSAVE saves XSTATE_BV as '0' for components that are disabled via XFD\n(and non-compacted XSAVE saves the initial configuration of the state\ncomponent):\n\n  If XSAVE, XSAVEC, XSAVEOPT, or XSAVES is saving the state component i,\n  the instruction does not generate #NM when XCR0[i] = IA32_XFD[i] = 1;\n  instead, it operates as if XINUSE[i] = 0 (and the state component was\n  in its initial state): it saves bit i of XSTATE_BV field of the XSAVE\n  header as 0; in addition, XSAVE saves the initial configuration of the\n  state component (the other instructions do not save state component i).\n\nAlternatively, KVM could always do XRSTOR with XFD=0, e.g. by using\na constant XFD based on the set of enabled features when XSAVEing for\na struct fpu_guest.  However, having XSTATE_BV[i]=1 for XFD-disabled\nfeatures can only happen in the above interrupt case, or in similar\nscenarios involving preemption on preemptible kernels, because\nfpu_swap_kvm_fpstate()'s call to save_fpregs_to_fpstate() saves the\noutgoing FPU state with the current XFD; and that is (on all but the\nfirst WRMSR to XFD) the guest XFD.\n\nTherefore, XFD can only go out of sync with XSTATE_BV in the above\ninterrupt case, or in similar scenarios involving preemption on\npreemptible kernels, and it we can consider it (de facto) part of KVM\nABI that KVM_GET_XSAVE returns XSTATE_BV[i]=0 for XFD-disabled features.\n\n[Move clea\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:5.17:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc8:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23005"
-    },
-    {
-      "id": "CVE-2026-23004",
-      "published": "2026-01-25T15:15:55.273",
-      "modified": "2026-10-19T19:17:32.163",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndst: fix races in rt6_uncached_list_del() and rt_del_uncached_list()\n\nsyzbot was able to crash the kernel in rt6_uncached_list_flush_dev()\nin an interesting way [1]\n\nCrash happens in list_del_init()/INIT_LIST_HEAD() while writing\nlist->prev, while the prior write on list->next went well.\n\nstatic inline void INIT_LIST_HEAD(struct list_head *list)\n{\n\tWRITE_ONCE(list->next, list); // This went well\n\tWRITE_ONCE(list->prev, list); // Crash, @list has been freed.\n}\n\nIssue here is that rt6_uncached_list_del() did not attempt to lock\nul->lock, as list_empty(&rt->dst.rt_uncached) returned\ntrue because the WRITE_ONCE(list->next, list) happened on the other CPU.\n\nWe might use list_del_init_careful() and list_empty_careful(),\nor make sure rt6_uncached_list_del() always grabs the spinlock\nwhenever rt->dst.rt_uncached_list has been set.\n\nA similar fix is neeed for IPv4.\n\n[1]\n\n BUG: KASAN: slab-use-after-free in INIT_LIST_HEAD include/linux/list.h:46 [inline]\n BUG: KASAN: slab-use-after-free in list_del_init include/linux/list.h:296 [inline]\n BUG: KASAN: slab-use-after-free in rt6_uncached_list_flush_dev net/ipv6/route.c:191 [inline]\n BUG: KASAN: slab-use-after-free in rt6_disable_ip+0x633/0x730 net/ipv6/route.c:5020\nWrite of size 8 at addr ffff8880294cfa78 by task kworker/u8:14/3450\n\nCPU: 0 UID: 0 PID: 3450 Comm: kworker/u8:14 Tainted: G             L      syzkaller #0 PREEMPT_{RT,(full)}\nTainted: [L]=SOFTLOCKUP\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025\nWorkqueue: netns cleanup_net\nCall Trace:\n <TASK>\n  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120\n  print_address_description mm/kasan/report.c:378 [inline]\n  print_report+0xca/0x240 mm/kasan/report.c:482\n  kasan_report+0x118/0x150 mm/kasan/report.c:595\n  INIT_LIST_HEAD include/linux/list.h:46 [inline]\n  list_del_init include/linux/list.h:296 [inline]\n  rt6_uncached_list_flush_dev net/ipv6/route.c:191 [inline]\n  rt6_disable_ip+0x633/0x730 net/ipv6/route.c:5020\n  addrconf_ifdown+0x143/0x18a0 net/ipv6/addrconf.c:3853\n addrconf_notify+0x1bc/0x1050 net/ipv6/addrconf.c:-1\n  notifier_call_chain+0x19d/0x3a0 kernel/notifier.c:85\n  call_netdevice_notifiers_extack net/core/dev.c:2268 [inline]\n  call_netdevice_notifiers net/core/dev.c:2282 [inline]\n  netif_close_many+0x29c/0x410 net/core/dev.c:1785\n  unregister_netdevice_many_notify+0xb50/0x2330 net/core/dev.c:12353\n  ops_exit_rtnl_list net/core/net_namespace.c:187 [inline]\n  ops_undo_list+0x3dc/0x990 net/core/net_namespace.c:248\n  cleanup_net+0x4de/0x7b0 net/core/net_namespace.c:696\n  process_one_work kernel/workqueue.c:3257 [inline]\n  process_scheduled_works+0xad1/0x1770 kernel/workqueue.c:3340\n  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3421\n  kthread+0x711/0x8a0 kernel/kthread.c:463\n  ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158\n  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246\n </TASK>\n\nAllocated by task 803:\n  kasan_save_stack mm/kasan/common.c:57 [inline]\n  kasan_save_track+0x3e/0x80 mm/kasan/common.c:78\n  unpoison_slab_object mm/kasan/common.c:340 [inline]\n  __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366\n  kasan_slab_alloc include/linux/kasan.h:253 [inline]\n  slab_post_alloc_hook mm/slub.c:4953 [inline]\n  slab_alloc_node mm/slub.c:5263 [inline]\n  kmem_cache_alloc_noprof+0x18d/0x6c0 mm/slub.c:5270\n  dst_alloc+0x105/0x170 net/core/dst.c:89\n  ip6_dst_alloc net/ipv6/route.c:342 [inline]\n  icmp6_dst_alloc+0x75/0x460 net/ipv6/route.c:3333\n  mld_sendpack+0x683/0xe60 net/ipv6/mcast.c:1844\n  mld_send_cr net/ipv6/mcast.c:2154 [inline]\n  mld_ifc_work+0x83e/0xd60 net/ipv6/mcast.c:2693\n  process_one_work kernel/workqueue.c:3257 [inline]\n  process_scheduled_works+0xad1/0x1770 kernel/workqueue.c:3340\n  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3421\n  kthread+0x711/0x8a0 kernel/kthread.c:463\n  ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158\n  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entr\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:3.6:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc8:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23004"
     }
   ],
   "kev": [
@@ -40825,10 +40803,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 50,
-    "high": 460,
-    "medium": 355,
+    "high": 459,
+    "medium": 354,
     "kev": 2,
     "p1": 29,
-    "p2": 481
+    "p2": 480
   }
 }
