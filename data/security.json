@@ -1,6 +1,1879 @@
 {
-  "updated": "2026-10-23T21:34:00.346489+00:00",
+  "updated": "2026-10-23T22:12:11.249966+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-41861",
+      "published": "2026-08-06T22:17:04.920",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Path Traversal in BOSH-Ecosystem / BOSH allows an IaaS-metadata attacker to make the agent write a root-owned file with partially attacker-controlled body to any path ending in .network, and create any missing parent directories with mode 0777 via network Alias on Ubuntu.\n\n\n\nAffected versions: BOSH agent < v2.847.0 (jammy <= v1.1202, or noble <= v1.364). Lower bound unspecified in advisory (\"All bosh agent versions\").",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41861"
+    },
+    {
+      "id": "CVE-2025-6426",
+      "published": "2025-06-24T13:15:23.537",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "The executable file warning did not warn users before opening files with the `terminal` extension. \n*This bug only affects Firefox for macOS. Other versions of Firefox are unaffected.*. This vulnerability was fixed in Firefox 140, Firefox ESR 128.12, Thunderbird 140, and Thunderbird 128.12.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:mozilla:firefox:*:*:*:*:esr:*:*:*",
+        "cpe:2.3:a:mozilla:firefox:*:*:*:*:-:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-6426"
+    },
+    {
+      "id": "CVE-2025-59042",
+      "published": "2025-09-09T23:15:37.403",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "PyInstaller bundles a Python application and all its dependencies into a single package. Due to a special entry being appended to `sys.path` during the bootstrap process of a PyInstaller-frozen application, and due to the bootstrap script attempting to load an optional module for bytecode decryption while this entry is still present in `sys.path`, an application built with PyInstaller < 6.0.0 may be tricked by an unprivileged attacker into executing arbitrary python code when **all** of the following conditions are met. First, the application is built with PyInstaller < 6.0.0; both onedir and onefile mode are affected. Second, the optional bytecode encryption code feature was not enabled during the application build. Third, the attacker can create files/directories in the same directory where the executable is located. Fourth, the filesystem supports creation of files/directories that contain `?` in their name (i.e., non-Windows systems). Fifth, the attacker is able to determine the offset at which the PYZ archive is embedded in the executable. The attacker can create a directory (or a zip archive) next to the executable, with the name that matches the format used by PyInstaller's bootloader to transmit information about the location of PYZ archive to the bootstrap script. If this directory (or zip archive) contains a python module whose name matches the name used by the optional bytecode encryption feature, this module will be loaded and executed by the bootstrap script (in the absence of the real, built-in module that is available when the bytecode-encryption feature is enabled). This results in arbitrary code execution that requires no modification of the executable itself. If the executable is running with elevated privileges (for example, due to having the `setuid` bit set), the code in the injected module is also executed with the said elevated privileges, resulting in a local privilege escalation. PyInstaller 6.0.0 (f5adf291c8b832d5aff7632844f7e3ddf7ad4923) removed support for bytecode encryption; this effectively removes the described attack vector, due to the bootstrap script not attempting to load the optional module for bytecode-decryption anymore. PyInstaller 6.10.0 (cfd60b510f95f92cb81fc42735c399bb781a4739) reworked the bootstrap process to avoid (ab)using `sys.path` for transmitting location of the PYZ archive, which further eliminates the possibility of described injection procedure. If upgrading PyInstaller is not feasible, this issue can be worked around by ensuring proper permissions on directories containing security-sensitive executables (i.e., executables with `setuid` bit set) should mitigate the issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-59042"
+    },
+    {
+      "id": "CVE-2025-3025",
+      "published": "2025-09-15T13:15:36.040",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Elevation of Privileges in the cleaning feature of Gen Digital CCleaner version 6.33.11465 on Windows allows a local user to gain SYSTEM privileges via exploiting insecure file delete operations. Reported in CCleaner v. 6.33.11465. This issue affects CCleaner: before < 6.36.11508.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-3025"
+    },
+    {
+      "id": "CVE-2025-10290",
+      "published": "2025-09-16T13:15:41.520",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Opening links via the contextual menu in Focus iOS for certain URL schemes would fail to load but would not refresh the toolbar correctly, allowing attackers to spoof websites if users were coerced into opening a link explicitly through a long-press. This vulnerability was fixed in Focus for iOS 143.0.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mozilla:firefox_focus:*:*:*:*:*:iphone_os:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10290"
+    },
+    {
+      "id": "CVE-2025-40809",
+      "published": "2025-10-14T10:15:39.580",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in Solid Edge SE2024 (All versions < V224.0 Update 14), Solid Edge SE2025 (All versions < V225.0 Update 6). The affected applications contains an out of bounds write vulnerability while parsing specially crafted PRT files. This could allow an attacker to crash the application or execute code in the context of the current process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:siemens:solid_edge_se2024:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00010:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00011:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00012:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00013:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0005:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0006:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0007:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0008:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0009:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0005:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40809"
+    },
+    {
+      "id": "CVE-2025-40810",
+      "published": "2025-10-14T10:15:39.760",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in Solid Edge SE2024 (All versions < V224.0 Update 14), Solid Edge SE2025 (All versions < V225.0 Update 6). The affected applications contains an out of bounds write vulnerability while parsing specially crafted PRT files. This could allow an attacker to crash the application or execute code in the context of the current process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:siemens:solid_edge_se2024:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00010:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00011:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00012:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00013:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0005:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0006:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0007:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0008:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0009:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0005:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40810"
+    },
+    {
+      "id": "CVE-2025-40811",
+      "published": "2025-10-14T10:15:39.923",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in Solid Edge SE2024 (All versions < V224.0 Update 14), Solid Edge SE2025 (All versions < V225.0 Update 6). The affected applications contains an out of bounds read vulnerability while parsing specially crafted PRT files. This could allow an attacker to crash the application or execute code in the context of the current process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:siemens:solid_edge_se2024:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00010:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00011:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00012:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00013:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0005:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0006:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0007:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0008:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0009:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0005:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40811"
+    },
+    {
+      "id": "CVE-2025-40812",
+      "published": "2025-10-14T10:15:40.090",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in Solid Edge SE2024 (All versions < V224.0 Update 14), Solid Edge SE2025 (All versions < V225.0 Update 6). The affected applications contains an out of bounds read vulnerability while parsing specially crafted PRT files. This could allow an attacker to crash the application or execute code in the context of the current process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:siemens:solid_edge_se2024:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00010:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00011:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00012:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_00013:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0005:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0006:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0007:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0008:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2024:224.0:update_0009:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:-:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0001:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0002:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0003:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0004:*:*:*:*:*:*",
+        "cpe:2.3:a:siemens:solid_edge_se2025:225.0:update_0005:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40812"
+    },
+    {
+      "id": "CVE-2025-13032",
+      "published": "2025-11-11T17:15:39.700",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Double fetch in sandbox kernel driver in Avast/AVG Antivirus <25.3  on windows allows local attacker to escalate privelages via pool overflow.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:avast:antivirus:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13032"
+    },
+    {
+      "id": "CVE-2025-40827",
+      "published": "2025-11-11T21:15:38.627",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in Siemens Software Center (All versions < V3.5), Solid Edge SE2025 (All versions < V225.0 Update 10). The affected application is vulnerable to DLL hijacking. This could allow an attacker to execute arbitrary code via placing a crafted DLL file on the system.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40827"
+    },
+    {
+      "id": "CVE-2025-40936",
+      "published": "2025-11-17T12:15:44.493",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A vulnerability has been identified in PS/IGES Parasolid Translator Component (All versions < V29.0.258), Simcenter Femap (All versions < V2512.0003), Solid Edge (All versions < V226.00 Update 03). The affected applications contains an out of bounds read vulnerability while parsing specially crafted IGS files. This could allow an attacker to crash the application or execute code in the context of the current process. (ZDI-CAN-26755)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-40936"
+    },
+    {
+      "id": "CVE-2025-14714",
+      "published": "2025-12-15T11:15:39.537",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "An Authentication Bypass vulnerability existed where the application bundled an interpreter (Python) that inherits the Transparency, Consent, and Control (TCC) permissions granted by the user to the main application bundle\n\n\n\n\nBy executing the bundled interpreter directly the attacker's scripts run with the application's TCC privileges\n\n\n\n\nIn fixed versions parent-constraints are used to allow only the main application to launch interpreter with those permissions\n\nThis issue affects LibreOffice on macOS: from 25.2 before < 25.2.4.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:libreoffice:libreoffice:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 0.9,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14714"
+    },
+    {
+      "id": "CVE-2025-64376",
+      "published": "2025-12-18T08:16:14.640",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in CridioStudio ListingPro listingpro allows Reflected XSS.This issue affects ListingPro: from n/a through < 2.9.10.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64376"
+    },
+    {
+      "id": "CVE-2025-66769",
+      "published": "2026-04-13T16:16:24.620",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A NULL pointer dereference in Nitro PDF Pro for Windows v14.41.1.4 allows attackers to cause a Denial of Service (DoS) via a crafted XFA packet.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gonitro:nitro_pdf_pro:14.41.1.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-66769"
+    },
+    {
+      "id": "CVE-2026-17893",
+      "published": "2026-07-30T01:16:53.313",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Insufficient validation of untrusted input in Updater in Google Chrome on Mac prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17893"
+    },
+    {
+      "id": "CVE-2026-17900",
+      "published": "2026-07-30T01:16:54.053",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Enterprise in Google Chrome on Windows prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a malicious file. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17900"
+    },
+    {
+      "id": "CVE-2026-17908",
+      "published": "2026-07-30T01:16:54.890",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Insufficient validation of untrusted input in Printing in Google Chrome on Windows prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17908"
+    },
+    {
+      "id": "CVE-2026-17912",
+      "published": "2026-07-30T01:16:55.343",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to bypass navigation restrictions via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17912"
+    },
+    {
+      "id": "CVE-2026-17913",
+      "published": "2026-07-30T01:16:55.450",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17913"
+    },
+    {
+      "id": "CVE-2026-17917",
+      "published": "2026-07-30T01:16:55.880",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Insufficient policy enforcement in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to bypass discretionary access control via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17917"
+    },
+    {
+      "id": "CVE-2026-17932",
+      "published": "2026-07-30T01:16:57.437",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Use after free in DataTransfer in Google Chrome on Windows prior to 151.0.7922.72 allowed a local attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17932"
+    },
+    {
+      "id": "CVE-2026-17941",
+      "published": "2026-07-30T01:16:58.383",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to spoof the contents of the Omnibox (URL bar) via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17941"
+    },
+    {
+      "id": "CVE-2026-17944",
+      "published": "2026-07-30T01:16:58.693",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to bypass navigation restrictions via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17944"
+    },
+    {
+      "id": "CVE-2026-17950",
+      "published": "2026-07-30T01:16:59.377",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Safebrowsing in Google Chrome on Mac prior to 151.0.7922.72 allowed a remote attacker to execute arbitrary code via a malicious file. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17950"
+    },
+    {
+      "id": "CVE-2026-17960",
+      "published": "2026-07-30T01:17:00.470",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Insufficient policy enforcement in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to bypass no-referrer policy via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17960"
+    },
+    {
+      "id": "CVE-2026-17965",
+      "published": "2026-07-30T01:17:00.990",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Incorrect security UI in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17965"
+    },
+    {
+      "id": "CVE-2026-17966",
+      "published": "2026-07-30T01:17:01.093",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Views in Google Chrome on Mac prior to 151.0.7922.72 allowed a local attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17966"
+    },
+    {
+      "id": "CVE-2026-17967",
+      "published": "2026-07-30T01:17:01.193",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Use after free in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17967"
+    },
+    {
+      "id": "CVE-2026-17972",
+      "published": "2026-07-30T01:17:01.740",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17972"
+    },
+    {
+      "id": "CVE-2026-17973",
+      "published": "2026-07-30T01:17:01.850",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Views in Google Chrome on Mac prior to 151.0.7922.72 allowed a local attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17973"
+    },
+    {
+      "id": "CVE-2026-17975",
+      "published": "2026-07-30T01:17:02.057",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in IME in Google Chrome on Mac prior to 151.0.7922.72 allowed a remote attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17975"
+    },
+    {
+      "id": "CVE-2026-17992",
+      "published": "2026-07-30T01:17:03.863",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Uninitialized Use in Skia in Google Chrome on Windows prior to 151.0.7922.72 allowed a remote attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17992"
+    },
+    {
+      "id": "CVE-2026-17993",
+      "published": "2026-07-30T01:17:03.977",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Race in Updater in Google Chrome on Windows prior to 151.0.7922.72 allowed a local attacker to perform privilege escalation via a malicious file. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17993"
+    },
+    {
+      "id": "CVE-2026-17996",
+      "published": "2026-07-30T01:17:04.293",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Browser in Google Chrome on Mac prior to 151.0.7922.72 allowed a local attacker to bypass navigation restrictions via a malicious file. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-17996"
+    },
+    {
+      "id": "CVE-2026-18003",
+      "published": "2026-07-30T01:17:05.013",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18003"
+    },
+    {
+      "id": "CVE-2026-18011",
+      "published": "2026-07-30T01:17:05.860",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a local attacker to obtain potentially sensitive information from process memory via physical access to the device. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 2.4,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18011"
+    },
+    {
+      "id": "CVE-2026-18013",
+      "published": "2026-07-30T01:17:06.080",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18013"
+    },
+    {
+      "id": "CVE-2026-18015",
+      "published": "2026-07-30T01:17:06.297",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Tint in Google Chrome on Mac prior to 151.0.7922.72 allowed a remote attacker to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.6,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18015"
+    },
+    {
+      "id": "CVE-2026-18016",
+      "published": "2026-07-30T01:17:06.397",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Insufficient policy enforcement in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Low)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18016"
+    },
+    {
+      "id": "CVE-2026-18018",
+      "published": "2026-07-30T01:17:06.610",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Inappropriate implementation in Updater in Google Chrome on Windows prior to 151.0.7922.72 allowed a local attacker to perform UI spoofing via a malicious file. (Chromium security severity: Low)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18018"
+    },
+    {
+      "id": "CVE-2026-15929",
+      "published": "2026-07-30T02:16:45.360",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Improper neutralization of special elements used in an SQL command ('SQL injection') vulnerability in LG Electronics SmartShare allows SQL Injection.\n\nThis issue affects SmartShare: through 2.3.1712.1202, which is supported on Microsoft Windows 10 and earlier versions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-15929"
+    },
+    {
+      "id": "CVE-2026-48448",
+      "published": "2026-07-30T03:16:24.810",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Adobe Campaign Classic (ACC) is affected by an Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to gain file system read access. Exploitation of this issue does not require user interaction. Scope is changed.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:adobe:campaign:*:*:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9394:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9396:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9397:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9398:*:*:classic:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48448"
+    },
+    {
+      "id": "CVE-2026-48449",
+      "published": "2026-07-30T03:16:24.957",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Adobe Campaign Classic (ACC) is affected by an Incorrect Authorization vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue does not require user interaction. Scope is changed.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:adobe:campaign:*:*:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9394:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9396:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9397:*:*:classic:*:*:*",
+        "cpe:2.3:a:adobe:campaign:7.4.3:9398:*:*:classic:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 10.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48449"
+    },
+    {
+      "id": "CVE-2026-18378",
+      "published": "2026-07-30T12:17:27.553",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A flaw was found in koku-metrics-operator. The operator's CostManagementMetricsConfig custom resource allows user able to edit the CR to specify an arbitrary upload URL. When authentication.type is set to token (the default), the cluster-global Red Hat Cloud pull-secret bearer token is attached to HTTP requests sent to this user-controlled URL, allowing the attacker to obtain the token.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "cost management metrics operator",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+      ],
+      "cvss": {
+        "score": 7.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18378"
+    },
+    {
+      "id": "CVE-2026-18381",
+      "published": "2026-07-30T12:17:27.693",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A flaw was found in the koku-metrics-operator for Red Hat OpenShift. The operator's CostManagementMetricsConfig custom resource allows a user able to edit the CR to specify an arbitrary upload URL. The operator attaches its own Kubernetes service-account bearer token to queries sent to this user-controlled URL, allowing the attacker to obtain the token.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "cost management metrics operator",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+      ],
+      "cvss": {
+        "score": 7.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18381"
+    },
+    {
+      "id": "CVE-2026-18382",
+      "published": "2026-07-30T12:17:27.827",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A flaw was found in koku-metrics-operator. The operator's CostManagementMetricsConfig custom resource allows a user able to edit the CR to specify an arbitrary OAuth token endpoint. When authentication.type is set to service-account, the operator sends the tenant's Red Hat SSO client_id and client_secret to this user-controlled URL, allowing the attacker to obtain the credentials.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "cost management metrics operator",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:cost_management_metrics_operator:-:*:*:*:*:openshift:*:*"
+      ],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18382"
+    },
+    {
+      "id": "CVE-2026-54365",
+      "published": "2026-07-30T13:16:51.503",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "CentreStack before 17.3 contains an unauthenticated deserialization vulnerability in GSNamespace.dll that allows unauthenticated attackers to create arbitrary local OS user accounts by supplying a crafted base64-encoded XML string to exposed API endpoints. Attackers can send a malicious StorageConfigure parameter to the jsonimportuserbyupn, jsonimportuserbyupnex, or japiimportuserbyupn endpoints to trigger InternalImportAdUserByUPN(), causing GladinetCloudMonitor.exe to invoke the NetUserAdd Windows API with attacker-controlled credentials and create arbitrary directories on the server filesystem.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54365"
+    },
+    {
+      "id": "CVE-2026-11383",
+      "published": "2026-07-30T15:16:23.877",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "IBM Tivoli System Automation Application Manager 4.1 and IBM WebSphere Application Server is affected by cross-site scripting in the Administrative Console.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:websphere_application_server:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:aix:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:i:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:z\\/os:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:ibm:tivoli_system_automation_application_manager:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11383"
+    },
+    {
+      "id": "CVE-2026-11707",
+      "published": "2026-07-30T15:16:24.010",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "IBM Tivoli System Automation Application Manager 4.1 and IBM WebSphere Application Server is affected by a cross-site scripting vulnerability in the administrative console login page.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:websphere_application_server:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:aix:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:i:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:z\\/os:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:ibm:tivoli_system_automation_application_manager:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11707"
+    },
+    {
+      "id": "CVE-2026-11980",
+      "published": "2026-07-30T15:16:24.277",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "IBM Aspera Desktop App 1.0.5 through 1.0.19 can allow arbitrary code execution by loading DLL files at start-up.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:ibm:aspera:*:*:*:*:desktop:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11980"
+    },
+    {
+      "id": "CVE-2026-67345",
+      "published": "2026-07-30T15:16:35.583",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "MaxKey through 4.1.12, fixed in commit ddbb72f, contains an insufficient redirect URI validation vulnerability in DefaultRedirectResolver.hostMatches() that allows remote attackers to hijack OAuth 2.0 authorization codes by supplying a crafted redirect_uri whose hostname suffix matches a registered URI without proper dot-boundary anchoring. Attackers who control a domain ending with the registered redirect URI hostname can social-engineer victims into clicking a crafted authorization URL, causing the authorization code to be issued to the attacker-controlled URI and exchanged for an access token granting access to the victim's identity.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67345"
+    },
+    {
+      "id": "CVE-2026-55777",
+      "published": "2026-07-30T21:17:57.360",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "GoAccess is a real-time web log analyzer and interactive viewer that runs in a terminal in *nix systems or through the browser. Prior to 1.11, the parse_ios() function uses an attacker-controlled keyword-to-OS offset as both the source offset and copy length for memmove, allowing a crafted User-Agent in a processed access log to read up to approximately 4 KB beyond the heap allocation and conditionally crash GoAccess. This issue is fixed in version 1.11.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55777"
+    },
+    {
+      "id": "CVE-2026-66803",
+      "published": "2026-07-30T21:18:12.743",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Improper access control in Azure Cosmos DB allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "azure cosmos db",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:azure_cosmos_db:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:azure_cosmos_db:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 10.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66803"
+    },
+    {
+      "id": "CVE-2026-62246",
+      "published": "2026-07-30T22:16:55.300",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Kamaji is the Hosted Control Plane Manager for Kubernetes. Prior to 26.7.4-edge, Kamaji derives a TenantControlPlane datastore schema, database user, and etcd key prefix from a lossy namespace-and-name normalization in GetDefaultDatastoreSchema() and GetDefaultDatastoreUsername(), allowing distinct tenants with colliding normalized identifiers to share control-plane state and read, modify, or destroy another tenant's Kubernetes data. This issue is fixed in version 26.7.4-edge.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62246"
+    },
+    {
+      "id": "CVE-2026-62845",
+      "published": "2026-07-30T22:16:55.457",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Kamaji is the Hosted Control Plane Manager for Kubernetes. Prior to 26.7.4-edge, the PostgreSQL and MySQL datastore drivers build DDL statements by interpolating the user-supplied DataStoreUsername/DataStoreSchema directly into SQL via fmt.Sprintf, without escaping identifiers. These fields have no format validation, so a value containing a quote character breaks out of the quoted identifier — SQL injection executed over Kamaji's root connection to the shared datastore. etcd driver is not affected.This issue is fixed in version 26.7.4-edge.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62845"
+    },
+    {
+      "id": "CVE-2026-64816",
+      "published": "2026-07-30T22:16:55.920",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "RapidRAW before 1.6.0 does not validate the lutPath field in preset files before passing it to File::open() in lut_processing.rs. On Windows, a UNC path in lutPath causes an outbound SMB connection to an attacker-controlled host, leaking the victim's NTLMv2 credentials. The vulnerable code path is reachable through two vectors: community presets fetched automatically from the remote preset repository when the victim opens the Community tab, and individual preset files imported directly by the victim via the preset import feature (handle_import_presets_from_file in file_management.rs). The second vector does not require control of the community preset repository and is triggered when a user imports a preset file shared through Discord, forums, or similar channels.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64816"
+    },
+    {
+      "id": "CVE-2026-68563",
+      "published": "2026-07-30T22:16:56.353",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "A flaw was found in ansible-collection-redhat-leapp. When a remediation task is executed with elevated privileges and the `leapp_old_postgresql_data` option is selected, a PostgreSQL data backup archive is created with insecure permissions. This allows a local non-root user on the managed node to read sensitive archived PostgreSQL data, leading to information disclosure.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68563"
+    },
+    {
+      "id": "CVE-2026-55735",
+      "published": "2026-08-01T19:16:42.510",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Improper Verification of Cryptographic Signature in ueberauth guardian allows an unauthenticated attacker to revoke a victim's session with a forged token.\n\nGuardian.revoke/3 in lib/guardian.ex decodes the supplied token with peek/1, which performs no signature verification (it only base64-decodes the JWT header and payload). The resulting unverified claims are forwarded directly to the configured token module's revoke callback and the implementation's on_revoke callback, a state-mutating sink. The sibling operations refresh/2 and exchange/4 both call decode_and_verify first, so the signature is checked before anything acts on the claims; revoke/3 is the only state-mutating path that acts on claims without verifying the signature.\n\nAn attacker who knows or guesses a victim's identifying claim values (jti, sub) can forge a JWT carrying those claims, sign it with an arbitrary key, and submit it to any endpoint that funnels a caller-supplied token into Guardian.revoke/3 (the standard logout / session-revocation pattern). When the token module mutates state keyed by the claims (whitelist deletion or blacklist insertion, for example a GuardianDb-style store), the victim's legitimate session is evicted. This is an unauthenticated session-revocation denial of service; the attacker never needs the signing secret.\n\nThis issue affects guardian: from 1.0.0 before 2.4.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:ueberauth:guardian:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55735"
+    },
+    {
+      "id": "CVE-2026-8457",
+      "published": "2026-08-02T00:16:23.047",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "The WooCommerce - Social Login plugin for WordPress is vulnerable to Authentication Bypass in all versions up to and including 2.8.7. This is due to the plugin's Apple login handler accepting the Apple id_token and decoding only its base64 payload without verifying the JWT signature against Apple's public keys or validating the issuer, audience, or expiry claims, combined with the security nonce required to invoke the login flow being publicly exposed to unauthenticated users via a localized JavaScript object on the login page. This makes it possible for unauthenticated attackers to log in as any existing WordPress user — including administrators — by supplying a forged id_token whose payload contains the target user's email address, as that email is used without any role exclusion to resolve a WordPress account and immediately issue an authenticated session for it.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8457"
+    },
+    {
+      "id": "CVE-2026-4793",
+      "published": "2026-08-03T07:16:43.453",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "An incorrect default permissions vulnerability in Synology Assistant before 7.0.7-50095 allows local users to read or write arbitrary files and conduct denial-of-service during installation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:synology:assistant:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4793"
+    },
+    {
+      "id": "CVE-2026-0392",
+      "published": "2026-08-03T10:16:27.747",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "eParakstītājs 3.0 for Windows before version\n1.10.0 retrieves and executes its automatic updates over a channel that is not\nauthenticated or integrity-protected. On each launch the application fetches an\nupdate descriptor (XML) over TLS but accepts any TLS certificate (a permissive\nTrustManager and a HostnameVerifier that always returns true), does not verify\nany digital signature on the update descriptor, and does not verify the\nAuthenticode signature or a checksum of the downloaded installer before running\nit. A man-in-the-middle attacker able to redirect www.eparaksts.lv can serve a\ncrafted update descriptor pointing to an attacker-controlled executable, which\nthe client downloads and executes, resulting in arbitrary code execution on the\nvictim host.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0392"
+    },
+    {
+      "id": "CVE-2026-66916",
+      "published": "2026-08-22T12:16:25.547",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Joomla Extension - joomgalleryfriends.net - Password-Protected Category Bypass via JSON Format in JoomGallery < 4.4.0- An unauthenticated access control bypass exists in JoomGallery's category JSON view. When a gallery category is protected with a password, the HTML view correctly enforces the password gate - but the JSON view ( format=json ) skips this check entirely.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66916"
+    },
+    {
+      "id": "CVE-2026-66917",
+      "published": "2026-08-22T12:16:25.680",
+      "modified": "2026-10-23T22:10:00.160",
+      "description": "Joomla Extension - joomgalleryfriends.net - Stored XSS in JoomGallery < 4.4.0 - An authenticated, privileged can store an XSS payload in any image causing JS execution in every visitor's browser.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66917"
+    },
     {
       "id": "CVE-2026-91415",
       "published": "2026-10-20T22:20:44.937",
@@ -1879,28 +3752,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19171"
-    },
-    {
-      "id": "CVE-2026-41861",
-      "published": "2026-08-06T22:17:04.920",
-      "modified": "2026-10-23T21:10:00.157",
-      "description": "Path Traversal in BOSH-Ecosystem / BOSH allows an IaaS-metadata attacker to make the agent write a root-owned file with partially attacker-controlled body to any path ending in .network, and create any missing parent directories with mode 0777 via network Alias on Ubuntu.\n\n\n\nAffected versions: BOSH agent < v2.847.0 (jammy <= v1.1202, or noble <= v1.364). Lower bound unspecified in advisory (\"All bosh agent versions\").",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41861"
     },
     {
       "id": "CVE-2026-65400",
@@ -38037,2322 +39888,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65379"
-    },
-    {
-      "id": "CVE-2026-65372",
-      "published": "2026-10-20T01:17:17.313",
-      "modified": "2026-10-20T15:17:30.130",
-      "description": "A race condition was addressed with additional validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. A malicious application may be able to bypass Privacy preferences.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65372"
-    },
-    {
-      "id": "CVE-2026-65356",
-      "published": "2026-10-20T01:17:16.570",
-      "modified": "2026-10-20T15:17:29.957",
-      "description": "An access issue was addressed with improved access controls. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65356"
-    },
-    {
-      "id": "CVE-2026-113495",
-      "published": "2026-10-20T12:17:29.630",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A flaw was found in cockpit-machines. Red Hat Subscription Management (RHSM) authentication tokens are passed as command-line arguments to background helper processes during image retrieval operations. A local, unprivileged attacker on a system permitting cross-user process inspection can view these arguments while the process is active. This flaw can lead to information disclosure, potentially allowing unauthorized access to RHSM resources within the token's validity period.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113495"
-    },
-    {
-      "id": "CVE-2026-112177",
-      "published": "2026-10-20T08:16:42.507",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
-    },
-    {
-      "id": "CVE-2026-86981",
-      "published": "2026-10-20T01:17:29.540",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86981"
-    },
-    {
-      "id": "CVE-2026-86979",
-      "published": "2026-10-20T01:17:29.450",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A privacy issue was addressed with improved checks. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86979"
-    },
-    {
-      "id": "CVE-2026-86976",
-      "published": "2026-10-20T01:17:29.260",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86976"
-    },
-    {
-      "id": "CVE-2026-86975",
-      "published": "2026-10-20T01:17:29.160",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. Processing a maliciously crafted image may lead to unexpected process termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86975"
-    },
-    {
-      "id": "CVE-2026-86963",
-      "published": "2026-10-20T01:17:29.060",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A denial-of-service issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27. An attacker in a privileged network position may be able to cause a denial-of-service.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86963"
-    },
-    {
-      "id": "CVE-2026-86962",
-      "published": "2026-10-20T01:17:28.957",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A double free issue was addressed with improved memory management. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86962"
-    },
-    {
-      "id": "CVE-2026-86957",
-      "published": "2026-10-20T01:17:28.660",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7, tvOS 27, visionOS 27, watchOS 27. An attacker in wireless proximity may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86957"
-    },
-    {
-      "id": "CVE-2026-86955",
-      "published": "2026-10-20T01:17:28.570",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86955"
-    },
-    {
-      "id": "CVE-2026-86953",
-      "published": "2026-10-20T01:17:28.467",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An attacker in physical proximity may be able to cause a denial-of-service.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86953"
-    },
-    {
-      "id": "CVE-2026-86932",
-      "published": "2026-10-20T01:17:27.793",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86932"
-    },
-    {
-      "id": "CVE-2026-86928",
-      "published": "2026-10-20T01:17:27.697",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A path handling issue was addressed with improved validation. This issue is fixed in macOS Golden Gate 27. An app may be able to access protected user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86928"
-    },
-    {
-      "id": "CVE-2026-86921",
-      "published": "2026-10-20T01:17:27.493",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A permissions issue was addressed with improved validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, visionOS 27. A local attacker may be able to overwrite restricted files.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86921"
-    },
-    {
-      "id": "CVE-2026-86977",
-      "published": "2026-10-20T01:17:29.353",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An authorization issue was addressed with improved network restrictions. This issue is fixed in iOS 27 and iPadOS 27. An app may be able to initiate calls or send messages.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86977"
-    },
-    {
-      "id": "CVE-2026-86959",
-      "published": "2026-10-20T01:17:28.763",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An input validation issue was addressed with improved input validation. This issue is fixed in iOS 26.7 and iPadOS 26.7, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. Processing a maliciously crafted image may lead to unexpected process termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86959"
-    },
-    {
-      "id": "CVE-2026-86944",
-      "published": "2026-10-20T01:17:28.177",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in iOS 26.7 and iPadOS 26.7, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86944"
-    },
-    {
-      "id": "CVE-2026-86935",
-      "published": "2026-10-20T01:17:27.990",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "This issue was addressed by removing additional entitlements. This issue is fixed in macOS Golden Gate 27. An app may be able to access user-sensitive data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86935"
-    },
-    {
-      "id": "CVE-2026-86868",
-      "published": "2026-10-20T01:17:24.980",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "An authentication issue was addressed with improved state management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An attacker may be able to impersonate other users.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86868"
-    },
-    {
-      "id": "CVE-2026-84582",
-      "published": "2026-10-20T01:17:23.697",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "A privacy issue was addressed with improved access restrictions. This issue is fixed in iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84582"
-    },
-    {
-      "id": "CVE-2026-28854",
-      "published": "2026-10-20T01:17:11.563",
-      "modified": "2026-10-20T15:03:59.857",
-      "description": "The issue was addressed with additional app bundle integrity checks. This issue is fixed in macOS Golden Gate 27. A maliciously modified app may not be prevented from launching.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28854"
-    },
-    {
-      "id": "CVE-2026-80092",
-      "published": "2026-10-16T18:18:37.640",
-      "modified": "2026-10-20T14:17:03.157",
-      "description": "Authentication bypass by assumed-immutable data in Microsoft Identity Web allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "AUTH_BYPASS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-80092"
-    },
-    {
-      "id": "CVE-2026-78165",
-      "published": "2026-10-19T11:17:19.643",
-      "modified": "2026-10-20T14:17:01.450",
-      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Spring Redis component.\n\n\n\nThis issue affects Apache Camel: from 2.11.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nRedisConfiguration.getSerializer lazily built a bare JdkSerializationRedisSerializer whenever no serializer option was configured, and that instance was used for every read the component performs. Spring's implementation delegates through DeserializingConverter to DefaultDeserializer, which reads the bytes with a ConfigurableObjectInputStream and installs no java.io.ObjectInputFilter on the stream, so an arbitrary serialized class graph was materialised and its readObject method executed. RedisConsumer.setBody applied that serializer to the raw bytes of every message published to the subscribed channels, before the Exchange was constructed and therefore before any route logic could inspect the message, so an actor able to issue PUBLISH on a subscribed channel reached the deserialization sink directly. The same default serializer backed the RedisTemplate built by RedisConfiguration.createDefaultTemplate, so the producer read commands GET, HGET, HGETALL and HVALS deserialized whatever was stored in the Redis keyspace, and SpringRedisIdempotentRepository shared that template. Configuring a custom redisTemplate did not close the consumer path, because RedisConsumer.setBody reads getSerializer directly rather than the serializer attached to the template, so a deployment that had wired a String serializer into its own template remained exposed on the consumer side unless it also set the serializer option. The component never constructed a java.io.ObjectInputStream itself, which is why earlier passes over the Camel codebase for unfiltered Java deserialization did not reach it. The behaviour dates back to the introduction of the component, first released in 2.11.0, and was unchanged until this fix.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, set the JVM-wide jdk.serialFilter system property, which the affected code path honours because it reads through a java.io.ObjectInputStream, for example -Djdk.serialFilter=!java.net.**;java.**;javax.**;org.apache.camel.**;!* ; or set the serializer endpoint option to a serializer that does not use Java serialization, such as StringRedisSerializer, noting that this must be set as the serializer option and not only on a custom redisTemplate. As defence in depth, require authentication on the Redis instance and restrict which clients may publish to the subscribed channels, and do not expose a Redis instance consumed by Camel to untrusted networks.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78165"
-    },
-    {
-      "id": "CVE-2026-103314",
-      "published": "2026-10-19T13:16:53.617",
-      "modified": "2026-10-20T13:16:38.277",
-      "description": "A flaw was found in Red Hat Advanced Cluster Security for Kubernetes (RHACS). The Central SAML authentication ACS endpoint does not retain used SAML assertion or response identifiers to prevent replay. An attacker who obtains a valid, unexpired signed SAML response can submit it multiple times and receive distinct Central authentication tokens for the mapped identity.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103314"
-    },
-    {
-      "id": "CVE-2026-73179",
-      "published": "2026-10-09T11:17:02.817",
-      "modified": "2026-10-20T12:44:11.663",
-      "description": "Improper enforcement of single-use authorization code semantics in the JPA OAuth2 authorization code grant provider in Apache CXFallows a remote attacker to obtain multiple valid access tokens from a single authorization code via concurrent token exchange requests that race the non-atomic find-then-delete operation against a shared relational database under READ_COMMITTED isolation. Users are recommended to upgrade to versions 4.2.4 or 4.1.9 or 3.6.13, which fixes this issue.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:apache:cxf:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73179"
-    },
-    {
-      "id": "CVE-2026-102855",
-      "published": "2026-10-13T20:17:07.010",
-      "modified": "2026-10-20T12:37:42.130",
-      "description": "Heap-based buffer overflow in Microsoft Office Visio allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102855"
-    },
-    {
-      "id": "CVE-2026-108426",
-      "published": "2026-10-15T21:17:07.820",
-      "modified": "2026-10-20T12:36:55.687",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108426"
-    },
-    {
-      "id": "CVE-2026-108427",
-      "published": "2026-10-15T21:17:07.947",
-      "modified": "2026-10-20T12:36:32.500",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108427"
-    },
-    {
-      "id": "CVE-2026-108428",
-      "published": "2026-10-15T21:17:08.067",
-      "modified": "2026-10-20T12:35:59.853",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108428"
-    },
-    {
-      "id": "CVE-2026-108429",
-      "published": "2026-10-15T21:17:08.190",
-      "modified": "2026-10-20T12:35:34.387",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108429"
-    },
-    {
-      "id": "CVE-2026-108430",
-      "published": "2026-10-15T21:17:08.303",
-      "modified": "2026-10-20T12:31:30.600",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108430"
-    },
-    {
-      "id": "CVE-2026-108431",
-      "published": "2026-10-15T21:17:08.420",
-      "modified": "2026-10-20T12:31:04.807",
-      "description": "Stack-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108431"
-    },
-    {
-      "id": "CVE-2026-108432",
-      "published": "2026-10-15T21:17:08.540",
-      "modified": "2026-10-20T12:30:37.840",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108432"
-    },
-    {
-      "id": "CVE-2026-108433",
-      "published": "2026-10-15T21:17:08.657",
-      "modified": "2026-10-20T12:30:13.517",
-      "description": "Reliance on untrusted inputs in a security decision in Microsoft Office Word allows an unauthorized attacker to bypass a security feature locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108433"
-    },
-    {
-      "id": "CVE-2026-108434",
-      "published": "2026-10-15T21:17:08.777",
-      "modified": "2026-10-20T12:29:38.117",
-      "description": "Out-of-bounds read in Microsoft Office Word allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108434"
-    },
-    {
-      "id": "CVE-2026-108435",
-      "published": "2026-10-15T21:17:08.903",
-      "modified": "2026-10-20T12:29:09.510",
-      "description": "Untrusted pointer dereference in Microsoft Office Word allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108435"
-    },
-    {
-      "id": "CVE-2026-108436",
-      "published": "2026-10-15T21:17:09.020",
-      "modified": "2026-10-20T12:28:39.603",
-      "description": "Out-of-bounds read in Microsoft Office Word allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108436"
-    },
-    {
-      "id": "CVE-2026-108437",
-      "published": "2026-10-15T21:17:09.140",
-      "modified": "2026-10-20T12:28:11.883",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108437"
-    },
-    {
-      "id": "CVE-2026-108438",
-      "published": "2026-10-15T21:17:09.260",
-      "modified": "2026-10-20T12:27:43.800",
-      "description": "Use after free in Microsoft Office Word allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108438"
-    },
-    {
-      "id": "CVE-2026-108439",
-      "published": "2026-10-15T21:17:09.377",
-      "modified": "2026-10-20T12:27:10.367",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108439"
-    },
-    {
-      "id": "CVE-2026-108440",
-      "published": "2026-10-15T21:17:09.493",
-      "modified": "2026-10-20T12:26:39.760",
-      "description": "Stack-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108440"
-    },
-    {
-      "id": "CVE-2026-108441",
-      "published": "2026-10-15T21:17:09.607",
-      "modified": "2026-10-20T12:26:07.000",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108441"
-    },
-    {
-      "id": "CVE-2026-108442",
-      "published": "2026-10-15T21:17:09.727",
-      "modified": "2026-10-20T12:25:32.133",
-      "description": "Use after free in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108442"
-    },
-    {
-      "id": "CVE-2025-54821",
-      "published": "2025-11-18T17:16:03.490",
-      "modified": "2026-10-20T08:16:42.093",
-      "description": "An Improper Privilege Management vulnerability [CWE-269] vulnerability in Fortinet FortiOS 7.6.0 through 7.6.3, FortiOS 7.4.0 through 7.4.11, FortiOS 7.2 all versions, FortiOS 7.0 all versions, FortiOS 6.4 all versions, FortiPAM 1.6.0, FortiPAM 1.5 all versions, FortiPAM 1.4 all versions, FortiPAM 1.3 all versions, FortiPAM 1.2 all versions, FortiPAM 1.1 all versions, FortiPAM 1.0 all versions, FortiProxy 7.6.0 through 7.6.3, FortiProxy 7.4.0 through 7.4.13, FortiProxy 7.2 all versions, FortiProxy 7.0 all versions may allow an authenticated administrator to bypass the trusted host policy via crafted CLI command.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:fortinet:fortiproxy:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fortinet:fortipam:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 1.9,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-54821"
-    },
-    {
-      "id": "CVE-2026-9800",
-      "published": "2026-06-25T17:17:04.180",
-      "modified": "2026-10-20T05:16:55.147",
-      "description": "A flaw was found in Keycloak Policy Enforcer. This vulnerability allows any authenticated user to bypass all authorization policies, including role, scope, and User-Managed Access (UMA) permission checks. By including the configured access-denied page path within a request URL, either as a path segment or a query parameter, an attacker can gain unauthorized access to protected resources.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of keycloak",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:build_of_keycloak:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9800"
-    },
-    {
-      "id": "CVE-2023-6394",
-      "published": "2023-12-09T02:15:06.747",
-      "modified": "2026-10-20T05:16:51.327",
-      "description": "A flaw was found in Quarkus. This issue occurs when receiving a request over websocket with no role-based permission specified on the GraphQL operation, Quarkus processes the request without authentication despite the endpoint being secured. This can allow an attacker to access information and functionality outside of normal granted API permissions.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "build of quarkus",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:build_of_quarkus:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:quarkus:quarkus:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:build_of_quarkus:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6394"
-    },
-    {
-      "id": "CVE-2026-88900",
-      "published": "2026-10-19T12:17:11.980",
-      "modified": "2026-10-20T04:17:06.427",
-      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel Camel-Jgroups component.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nJGroupsEndpoint.createExchange(Message), which CamelJGroupsReceiver calls for every message the jgroups consumer receives before the exchange is routed, set the exchange body from org.jgroups.Message.getObject(). For an ObjectMessage, which is the message type the Camel jgroups producer sends, JGroups Java-deserializes the payload through an ObjectInputStream on its own receive thread as the message arrives, and getObject() returns the resulting object. No java.io.ObjectInputFilter was applied on that path unless the deployment had set a JVM-wide serialization filter: camel-jgroups installed none, and the JGroups versions shipped with the affected releases apply none of their own, so any serializable class on the application classpath could be instantiated and its deserialization callbacks run. Unless a channel or the channelProperties option is configured, the consumer creates its channel with new JChannel(), the stock JGroups protocol stack, which multicasts over UDP without the AUTH protocol and without encryption, so any host able to reach the cluster's multicast group or bind port can join the cluster and send messages to the consumer without credentials. Such a host could send a crafted serialized object that leads to remote code execution in the Camel process when a usable deserialization gadget chain is present on the classpath, and no non-default option was required on the consumer. Because JGroups materializes the object before Camel's receiver runs, a check performed by Camel can only inspect the deserialized result and cannot stop code that runs during deserialization, so closing the issue also requires a control that applies before the payload is read, as described in the mitigation. Exploitation requires network access to the cluster's multicast group or bind port, which with the default UDP multicast transport means a host on an adjacent network, and a usable gadget chain on the classpath, which is why the severity is assessed as high rather than critical.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier, and the 4.15.x to 4.17.x and 4.19.x to 4.21.x release lines, reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88900"
-    },
-    {
-      "id": "CVE-2026-83531",
-      "published": "2026-10-19T11:17:21.507",
-      "modified": "2026-10-20T04:17:06.060",
-      "description": "Improper Control of Generation of Code ('Code Injection'), Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection') vulnerability in Apache Camel.\n\n\n\nThis issue affects Apache Camel: from 4.4.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe dynamic-router-control endpoint, introduced in 4.4.0, lets routing participants manage Dynamic Router subscriptions by sending control messages. When it handled a subscribe or update request, DynamicRouterControlProducer took the subscription predicate and the name of the language used to compile it from the incoming message, either from the predicate and expressionLanguage fields of a DynamicRouterControlMessage body or from the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers. DynamicRouterControlService then resolved that language from the CamelContext and compiled the expression into a Predicate, with no allow-list and no opt-in. The compiled predicate was added to the channel's rule base and evaluated against every exchange routed through the corresponding dynamic-router endpoint for as long as the subscription existed. A route that forwards messages from an external transport to the control endpoint, as shown in the component documentation for routing participants in other JVMs or applications, therefore let any actor able to send a message on that transport supply an expression of their choosing, which was evaluated with the privileges of the Camel process. Any expression language available on the classpath could be selected, including the simple language, which is always present and was the default on the header path, so removing optional expression languages from the classpath did not prevent the issue. Exploitation requires the ability to send a message on a transport whose route forwards it to a dynamic-router-control endpoint; no other authentication or user interaction is needed. Releases before 4.4.0 are not affected, because their control channel took predicate expressions only from the endpoint URI configured by the route author.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. After upgrading, a control message that carries a predicate expression or an expression language is rejected unless the new allowPredicateFromMessage option is enabled on the dynamic-router-control endpoint; enable it only when every sender of control messages is trusted. For deployments that cannot upgrade immediately, do not forward messages from untrusted or shared transports to a dynamic-router-control endpoint. Where control messages must cross such a transport, authenticate the sender and make sure the predicate and expression language of each subscription are set by the route rather than taken from the incoming message, for example by removing the CamelDynamicRouterPredicate and CamelDynamicRouterExpressionLanguage headers and clearing the predicate and expressionLanguage fields of a DynamicRouterControlMessage before it reaches the endpoint. Removing optional expression languages from the classpath is not a sufficient workaround. As defence in depth, restrict who can send to the transports that feed the control endpoint, and on 4.23.0 and 4.22.1 set the allowedSchemes option of the dynamic-router endpoint to limit which endpoints a subscription's destinationUri may name.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83531"
-    },
-    {
-      "id": "CVE-2026-79986",
-      "published": "2026-10-19T11:17:20.860",
-      "modified": "2026-10-20T04:17:05.727",
-      "description": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in Apache Camel Azure Files component.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe Camel remote-file consumers poll a directory on a remote server and build the absolute remote path of each file by concatenating the configured directory with the file name reported in the server's directory listing. That concatenation (FtpUtils.absoluteFilePath and GenericFileConsumer) applied no lexical normalization and no check that the result stayed inside the directory being polled, and the resulting path became the operand for every subsequent remote operation on the file: retrieval (FtpOperations.retrieveFile / SftpOperations, reached from GenericFileConsumer where the retrieve name is taken verbatim from GenericFile.getAbsoluteFilePath), deletion when delete=true (GenericFileDeleteProcessStrategy), and renaming when move, preMove, moveFailed or readLock=rename is configured (GenericFileProcessStrategySupport and GenericFileRenameExclusiveReadLockStrategy). Neither isValidFile nor isMatched performed any containment check. A listing entry that is not a single path segment therefore resolved to a path outside the configured polling directory, causing Camel to read, delete or rename files outside it using the endpoint's own credentials. A listing name is not route-controlled data. It is supplied by the remote server, and the FTP control channel carries no integrity protection at all, so an on-path attacker can rewrite a LIST response without holding any credentials; a compromised, malicious or multi-tenant server, or a server backed by a virtual filesystem, can emit such a name directly. Retrieval is reachable in a default consumer configuration, since the remote consumers download every listed file; deletion and renaming additionally require one of the disposition options above, all of which are common. Escape from the directory Camel was configured to poll is unconditional, while escape from the server's own account boundary additionally depends on whether that server confines the account. The jailStartingDirectory option, which is documented as restricting Camel to the starting directory and is enabled by default, governed producer writes and, since the localWorkDirectory containment work, consumer downloads to the local work directory - but it did not constrain this remote operand, so its name and description claimed a boundary that was not enforced here. The same entry point had already been recognised on the local side: the localWorkDirectory download path was constrained so that a remote file name containing parent-directory segments could not resolve outside the local work directory. The remote operand was the remaining half of that surface. This artifact provides the azure-files scheme. Its consumer derives from the same RemoteFileConsumer base class and composed the remote path through a plain concatenation helper, so it inherited the same unconstrained resolution. Reaching it requires a listing name that is not a single path segment, which the Azure Files REST service does not normally return; the exposure was corrected on the same basis as the other remote-file consumers rather than from a demonstrated proof of concept against this scheme.\n\n\n\nUpgrade to Apache Camel 4.23.0, which fixes the issue. Users on the 4.22.x releases stream should upgrade to 4.22.1. Users on the 4.18.x LTS releases stream should upgrade to 4.18.5. The 4.14.x stream reached end of life and does not receive this fix; users on it should move to a supported releases stream.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79986"
-    },
-    {
-      "id": "CVE-2026-78162",
-      "published": "2026-10-19T11:17:19.037",
-      "modified": "2026-10-20T04:17:02.327",
-      "description": "Deserialization of Untrusted Data vulnerability in Apache Camel.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.1.\n\n\n\nThe camel-hazelcast component applies a default Hazelcast JavaSerializationFilterConfig to the instances it creates from its own configuration, a protection introduced by CVE-2026-43865. That change did not reach two of the configuration paths Camel builds itself, so those paths continued to create Hazelcast instances whose Java deserialization is unrestricted. ReplicatedHazelcastAggregationRepository extends HazelcastAggregationRepository but overrides doStart() without calling super.doStart(), keeping its own copy of the bootstrap block, and therefore never received the filter: a route using it without supplying a hazelcastInstance starts a Hazelcast member that deserializes values read from the backing ReplicatedMap with no class restriction. HazelcastDefaultComponent#getOrCreateHzClientInstance() builds its own ClientConfig when hazelcastMode=client is selected and neither a referenced ClientConfig nor hazelcastConfigUri is supplied, and likewise applied no filter, so client-mode endpoints behaved differently from node-mode endpoints for an otherwise identical configuration. In both cases an attacker able to publish into the Hazelcast cluster that the affected instance is attached to can cause a serialized Java object of their choosing to be deserialized inside Hazelcast's own serialization layer, before Camel processes the exchange, resulting in remote code execution. Hazelcast clusters have neither authentication nor TLS enabled by default. Selecting client mode is a topology choice rather than a security option, so neither path required the deployment to opt in to unsafe behaviour.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.1. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier reached end of life before this issue was resolved and will not receive a fix, so deployments on those lines must move to a supported release. For deployments that cannot upgrade immediately, supply an explicit Hazelcast configuration carrying a JavaSerializationFilterConfig, or inject a pre-built HazelcastInstance, since a user-supplied configuration is never overwritten by Camel. Alternatively set the JVM-wide filter -Djdk.serialFilter=!java.net.;java.;javax.;org.apache.camel.;!* and enable Hazelcast cluster authentication and TLS to restrict who can reach the cluster.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 10.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78162"
-    },
-    {
-      "id": "CVE-2026-54701",
-      "published": "2026-10-14T20:17:47.580",
-      "modified": "2026-10-20T03:17:15.347",
-      "description": "Markdown Preview Enhanced is a Markdown preview extension for Visual Studio Code. Prior to 0.8.30, Markdown Preview Enhanced reads repository-controlled .crossnote/head.html content and passes it through resolvePathsInHeader before inserting it into the head of the preview webview document without removing executable content. Script-capable markup executes while the document loads, before the React application and DOMPurify initialize, and can access acquireVsCodeApi to send messages from the webview to the extension host. Opening a Markdown preview in a malicious repository is sufficient to trigger the injected content, and no additional click within the notification or preview is required. This issue is fixed in version 0.8.30.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:L/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54701"
-    },
-    {
-      "id": "CVE-2026-109430",
-      "published": "2026-10-15T02:18:37.150",
-      "modified": "2026-10-20T03:17:12.903",
-      "description": "Ellucian WebAdvisor 3.2 contains an unauthenticated XML External Entity (XXE) injection vulnerability that allows remote attackers to submit crafted XML POST requests to the /WebAdvisor/WebAdvisor endpoint without disabling external entity and DTD resolution. Attackers can exploit this flaw to force the server into SSRF requests, coerce NTLMv2 hash disclosure via attacker-controlled SMB shares, and read arbitrary files from the underlying Windows host through an out-of-band error-based channel. WebAdvisor entered end-of-support status in June 2022 and users are encouraged to migrate to Colleague Self-Service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109430"
-    },
-    {
-      "id": "CVE-2026-54554",
-      "published": "2026-10-14T18:17:37.693",
-      "modified": "2026-10-20T02:17:11.463",
-      "description": "FOG is a free open-source cloning/imaging/rescue suite/inventory management system. Prior to 1.5.10.1870, the management adInfo() endpoint in packages/web/lib/fog/fogpage.class.php was reported to return the FOG_AD_DEFAULT_PASSWORD value in its domainpass JSON field and to be dispatchable through node=ipxe without an authenticated session. The response was also consumed by host and group Active Directory configuration interfaces. This could disclose the default domain-join credential to a remote unauthenticated requester. This vulnerability is fixed in 1.5.10.1870.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54554"
-    },
-    {
-      "id": "CVE-2026-110646",
-      "published": "2026-10-14T15:17:18.237",
-      "modified": "2026-10-20T02:17:10.103",
-      "description": "Beganovich snappdf from 1.1.0 before 6.1.0 contains an OS command injection vulnerability on Windows that allows attackers to run commands by influencing the rendered URL. Attackers can supply cmd.exe metacharacters such as & in the setUrl() value, which executeOnWindows() passes unescaped to PHP exec(), executing commands as the PHP process.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110646"
-    },
-    {
-      "id": "CVE-2026-84506",
-      "published": "2026-09-14T21:17:27.180",
-      "modified": "2026-10-20T01:17:20.657",
-      "description": "A use after free issue was addressed with improved memory management. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination or corrupt kernel memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84506"
-    },
-    {
-      "id": "CVE-2026-64758",
-      "published": "2026-07-27T21:17:14.220",
-      "modified": "2026-10-20T01:17:14.217",
-      "description": "The issue was addressed with improved bounds checks. This issue is fixed in iOS 26.6 and iPadOS 26.6, iOS 26.7 and iPadOS 26.7, macOS Sequoia 15.8, macOS Tahoe 26.6, tvOS 26.6, visionOS 26.6, watchOS 26.6. Processing a maliciously crafted file may lead to unexpected app termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64758"
-    },
-    {
-      "id": "CVE-2026-28930",
-      "published": "2026-05-11T21:18:55.027",
-      "modified": "2026-10-20T01:17:11.757",
-      "description": "A permissions issue was addressed with additional restrictions. This issue is fixed in macOS Sequoia 15.8, macOS Tahoe 26.5. An app may be able to access protected user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-28930"
-    },
-    {
-      "id": "CVE-2026-110260",
-      "published": "2026-10-14T15:17:07.793",
-      "modified": "2026-10-20T01:17:10.813",
-      "description": "OW2 ASM 3.0 before 9.11 contains a quadratic memory allocation vulnerability in MethodWriter.computeMaxStackAndLocal() and computeAllFrames() when using COMPUTE_MAXS or COMPUTE_FRAMES. Attackers can supply a crafted class file with thousands of overlapping exception handlers, causing excessive Edge allocations and an OutOfMemoryError that crashes the JVM.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110260"
-    },
-    {
-      "id": "CVE-2026-88160",
-      "published": "2026-10-13T19:21:36.383",
-      "modified": "2026-10-20T00:38:05.373",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Microsoft Windows Search Component allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88160"
-    },
-    {
-      "id": "CVE-2026-88161",
-      "published": "2026-10-13T19:21:36.560",
-      "modified": "2026-10-20T00:37:55.980",
-      "description": "Use after free in Windows Local Security Authority (LSA) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88161"
-    },
-    {
-      "id": "CVE-2026-88162",
-      "published": "2026-10-13T19:21:36.740",
-      "modified": "2026-10-20T00:37:39.850",
-      "description": "Improper authorization in Windows Encrypting File System (EFS) allows an authorized attacker to perform tampering locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88162"
     }
   ],
   "kev": [
@@ -41940,6 +41475,7 @@
     "CVE-2026-105134",
     "CVE-2026-10520",
     "CVE-2026-106931",
+    "CVE-2026-110447",
     "CVE-2026-110936",
     "CVE-2026-114625",
     "CVE-2026-11645",
@@ -42114,11 +41650,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 72,
-    "high": 441,
-    "medium": 359,
+    "critical": 76,
+    "high": 438,
+    "medium": 364,
     "kev": 2,
-    "p1": 52,
-    "p2": 461
+    "p1": 54,
+    "p2": 460
   }
 }
