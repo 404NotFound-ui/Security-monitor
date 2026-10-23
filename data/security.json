@@ -1,6 +1,73 @@
 {
-  "updated": "2026-10-23T09:04:44.384771+00:00",
+  "updated": "2026-10-23T09:46:04.220407+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-96293",
+      "published": "2026-10-22T09:17:17.057",
+      "modified": "2026-10-23T09:17:08.730",
+      "description": "A cleartext storage of sensitive information vulnerability in WatchGuard Endpoint Security's Full Disk Encryption feature for macOS allows a local, unprivileged user or process to obtain a managed computer's FileVault Personal Recovery Key by reading a persistently written diagnostic log file left readable by all local users.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96293"
+    },
+    {
+      "id": "CVE-2026-31514",
+      "published": "2026-04-22T14:16:50.810",
+      "modified": "2026-10-23T09:17:07.097",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nerofs: set fileio bio failed in short read case\n\nFor file-backed mount, IO requests are handled by vfs_iocb_iter_read().\nHowever, it can be interrupted by SIGKILL, returning the number of\nbytes actually copied. Unused folios in bio are unexpectedly marked\nas uptodate.\n\n  vfs_read\n    filemap_read\n      filemap_get_pages\n        filemap_readahead\n          erofs_fileio_readahead\n            erofs_fileio_rq_submit\n              vfs_iocb_iter_read\n                filemap_read\n                  filemap_get_pages  <= detect signal\n              erofs_fileio_ki_complete  <= set all folios uptodate\n\nThis patch addresses this by setting short read bio with an error\ndirectly.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31514"
+    },
+    {
+      "id": "CVE-2025-30047",
+      "published": "2026-10-23T09:17:04.573",
+      "modified": "2026-10-23T09:17:04.573",
+      "description": "CGM CLININET is vulnerable to Remote Code Execution caused by deserialization of untrusted data. The server exposes an HTTP-based API, used by the administrative module, that exchanges data using Java object serialization. An attacker within the same local network is able to send requests to this API and transmit a crafted serialized object. When it is deserialized, it allows arbitrary code execution with root privileges on the server. \n\n\nThis issue was fixed in version 2026.MS3",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-30047"
+    },
     {
       "id": "CVE-2026-114406",
       "published": "2026-10-21T21:17:58.547",
@@ -6123,28 +6190,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95641"
-    },
-    {
-      "id": "CVE-2026-96293",
-      "published": "2026-10-22T09:17:17.057",
-      "modified": "2026-10-22T17:34:37.867",
-      "description": "A cleartext storage of sensitive information vulnerability in WatchGuard Endpoint Security's Full Disk Encryption feature for macOS allows a local, unprivileged user or process to obtain a managed computer's FileVault Personal Recovery Key by reading a persistently written diagnostic log file left readable by all local users.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96293"
     },
     {
       "id": "CVE-2026-92203",
@@ -39019,63 +39064,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23004"
-    },
-    {
-      "id": "CVE-2026-23003",
-      "published": "2026-01-25T15:15:55.170",
-      "modified": "2026-10-19T19:17:31.927",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nip6_tunnel: use skb_vlan_inet_prepare() in __ip6_tnl_rcv()\n\nBlamed commit did not take care of VLAN encapsulations\nas spotted by syzbot [1].\n\nUse skb_vlan_inet_prepare() instead of pskb_inet_may_pull().\n\n[1]\n BUG: KMSAN: uninit-value in __INET_ECN_decapsulate include/net/inet_ecn.h:253 [inline]\n BUG: KMSAN: uninit-value in INET_ECN_decapsulate include/net/inet_ecn.h:275 [inline]\n BUG: KMSAN: uninit-value in IP6_ECN_decapsulate+0x7a8/0x1fa0 include/net/inet_ecn.h:321\n  __INET_ECN_decapsulate include/net/inet_ecn.h:253 [inline]\n  INET_ECN_decapsulate include/net/inet_ecn.h:275 [inline]\n  IP6_ECN_decapsulate+0x7a8/0x1fa0 include/net/inet_ecn.h:321\n  ip6ip6_dscp_ecn_decapsulate+0x16f/0x1b0 net/ipv6/ip6_tunnel.c:729\n  __ip6_tnl_rcv+0xed9/0x1b50 net/ipv6/ip6_tunnel.c:860\n  ip6_tnl_rcv+0xc3/0x100 net/ipv6/ip6_tunnel.c:903\n gre_rcv+0x1529/0x1b90 net/ipv6/ip6_gre.c:-1\n  ip6_protocol_deliver_rcu+0x1c89/0x2c60 net/ipv6/ip6_input.c:438\n  ip6_input_finish+0x1f4/0x4a0 net/ipv6/ip6_input.c:489\n  NF_HOOK include/linux/netfilter.h:318 [inline]\n  ip6_input+0x9c/0x330 net/ipv6/ip6_input.c:500\n  ip6_mc_input+0x7ca/0xc10 net/ipv6/ip6_input.c:590\n  dst_input include/net/dst.h:474 [inline]\n  ip6_rcv_finish+0x958/0x990 net/ipv6/ip6_input.c:79\n  NF_HOOK include/linux/netfilter.h:318 [inline]\n  ipv6_rcv+0xf1/0x3c0 net/ipv6/ip6_input.c:311\n  __netif_receive_skb_one_core net/core/dev.c:6139 [inline]\n  __netif_receive_skb+0x1df/0xac0 net/core/dev.c:6252\n  netif_receive_skb_internal net/core/dev.c:6338 [inline]\n  netif_receive_skb+0x57/0x630 net/core/dev.c:6397\n  tun_rx_batched+0x1df/0x980 drivers/net/tun.c:1485\n  tun_get_user+0x5c0e/0x6c60 drivers/net/tun.c:1953\n  tun_chr_write_iter+0x3e9/0x5c0 drivers/net/tun.c:1999\n  new_sync_write fs/read_write.c:593 [inline]\n  vfs_write+0xbe2/0x15d0 fs/read_write.c:686\n  ksys_write fs/read_write.c:738 [inline]\n  __do_sys_write fs/read_write.c:749 [inline]\n  __se_sys_write fs/read_write.c:746 [inline]\n  __x64_sys_write+0x1fb/0x4d0 fs/read_write.c:746\n  x64_sys_call+0x30ab/0x3e70 arch/x86/include/generated/asm/syscalls_64.h:2\n  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n  do_syscall_64+0xd3/0xf80 arch/x86/entry/syscall_64.c:94\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nUninit was created at:\n  slab_post_alloc_hook mm/slub.c:4960 [inline]\n  slab_alloc_node mm/slub.c:5263 [inline]\n  kmem_cache_alloc_node_noprof+0x9e7/0x17a0 mm/slub.c:5315\n  kmalloc_reserve+0x13c/0x4b0 net/core/skbuff.c:586\n  __alloc_skb+0x805/0x1040 net/core/skbuff.c:690\n  alloc_skb include/linux/skbuff.h:1383 [inline]\n  alloc_skb_with_frags+0xc5/0xa60 net/core/skbuff.c:6712\n  sock_alloc_send_pskb+0xacc/0xc60 net/core/sock.c:2995\n  tun_alloc_skb drivers/net/tun.c:1461 [inline]\n  tun_get_user+0x1142/0x6c60 drivers/net/tun.c:1794\n  tun_chr_write_iter+0x3e9/0x5c0 drivers/net/tun.c:1999\n  new_sync_write fs/read_write.c:593 [inline]\n  vfs_write+0xbe2/0x15d0 fs/read_write.c:686\n  ksys_write fs/read_write.c:738 [inline]\n  __do_sys_write fs/read_write.c:749 [inline]\n  __se_sys_write fs/read_write.c:746 [inline]\n  __x64_sys_write+0x1fb/0x4d0 fs/read_write.c:746\n  x64_sys_call+0x30ab/0x3e70 arch/x86/include/generated/asm/syscalls_64.h:2\n  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n  do_syscall_64+0xd3/0xf80 arch/x86/entry/syscall_64.c:94\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\nCPU: 0 UID: 0 PID: 6465 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(none)\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.8:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc7:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc8:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-23003"
-    },
-    {
-      "id": "CVE-2026-22977",
-      "published": "2026-01-21T14:16:06.853",
-      "modified": "2026-10-19T19:17:29.993",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: sock: fix hardened usercopy panic in sock_recv_errqueue\n\nskbuff_fclone_cache was created without defining a usercopy region,\n[1] unlike skbuff_head_cache which properly whitelists the cb[] field.\n[2] This causes a usercopy BUG() when CONFIG_HARDENED_USERCOPY is\nenabled and the kernel attempts to copy sk_buff.cb data to userspace\nvia sock_recv_errqueue() -> put_cmsg().\n\nThe crash occurs when: 1. TCP allocates an skb using alloc_skb_fclone()\n   (from skbuff_fclone_cache) [1]\n2. The skb is cloned via skb_clone() using the pre-allocated fclone\n[3] 3. The cloned skb is queued to sk_error_queue for timestamp\nreporting 4. Userspace reads the error queue via recvmsg(MSG_ERRQUEUE)\n5. sock_recv_errqueue() calls put_cmsg() to copy serr->ee from skb->cb\n[4] 6. __check_heap_object() fails because skbuff_fclone_cache has no\n   usercopy whitelist [5]\n\nWhen cloned skbs allocated from skbuff_fclone_cache are used in the\nsocket error queue, accessing the sock_exterr_skb structure in skb->cb\nvia put_cmsg() triggers a usercopy hardening violation:\n\n[    5.379589] usercopy: Kernel memory exposure attempt detected from SLUB object 'skbuff_fclone_cache' (offset 296, size 16)!\n[    5.382796] kernel BUG at mm/usercopy.c:102!\n[    5.383923] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI\n[    5.384903] CPU: 1 UID: 0 PID: 138 Comm: poc_put_cmsg Not tainted 6.12.57 #7\n[    5.384903] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014\n[    5.384903] RIP: 0010:usercopy_abort+0x6c/0x80\n[    5.384903] Code: 1a 86 51 48 c7 c2 40 15 1a 86 41 52 48 c7 c7 c0 15 1a 86 48 0f 45 d6 48 c7 c6 80 15 1a 86 48 89 c1 49 0f 45 f3 e8 84 27 88 ff <0f> 0b 490\n[    5.384903] RSP: 0018:ffffc900006f77a8 EFLAGS: 00010246\n[    5.384903] RAX: 000000000000006f RBX: ffff88800f0ad2a8 RCX: 1ffffffff0f72e74\n[    5.384903] RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffffff87b973a0\n[    5.384903] RBP: 0000000000000010 R08: 0000000000000000 R09: fffffbfff0f72e74\n[    5.384903] R10: 0000000000000003 R11: 79706f6372657375 R12: 0000000000000001\n[    5.384903] R13: ffff88800f0ad2b8 R14: ffffea00003c2b40 R15: ffffea00003c2b00\n[    5.384903] FS:  0000000011bc4380(0000) GS:ffff8880bf100000(0000) knlGS:0000000000000000\n[    5.384903] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[    5.384903] CR2: 000056aa3b8e5fe4 CR3: 000000000ea26004 CR4: 0000000000770ef0\n[    5.384903] PKRU: 55555554\n[    5.384903] Call Trace:\n[    5.384903]  <TASK>\n[    5.384903]  __check_heap_object+0x9a/0xd0\n[    5.384903]  __check_object_size+0x46c/0x690\n[    5.384903]  put_cmsg+0x129/0x5e0\n[    5.384903]  sock_recv_errqueue+0x22f/0x380\n[    5.384903]  tls_sw_recvmsg+0x7ed/0x1960\n[    5.384903]  ? srso_alias_return_thunk+0x5/0xfbef5\n[    5.384903]  ? schedule+0x6d/0x270\n[    5.384903]  ? srso_alias_return_thunk+0x5/0xfbef5\n[    5.384903]  ? mutex_unlock+0x81/0xd0\n[    5.384903]  ? __pfx_mutex_unlock+0x10/0x10\n[    5.384903]  ? __pfx_tls_sw_recvmsg+0x10/0x10\n[    5.384903]  ? _raw_spin_lock_irqsave+0x8f/0xf0\n[    5.384903]  ? _raw_read_unlock_irqrestore+0x20/0x40\n[    5.384903]  ? srso_alias_return_thunk+0x5/0xfbef5\n\nThe crash offset 296 corresponds to skb2->cb within skbuff_fclones:\n  - sizeof(struct sk_buff) = 232 - offsetof(struct sk_buff, cb) = 40 -\n  offset of skb2.cb in fclones = 232 + 40 = 272 - crash offset 296 =\n  272 + 24 (inside sock_exterr_skb.ee)\n\nThis patch uses a local stack variable as a bounce buffer to avoid the hardened usercopy check failure.\n\n[1] https://elixir.bootlin.com/linux/v6.12.62/source/net/ipv4/tcp.c#L885\n[2] https://elixir.bootlin.com/linux/v6.12.62/source/net/core/skbuff.c#L5104\n[3] https://elixir.bootlin.com/linux/v6.12.62/source/net/core/skbuff.c#L5566\n[4] https://elixir.bootlin.com/linux/v6.12.62/source/net/core/skbuff.c#L5491\n[5] https://elixir.bootlin.com/linux/v6.12.62/source/mm/slub.c#L5719",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:rc4:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22977"
     }
   ],
   "kev": [
@@ -40836,11 +40824,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 49,
-    "high": 461,
+    "critical": 50,
+    "high": 460,
     "medium": 355,
     "kev": 2,
-    "p1": 28,
-    "p2": 482
+    "p1": 29,
+    "p2": 481
   }
 }
