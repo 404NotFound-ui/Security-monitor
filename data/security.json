@@ -1,6 +1,68 @@
 {
-  "updated": "2026-10-23T22:12:11.249966+00:00",
+  "updated": "2026-10-23T22:46:52.450185+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-109298",
+      "published": "2026-10-12T17:17:23.390",
+      "modified": "2026-10-23T22:16:54.930",
+      "description": "Open WebUI 0.11.0 before 0.11.4 compiles user-chosen grep patterns for its knowledge and chat file search tools with a regex engine that expands nested counted repetition unbounded at compile time and caches the result. Authenticated users can have the model call grep_knowledge_files with short nested-repetition patterns, blocking the event loop and exhausting worker memory.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109298"
+    },
+    {
+      "id": "CVE-2026-109295",
+      "published": "2026-10-12T17:17:22.950",
+      "modified": "2026-10-23T22:16:54.477",
+      "description": "Open WebUI from 0.11.0 before 0.11.4 contains a regular expression denial of service vulnerability that allows authenticated users to stall server workers via file search patterns. Attackers can instruct the model to call grep_knowledge_files or grep_chat_files with a catastrophically backtracking regex, blocking the event loop for two seconds per repeated call.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109295"
+    },
+    {
+      "id": "CVE-2026-109287",
+      "published": "2026-10-12T17:17:21.763",
+      "modified": "2026-10-23T22:16:53.730",
+      "description": "Open WebUI from 0.9.6 before 0.11.4 contains an authorization flaw where the knowledge base file listing does not verify that a supplied directory_id belongs to the requested knowledge base. Users with read access to any knowledge base can supply a retained foreign directory UUID to GET /api/v1/knowledge/{id}/files. The returned breadcrumbs expose folder names, owner user ids and knowledge base ids of that directory and all its ancestors.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109287"
+    },
     {
       "id": "CVE-2026-41861",
       "published": "2026-08-06T22:17:04.920",
@@ -39828,66 +39890,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84508"
-    },
-    {
-      "id": "CVE-2026-84490",
-      "published": "2026-10-20T01:17:20.553",
-      "modified": "2026-10-20T15:17:31.200",
-      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 27 and iPadOS 27. An attacker with physical access to a locked device may be able to bypass Digital ID authentication when iPhone Mirroring is active.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.0,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84490"
-    },
-    {
-      "id": "CVE-2026-65396",
-      "published": "2026-10-20T01:17:18.313",
-      "modified": "2026-10-20T15:17:30.450",
-      "description": "A buffer overflow was addressed with improved size validation. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65396"
-    },
-    {
-      "id": "CVE-2026-65379",
-      "published": "2026-10-20T01:17:17.860",
-      "modified": "2026-10-20T15:17:30.293",
-      "description": "The issue was addressed with improved handling of secure input state. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8, macOS Tahoe 26.7. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65379"
     }
   ],
   "kev": [
@@ -41651,10 +41653,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 76,
-    "high": 438,
+    "high": 439,
     "medium": 364,
     "kev": 2,
     "p1": 54,
-    "p2": 460
+    "p2": 461
   }
 }
