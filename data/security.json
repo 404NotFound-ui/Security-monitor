@@ -1,6 +1,225 @@
 {
-  "updated": "2026-10-23T16:07:47.141410+00:00",
+  "updated": "2026-10-23T16:48:01.422442+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-115424",
+      "published": "2026-10-22T22:18:06.483",
+      "modified": "2026-10-23T16:44:17.950",
+      "description": "A flaw was found in the OpenShift client oc. When extracting container image layers with oc image extract, the application fails to properly sanitize symbolic and hard link targets pointing to absolute paths or to sibling directories of the extraction destination. An attacker who supplies a malicious container image can exploit this vulnerability by embedding links, and a chained file entry, that reference locations outside the intended extraction directory. This allows the attacker to write attacker-controlled content to arbitrary locations on the host filesystem with the privileges of the user running the command, potentially leading to file modification outside the destination directory.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115424"
+    },
+    {
+      "id": "CVE-2026-114624",
+      "published": "2026-10-23T14:17:51.583",
+      "modified": "2026-10-23T16:28:32.357",
+      "description": "baserCMS is a website development framework. In versions 5.0.0 before 5.3.2 and 5.4.0 before 5.4.2, the widget-area entity serializes widgets only when the submitted value is an array, allowing a string submitted through the admin JSON API to be stored unchanged. Entity reads, including front-end rendering and API responses, deserialize the stored value with unserialize() without an allowed_classes restriction, accepting both raw and base64-encoded serialized data. An administrator, or an attacker who obtains widget-write capability through a separate vulnerability such as chained XSS, can plant an object graph that subsequently triggers on unauthenticated page requests. Two demonstrated gadget chains in the default dependency set use composer/composer ProcessExecutor::startJob() with Process::fromShellCommandline(), or logiscape/mcp-sdk-php StdioTransport::connect() with StdioServerParameters, to reach proc_open() and execute commands as the web-server user. Deserialization bypasses constructor-based readonly safeguards, and the stored payload can execute repeatedly until the database row is repaired. Unauthenticated page access is a trigger after privileged payload storage, not an unauthenticated means of initially planting the payload. This issue has been patched in versions 5.3.2 and 5.4.2.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114624"
+    },
+    {
+      "id": "CVE-2025-30047",
+      "published": "2026-10-23T09:17:04.573",
+      "modified": "2026-10-23T16:28:32.357",
+      "description": "CGM CLININET is vulnerable to Remote Code Execution caused by deserialization of untrusted data. The server exposes an HTTP-based API, used by the administrative module, that exchanges data using Java object serialization. An attacker within the same local network is able to send requests to this API and transmit a crafted serialized object. When it is deserialized, it allows arbitrary code execution with root privileges on the server. \n\n\nThis issue was fixed in version 2026.MS3",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-30047"
+    },
+    {
+      "id": "CVE-2025-45528",
+      "published": "2026-10-23T16:16:50.607",
+      "modified": "2026-10-23T16:16:50.607",
+      "description": "An issue in Nitro Software, Inc Nitro PDF Pro for macOS v.14.7 allows a local attacker to execute arbitrary code via a crafted PDF",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-45528"
+    },
+    {
+      "id": "CVE-2026-12629",
+      "published": "2026-08-17T17:16:39.010",
+      "modified": "2026-10-23T16:10:00.313",
+      "description": "The ARM PL011 UART driver in drivers/serial/uart_pl011.c fails to acknowledge receive error interrupts. On the PL011, the framing, parity, break, and overrun error interrupts (PL011_IMSC_ERROR_MASK) are cleared only by writing the interrupt-clear register UARTICR; reading the data register clears the RX interrupt and the per-byte RSR status but not the error interrupt status in MIS. The interrupt service routine pl011_isr() acknowledged only the CTS modem-status interrupt and never wrote icr for the error bits, so an asserted error interrupt remains pending after the ISR returns.\n\nWhen an application enables error-interrupt reporting via the public uart_irq_err_enable() API, an attacker who controls the serial peer can deterministically assert these error bits by injecting line errors on the RX line — a baud/stop-bit mismatch or mid-character break (framing/break error), a flipped parity bit (parity error), or FIFO flooding (overrun error). Because the error interrupt is never cleared, the interrupt line stays asserted and the CPU re-enters pl011_isr() immediately and indefinitely, producing an interrupt-storm livelock from which the core makes no forward progress.\n\nThe impact is an availability-only denial of service (permanent hang), reachable from an external or removable UART peer. Exploitation is gated by configuration: the error interrupt is off by default and no in-tree subsystem enables it, so only applications that explicitly call uart_irq_err_enable() on a PL011-based, interrupt-driven port are affected. The fix makes pl011_isr() acknowledge the pending error bits via uart->icr, breaking the loop, and additionally clears the latched RSR status in pl011_err_check().",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12629"
+    },
+    {
+      "id": "CVE-2026-40145",
+      "published": "2026-08-17T17:16:39.787",
+      "modified": "2026-10-23T16:10:00.313",
+      "description": "A vulnerability exists in the interaction between a Endpoint Privilege Management (Windows Deployment) support utility and the agent's tamper protection controls. Under certain conditions, the protections applied to the utility process may not be enforced as intended.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40145"
+    },
+    {
+      "id": "CVE-2026-73424",
+      "published": "2026-08-17T18:18:13.873",
+      "modified": "2026-10-23T16:10:00.313",
+      "description": "Astro is a web framework for content-driven websites. From 10.0.3 until 11.0.3, the Astro Vercel adapter in packages/integrations/vercel/src/serverless/entrypoint.ts accepts x_astro_path for the public /_isr function based only on the x-vercel-isr header, allowing unauthenticated GET requests to render routes protected only by Vercel edge path rules or split edge middleware. This issue is fixed in 11.0.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73424"
+    },
+    {
+      "id": "CVE-2026-64760",
+      "published": "2026-08-17T22:17:20.937",
+      "modified": "2026-10-23T16:10:00.313",
+      "description": "An information leakage was addressed with additional validation. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 27 and iPadOS 27, macOS Golden Gate 27, tvOS 27, visionOS 27, watchOS 27. An app may be able to leak sensitive kernel state.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "ipados",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64760"
+    },
+    {
+      "id": "CVE-2026-65329",
+      "published": "2026-08-17T22:17:23.830",
+      "modified": "2026-10-23T16:10:00.313",
+      "description": "An authentication issue was addressed with improved state management. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, iOS 27 and iPadOS 27. An attacker in a privileged network position may be able to bypass IPSec authentication and intercept network traffic.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "ipados",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Apple",
+          "product": "iphone os",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65329"
+    },
     {
       "id": "CVE-2026-109619",
       "published": "2026-10-21T14:17:09.823",
@@ -712,26 +931,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6915"
     },
     {
-      "id": "CVE-2026-114624",
-      "published": "2026-10-23T14:17:51.583",
-      "modified": "2026-10-23T14:17:51.583",
-      "description": "baserCMS is a website development framework. In versions 5.0.0 before 5.3.2 and 5.4.0 before 5.4.2, the widget-area entity serializes widgets only when the submitted value is an array, allowing a string submitted through the admin JSON API to be stored unchanged. Entity reads, including front-end rendering and API responses, deserialize the stored value with unserialize() without an allowed_classes restriction, accepting both raw and base64-encoded serialized data. An administrator, or an attacker who obtains widget-write capability through a separate vulnerability such as chained XSS, can plant an object graph that subsequently triggers on unauthenticated page requests. Two demonstrated gadget chains in the default dependency set use composer/composer ProcessExecutor::startJob() with Process::fromShellCommandline(), or logiscape/mcp-sdk-php StdioTransport::connect() with StdioServerParameters, to reach proc_open() and execute commands as the web-server user. Deserialization bypasses constructor-based readonly safeguards, and the stored payload can execute repeatedly until the database row is repaired. Unauthenticated page access is a trigger after privileged payload storage, not an unauthenticated means of initially planting the payload. This issue has been patched in versions 5.3.2 and 5.4.2.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114624"
-    },
-    {
       "id": "CVE-2026-114406",
       "published": "2026-10-21T21:17:58.547",
       "modified": "2026-10-23T14:17:50.863",
@@ -1088,29 +1287,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31514"
-    },
-    {
-      "id": "CVE-2025-30047",
-      "published": "2026-10-23T09:17:04.573",
-      "modified": "2026-10-23T09:17:04.573",
-      "description": "CGM CLININET is vulnerable to Remote Code Execution caused by deserialization of untrusted data. The server exposes an HTTP-based API, used by the administrative module, that exchanges data using Java object serialization. An attacker within the same local network is able to send requests to this API and transmit a crafted serialized object. When it is deserialized, it allows arbitrary code execution with root privileges on the server. \n\n\nThis issue was fixed in version 2026.MS3",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.4,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-30047"
     },
     {
       "id": "CVE-2026-93017",
@@ -3329,26 +3505,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-4633"
-    },
-    {
-      "id": "CVE-2026-115424",
-      "published": "2026-10-22T22:18:06.483",
-      "modified": "2026-10-22T22:18:06.483",
-      "description": "A flaw was found in the OpenShift client oc. When extracting container image layers with oc image extract, the application fails to properly sanitize symbolic and hard link targets pointing to absolute paths or to sibling directories of the extraction destination. An attacker who supplies a malicious container image can exploit this vulnerability by embedding links, and a chained file entry, that reference locations outside the intended extraction directory. This allows the attacker to write attacker-controlled content to arbitrary locations on the host filesystem with the privileges of the user running the command, potentially leading to file modification outside the destination directory.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115424"
     },
     {
       "id": "CVE-2026-114650",
@@ -39293,176 +39449,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31667"
-    },
-    {
-      "id": "CVE-2026-31662",
-      "published": "2026-04-24T15:16:45.820",
-      "modified": "2026-10-19T19:18:03.737",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ntipc: fix bc_ackers underflow on duplicate GRP_ACK_MSG\n\nThe GRP_ACK_MSG handler in tipc_group_proto_rcv() currently decrements\nbc_ackers on every inbound group ACK, even when the same member has\nalready acknowledged the current broadcast round.\n\nBecause bc_ackers is a u16, a duplicate ACK received after the last\nlegitimate ACK wraps the counter to 65535. Once wrapped,\ntipc_group_bc_cong() keeps reporting congestion and later group\nbroadcasts on the affected socket stay blocked until the group is\nrecreated.\n\nFix this by ignoring duplicate or stale ACKs before touching bc_acked or\nbc_ackers. This makes repeated GRP_ACK_MSG handling idempotent and\nprevents the underflow path.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:4.15:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31662"
-    },
-    {
-      "id": "CVE-2026-31648",
-      "published": "2026-04-24T15:16:44.193",
-      "modified": "2026-10-19T19:18:02.773",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm: filemap: fix nr_pages calculation overflow in filemap_map_pages()\n\nWhen running stress-ng on my Arm64 machine with v7.0-rc3 kernel, I\nencountered some very strange crash issues showing up as \"Bad page state\":\n\n\"\n[  734.496287] BUG: Bad page state in process stress-ng-env  pfn:415735fb\n[  734.496427] page: refcount:0 mapcount:1 mapping:0000000000000000 index:0x4cf316 pfn:0x415735fb\n[  734.496434] flags: 0x57fffe000000800(owner_2|node=1|zone=2|lastcpupid=0x3ffff)\n[  734.496439] raw: 057fffe000000800 0000000000000000 dead000000000122 0000000000000000\n[  734.496440] raw: 00000000004cf316 0000000000000000 0000000000000000 0000000000000000\n[  734.496442] page dumped because: nonzero mapcount\n\"\n\nAfter analyzing this page’s state, it is hard to understand why the\nmapcount is not 0 while the refcount is 0, since this page is not where\nthe issue first occurred.  By enabling the CONFIG_DEBUG_VM config, I can\nreproduce the crash as well and captured the first warning where the issue\nappears:\n\n\"\n[  734.469226] page: refcount:33 mapcount:0 mapping:00000000bef2d187 index:0x81a0 pfn:0x415735c0\n[  734.469304] head: order:5 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0\n[  734.469315] memcg:ffff000807a8ec00\n[  734.469320] aops:ext4_da_aops ino:100b6f dentry name(?):\"stress-ng-mmaptorture-9397-0-2736200540\"\n[  734.469335] flags: 0x57fffe400000069(locked|uptodate|lru|head|node=1|zone=2|lastcpupid=0x3ffff)\n......\n[  734.469364] page dumped because: VM_WARN_ON_FOLIO((_Generic((page + nr_pages - 1),\nconst struct page *: (const struct folio *)_compound_head(page + nr_pages - 1), struct page *:\n(struct folio *)_compound_head(page + nr_pages - 1))) != folio)\n[  734.469390] ------------[ cut here ]------------\n[  734.469393] WARNING: ./include/linux/rmap.h:351 at folio_add_file_rmap_ptes+0x3b8/0x468,\nCPU#90: stress-ng-mlock/9430\n[  734.469551]  folio_add_file_rmap_ptes+0x3b8/0x468 (P)\n[  734.469555]  set_pte_range+0xd8/0x2f8\n[  734.469566]  filemap_map_folio_range+0x190/0x400\n[  734.469579]  filemap_map_pages+0x348/0x638\n[  734.469583]  do_fault_around+0x140/0x198\n......\n[  734.469640]  el0t_64_sync+0x184/0x188\n\"\n\nThe code that triggers the warning is: \"VM_WARN_ON_FOLIO(page_folio(page +\nnr_pages - 1) != folio, folio)\", which indicates that set_pte_range()\ntried to map beyond the large folio’s size.\n\nBy adding more debug information, I found that 'nr_pages' had overflowed\nin filemap_map_pages(), causing set_pte_range() to establish mappings for\na range exceeding the folio size, potentially corrupting fields of pages\nthat do not belong to this folio (e.g., page->_mapcount).\n\nAfter above analysis, I think the possible race is as follows:\n\nCPU 0                                                  CPU 1\nfilemap_map_pages()                                   ext4_setattr()\n   //get and lock folio with old inode->i_size\n   next_uptodate_folio()\n\n                                                          .......\n                                                          //shrink the inode->i_size\n                                                          i_size_write(inode, attr->ia_size);\n\n   //calculate the end_pgoff with the new inode->i_size\n   file_end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE) - 1;\n   end_pgoff = min(end_pgoff, file_end);\n\n   ......\n   //nr_pages can be overflowed, cause xas.xa_index > end_pgoff\n   end = folio_next_index(folio) - 1;\n   nr_pages = min(end, end_pgoff) - xas.xa_index + 1;\n\n   ......\n   //map large folio\n   filemap_map_folio_range()\n                                                          ......\n                                                          //truncate folios\n                                                          truncate_pagecache(inode, inode->i_size);\n\nTo fix this issue, move the 'end_pgoff' calculation before\nnext_uptodate_folio(), so the retrieved folio stays consistent with the\nfile end to avoid \n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.12:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31648"
-    },
-    {
-      "id": "CVE-2026-31588",
-      "published": "2026-04-24T15:16:33.733",
-      "modified": "2026-10-19T19:18:00.670",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86: Use scratch field in MMIO fragment to hold small write values\n\nWhen exiting to userspace to service an emulated MMIO write, copy the\nto-be-written value to a scratch field in the MMIO fragment if the size\nof the data payload is 8 bytes or less, i.e. can fit in a single chunk,\ninstead of pointing the fragment directly at the source value.\n\nThis fixes a class of use-after-free bugs that occur when the emulator\ninitiates a write using an on-stack, local variable as the source, the\nwrite splits a page boundary, *and* both pages are MMIO pages.  Because\nKVM's ABI only allows for physically contiguous MMIO requests, accesses\nthat split MMIO pages are separated into two fragments, and are sent to\nuserspace one at a time.  When KVM attempts to complete userspace MMIO in\nresponse to KVM_RUN after the first fragment, KVM will detect the second\nfragment and generate a second userspace exit, and reference the on-stack\nvariable.\n\nThe issue is most visible if the second KVM_RUN is performed by a separate\ntask, in which case the stack of the initiating task can show up as truly\nfreed data.\n\n  ==================================================================\n  BUG: KASAN: use-after-free in complete_emulated_mmio+0x305/0x420\n  Read of size 1 at addr ffff888009c378d1 by task syz-executor417/984\n\n  CPU: 1 PID: 984 Comm: syz-executor417 Not tainted 5.10.0-182.0.0.95.h2627.eulerosv2r13.x86_64 #3\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014 Call Trace:\n  dump_stack+0xbe/0xfd\n  print_address_description.constprop.0+0x19/0x170\n  __kasan_report.cold+0x6c/0x84\n  kasan_report+0x3a/0x50\n  check_memory_region+0xfd/0x1f0\n  memcpy+0x20/0x60\n  complete_emulated_mmio+0x305/0x420\n  kvm_arch_vcpu_ioctl_run+0x63f/0x6d0\n  kvm_vcpu_ioctl+0x413/0xb20\n  __se_sys_ioctl+0x111/0x160\n  do_syscall_64+0x30/0x40\n  entry_SYSCALL_64_after_hwframe+0x67/0xd1\n  RIP: 0033:0x42477d\n  Code: <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48\n  RSP: 002b:00007faa8e6890e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010\n  RAX: ffffffffffffffda RBX: 00000000004d7338 RCX: 000000000042477d\n  RDX: 0000000000000000 RSI: 000000000000ae80 RDI: 0000000000000005\n  RBP: 00000000004d7330 R08: 00007fff28d546df R09: 0000000000000000\n  R10: 0000000000000000 R11: 0000000000000246 R12: 00000000004d733c\n  R13: 0000000000000000 R14: 000000000040a200 R15: 00007fff28d54720\n\n  The buggy address belongs to the page:\n  page:0000000029f6a428 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x9c37\n  flags: 0xfffffc0000000(node=0|zone=1|lastcpupid=0x1fffff)\n  raw: 000fffffc0000000 0000000000000000 ffffea0000270dc8 0000000000000000\n  raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000 page dumped because: kasan: bad access detected\n\n  Memory state around the buggy address:\n  ffff888009c37780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  ffff888009c37800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  >ffff888009c37880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n                                                   ^\n  ffff888009c37900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  ffff888009c37980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  ==================================================================\n\nThe bug can also be reproduced with a targeted KVM-Unit-Test by hacking\nKVM to fill a large on-stack variable in complete_emulated_mmio(), i.e. by\noverwrite the data value with garbage.\n\nLimit the use of the scratch fields to 8-byte or smaller accesses, and to\njust writes, as larger accesses and reads are not affected thanks to\nimplementation details in the emulator, but add a sanity check to ensure\nthose details don't change in the future.  Specifically, KVM never uses\non-stack variables for accesses larger that 8 bytes, e.g. uses an operand\nin the emulator context, and *al\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31588"
-    },
-    {
-      "id": "CVE-2026-31508",
-      "published": "2026-04-22T14:16:49.727",
-      "modified": "2026-10-19T19:17:58.010",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: openvswitch: Avoid releasing netdev before teardown completes\n\nThe patch cited in the Fixes tag below changed the teardown code for\nOVS ports to no longer unconditionally take the RTNL. After this change,\nthe netdev_destroy() callback can proceed immediately to the call_rcu()\ninvocation if the IFF_OVS_DATAPATH flag is already cleared on the\nnetdev.\n\nThe ovs_netdev_detach_dev() function clears the flag before completing\nthe unregistration, and if it gets preempted after clearing the flag (as\ncan happen on an -rt kernel), netdev_destroy() can complete and the\ndevice can be freed before the unregistration completes. This leads to a\nsplat like:\n\n[  998.393867] Oops: general protection fault, probably for non-canonical address 0xff00000001000239: 0000 [#1] SMP PTI\n[  998.393877] CPU: 42 UID: 0 PID: 55177 Comm: ip Kdump: loaded Not tainted 6.12.0-211.1.1.el10_2.x86_64+rt #1 PREEMPT_RT\n[  998.393886] Hardware name: Dell Inc. PowerEdge R740/0JMK61, BIOS 2.24.0 03/27/2025\n[  998.393889] RIP: 0010:dev_set_promiscuity+0x8d/0xa0\n[  998.393901] Code: 00 00 75 d8 48 8b 53 08 48 83 ba b0 02 00 00 00 75 ca 48 83 c4 08 5b c3 cc cc cc cc 48 83 bf 48 09 00 00 00 75 91 48 8b 47 08 <48> 83 b8 b0 02 00 00 00 74 97 eb 81 0f 1f 80 00 00 00 00 90 90 90\n[  998.393906] RSP: 0018:ffffce5864a5f6a0 EFLAGS: 00010246\n[  998.393912] RAX: ff00000000ffff89 RBX: ffff894d0adf5a05 RCX: 0000000000000000\n[  998.393917] RDX: 0000000000000000 RSI: 00000000ffffffff RDI: ffff894d0adf5a05\n[  998.393921] RBP: ffff894d19252000 R08: ffff894d19252000 R09: 0000000000000000\n[  998.393924] R10: ffff894d19252000 R11: ffff894d192521b8 R12: 0000000000000006\n[  998.393927] R13: ffffce5864a5f738 R14: 00000000ffffffe2 R15: 0000000000000000\n[  998.393931] FS:  00007fad61971800(0000) GS:ffff894cc0140000(0000) knlGS:0000000000000000\n[  998.393936] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[  998.393940] CR2: 000055df0a2a6e40 CR3: 000000011c7fe003 CR4: 00000000007726f0\n[  998.393944] PKRU: 55555554\n[  998.393946] Call Trace:\n[  998.393949]  <TASK>\n[  998.393952]  ? show_trace_log_lvl+0x1b0/0x2f0\n[  998.393961]  ? show_trace_log_lvl+0x1b0/0x2f0\n[  998.393975]  ? dp_device_event+0x41/0x80 [openvswitch]\n[  998.394009]  ? __die_body.cold+0x8/0x12\n[  998.394016]  ? die_addr+0x3c/0x60\n[  998.394027]  ? exc_general_protection+0x16d/0x390\n[  998.394042]  ? asm_exc_general_protection+0x26/0x30\n[  998.394058]  ? dev_set_promiscuity+0x8d/0xa0\n[  998.394066]  ? ovs_netdev_detach_dev+0x3a/0x80 [openvswitch]\n[  998.394092]  dp_device_event+0x41/0x80 [openvswitch]\n[  998.394102]  notifier_call_chain+0x5a/0xd0\n[  998.394106]  unregister_netdevice_many_notify+0x51b/0xa60\n[  998.394110]  rtnl_dellink+0x169/0x3e0\n[  998.394121]  ? rt_mutex_slowlock.constprop.0+0x95/0xd0\n[  998.394125]  rtnetlink_rcv_msg+0x142/0x3f0\n[  998.394128]  ? avc_has_perm_noaudit+0x69/0xf0\n[  998.394130]  ? __pfx_rtnetlink_rcv_msg+0x10/0x10\n[  998.394132]  netlink_rcv_skb+0x50/0x100\n[  998.394138]  netlink_unicast+0x292/0x3f0\n[  998.394141]  netlink_sendmsg+0x21b/0x470\n[  998.394145]  ____sys_sendmsg+0x39d/0x3d0\n[  998.394149]  ___sys_sendmsg+0x9a/0xe0\n[  998.394156]  __sys_sendmsg+0x7a/0xd0\n[  998.394160]  do_syscall_64+0x7f/0x170\n[  998.394162]  entry_SYSCALL_64_after_hwframe+0x76/0x7e\n[  998.394165] RIP: 0033:0x7fad61bf4724\n[  998.394188] Code: 89 02 b8 ff ff ff ff eb bb 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 f3 0f 1e fa 80 3d c5 e9 0c 00 00 74 13 b8 2e 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 48 83 ec 28 89 54 24 1c 48 89\n[  998.394189] RSP: 002b:00007ffd7e2f7cb8 EFLAGS: 00000202 ORIG_RAX: 000000000000002e\n[  998.394191] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fad61bf4724\n[  998.394193] RDX: 0000000000000000 RSI: 00007ffd7e2f7d20 RDI: 0000000000000003\n[  998.394194] RBP: 00007ffd7e2f7d90 R08: 0000000000000010 R09: 000000000000003f\n[  998.394195] R10: 000055df11558010 R11: 0000000000000202 R12: 00007ffd7e2\n---truncated---",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:6.19:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31508"
-    },
-    {
-      "id": "CVE-2026-31488",
-      "published": "2026-04-22T14:16:46.453",
-      "modified": "2026-10-19T19:17:56.827",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amd/display: Do not skip unrelated mode changes in DSC validation\n\nStarting with commit 17ce8a6907f7 (\"drm/amd/display: Add dsc pre-validation in\natomic check\"), amdgpu resets the CRTC state mode_changed flag to false when\nrecomputing the DSC configuration results in no timing change for a particular\nstream.\n\nHowever, this is incorrect in scenarios where a change in MST/DSC configuration\nhappens in the same KMS commit as another (unrelated) mode change. For example,\nthe integrated panel of a laptop may be configured differently (e.g., HDR\nenabled/disabled) depending on whether external screens are attached. In this\ncase, plugging in external DP-MST screens may result in the mode_changed flag\nbeing dropped incorrectly for the integrated panel if its DSC configuration\ndid not change during precomputation in pre_validate_dsc().\n\nAt this point, however, dm_update_crtc_state() has already created new streams\nfor CRTCs with DSC-independent mode changes. In turn,\namdgpu_dm_commit_streams() will never release the old stream, resulting in a\nmemory leak. amdgpu_dm_atomic_commit_tail() will never acquire a reference to\nthe new stream either, which manifests as a use-after-free when the stream gets\ndisabled later on:\n\nBUG: KASAN: use-after-free in dc_stream_release+0x25/0x90 [amdgpu]\nWrite of size 4 at addr ffff88813d836524 by task kworker/9:9/29977\n\nWorkqueue: events drm_mode_rmfb_work_fn\nCall Trace:\n <TASK>\n dump_stack_lvl+0x6e/0xa0\n print_address_description.constprop.0+0x88/0x320\n ? dc_stream_release+0x25/0x90 [amdgpu]\n print_report+0xfc/0x1ff\n ? srso_alias_return_thunk+0x5/0xfbef5\n ? __virt_addr_valid+0x225/0x4e0\n ? dc_stream_release+0x25/0x90 [amdgpu]\n kasan_report+0xe1/0x180\n ? dc_stream_release+0x25/0x90 [amdgpu]\n kasan_check_range+0x125/0x200\n dc_stream_release+0x25/0x90 [amdgpu]\n dc_state_destruct+0x14d/0x5c0 [amdgpu]\n dc_state_release.part.0+0x4e/0x130 [amdgpu]\n dm_atomic_destroy_state+0x3f/0x70 [amdgpu]\n drm_atomic_state_default_clear+0x8ee/0xf30\n ? drm_mode_object_put.part.0+0xb1/0x130\n __drm_atomic_state_free+0x15c/0x2d0\n atomic_remove_fb+0x67e/0x980\n\nSince there is no reliable way of figuring out whether a CRTC has unrelated\nmode changes pending at the time of DSC validation, remember the value of the\nmode_changed flag from before the point where a CRTC was marked as potentially\naffected by a change in DSC configuration. Reset the mode_changed flag to this\nearlier value instead in pre_validate_dsc().\n\n(cherry picked from commit cc7c7121ae082b7b82891baa7280f1ff2608f22b)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:5.18:-:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc6:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc7:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31488"
-    },
-    {
-      "id": "CVE-2026-31470",
-      "published": "2026-04-22T14:16:43.473",
-      "modified": "2026-10-19T19:17:55.667",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nvirt: tdx-guest: Fix handling of host controlled 'quote' buffer length\n\nValidate host controlled value `quote_buf->out_len` that determines how\nmany bytes of the quote are copied out to guest userspace. In TDX\nenvironments with remote attestation, quotes are not considered private,\nand can be forwarded to an attestation server.\n\nCatch scenarios where the host specifies a response length larger than\nthe guest's allocation, or otherwise races modifying the response while\nthe guest consumes it.\n\nThis prevents contents beyond the pages allocated for `quote_buf`\n(up to TSM_REPORT_OUTBLOB_MAX) from being read out to guest userspace,\nand possibly forwarded in attestation requests.\n\nRecall that some deployments want per-container configs-tsm-report\ninterfaces, so the leak may cross container protection boundaries, not\njust local root.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc1:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc2:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc3:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc4:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:7.0:rc5:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31470"
     }
   ],
   "kev": [
@@ -41224,10 +41210,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 50,
-    "high": 451,
-    "medium": 352,
+    "high": 446,
+    "medium": 356,
     "kev": 2,
     "p1": 30,
-    "p2": 471
+    "p2": 466
   }
 }
