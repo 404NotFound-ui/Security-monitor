@@ -1,6 +1,768 @@
 {
-  "updated": "2026-10-24T14:55:43.095064+00:00",
+  "updated": "2026-10-24T15:21:59.053813+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-74672",
+      "published": "2026-08-22T16:16:41.200",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/vmalloc: acquire init_mm lock on huge vmap to avoid ptdump UAF\n\nPatch series \"mm: fix UAF caused by race between ptdump and vmap pgtable\nfreeing\", v6.\n\nKernel page table walkers fall into two broad categories - those ranges\nwhere no exclusion is required via walk_kernel_page_table_range_lockless()\nand those where exclusion is required via walk_kernel_page_table_range()\nor walk_page_range_debug().\n\nThe former category is used only by arm64 arch code operating on ranges it\nboth wholly owns and does not concurrently write.\n\nThe latter category consists of kernel page table walkers operating on\nranges that are wholly owned (but which need exclusion against concurrent\nwriters).\n\nThe lock used for exclusion is the mmap lock, and for kernel ranges this\nis the mmap lock on init_mm.\n\nptdump is a special case being both the only user of\nwalk_page_range_debug(), and the only case in which it walks ranges it\ndoes not own.\n\nThis presents a problem, as page tables may be freed under ptdump.  And\nindeed there is a use-after-free bug in the kernel as a result, which this\nseries addresses.\n\nvmap promotes page tables to huge leaf entries where possible, freeing the\nlower page table when it does.  It does this with no meaningful locks held\nagainst concurrent ptdump walks.\n\nAs a result, use-after-free can currently occur.  This series addresses\nthe issue by having the vmap huge promotion logic acquire the mmap read\nlock while both setting the huge page table entry and freeing the prior\nleaf page table.\n\nThe ptdump code already acquires the mmap write lock, so by doing so we\nensure that the ptdump walker only ever observes either the huge page\ntable entry or the existing page table entry, and nothing is freed\nunderneath it.\n\nA mitigation for this issue was already applied for arm64 in commit\nfa93b45fd397 (\"arm64: Enable vmalloc-huge with ptdump\"), which this series\nhas to deal with carefully.\n\nThis mitigation resolves the issue by acquiring the mmap read lock on\ninit_mm on vmap page table free if a ptdump is in progress.\n\nHowever the fix in this series would cause a deadlock if we were to simply\napply it for arm64 without also reverting the change.\n\nThis is because vmap may acquire the read lock before ptdump attempts to\nacquire the write lock, which then gets queued, and rwsem starvation rules\nmean that the (unacknowledged) nested mmap read lock in the arm64 code\nwould also block, meaning the original read lock is never released and\nthus deadlock.\n\nThis series works around this by #ifndef CONFIG_ARM64'ing the mmap read\nlock in vmap logic, then partially reverting commit fa93b45fd397 (\"arm64:\nEnable vmalloc-huge with ptdump\"), keeping the enablement of huge vmap\nsupport, and removing the ifdeffery with the partial revert patch.\n\nThere are related issues that are also addressed in this series:\n\n* x86 page attribute logic, specifically Change Page Attributes (CPA),\n  implements a feature whereby huge ranges can be collapsed into huge leaf\n  entries. This can similarly cause a UAF when done in parallel with a\n  ptdump walk, so similarly acquire the init_mm mmap lock to avoid this.\n\n* The CPA logic allows concurrent page table manipulation and CPA\n  collapse, meaning the former risks accessing a page table the latter\n  frees. Fix this by acquiring mmap write lock on init_mm across the\n  whole CPA collapse operation and read lock on the page table\n  manipulation.\n\n* x86 and arm64 permit walks of non-kernel mm's (both allowing efi mm\n  walks, and in x86's case arbitrary mm's), so we ensure kernel mappings\n  remain stable by locking the init_mm as well as the mm being walked.\n\nThe ordering of patches is established for both strict dependencies (the\narm64 partial revert in particular has to be done after the vmap changes)\nand logical ones (the non-kernel mm fix only makes sense once the vmap/CPA\nfixes are in place).\n\n\nThis patch (of 3):\n\nCurrently there is a nasty ra\n---truncated---",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74672"
+    },
+    {
+      "id": "CVE-2026-71381",
+      "published": "2026-08-07T21:17:30.147",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Adobe Genuine Software Integrity Service on Windows is affected by an Incorrect Authorization vulnerability that could result in a Security feature bypass. An attacker could leverage this vulnerability to bypass security measures and gain unauthorized limited write access. Exploitation of this issue does not require user interaction, but requires the attacker to access the target desktop system locally (e.g., keyboard, console), or remotely (e.g., SMB).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71381"
+    },
+    {
+      "id": "CVE-2026-72751",
+      "published": "2026-08-10T14:17:31.553",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "CTI-Transmute is affected by a stored cross-site scripting (XSS) vulnerability in the conversion graph used to visualise converted MISP and STIX content.\n\nAttacker-controlled values originating from converted CTI data were passed to multiple HTML-parsing sinks in the graph user interface without sufficient neutralisation. In particular, node labels, node sublabels, edge labels, node properties, edge properties, and node types could contain crafted HTML or JavaScript content.\n\nThe Pivotick graph library renders some of these values through HTML-parsing operations. Consequently, a malicious value such as an HTML element containing an event handler could be interpreted as markup rather than displayed as plain text. The first remediation explicitly notes that Pivotick rendered node and edge labels as HTML and therefore introduced escaping before data was handed to the graph renderer.\n\nA separate vulnerable sink was present in the Open raw JSON functionality. The raw object associated with a graph node was inserted into a new document using document.write() and an interpolated HTML string. Crafted JSON content could therefore break out of the intended <pre> element and inject executable markup. The fix replaced this construction with DOM APIs and assigns the JSON using textContent.\n\nThe initial correction did not cover all Pivotick rendering paths. A subsequent patch addressed additional XSS vectors in the graph properties panel. Values derived from the original CTI object—including property names, property values, hash algorithm names, child attributes, edge properties, and STIX object types—could still reach Pivotick's HTML resolver. According to the patch, Pivotick's tryResolveHTMLElement processes string values using template.innerHTML, allowing malicious markup to execute when a graph node is hovered over or selected.\n\nThe complete remediation therefore:\n\n  *  HTML-escapes node labels, node sublabels, and edge labels before they are passed to Pivotick.\n  *  Restricts graph node type values to a safe identifier character set.\n  *  Wraps node and edge property values in DOM elements populated through textContent, preventing Pivotick from treating attacker-controlled strings as HTML.\n  *  Replaces the raw-JSON popup's interpolated document.write() with DOM construction and textContent.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72751"
+    },
+    {
+      "id": "CVE-2026-71468",
+      "published": "2026-08-11T20:18:45.410",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in acm-search-v2-api-rhel9. When the `getFederationConfig` function refreshes its cache, it improperly reuses a user's bearer token for all subsequent federated requests until the cache expires. This allows other authenticated users to gain unauthorized access to remote managed hub search results, leading to information disclosure.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71468"
+    },
+    {
+      "id": "CVE-2026-71474",
+      "published": "2026-08-11T20:18:45.547",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in insights-client. When the application receives a non-200 response, it logs the request headers, which can include the cloud.openshift.com pull-secret token. A local user with access to pod logs on the hub could read this long-lived credential. This information disclosure could grant unauthorized access to Red Hat cloud services.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "advanced cluster management for kubernetes",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "insights client",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71474"
+    },
+    {
+      "id": "CVE-2026-71475",
+      "published": "2026-08-11T20:18:45.673",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in insights-client. A compromised managed cluster, referred to as a 'spoke', can inject unencoded data into the Insights API URL path. This occurs because the ClusterID, which is controlled by the spoke, is used directly in the request path without proper validation or URL encoding. This vulnerability allows a malicious spoke to redirect authenticated requests to unintended API endpoints, potentially leading to information disclosure or unauthorized access.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "advanced cluster management for kubernetes",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "insights client",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71475"
+    },
+    {
+      "id": "CVE-2026-71845",
+      "published": "2026-08-11T20:18:45.800",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in insights-client. The setDefault() function logs the value of every environment variable it processes, including CCX_TOKEN, a bearer credential used in disconnected cluster deployments. When glog verbosity is set to level 2 or higher, the token is written in clear text to the pod log on every startup. An attacker with access to pod logs or centralized logging could obtain the credential, leading to unauthorized access to the CCX API.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "advanced cluster management for kubernetes",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "insights client",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71845"
+    },
+    {
+      "id": "CVE-2026-73243",
+      "published": "2026-08-11T20:18:49.403",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "kkFileView is a universal file online preview project based on Spring Boot. Prior to 5.0.1, the unauthenticated GET /addTask endpoint in kkFileView is omitted from TrustHostFilter and TrustDirFilter in server/src/main/java/cn/keking/config/WebConfig.java, allowing FileConvertQueueTask to fetch an attacker-selected URL after FileHandlerService#getFileAttribute uses the fullfilename parameter to force an OFFICE, COMPRESS, or CAD type. This issue is fixed in version 5.0.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73243"
+    },
+    {
+      "id": "CVE-2026-73122",
+      "published": "2026-08-12T02:16:38.330",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in the multicloud-operators-channel component of Red Hat Advanced Cluster Management (RHACM). This vulnerability allows a compromised agent from a managed cluster to gain unauthorized access to sensitive information. Specifically, the agent can read all Secrets and ConfigMaps within any Channel namespace on the hub, potentially exposing credentials for other tenants' Git and Helm repositories. This could lead to significant information disclosure.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73122"
+    },
+    {
+      "id": "CVE-2026-70465",
+      "published": "2026-08-12T12:19:47.017",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A buffer copy without checking size of input ('classic buffer overflow') vulnerability in Fortinet FortiClientWindows 7.4.0 through 7.4.3, FortiClientWindows 7.2.0 through 7.2.11 may allow an unauthenticated attacker in a position to alter or craft DNS responses to the targeted host to execute arbitrary code via malicious packets.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:fortinet:forticlient:*:*:*:*:*:windows:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70465"
+    },
+    {
+      "id": "CVE-2026-71407",
+      "published": "2026-08-12T13:17:25.497",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A Stack-based Buffer Overflow vulnerability [CWE-121] vulnerability in Fortinet FortiOS 7.6.1 through 7.6.6 may allow an unauthenticated attacker who can bypass stack protection and ASLR to execute arbitrary code or commands in the context of the WAD daemon via crafted sockets, only if the explicit proxy is configured with Kerberos authentication and SOCKS enabled.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71407"
+    },
+    {
+      "id": "CVE-2026-71408",
+      "published": "2026-08-12T13:17:25.677",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A allocation of resources without limits or throttling vulnerability in Fortinet FortiOS 7.6.0 through 7.6.6, FortiOS 7.4 all versions, FortiOS 7.2 all versions may allow attacker to denial of service via <insert attack vector here>",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71408"
+    },
+    {
+      "id": "CVE-2026-72903",
+      "published": "2026-08-10T21:17:24.980",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Tabby (formerly Terminus) is a highly configurable terminal emulator. Prior to 1.0.235, a malicious SFTP server can return a backslash traversal filename through entry.name. In tabby-ssh/src/session/sftp.ts, SFTPSession.readdir() and _makeFile() use POSIX path processing that preserves the backslashes as ordinary filename characters. In tabby-ssh/src/components/sftpPanel.component.ts, downloadFolderRecursive() propagates item.name into the local relative path. In tabby-electron/src/services/platform.service.ts, ElectronDirectoryDownload.createFile() passes that path to Windows-native path.join(), and in tabby-electron/src/sftpContextMenu.ts, EditSFTPContextMenu.edit() passes item.name to path.join() for the temporary edit path. Windows interprets the preserved backslashes and parent-directory components as traversal, allowing attacker-controlled content to be created or overwritten outside the selected download directory or temporary edit directory. This issue is fixed in version 1.0.235.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72903"
+    },
+    {
+      "id": "CVE-2026-72909",
+      "published": "2026-08-10T21:17:25.727",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "ERPNext is a free and open source Enterprise Resource Planning tool. Prior to 15.112.0 and 16.23.0, the ReceivablePayableReport prepare_conditions path in erpnext/accounts/report/accounts_receivable/accounts_receivable.py does not apply Customer and Supplier user permissions to the Payment Ledger Entry dynamic-link party field, allowing any authenticated user to read unauthorized cross-company financial data in Accounts Receivable and Accounts Payable reports. This issue is fixed in versions 15.112.0 and 16.23.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72909"
+    },
+    {
+      "id": "CVE-2026-72552",
+      "published": "2026-08-11T12:17:40.860",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A server-side request forgery vulnerability in Dub as of 2026-07-10 allows unauthenticated remote attackers to make the server issue HTTP requests to arbitrary internal or external hosts via the metatags edge endpoint. The endpoint fetches any caller-supplied URL without applying a denylist or requiring authentication. An attacker can use this to scan internal services or exfiltrate data from cloud metadata endpoints.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72552"
+    },
+    {
+      "id": "CVE-2026-72772",
+      "published": "2026-08-11T13:19:07.623",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "n8n before 2.32.1 (and before 2.31.5) is vulnerable to account takeover via the Token Exchange Embed Login feature. When a validly-signed incoming token was matched to a local account by its email claim, the service did not verify that the email claim was verified, nor that the trusted key's permitted role ceiling covered that account. As a result, anyone able to obtain a token accepted by a configured trusted key (for example, a trusted issuer emitting unverified email addresses) could authenticate as any existing user and gain full account control. This issue only affects instances where the embed login feature is enabled and at least one trusted key source is configured.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:n8n:n8n:*:*:*:*:*:node.js:*:*",
+        "cpe:2.3:a:n8n:n8n:2.32.0:*:*:*:*:node.js:*:*"
+      ],
+      "cvss": {
+        "score": 8.9,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72772"
+    },
+    {
+      "id": "CVE-2026-73067",
+      "published": "2026-08-11T15:17:38.927",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Tesseract is an open source OCR engine. Prior to 5.5.3, a crafted .traineddata model loaded through TessBaseAPI::Init can cause SquishedDawg::read_squished_dawg in src/dict/dawg.cpp to accept an unterminated forward-edge run, after which SquishedDawg::Load calls num_forward_edges(0) and last_edge in src/dict/dawg.h reads beyond edges_, causing a heap out-of-bounds read and process crash before image processing. This issue is fixed in version 5.5.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73067"
+    },
+    {
+      "id": "CVE-2026-73079",
+      "published": "2026-08-11T16:17:39.713",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Sub2API is an AI API gateway platform designed to distribute and manage API quotas from AI product subscriptions. From 0.1.135, to 0.1.168, platform API keys issued to tenants are exchanged for upstream requests made with shared provider accounts (ChatGPT/Codex OAuth, OpenAI platform keys, or an operator-configured base URL) that belong to the operator, not to the caller. The `POST /responses/*subpath` wildcard routes spliced the client-supplied subpath into the upstream URL with no validation. This lets an authenticated tenant relay requests to arbitrary upstream endpoints using pooled account credentials via a path traversal. This vulnerability is fixed in 0.1.169.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73079"
+    },
+    {
+      "id": "CVE-2026-72971",
+      "published": "2026-08-11T17:19:15.220",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Improper link resolution before file access ('link following') in Windows Container Isolation FS Filter Driver (unionfs.sys) allows an authorized attacker to perform tampering locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72971"
+    },
+    {
+      "id": "CVE-2026-73296",
+      "published": "2026-08-12T17:17:32.780",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Microsoft UFO open-source framework for intelligent automation across devices and platforms. Prior to 3.0.8, create_mobile_data_collection_server and create_mobile_action_server in ufo/client/mcp/http_servers/mobile_mcp_server.py exposed Streamable HTTP MCP services on TCP ports 8020 and 8021 without authentication, allowing an unauthenticated remote attacker to invoke capture_screenshot, get_ui_tree, tap, swipe, type_text, launch_app, press_key, and click_control against an ADB-connected Android device, disclose screen and device data, and modify device state. This issue is fixed in version 3.0.8.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73296"
+    },
+    {
+      "id": "CVE-2026-73297",
+      "published": "2026-08-12T17:17:32.933",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Microsoft UFO open-source framework for intelligent automation across devices and platforms. Prior to 3.0.8, _is_blocked_ip in ufo/utils/url_security.py did not block NAT64 prefixes 64:ff9b::/96 and 64:ff9b:1::/48, the 6to4 prefix 2002::/16, or the Teredo prefix 2001::/32 and did not re-check embedded IPv4 destinations, allowing an unauthenticated remote attacker who can influence URLs processed by validate_url to bypass the SSRF guard and reach cloud metadata, internal services, or localhost. This issue is fixed in version 3.0.8.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73297"
+    },
+    {
+      "id": "CVE-2026-73298",
+      "published": "2026-08-12T18:18:15.057",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "The Microsoft Container Migration Solution Accelerator is a multi-service application that provides a multi-agent, AI-driven migration solution for moving container service configurations to Azure Kubernetes Service. In version 2.1.2 and earlier, a security vulnerability was identified in the Container Migration Solution Accelerator, specifically an authenticated IDOR (Insecure Direct Object Reference) that allows users to read, write, and delete processes belonging to other authenticated users. The issue affects multiple API endpoints, where ownership checks are missing, enabling unauthorized access and modification of migration data across users within the same organization. The vulnerability is present in both process and file management APIs, and the application relies on Entra ID authentication but lacks proper authorization controls between users. Authenticated users are able to access, modify, and delete processes and files belonging to other users without proper authorization checks.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73298"
+    },
+    {
+      "id": "CVE-2026-72508",
+      "published": "2026-08-12T20:17:49.650",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in the multicloud-operators-subscription component of Red Hat Advanced Cluster Management (RHACM). This vulnerability allows a namespace-admin tenant to perform a confused-deputy attack by creating Subscription Custom Resources (CRs) that leverage a highly privileged ServiceAccount (SA). This enables the tenant to deploy arbitrary cluster-scoped resources, leading to privilege escalation and potential arbitrary code execution across the cluster.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72508"
+    },
+    {
+      "id": "CVE-2026-73414",
+      "published": "2026-08-12T20:17:56.510",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Shescape is a simple shell escape library for JavaScript. Prior to 2.1.14 and 3.0.1, getEscapeFunction in src/internal/win/cmd.js does not escape `(` and `)` when applications use the escape or escapeAll APIs on Windows with shell set to cmd.exe, or with shell set to true when CMD is the default. An attacker-controlled argument can break out of a parenthesized CMD construct and inject shell syntax depending on the original command, resulting in arbitrary command execution. This issue is fixed in versions 2.1.14 and 3.0.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73414"
+    },
+    {
+      "id": "CVE-2026-73425",
+      "published": "2026-08-12T21:17:41.473",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Astro is a web framework for content-driven websites. Prior to 8.1.2, the Astro Netlify adapter converts each image.remotePatterns entry into a regular expression written to .netlify/v1/config.json under images.remote_images for Netlify's Image CDN allowlist. In packages/integrations/netlify/src/index.ts, remotePatternToRegex() escapes dots in hostname values but interpolates literal pathname values without escaping regular expression metacharacters such as ., +, ?, (, and [, so a restrictive pathname such as /img/v1.0/file also matches metacharacter-adjacent paths, including paths that cross a segment. Netlify enforces the generated regular expression directly and Astro's matchPattern() helper does not revalidate the request, allowing optimization of images on an already-allowed host that the declared pathname was intended to exclude. This issue is fixed in version 8.1.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73425"
+    },
+    {
+      "id": "CVE-2026-73429",
+      "published": "2026-08-12T21:17:41.750",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Russh is a Rust SSH client & server library. Prior to 0.62.4, a malicious SSH server can crash a russh client session with a malformed KEX_ECDH_REPLY containing a server ephemeral value that is not 32 bytes long. The client-side Curve25519Kex::compute_shared_secret function in russh/src/kex/curve25519.rs passes the decoded exchange.server_ephemeral value to clone_from_slice without validating its length, causing a deterministic panic before the server host key is verified. The panic terminates the spawned client session task and surfaces as a JoinError, while the embedding process normally remains running. This issue is fixed in version 0.62.4.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73429"
+    },
+    {
+      "id": "CVE-2026-73430",
+      "published": "2026-08-12T21:17:41.883",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Russh is a Rust SSH client & server library. Prior to 0.62.4, an unauthenticated SSH client can cause a denial of service by sending SSH_MSG_KEX_ECDH_INIT with a 32-byte all-zero Q_C value. Curve25519Kex::server_dh in russh/src/kex/curve25519.rs accepts the all-zero peer public value and computes an all-zero shared secret, after which compute_exchange_hash calls encode_mpint in russh/src/kex/mod.rs and indexes beyond the end of the input while skipping leading zero bytes. The resulting panic occurs before authentication and terminates the server key-exchange task. This issue is fixed in version 0.62.4.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73430"
+    },
+    {
+      "id": "CVE-2026-71471",
+      "published": "2026-08-12T22:17:15.890",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in acm-search-v2-rhel9. An attacker with administrative privileges on the hub cluster, specifically with patch access to the Search Custom Resource (CR), could exploit a vulnerability in the `Collector.ImageOverride` field. This allows the attacker to deploy an arbitrary container image across all managed clusters. The consequence is remote code execution (RCE), enabling the attacker to execute commands and potentially access sensitive information across the entire fleet of managed clusters.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71471"
+    },
+    {
+      "id": "CVE-2026-71846",
+      "published": "2026-08-12T22:17:16.143",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "A flaw was found in insights-client. The component's ServiceAccount is bound to a ClusterRole granting cluster-wide secrets get, list, and watch permissions, while the code only requires access to a single specific Secret. This excessive privilege means that a compromise of the insights-client pod or ServiceAccount token would grant an attacker read access to all Secrets across the hub cluster, including managed-cluster kubeconfigs and other sensitive credentials.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "advanced cluster management for kubernetes",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "insights client",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71846"
+    },
+    {
+      "id": "CVE-2026-61069",
+      "published": "2026-07-21T22:18:37.647",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Vulnerability in the PeopleSoft Enterprise FIN General Ledger Argentina product of Oracle PeopleSoft (component: General Ledger).   The supported version that is affected is 9.1. Difficult to exploit vulnerability allows low privileged attacker with network access via HTTP to compromise PeopleSoft Enterprise FIN General Ledger Argentina.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all PeopleSoft Enterprise FIN General Ledger Argentina accessible data and unauthorized ability to cause a partial denial of service (partial DOS) of PeopleSoft Enterprise FIN General Ledger Argentina. CVSS 3.1 Base Score 5.9 (Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:L).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_fin_general_ledger_argentina:9.1:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61069"
+    },
+    {
+      "id": "CVE-2026-61072",
+      "published": "2026-07-21T22:18:37.980",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Vulnerability in the PeopleSoft Enterprise FIN Staffing Front Office Brazil product of Oracle PeopleSoft (component: Staffing).   The supported version that is affected is 9.1. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise PeopleSoft Enterprise FIN Staffing Front Office Brazil.  While the vulnerability is in PeopleSoft Enterprise FIN Staffing Front Office Brazil, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of PeopleSoft Enterprise FIN Staffing Front Office Brazil. CVSS 3.1 Base Score 9.9 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:oracle:peoplesoft_enterprise_fin_staffing_front_office_brazil:9.1:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61072"
+    },
+    {
+      "id": "CVE-2026-72653",
+      "published": "2026-08-13T20:17:25.513",
+      "modified": "2026-10-24T15:10:00.190",
+      "description": "Allocation of Resources Without Limits or Throttling (CWE-770) in Kibana can lead to denial of service via Excessive Allocation (CAPEC-130). An authenticated user who is authorized to manage maintenance windows could submit a specially crafted, malformed payload that causes the Kibana process to consume excessive resources. Kibana becomes unresponsive for all users and does not recover without manual intervention.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:elastic:kibana:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72653"
+    },
     {
       "id": "CVE-2026-98975",
       "published": "2026-10-23T13:17:19.157",
@@ -7907,26 +8669,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70310"
     },
     {
-      "id": "CVE-2026-74672",
-      "published": "2026-08-22T16:16:41.200",
-      "modified": "2026-10-23T23:10:00.157",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/vmalloc: acquire init_mm lock on huge vmap to avoid ptdump UAF\n\nPatch series \"mm: fix UAF caused by race between ptdump and vmap pgtable\nfreeing\", v6.\n\nKernel page table walkers fall into two broad categories - those ranges\nwhere no exclusion is required via walk_kernel_page_table_range_lockless()\nand those where exclusion is required via walk_kernel_page_table_range()\nor walk_page_range_debug().\n\nThe former category is used only by arm64 arch code operating on ranges it\nboth wholly owns and does not concurrently write.\n\nThe latter category consists of kernel page table walkers operating on\nranges that are wholly owned (but which need exclusion against concurrent\nwriters).\n\nThe lock used for exclusion is the mmap lock, and for kernel ranges this\nis the mmap lock on init_mm.\n\nptdump is a special case being both the only user of\nwalk_page_range_debug(), and the only case in which it walks ranges it\ndoes not own.\n\nThis presents a problem, as page tables may be freed under ptdump.  And\nindeed there is a use-after-free bug in the kernel as a result, which this\nseries addresses.\n\nvmap promotes page tables to huge leaf entries where possible, freeing the\nlower page table when it does.  It does this with no meaningful locks held\nagainst concurrent ptdump walks.\n\nAs a result, use-after-free can currently occur.  This series addresses\nthe issue by having the vmap huge promotion logic acquire the mmap read\nlock while both setting the huge page table entry and freeing the prior\nleaf page table.\n\nThe ptdump code already acquires the mmap write lock, so by doing so we\nensure that the ptdump walker only ever observes either the huge page\ntable entry or the existing page table entry, and nothing is freed\nunderneath it.\n\nA mitigation for this issue was already applied for arm64 in commit\nfa93b45fd397 (\"arm64: Enable vmalloc-huge with ptdump\"), which this series\nhas to deal with carefully.\n\nThis mitigation resolves the issue by acquiring the mmap read lock on\ninit_mm on vmap page table free if a ptdump is in progress.\n\nHowever the fix in this series would cause a deadlock if we were to simply\napply it for arm64 without also reverting the change.\n\nThis is because vmap may acquire the read lock before ptdump attempts to\nacquire the write lock, which then gets queued, and rwsem starvation rules\nmean that the (unacknowledged) nested mmap read lock in the arm64 code\nwould also block, meaning the original read lock is never released and\nthus deadlock.\n\nThis series works around this by #ifndef CONFIG_ARM64'ing the mmap read\nlock in vmap logic, then partially reverting commit fa93b45fd397 (\"arm64:\nEnable vmalloc-huge with ptdump\"), keeping the enablement of huge vmap\nsupport, and removing the ifdeffery with the partial revert patch.\n\nThere are related issues that are also addressed in this series:\n\n* x86 page attribute logic, specifically Change Page Attributes (CPA),\n  implements a feature whereby huge ranges can be collapsed into huge leaf\n  entries. This can similarly cause a UAF when done in parallel with a\n  ptdump walk, so similarly acquire the init_mm mmap lock to avoid this.\n\n* The CPA logic allows concurrent page table manipulation and CPA\n  collapse, meaning the former risks accessing a page table the latter\n  frees. Fix this by acquiring mmap write lock on init_mm across the\n  whole CPA collapse operation and read lock on the page table\n  manipulation.\n\n* x86 and arm64 permit walks of non-kernel mm's (both allowing efi mm\n  walks, and in x86's case arbitrary mm's), so we ensure kernel mappings\n  remain stable by locking the init_mm as well as the mm being walked.\n\nThe ordering of patches is established for both strict dependencies (the\narm64 partial revert in particular has to be done after the vmap changes)\nand logical ones (the non-kernel mm fix only makes sense once the vmap/CPA\nfixes are in place).\n\n\nThis patch (of 3):\n\nCurrently there is a nasty ra\n---truncated---",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74672"
-    },
-    {
       "id": "CVE-2026-66907",
       "published": "2026-08-24T17:18:06.330",
       "modified": "2026-10-23T23:10:00.157",
@@ -12752,28 +13494,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66061"
     },
     {
-      "id": "CVE-2026-71381",
-      "published": "2026-08-07T21:17:30.147",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "Adobe Genuine Software Integrity Service on Windows is affected by an Incorrect Authorization vulnerability that could result in a Security feature bypass. An attacker could leverage this vulnerability to bypass security measures and gain unauthorized limited write access. Exploitation of this issue does not require user interaction, but requires the attacker to access the target desktop system locally (e.g., keyboard, console), or remotely (e.g., SMB).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71381"
-    },
-    {
       "id": "CVE-2026-19369",
       "published": "2026-08-09T21:16:59.363",
       "modified": "2026-10-23T20:10:00.160",
@@ -12904,26 +13624,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19278"
     },
     {
-      "id": "CVE-2026-72751",
-      "published": "2026-08-10T14:17:31.553",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "CTI-Transmute is affected by a stored cross-site scripting (XSS) vulnerability in the conversion graph used to visualise converted MISP and STIX content.\n\nAttacker-controlled values originating from converted CTI data were passed to multiple HTML-parsing sinks in the graph user interface without sufficient neutralisation. In particular, node labels, node sublabels, edge labels, node properties, edge properties, and node types could contain crafted HTML or JavaScript content.\n\nThe Pivotick graph library renders some of these values through HTML-parsing operations. Consequently, a malicious value such as an HTML element containing an event handler could be interpreted as markup rather than displayed as plain text. The first remediation explicitly notes that Pivotick rendered node and edge labels as HTML and therefore introduced escaping before data was handed to the graph renderer.\n\nA separate vulnerable sink was present in the Open raw JSON functionality. The raw object associated with a graph node was inserted into a new document using document.write() and an interpolated HTML string. Crafted JSON content could therefore break out of the intended <pre> element and inject executable markup. The fix replaced this construction with DOM APIs and assigns the JSON using textContent.\n\nThe initial correction did not cover all Pivotick rendering paths. A subsequent patch addressed additional XSS vectors in the graph properties panel. Values derived from the original CTI object—including property names, property values, hash algorithm names, child attributes, edge properties, and STIX object types—could still reach Pivotick's HTML resolver. According to the patch, Pivotick's tryResolveHTMLElement processes string values using template.innerHTML, allowing malicious markup to execute when a graph node is hovered over or selected.\n\nThe complete remediation therefore:\n\n  *  HTML-escapes node labels, node sublabels, and edge labels before they are passed to Pivotick.\n  *  Restricts graph node type values to a safe identifier character set.\n  *  Wraps node and edge property values in DOM elements populated through textContent, preventing Pivotick from treating attacker-controlled strings as HTML.\n  *  Replaces the raw-JSON popup's interpolated document.write() with DOM construction and textContent.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72751"
-    },
-    {
       "id": "CVE-2026-68870",
       "published": "2026-08-10T19:17:30.337",
       "modified": "2026-10-23T20:10:00.160",
@@ -12973,160 +13673,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70339"
-    },
-    {
-      "id": "CVE-2026-71468",
-      "published": "2026-08-11T20:18:45.410",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A flaw was found in acm-search-v2-api-rhel9. When the `getFederationConfig` function refreshes its cache, it improperly reuses a user's bearer token for all subsequent federated requests until the cache expires. This allows other authenticated users to gain unauthorized access to remote managed hub search results, leading to information disclosure.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71468"
-    },
-    {
-      "id": "CVE-2026-71474",
-      "published": "2026-08-11T20:18:45.547",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A flaw was found in insights-client. When the application receives a non-200 response, it logs the request headers, which can include the cloud.openshift.com pull-secret token. A local user with access to pod logs on the hub could read this long-lived credential. This information disclosure could grant unauthorized access to Red Hat cloud services.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "insights client",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71474"
-    },
-    {
-      "id": "CVE-2026-71475",
-      "published": "2026-08-11T20:18:45.673",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A flaw was found in insights-client. A compromised managed cluster, referred to as a 'spoke', can inject unencoded data into the Insights API URL path. This occurs because the ClusterID, which is controlled by the spoke, is used directly in the request path without proper validation or URL encoding. This vulnerability allows a malicious spoke to redirect authenticated requests to unintended API endpoints, potentially leading to information disclosure or unauthorized access.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "insights client",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71475"
-    },
-    {
-      "id": "CVE-2026-71845",
-      "published": "2026-08-11T20:18:45.800",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A flaw was found in insights-client. The setDefault() function logs the value of every environment variable it processes, including CCX_TOKEN, a bearer credential used in disconnected cluster deployments. When glog verbosity is set to level 2 or higher, the token is written in clear text to the pod log on every startup. An attacker with access to pod logs or centralized logging could obtain the credential, leading to unauthorized access to the CCX API.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "insights client",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71845"
-    },
-    {
-      "id": "CVE-2026-73243",
-      "published": "2026-08-11T20:18:49.403",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "kkFileView is a universal file online preview project based on Spring Boot. Prior to 5.0.1, the unauthenticated GET /addTask endpoint in kkFileView is omitted from TrustHostFilter and TrustDirFilter in server/src/main/java/cn/keking/config/WebConfig.java, allowing FileConvertQueueTask to fetch an attacker-selected URL after FileHandlerService#getFileAttribute uses the fullfilename parameter to force an OFFICE, COMPRESS, or CAD type. This issue is fixed in version 5.0.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73243"
     },
     {
       "id": "CVE-2026-19557",
@@ -13181,28 +13727,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70398"
     },
     {
-      "id": "CVE-2026-73122",
-      "published": "2026-08-12T02:16:38.330",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A flaw was found in the multicloud-operators-channel component of Red Hat Advanced Cluster Management (RHACM). This vulnerability allows a compromised agent from a managed cluster to gain unauthorized access to sensitive information. Specifically, the agent can read all Secrets and ConfigMaps within any Channel namespace on the hub, potentially exposing credentials for other tenants' Git and Helm repositories. This could lead to significant information disclosure.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73122"
-    },
-    {
       "id": "CVE-2026-64955",
       "published": "2026-08-12T10:17:20.310",
       "modified": "2026-10-23T20:10:00.160",
@@ -13221,74 +13745,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64955"
-    },
-    {
-      "id": "CVE-2026-70465",
-      "published": "2026-08-12T12:19:47.017",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A buffer copy without checking size of input ('classic buffer overflow') vulnerability in Fortinet FortiClientWindows 7.4.0 through 7.4.3, FortiClientWindows 7.2.0 through 7.2.11 may allow an unauthenticated attacker in a position to alter or craft DNS responses to the targeted host to execute arbitrary code via malicious packets.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:fortinet:forticlient:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70465"
-    },
-    {
-      "id": "CVE-2026-71407",
-      "published": "2026-08-12T13:17:25.497",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A Stack-based Buffer Overflow vulnerability [CWE-121] vulnerability in Fortinet FortiOS 7.6.1 through 7.6.6 may allow an unauthenticated attacker who can bypass stack protection and ASLR to execute arbitrary code or commands in the context of the WAD daemon via crafted sockets, only if the explicit proxy is configured with Kerberos authentication and SOCKS enabled.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71407"
-    },
-    {
-      "id": "CVE-2026-71408",
-      "published": "2026-08-12T13:17:25.677",
-      "modified": "2026-10-23T20:10:00.160",
-      "description": "A allocation of resources without limits or throttling vulnerability in Fortinet FortiOS 7.6.0 through 7.6.6, FortiOS 7.4 all versions, FortiOS 7.2 all versions may allow attacker to denial of service via <insert attack vector here>",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:fortinet:fortios:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71408"
     },
     {
       "id": "CVE-2026-18171",
@@ -14322,46 +14778,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50516"
     },
     {
-      "id": "CVE-2026-72903",
-      "published": "2026-08-10T21:17:24.980",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Tabby (formerly Terminus) is a highly configurable terminal emulator. Prior to 1.0.235, a malicious SFTP server can return a backslash traversal filename through entry.name. In tabby-ssh/src/session/sftp.ts, SFTPSession.readdir() and _makeFile() use POSIX path processing that preserves the backslashes as ordinary filename characters. In tabby-ssh/src/components/sftpPanel.component.ts, downloadFolderRecursive() propagates item.name into the local relative path. In tabby-electron/src/services/platform.service.ts, ElectronDirectoryDownload.createFile() passes that path to Windows-native path.join(), and in tabby-electron/src/sftpContextMenu.ts, EditSFTPContextMenu.edit() passes item.name to path.join() for the temporary edit path. Windows interprets the preserved backslashes and parent-directory components as traversal, allowing attacker-controlled content to be created or overwritten outside the selected download directory or temporary edit directory. This issue is fixed in version 1.0.235.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72903"
-    },
-    {
-      "id": "CVE-2026-72909",
-      "published": "2026-08-10T21:17:25.727",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "ERPNext is a free and open source Enterprise Resource Planning tool. Prior to 15.112.0 and 16.23.0, the ReceivablePayableReport prepare_conditions path in erpnext/accounts/report/accounts_receivable/accounts_receivable.py does not apply Customer and Supplier user permissions to the Payment Ledger Entry dynamic-link party field, allowing any authenticated user to read unauthorized cross-company financial data in Accounts Receivable and Accounts Payable reports. This issue is fixed in versions 15.112.0 and 16.23.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72909"
-    },
-    {
       "id": "CVE-2026-11894",
       "published": "2026-08-11T06:17:11.820",
       "modified": "2026-10-23T19:10:00.167",
@@ -14468,91 +14884,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50237"
-    },
-    {
-      "id": "CVE-2026-72552",
-      "published": "2026-08-11T12:17:40.860",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "A server-side request forgery vulnerability in Dub as of 2026-07-10 allows unauthenticated remote attackers to make the server issue HTTP requests to arbitrary internal or external hosts via the metatags edge endpoint. The endpoint fetches any caller-supplied URL without applying a denylist or requiring authentication. An attacker can use this to scan internal services or exfiltrate data from cloud metadata endpoints.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72552"
-    },
-    {
-      "id": "CVE-2026-72772",
-      "published": "2026-08-11T13:19:07.623",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "n8n before 2.32.1 (and before 2.31.5) is vulnerable to account takeover via the Token Exchange Embed Login feature. When a validly-signed incoming token was matched to a local account by its email claim, the service did not verify that the email claim was verified, nor that the trusted key's permitted role ceiling covered that account. As a result, anyone able to obtain a token accepted by a configured trusted key (for example, a trusted issuer emitting unverified email addresses) could authenticate as any existing user and gain full account control. This issue only affects instances where the embed login feature is enabled and at least one trusted key source is configured.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:n8n:n8n:*:*:*:*:*:node.js:*:*",
-        "cpe:2.3:a:n8n:n8n:2.32.0:*:*:*:*:node.js:*:*"
-      ],
-      "cvss": {
-        "score": 8.9,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72772"
-    },
-    {
-      "id": "CVE-2026-73067",
-      "published": "2026-08-11T15:17:38.927",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Tesseract is an open source OCR engine. Prior to 5.5.3, a crafted .traineddata model loaded through TessBaseAPI::Init can cause SquishedDawg::read_squished_dawg in src/dict/dawg.cpp to accept an unterminated forward-edge run, after which SquishedDawg::Load calls num_forward_edges(0) and last_edge in src/dict/dawg.h reads beyond edges_, causing a heap out-of-bounds read and process crash before image processing. This issue is fixed in version 5.5.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73067"
-    },
-    {
-      "id": "CVE-2026-73079",
-      "published": "2026-08-11T16:17:39.713",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Sub2API is an AI API gateway platform designed to distribute and manage API quotas from AI product subscriptions. From 0.1.135, to 0.1.168, platform API keys issued to tenants are exchanged for upstream requests made with shared provider accounts (ChatGPT/Codex OAuth, OpenAI platform keys, or an operator-configured base URL) that belong to the operator, not to the caller. The `POST /responses/*subpath` wildcard routes spliced the client-supplied subpath into the upstream URL with no validation. This lets an authenticated tenant relay requests to arbitrary upstream endpoints using pooled account credentials via a path traversal. This vulnerability is fixed in 0.1.169.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73079"
     },
     {
       "id": "CVE-2026-47285",
@@ -15819,36 +16150,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70340"
     },
     {
-      "id": "CVE-2026-72971",
-      "published": "2026-08-11T17:19:15.220",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Improper link resolution before file access ('link following') in Windows Container Isolation FS Filter Driver (unionfs.sys) allows an authorized attacker to perform tampering locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72971"
-    },
-    {
       "id": "CVE-2026-47705",
       "published": "2026-08-11T18:17:27.123",
       "modified": "2026-10-23T19:10:00.167",
@@ -16219,70 +16520,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48447"
     },
     {
-      "id": "CVE-2026-73296",
-      "published": "2026-08-12T17:17:32.780",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Microsoft UFO open-source framework for intelligent automation across devices and platforms. Prior to 3.0.8, create_mobile_data_collection_server and create_mobile_action_server in ufo/client/mcp/http_servers/mobile_mcp_server.py exposed Streamable HTTP MCP services on TCP ports 8020 and 8021 without authentication, allowing an unauthenticated remote attacker to invoke capture_screenshot, get_ui_tree, tap, swipe, type_text, launch_app, press_key, and click_control against an ADB-connected Android device, disclose screen and device data, and modify device state. This issue is fixed in version 3.0.8.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.4,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73296"
-    },
-    {
-      "id": "CVE-2026-73297",
-      "published": "2026-08-12T17:17:32.933",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Microsoft UFO open-source framework for intelligent automation across devices and platforms. Prior to 3.0.8, _is_blocked_ip in ufo/utils/url_security.py did not block NAT64 prefixes 64:ff9b::/96 and 64:ff9b:1::/48, the 6to4 prefix 2002::/16, or the Teredo prefix 2001::/32 and did not re-check embedded IPv4 destinations, allowing an unauthenticated remote attacker who can influence URLs processed by validate_url to bypass the SSRF guard and reach cloud metadata, internal services, or localhost. This issue is fixed in version 3.0.8.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73297"
-    },
-    {
-      "id": "CVE-2026-73298",
-      "published": "2026-08-12T18:18:15.057",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "The Microsoft Container Migration Solution Accelerator is a multi-service application that provides a multi-agent, AI-driven migration solution for moving container service configurations to Azure Kubernetes Service. In version 2.1.2 and earlier, a security vulnerability was identified in the Container Migration Solution Accelerator, specifically an authenticated IDOR (Insecure Direct Object Reference) that allows users to read, write, and delete processes belonging to other authenticated users. The issue affects multiple API endpoints, where ownership checks are missing, enabling unauthorized access and modification of migration data across users within the same organization. The vulnerability is present in both process and file management APIs, and the application relies on Entra ID authentication but lacks proper authorization controls between users. Authenticated users are able to access, modify, and delete processes and files belonging to other users without proper authorization checks.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73298"
-    },
-    {
       "id": "CVE-2026-46731",
       "published": "2026-08-12T20:17:44.170",
       "modified": "2026-10-23T19:10:00.167",
@@ -16407,49 +16644,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63300"
-    },
-    {
-      "id": "CVE-2026-72508",
-      "published": "2026-08-12T20:17:49.650",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "A flaw was found in the multicloud-operators-subscription component of Red Hat Advanced Cluster Management (RHACM). This vulnerability allows a namespace-admin tenant to perform a confused-deputy attack by creating Subscription Custom Resources (CRs) that leverage a highly privileged ServiceAccount (SA). This enables the tenant to deploy arbitrary cluster-scoped resources, leading to privilege escalation and potential arbitrary code execution across the cluster.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72508"
-    },
-    {
-      "id": "CVE-2026-73414",
-      "published": "2026-08-12T20:17:56.510",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Shescape is a simple shell escape library for JavaScript. Prior to 2.1.14 and 3.0.1, getEscapeFunction in src/internal/win/cmd.js does not escape `(` and `)` when applications use the escape or escapeAll APIs on Windows with shell set to cmd.exe, or with shell set to true when CMD is the default. An attacker-controlled argument can break out of a parenthesized CMD construct and inject shell syntax depending on the original command, resulting in arbitrary command execution. This issue is fixed in versions 2.1.14 and 3.0.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73414"
     },
     {
       "id": "CVE-2026-13094",
@@ -16656,127 +16850,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-65370"
-    },
-    {
-      "id": "CVE-2026-73425",
-      "published": "2026-08-12T21:17:41.473",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Astro is a web framework for content-driven websites. Prior to 8.1.2, the Astro Netlify adapter converts each image.remotePatterns entry into a regular expression written to .netlify/v1/config.json under images.remote_images for Netlify's Image CDN allowlist. In packages/integrations/netlify/src/index.ts, remotePatternToRegex() escapes dots in hostname values but interpolates literal pathname values without escaping regular expression metacharacters such as ., +, ?, (, and [, so a restrictive pathname such as /img/v1.0/file also matches metacharacter-adjacent paths, including paths that cross a segment. Netlify enforces the generated regular expression directly and Astro's matchPattern() helper does not revalidate the request, allowing optimization of images on an already-allowed host that the declared pathname was intended to exclude. This issue is fixed in version 8.1.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73425"
-    },
-    {
-      "id": "CVE-2026-73429",
-      "published": "2026-08-12T21:17:41.750",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Russh is a Rust SSH client & server library. Prior to 0.62.4, a malicious SSH server can crash a russh client session with a malformed KEX_ECDH_REPLY containing a server ephemeral value that is not 32 bytes long. The client-side Curve25519Kex::compute_shared_secret function in russh/src/kex/curve25519.rs passes the decoded exchange.server_ephemeral value to clone_from_slice without validating its length, causing a deterministic panic before the server host key is verified. The panic terminates the spawned client session task and surfaces as a JoinError, while the embedding process normally remains running. This issue is fixed in version 0.62.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73429"
-    },
-    {
-      "id": "CVE-2026-73430",
-      "published": "2026-08-12T21:17:41.883",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "Russh is a Rust SSH client & server library. Prior to 0.62.4, an unauthenticated SSH client can cause a denial of service by sending SSH_MSG_KEX_ECDH_INIT with a 32-byte all-zero Q_C value. Curve25519Kex::server_dh in russh/src/kex/curve25519.rs accepts the all-zero peer public value and computes an all-zero shared secret, after which compute_exchange_hash calls encode_mpint in russh/src/kex/mod.rs and indexes beyond the end of the input while skipping leading zero bytes. The resulting panic occurs before authentication and terminates the server key-exchange task. This issue is fixed in version 0.62.4.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73430"
-    },
-    {
-      "id": "CVE-2026-71471",
-      "published": "2026-08-12T22:17:15.890",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "A flaw was found in acm-search-v2-rhel9. An attacker with administrative privileges on the hub cluster, specifically with patch access to the Search Custom Resource (CR), could exploit a vulnerability in the `Collector.ImageOverride` field. This allows the attacker to deploy an arbitrary container image across all managed clusters. The consequence is remote code execution (RCE), enabling the attacker to execute commands and potentially access sensitive information across the entire fleet of managed clusters.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71471"
-    },
-    {
-      "id": "CVE-2026-71846",
-      "published": "2026-08-12T22:17:16.143",
-      "modified": "2026-10-23T19:10:00.167",
-      "description": "A flaw was found in insights-client. The component's ServiceAccount is bound to a ClusterRole granting cluster-wide secrets get, list, and watch permissions, while the code only requires access to a single specific Secret. This excessive privilege means that a compromise of the insights-client pod or ServiceAccount token would grant an attacker read access to all Secrets across the hub cluster, including managed-cluster kubeconfigs and other sensitive credentials.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "insights client",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:insights-client:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71846"
     },
     {
       "id": "CVE-2026-49481",
@@ -34598,72 +34671,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101612"
-    },
-    {
-      "id": "CVE-2026-101611",
-      "published": "2026-10-20T22:18:14.880",
-      "modified": "2026-10-21T18:43:53.023",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: InnoDB).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Difficult to exploit vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.4 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101611"
-    },
-    {
-      "id": "CVE-2026-101610",
-      "published": "2026-10-20T22:18:14.770",
-      "modified": "2026-10-21T18:43:53.023",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Optimizer).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.9 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101610"
-    },
-    {
-      "id": "CVE-2026-101609",
-      "published": "2026-10-20T22:18:14.657",
-      "modified": "2026-10-21T18:43:53.023",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: InnoDB).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Difficult to exploit vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.4 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101609"
     }
   ],
   "kev": [
@@ -36426,11 +36433,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 123,
+    "critical": 124,
     "high": 421,
-    "medium": 373,
+    "medium": 372,
     "kev": 2,
-    "p1": 72,
+    "p1": 73,
     "p2": 472
   }
 }
