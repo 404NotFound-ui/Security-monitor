@@ -1,6 +1,247 @@
 {
-  "updated": "2026-10-27T12:58:12.489059+00:00",
+  "updated": "2026-10-27T13:49:22.459305+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-109619",
+      "published": "2026-10-21T14:17:09.823",
+      "modified": "2026-10-27T13:43:34.837",
+      "description": "PHP has various global state that temporarily points into request memory. In some scenarios, global state may not be correctly reset, or may be repopulated after being reset. The global state may then refer to request memory even after it has been freed. Subsequent requests may read or branch on this stale state before it is fully initialized. Multiple strategies can trigger this condition and produce remote code execution (RCE).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:php:php:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:siemens:ruggedcom_ape1808_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:siemens:ruggedcom_ape1808:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h13:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h14:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h15:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h16:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h17:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h19:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h20:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h22:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h23:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h24:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h32:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h34:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h35:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h36:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h37:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h38:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.9:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h13:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h14:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h17:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h27:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h30:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h31:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h36:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h37:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h39:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h40:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h41:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.11:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.12:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h15:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h16:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h18:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h2:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h21:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h22:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h23:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h24:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h26:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h3:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.14:*:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.15:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h11:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h4:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h7:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h8:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h9:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.17:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:-:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h1:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h10:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h12:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h5:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h6:*:*:*:*:*:*",
+        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h7:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": true,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109619"
+    },
+    {
+      "id": "CVE-2025-13833",
+      "published": "2026-10-26T21:17:01.887",
+      "modified": "2026-10-27T13:16:53.180",
+      "description": "A vulnerability exists in SecureConnector for Windows when the “Additional Appliance Connections” setting is enabled and the agent’s configuration file contains more than three trusted‑server entries. Some entries omit TLS certificate fingerprints, which allows the agent to accept and establish sessions with a malicious server. An attacker who controls the wired or wireless network can redirect traffic to a malicious server. The attacker can then use the agent’s built‑in command/file features to execute arbitrary commands as SYSTEM, granting full administrative control and the ability to disable endpoint protections or exfiltrate data.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13833"
+    },
+    {
+      "id": "CVE-2026-16817",
+      "published": "2026-08-19T15:16:57.687",
+      "modified": "2026-10-27T13:10:00.360",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to cause a denial of service due to a NULL pointer dereference.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:ibm:vios:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:aix:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16817"
+    },
+    {
+      "id": "CVE-2026-16818",
+      "published": "2026-08-19T15:16:57.843",
+      "modified": "2026-10-27T13:10:00.360",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to cause a denial of service due to uncontrolled resource consumption.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:ibm:vios:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:ibm:aix:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-16818"
+    },
+    {
+      "id": "CVE-2026-44829",
+      "published": "2026-08-19T15:17:02.630",
+      "modified": "2026-10-27T13:10:00.360",
+      "description": "Gotenberg is a Docker-powered stateless API for PDF files. In 8.32.0 and earlier, filename handling in pkg/modules/api/context.go uses filepath.Base on Linux, which does not treat backslashes as path separators, so a multipart filename containing Windows-style parent directory components survives sanitization. The original filename flows through ctx.diskToOriginal and the multi-output PDF routes into archives.FilesFromDisk and archives.Zip.Archive as the generated zip entry name. A remote attacker can submit a name such as ........\\Windows\\System32\\evil.pdf through an upload or an upstream downloadFrom Content-Disposition header, and a Windows archive extractor can write the resulting file outside the intended extraction directory. The affected paths include /forms/pdfengines/split and other multi-output PDF, LibreOffice, and conversion routes, and exploitation can cause arbitrary file writes on a downstream Windows system when a user or process extracts the returned archive. This issue is fixed in version 8.33.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44829"
+    },
+    {
+      "id": "CVE-2026-49255",
+      "published": "2026-08-19T15:17:06.893",
+      "modified": "2026-10-27T13:10:00.360",
+      "description": "electerm is an open-sourced terminal/ssh/sftp/telnet/serialport/RDP/VNC/Spice/ftp client. Prior to 3.11.11, electerm constructs operating system commands in src/app/lib/fs.js by interpolating untrusted file paths into the rmrf(), mv(), and cp() functions. A malicious SSH or SFTP server can provide a filename containing quote characters and shell metacharacters, and a victim can cause that filename to reach the affected operation during remote-to-local transfer, conflict renaming, copying, moving, or removal. The generated `rm -rf`, mv, `cp -r`, PowerShell Remove-Item, Move-Item, or Copy-Item command can then interpret the filename as shell syntax. This allows arbitrary command execution with the electerm desktop user's privileges on POSIX and Windows systems, enabling data exfiltration, file modification, malware installation, or denial of service. This issue is fixed in version 3.11.11.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49255"
+    },
     {
       "id": "CVE-2026-63921",
       "published": "2026-07-19T16:17:10.300",
@@ -49311,138 +49552,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44428"
-    },
-    {
-      "id": "CVE-2026-7373",
-      "published": "2026-05-15T03:16:23.270",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Rapid7 Metasploit Pro is vulnerable to a local privilege escalation attack that allows a user to gain SYSTEM level control of a Windows host. When started the metasploitPostgreSQL service would start the postgres.exe child process which would in turn load an OpenSSL configuration file from a static location. This static location would be writable by a pre-existing \"vagrant\" user, if they already existed on the system. Metasploit does not create local accounts, an Administrator would need to create it. By planting a crafted openssl.cnf file an attacker can trick the high-privilege service into executing arbitrary commands. This effectively permits the unprivileged vagrant user to bypass security controls and achieve a full host compromise under the agent's SYSTEM level access.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:L/SC:H/SI:H/SA:H/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7373"
-    },
-    {
-      "id": "CVE-2026-8398",
-      "published": "2026-05-15T09:16:17.653",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "A supply chain attack compromised the official installation packages of DAEMON Tools Lite (Windows versions 12.5.0.2421 through 12.5.0.2434), distributed from the legitimate website daemon-tools.cc between approximately April 8, 2026, and May 5, 2026. Attackers gained unauthorized access to the vendor's (AVB Disc Soft) build or distribution infrastructure and trojanized three binaries: DTHelper.exe, DiscSoftBusServiceLite.exe, and DTShellHlp.exe. These files were digitally signed with the legitimate AVB Disc Soft code-signing certificate, allowing the malicious installers to appear trustworthy and bypass signature-based detection.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:disc-soft:daemon_tools:12.5.1:*:*:*:lite:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": true,
-      "signals": [],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8398"
-    },
-    {
-      "id": "CVE-2026-44641",
-      "published": "2026-05-15T17:16:47.633",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Microsoft APM is an open-source, community-driven dependency manager for AI agents. Prior to 0.8.12, Microsoft APM normalizes marketplace plugins by copying plugin components referenced in plugin.json into .apm/. The manifest fields agents, skills, commands, and hooks are attacker-controlled, but the implementation does not enforce that those paths remain inside the plugin directory. A malicious plugin can therefore use absolute paths or ../ traversal paths to copy arbitrary readable host files or directories from the installer's machine during apm install. This vulnerability is fixed in 0.8.12.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44641"
-    },
-    {
-      "id": "CVE-2026-45539",
-      "published": "2026-05-15T17:16:48.887",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Microsoft APM is an open-source, community-driven dependency manager for AI agents. From 0.5.4 to 0.12.4, two primitive integrators in apm-cli enumerate package files with bare Path.glob() / Path.rglob() calls and read each match with Path.read_text(), transparently following symbolic links. A symlink committed inside a remote APM dependency under .apm/prompts/<x>.prompt.md or .apm/agents/<x>.agent.md is preserved verbatim into apm_modules/ on clone and then dereferenced during integration, with the resolved content written as a regular file into the project's deploy directories. The package content_hash, the pre-deploy SecurityGate scan, and apm audit do not flag this. The deploy roots are not added to the auto-generated .gitignore, so the resulting files are staged by git add by default. This vulnerability is fixed in 0.13.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45539"
-    },
-    {
-      "id": "CVE-2026-46383",
-      "published": "2026-05-15T17:16:49.090",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Microsoft APM is an open-source, community-driven dependency manager for AI agents. Prior to 0.13.0, Microsoft APM contains a Windows-specific archive extraction boundary failure in the legacy-bundle probe used by apm install <bundle> on supported Python 3.10 and 3.11 runtimes. When apm install is given a local .tar.gz that is not recognized as a plugin-format bundle, APM probes whether it is a legacy --format apm bundle. On Python versions earlier than 3.12, that probe extracts untrusted tar members with raw tar.extractall() without rejecting Windows absolute member names such as D:/.... This vulnerability is fixed in 0.13.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46383"
-    },
-    {
-      "id": "CVE-2026-46359",
-      "published": "2026-05-15T19:17:03.120",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "phpMyFAQ before 4.1.2 contains a sql injection vulnerability in CurrentUser::setTokenData that allows authenticated attackers to execute arbitrary SQL by injecting malicious OAuth token claims. Attackers with Azure AD accounts containing SQL metacharacters in display names or JWT claims can break out of string literals and execute arbitrary database queries.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46359"
     }
   ],
   "kev": [
@@ -51208,10 +51317,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 73,
-    "high": 528,
-    "medium": 333,
+    "high": 529,
+    "medium": 332,
     "kev": 9,
     "p1": 60,
-    "p2": 543
+    "p2": 544
   }
 }
