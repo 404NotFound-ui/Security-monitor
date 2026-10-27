@@ -1,6 +1,239 @@
 {
-  "updated": "2026-10-27T13:49:22.459305+00:00",
+  "updated": "2026-10-27T14:42:42.502453+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-96644",
+      "published": "2026-10-21T21:20:32.943",
+      "modified": "2026-10-27T14:27:15.280",
+      "description": "Pillow is a Python imaging library. Prior to 13.0.0 on Windows, src/PIL/WmfImagePlugin.py passes unchecked 32-bit WMF or EMF dimensions to the native drawwmf handler in src/display.c. The handler sizes a DIB allocation from 16-bit-truncated bcWidth and bcHeight fields but copies pixel data using the original full dimensions. A crafted wide, short metafile can pass the pixel-count decompression-bomb check and make the Windows-only renderer read beyond the heap buffer, potentially disclosing memory or crashing the process. This issue is fixed in version 13.0.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:python:pillow:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96644"
+    },
+    {
+      "id": "CVE-2026-83387",
+      "published": "2026-10-20T22:19:55.067",
+      "modified": "2026-10-27T14:17:03.573",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JDBC).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27;    Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1;   Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 5.9 (Confidentiality impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83387"
+    },
+    {
+      "id": "CVE-2026-83381",
+      "published": "2026-10-20T22:19:54.400",
+      "modified": "2026-10-27T14:17:02.893",
+      "description": "Vulnerability in Oracle Java SE (component: Security).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27; Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1; Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE.  Successful attacks of this vulnerability can result in  unauthorized update, insert or delete access to some of Oracle Java SE accessible data as well as  unauthorized read access to a subset of Oracle Java SE accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 4.8 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83381"
+    },
+    {
+      "id": "CVE-2026-83380",
+      "published": "2026-10-20T22:19:54.270",
+      "modified": "2026-10-27T14:17:02.777",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JAAS).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27;    Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1;   Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Easily exploitable vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized read access to a subset of Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 5.3 (Confidentiality impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83380"
+    },
+    {
+      "id": "CVE-2026-83378",
+      "published": "2026-10-20T22:19:54.040",
+      "modified": "2026-10-27T14:17:02.660",
+      "description": "Vulnerability in Oracle Java SE (component: Compiler).  Supported versions that are affected are Oracle Java SE: 21.0.12.1, 25.0.4.1 and  27. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE.  Successful attacks of this vulnerability can result in  unauthorized update, insert or delete access to some of Oracle Java SE accessible data as well as  unauthorized read access to a subset of Oracle Java SE accessible data. Note: This vulnerability can only be exploited by supplying data to APIs in the specified Component without using Untrusted Java Web Start applications or Untrusted Java applets, such as through a web service. CVSS 3.1 Base Score 4.8 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83378"
+    },
+    {
+      "id": "CVE-2026-83376",
+      "published": "2026-10-20T22:19:53.810",
+      "modified": "2026-10-27T14:17:02.430",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JSSE).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27; Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1; Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via TLS to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized update, insert or delete access to some of Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 3.7 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83376"
+    },
+    {
+      "id": "CVE-2026-83374",
+      "published": "2026-10-20T22:19:53.573",
+      "modified": "2026-10-27T14:17:02.197",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: Security).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27;    Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1;   Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 5.9 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83374"
+    },
+    {
+      "id": "CVE-2026-117553",
+      "published": "2026-10-27T14:16:35.840",
+      "modified": "2026-10-27T14:16:35.840",
+      "description": "Umbraco CMS before 17.7.2 and 18.2.2 contains an authentication bypass vulnerability that allows unauthenticated attackers to register attacker-controlled OAuth redirect URIs by poisoning the Host header. Attackers send signed-in users authorization links using response_mode=form_post to capture codes, then redeem them via HTTP Basic client credentials to hijack back-office sessions and execute code through Razor templates.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-117553"
+    },
+    {
+      "id": "CVE-2026-113728",
+      "published": "2026-10-20T22:19:29.740",
+      "modified": "2026-10-27T14:16:33.533",
+      "description": "Bulwark Webmail is a self-hosted webmail client for Stalwart Mail Server. Prior to 1.9.2, the unauthenticated POST /api/fetch-ical endpoint validates a caller-supplied hostname with one DNS lookup and then passes the URL to fetch, which performs a separate lookup for the socket connection. An attacker controlling authoritative DNS can return a public address during validation and then rebind the hostname to a loopback, private, link-local, or cloud metadata address for the connection, causing the server to return up to 10 MB of an internal HTTP or HTTPS response. The same check-then-fetch pattern also existed in authenticated JMAP login and TOTP token-exchange flows. This issue is fixed in version 1.9.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113728"
+    },
+    {
+      "id": "CVE-2026-102231",
+      "published": "2026-10-13T19:17:48.690",
+      "modified": "2026-10-27T14:05:03.080",
+      "description": "Improper resolution of path equivalence in Visual Studio Code allows an unauthorized attacker to bypass a security feature locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio code",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_code:*:*:*:*:*:-:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:visual_studio_code:*:*:*:*:*:-:*:*"
+      ],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102231"
+    },
     {
       "id": "CVE-2026-109619",
       "published": "2026-10-21T14:17:09.823",
@@ -49246,312 +49479,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8561"
-    },
-    {
-      "id": "CVE-2026-8562",
-      "published": "2026-05-14T20:17:18.317",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Side-channel information leakage in Navigation in Google Chrome prior to 148.0.7778.168 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8562"
-    },
-    {
-      "id": "CVE-2026-8564",
-      "published": "2026-05-14T20:17:18.550",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Incorrect security UI in Downloads in Google Chrome on Android and Mac prior to 148.0.7778.168 allowed a remote attacker to perform UI spoofing via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:google:android:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8564"
-    },
-    {
-      "id": "CVE-2026-8567",
-      "published": "2026-05-14T20:17:18.900",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Integer overflow in ANGLE in Google Chrome on Windows prior to 148.0.7778.168 allowed a remote attacker to perform an out of bounds memory write via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8567"
-    },
-    {
-      "id": "CVE-2026-8569",
-      "published": "2026-05-14T20:17:19.127",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Out of bounds write in Codecs in Google Chrome on Mac prior to 148.0.7778.168 allowed a remote attacker to potentially perform a sandbox escape via a crafted video file. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8569"
-    },
-    {
-      "id": "CVE-2026-8573",
-      "published": "2026-05-14T20:17:19.610",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Integer overflow in Codecs in Google Chrome on Windows prior to 148.0.7778.168 allowed a remote attacker to potentially perform a sandbox escape via a crafted video file. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8573"
-    },
-    {
-      "id": "CVE-2026-8574",
-      "published": "2026-05-14T20:17:19.727",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Use after free in Core in Google Chrome on Windows prior to 148.0.7778.168 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8574"
-    },
-    {
-      "id": "CVE-2026-8585",
-      "published": "2026-05-14T20:17:20.900",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Inappropriate implementation in Media in Google Chrome on iOS prior to 148.0.7778.168 allowed a remote attacker who had compromised the renderer process to perform an out of bounds memory read via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8585"
-    },
-    {
-      "id": "CVE-2026-8587",
-      "published": "2026-05-14T20:17:21.083",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "Use after free in Extensions in Google Chrome on Mac prior to 148.0.7778.168 allowed an attacker who convinced a user to install a malicious extension to execute arbitrary code via a crafted Chrome Extension. (Chromium security severity: Medium)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-8587"
-    },
-    {
-      "id": "CVE-2026-45369",
-      "published": "2026-05-14T21:16:48.220",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "python-utcp is the python implementation of UTCP. Prior to 1.1.3, the _substitute_utcp_args method in cli_communication_protocol.py inserts user-controlled tool_args values directly into shell command strings without any sanitization or escaping. These commands are then executed via /bin/bash -c (Unix) or powershell.exe -Command (Windows), allowing an attacker to inject arbitrary shell commands. This vulnerability is fixed in 1.1.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45369"
-    },
-    {
-      "id": "CVE-2026-44428",
-      "published": "2026-05-14T22:16:44.593",
-      "modified": "2026-10-26T14:10:00.130",
-      "description": "The MCP Registry provides MCP clients with a list of MCP servers, like an app store for MCP servers. Prior to 1.7.6, the client-side and server-side GitHub OIDC flow is bound only to a global audience string, not to the specific registry instance being targeted. On the client side, the publisher always appends audience=mcp-registry when requesting the GitHub Actions ID token, regardless of the selected --registry URL. On the server side, the exchange endpoint validates only that same fixed audience and then derives publish permissions directly from repository_owner. As a result, a token legitimately obtained while interacting with one registry deployment remains acceptable to any other deployment that shares the same code and audience string. This vulnerability is fixed in 1.7.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:lfprojects:mcp_registry:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 2.1,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-44428"
     }
   ],
   "kev": [
@@ -51317,10 +51244,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 73,
-    "high": 529,
-    "medium": 332,
+    "high": 527,
+    "medium": 334,
     "kev": 9,
     "p1": 60,
-    "p2": 544
+    "p2": 542
   }
 }
