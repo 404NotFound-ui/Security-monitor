@@ -1,6 +1,26 @@
 {
-  "updated": "2026-10-28T07:33:18.718892+00:00",
+  "updated": "2026-10-28T08:29:12.645831+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-101935",
+      "published": "2026-10-28T08:16:29.567",
+      "modified": "2026-10-28T08:16:29.567",
+      "description": "The Echo Knowledge Base – Documentation, FAQs, Chat & Smart Search plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'new_kb_config' parameter (specifically the article-mobile-break-point-v2 key, among other config keys interpolated into the <style> element) in versions up to, and including, 17.214.0 This is due to insufficient input sanitization and output escaping in EPKB_Frontend_Editor::fe_preview_config() and EPKB_Articles_Setup: on every knowledge base article page view, when the request supplies epkb_fe_reload_mode=on, an attacker-controlled JSON blob is merged over the stored KB configuration and several values are concatenated directly into a stylesheet emitted inside a literal <style> element without escaping (minify_css() does not strip <, > or /). This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user (with Editor-level access or above, holding the manage_categories capability, or an Administrator) into performing an action such as clicking on a specially crafted link.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101935"
+    },
     {
       "id": "CVE-2026-109619",
       "published": "2026-10-21T14:17:09.823",
@@ -42425,47 +42445,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7904"
-    },
-    {
-      "id": "CVE-2026-7906",
-      "published": "2026-05-06T19:16:38.900",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Use after free in SVG in Google Chrome prior to 148.0.7778.96 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7906"
     }
   ],
   "kev": [
@@ -44233,10 +44212,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 62,
-    "high": 376,
-    "medium": 217,
+    "high": 375,
+    "medium": 218,
     "kev": 8,
     "p1": 48,
-    "p2": 392
+    "p2": 391
   }
 }
