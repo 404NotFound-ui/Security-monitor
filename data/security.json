@@ -1,6 +1,402 @@
 {
-  "updated": "2026-10-28T11:12:33.218223+00:00",
+  "updated": "2026-10-28T11:56:51.221888+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-99204",
+      "published": "2026-10-28T11:17:41.633",
+      "modified": "2026-10-28T11:17:41.633",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nocfs2/dlm: Protect the recovery list during debugfs reads\n\nRecovery participant records must remain alive while debug_state_print()\nwalks reco.node_data and formats their fields. The formatter holds\ndlm->spinlock, but the recovery participant list is protected by\ndlm_reco_state_lock. In particular, dlm_destroy_recovery_area() detaches\nthe list under dlm_reco_state_lock and frees the detached records after\nreleasing it. A concurrent debugfs open can therefore read freed memory.\n\nProtect the participant traversal and field reads in debug_state_print()\nwith dlm_reco_state_lock, matching the existing list writers. This also\nserializes the traversal against list_add_tail() during recovery-area\ninitialization. Make the existing lock available to the debug code\nthrough dlmcommon.h; the lock remains internal to the OCFS2 DLM module.\n\nRelease dlm->spinlock after formatting the other domain state and before\nacquiring dlm_reco_state_lock, so the debug reader does not nest the two\nlocks. Leave recovery list insertion, detachment and freeing unchanged.\n\nKASAN report as below:\n\n    BUG: KASAN: slab-use-after-free in debug_state_open+0x1169/0x12d0\n    Read of size 4 at addr ffff88810662ef80 by task dlm-state-stres/896\n\n    CPU: 1 UID: 0 PID: 896 Comm: dlm-state-stres Not tainted 7.3.0-rc4-next-20260921-pmb-ocfs2-functional-v1+ #1 PREEMPT(lazy)\n    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n    Call Trace:\n     <TASK>\n     dump_stack_lvl+0x93/0xd0\n     print_report+0xce/0x630\n     ? debug_state_open+0x1169/0x12d0\n     ? srso_alias_return_thunk+0x5/0xfbef5\n     ? __virt_addr_valid+0x20e/0x420\n     ? debug_state_open+0x1169/0x12d0\n     kasan_report+0xe0/0x110\n     ? debug_state_open+0x1169/0x12d0\n     debug_state_open+0x1169/0x12d0\n     ? __pfx_debug_state_open+0x10/0x10\n     full_proxy_open_regular+0x193/0x310\n     do_dentry_open+0x595/0x12d0\n     ? __pfx_full_proxy_open_regular+0x10/0x10\n     vfs_open_consume+0xd1/0x400\n     ? srso_alias_return_thunk+0x5/0xfbef5\n     path_openat+0x18d0/0x2020\n     ? __pfx_path_openat+0x10/0x10\n     do_file_open+0x21e/0x470\n     ? __pfx_do_file_open+0x10/0x10\n     ? _raw_spin_unlock+0x23/0x40\n     ? srso_alias_return_thunk+0x5/0xfbef5\n     ? alloc_fd+0x3a6/0x6b0\n     do_sys_openat2+0xf4/0x1b0\n     ? __pfx_do_sys_openat2+0x10/0x10\n     ? srso_alias_return_thunk+0x5/0xfbef5\n     ? __fput+0x5b5/0xa60\n     __x64_sys_openat+0x136/0x1e0\n     ? __pfx___x64_sys_openat+0x10/0x10\n     do_syscall_64+0x114/0x620\n     entry_SYSCALL_64_after_hwframe+0x77/0x7f\n    [Register dump omitted.]\n     </TASK>\n\n    Allocated by task 880:\n     kasan_save_stack+0x33/0x60\n     kasan_save_track+0x14/0x30\n     __kasan_kmalloc+0xaa/0xb0\n     __kmalloc_cache_noprof+0x28d/0x610\n     dlm_remaster_locks+0x147/0x1d90\n     dlm_do_recovery+0xde1/0x1580\n     dlm_recovery_thread+0x109/0x300\n     kthread+0x351/0x460\n     ret_from_fork+0x659/0x940\n     ret_from_fork_asm+0x1a/0x30\n\n    Freed by task 880:\n     kasan_save_stack+0x33/0x60\n     kasan_save_track+0x14/0x30\n     kasan_save_free_info+0x3b/0x60\n     __kasan_slab_free+0x5f/0x80\n     kfree+0x308/0x580\n     dlm_destroy_recovery_area+0x285/0x460\n     dlm_remaster_locks+0x17c4/0x1d90\n     dlm_do_recovery+0xde1/0x1580\n     dlm_recovery_thread+0x109/0x300\n     kthread+0x351/0x460\n     ret_from_fork+0x659/0x940\n     ret_from_fork_asm+0x1a/0x30\n\n    The buggy address belongs to the object at ffff88810662ef80\n     which belongs to the cache kmalloc-32 of size 32\n    The buggy address is located 0 bytes inside of\n     freed 32-byte region [ffff88810662ef80, ffff88810662efa0)\n\n    [Page and memory-state dumps omitted.]",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99204"
+    },
+    {
+      "id": "CVE-2026-99188",
+      "published": "2026-10-28T11:17:39.727",
+      "modified": "2026-10-28T11:17:39.727",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: stmmac: dwmac1000: clear the RGMII status interrupt\n\nSince commit 2e2c878a3141 (\"net: stmmac: remove SGMII/RGMII/SMII\ninterrupt handling\") nothing on the RGMII path reads GMAC_RGSMIIIS, so\nRGSMIIIS stays pending behind GMAC_INT_MASK from the first link change\non. stmmac_resume() resets the MAC in stmmac_hw_setup(); the reset sets\nGMAC_INT_MASK to 0 until dwmac1000_core_init() writes the mask again,\nand the pending status storms the line:\n\n  dwmac_dma_interrupt: unexpected status 04000000\n\nA register dump at the first message on ODROID-HC4 showed it:\n\n  core int_status 00000001 int_mask 00000000 pmt 00000000 rgsmiiis 0000000d\n\nWhen the resume thread runs on the CPU that takes the MAC interrupt,\nthe storm starves it: a soft lockup, then a watchdog reset or a hang.\n\nRead GMAC_RGSMIIIS in dwmac1000_irq_status() when the status is not\nmasked, as the driver did before 2e2c878a3141; the read clears it.\n\nWake-on-LAN resume from s2idle with the resume thread and the MAC\ninterrupt on one CPU: Helios64 (dwmac-rk), 7.3-rc6, soft-locked in 3 of\n3 resumes without a fix and in 0 of 10 with this patch; it ran with an\nout-of-tree dwmac-rk change that keeps the GMAC powered across suspend.\nODROID-HC4 (dwmac-meson8b): 0 of 10 with this patch, 2 of 2 without a\nfix on a 7.3-rc5 build. irq_rgmii_n went up by one per resume.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99188"
+    },
+    {
+      "id": "CVE-2026-99176",
+      "published": "2026-10-28T11:17:38.270",
+      "modified": "2026-10-28T11:17:38.270",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: nVMX: Reset MMU back to the root MMU if loading L2 state fails for !VM-Entry\n\nReset the vCPU's MMU pointer back to the root MMU if loading L2 state fails\nin the \"not from VM-Entry\" case, i.e. when emulating RSM or handling\nKVM_SET_NESTED_STATE.  Failure to unwind the MMU pointer results in KVM\ntrying to run L1 with a nested MMU, and is especially problematic if the\nvCPU manages to free its nested state before the VM crashes.  Constructing\nthe root for a nested EPT MMU goes through vmcs12, which is dynamically\nallocated/freed when nVMX is enabled/disabled.  And so if the nested state\nis freed with the MMU still pointing at the nested MMU, KVM will hit a NULL\npointer deref when attempting to get L1=>L2 EPTP.\n\n  BUG: kernel NULL pointer dereference, address: 0000000000000078\n  #PF: supervisor read access in kernel mode\n  #PF: error_code(0x0000) - not-present page\n  PGD 114a2d067 P4D 111743067 PUD 11141f067 PMD 0\n  Oops: Oops: 0000 [#1] SMP\n  CPU: 20 UID: 1000 PID: 1272 Comm: nested_tdp_faul Not tainted 7.3.0-rc4-8c89f11d1a99b-sink-vm #1914 PREEMPTLAZY\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015\n  RIP: 0010:nested_ept_get_eptp+0xb/0x10 [kvm_intel]\n  Call Trace:\n   <TASK>\n   kvm_mmu_load+0xcd/0x870 [kvm]\n   kvm_arch_vcpu_ioctl_run+0x18f5/0x1f80 [kvm]\n   kvm_vcpu_ioctl+0x2c7/0x970 [kvm]\n   __x64_sys_ioctl+0x90/0xd0\n   do_syscall_64+0x9c/0x4d0\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x47491b\n   </TASK>\n  Modules linked in: kvm_intel kvm irqbypass\n  CR2: 0000000000000078\n  ---[ end trace 0000000000000000 ]---\n  RIP: 0010:nested_ept_get_eptp+0xb/0x10 [kvm_intel]\n\n[sean: write changelog]",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99176"
+    },
+    {
+      "id": "CVE-2026-99153",
+      "published": "2026-10-28T11:17:35.443",
+      "modified": "2026-10-28T11:17:35.443",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nscsi: libiscsi: Validate the ITT reflected in a Reject PDU\n\nA Reject PDU carries a copy of the header it rejects, and\niscsi_handle_reject() takes the ITT out of that copy to find the task to\nclean up:\n\n      memcpy(&rejected_pdu, data, sizeof(struct iscsi_hdr));\n      ...\n      task = iscsi_itt_to_task(conn, rejected_pdu.itt);\n\nThat value is whatever the target put there. iscsi_itt_to_task() bounds\nthe index against cmds_max and checks nothing else, so any task in the\npool can be named, and iscsi_nop_out_rsp() then completes it.\n\nAn index that has never been used gives a NULL task->conn: the pool is\nzeroed at session setup and conn is assigned only when a task is\nallocated. If the task was used and returned, iscsi_complete_task() hits\nits WARN_ON_ONCE(task->state == ISCSI_TASK_FREE) and the refcount\nunderflows. An in-flight SCSI command is completed as successful - a 1\nMiB read returned 1048576 with none of its buffer written and no\nwarning.\n\nValidate the reflected ITT the way iscsi_itt_to_ctask() validates a\ncommand ITT, and require the task to be in flight and not a SCSI\ncommand.\n\n[    6.248477] Oops: general protection fault, probably for non-canonical address 0xdffffc000000000c: 0000 [#1] SMP KASAN NOPTI\n[    6.249357] KASAN: null-ptr-deref in range [0x0000000000000060-0x0000000000000067]\n[    6.249951] CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 7.2.0-rc5-ISCSI1-gf5098b6bae76 #1 PREEMPT(lazy)\n[    6.250718] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[    6.251616] RIP: 0010:iscsi_nop_out_rsp.constprop.0+0x46/0x160\n[    6.252043] Code: c1 ea 03 48 83 ec 08 80 3c 02 00 0f 85 f5 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 58 48 8d 7d 60 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 00 00 00 48 8b 45 60 48 39 c3 74 50 48 b8 00\n[    6.252813] RSP: 0018:ffff88806c907b80 EFLAGS: 00010206\n[    6.253042] RAX: dffffc0000000000 RBX: ffff88800607e000 RCX: ffffffff8d571a25\n[    6.253345] RDX: 000000000000000c RSI: ffff88806c907c38 RDI: 0000000000000060\n[    6.253642] RBP: 0000000000000000 R08: 0000000000000000 R09: fffffbfff235a504\n[    6.253947] R10: 0000000000000003 R11: 7463656e6e6f6320 R12: 0000000000000000\n[    6.254251] R13: 0000000000000000 R14: ffff88806c907c38 R15: 0000000000000000\n[    6.254549] FS:  0000000000000000(0000) GS:ffff8880d95bc000(0000) knlGS:0000000000000000\n[    6.254887] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[    6.255140] CR2: 00007fc393e8ffc0 CR3: 0000000005252006 CR4: 0000000000770ef0\n[    6.255439] PKRU: 55555554\n[    6.255564] Call Trace:\n[    6.255674]  <IRQ>\n[    6.255768]  __iscsi_complete_pdu+0x18bf/0x22a0\n[    6.256733]  iscsi_complete_pdu+0x54/0xa0\n[    6.256905]  iscsi_tcp_data_recv_done+0xf4/0x250\n[    6.257103]  iscsi_tcp_recv_skb+0x31e/0xec0\n[    6.257680]  iscsi_sw_tcp_recv+0x12f/0x390\n[    6.258061]  __tcp_read_sock+0x1ab/0x810\n[    6.258853]  iscsi_sw_tcp_data_ready+0x18b/0x510\n[    6.259808]  tcp_data_queue+0x1f13/0x4cd0\n[    6.260567]  tcp_rcv_established+0x8a5/0x3a00\n[    6.261931]  tcp_v4_do_rcv+0x449/0x960\n[    6.262269]  tcp_v4_rcv+0x2245/0x3bc0",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99153"
+    },
+    {
+      "id": "CVE-2026-99152",
+      "published": "2026-10-28T11:17:35.317",
+      "modified": "2026-10-28T11:17:35.317",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nscsi: libiscsi: Validate the task named by a management response\n\n__iscsi_complete_pdu() fetches the task for five response types from one\nplace and checks only that the index resolved:\n\n      case ISCSI_OP_LOGOUT_RSP:\n      case ISCSI_OP_LOGIN_RSP:\n      case ISCSI_OP_TEXT_RSP:\n      case ISCSI_OP_SCSI_TMFUNC_RSP:\n      case ISCSI_OP_NOOP_IN:\n              task = iscsi_itt_to_task(conn, hdr->itt);\n              if (!task)\n                      return ISCSI_ERR_BAD_ITT;\n\niscsi_itt_to_task() bounds the index against cmds_max and looks at\nnothing else, so a target can name any slot in the pool, including one\nthat has never been used. task->conn is then NULL, and both\niscsi_nop_out_rsp() and iscsi_complete_task() dereference it. One\nunsolicited NOP-In is enough; a Text Response carrying the same ITT\ncrashes in iscsi_complete_task() instead.\n\nRequire the task to be in flight and not a SCSI command, the way\niscsi_itt_to_ctask() does for the command opcodes.\n\n[    6.298634] Oops: general protection fault, probably for non-canonical address 0xdffffc000000000c: 0000 [#1] SMP KASAN NOPTI\n[    6.298642] KASAN: null-ptr-deref in range [0x0000000000000060-0x0000000000000067]\n[    6.298652] CPU: 1 UID: 0 PID: 111 Comm: iscsistart Not tainted 7.2.0-rc5-ISCSI1-gf5098b6bae76 #1 PREEMPT(lazy)\n[    6.298654] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\n[    6.298656] RIP: 0010:iscsi_nop_out_rsp.constprop.0+0x46/0x160\n[    6.298691] Code: c1 ea 03 48 83 ec 08 80 3c 02 00 0f 85 f5 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 6b 58 48 8d 7d 60 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 c0 00 00 00 48 8b 45 60 48 39 c3 74 50 48 b8 00\n[    6.298698] RSP: 0018:ffff88806c907be8 EFLAGS: 00010206\n[    6.298701] RAX: dffffc0000000000 RBX: ffff888006116800 RCX: 0000000000000020\n[    6.298702] RDX: 000000000000000c RSI: ffff88800525d578 RDI: 0000000000000060\n[    6.298703] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000\n[    6.298706] R10: 0000000000000020 R11: 0000000000000000 R12: 0000000000000000\n[    6.298706] R13: 000000000000002e R14: ffff8880056eb440 R15: ffff888006116800\n[    6.298707] FS:  00007fc02d1c2740(0000) GS:ffff8880b29bc000(0000) knlGS:0000000000000000\n[    6.298710] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[    6.298711] CR2: 000055fe3b56ddf8 CR3: 00000000053b9004 CR4: 0000000000770ef0\n[    6.298712] PKRU: 55555554\n[    6.298713] Call Trace:\n[    6.298714]  <IRQ>\n[    6.298714]  __iscsi_complete_pdu+0x13a8/0x22a0\n[    6.298758]  iscsi_complete_pdu+0x54/0xa0\n[    6.298759]  iscsi_tcp_hdr_recv_done+0x870/0x2c80\n[    6.298778]  iscsi_tcp_recv_skb+0x31e/0xec0\n[    6.298800]  iscsi_sw_tcp_recv+0x12f/0x390\n[    6.298804]  __tcp_read_sock+0x1ab/0x810\n[    6.298812]  iscsi_sw_tcp_data_ready+0x18b/0x510\n[    6.298814]  tcp_rcv_established+0x1f56/0x3a00\n[    6.298842]  tcp_v4_do_rcv+0x449/0x960\n[    6.298847]  tcp_v4_rcv+0x2245/0x3bc0",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99152"
+    },
+    {
+      "id": "CVE-2026-99120",
+      "published": "2026-10-28T11:17:31.613",
+      "modified": "2026-10-28T11:17:31.613",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86/mmu: Cope with the SS bit being set in #NPF exit codes\n\nWhen running Hyper-V from Windows 11, KVM is seeing the SS bit set\nin nested page fault error codes produced for shadowed NPT.  The AMD\nmanual is unclear about when SS is set, including whether it can be set\nwhen SupervisorShadowStackEn (bit 6) is not set in the MISC_CTL field\nof the VMCB.\n\nNevertheless, the unexpected SS bit causes out of bounds accesses in\npermission_fault(), seen as either WARNs or UBSAN reports:\n\n  kernel: UBSAN: array-index-out-of-bounds in arch/x86/kvm/mmu.h:225:27\n  kernel: index 34 is out of range for type 'u16 [16]'\n\n(in this case, the page fault error code is 34*2=0x44, i.e. SS|U; the\nreport shows SS|U|W happening as well).  Fix the handling of unknown\nerror codes by dropping SS and (with a WARN) any bits not among those\nthat permission_fault() expects to receive.\n\nAt the same time, given the uncertainty about when hardware sets SS,\nfollow the processor's behavior when constructing the fault's error\ncode, and preserve the SS bit as passed to FNAME(walk_addr_generic).\nWhile the behavior is surprising, there's a possibility that Hyper-V\nexpects it (Hyper-V does not even enable CET unless it finds MBEC/GMET!),\nso retain the information when reflecting the fault to L1 instead of\nunconditionally discarding it.\n\nBisection shows that this started happening with commit 687ee95c1b6d (\"KVM:\nnSVM: enable GMET for guests\"), even though SHSTK was available to guests\nsince Linux 6.18.  However, this is not because bit 1 of MISC_CTL (GMET)\nsomehow enables reporting the SS bit; rather, it's simply that Hyper-V\nnever uses CET unless GMET is also present.  The WARN is reproducible\neven with gmet=0, with some hacking of kvm-unit-tests's cet.c testcase\nto ensure that the first access to the shadow stack triggers a page fault.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99120"
+    },
+    {
+      "id": "CVE-2026-99103",
+      "published": "2026-10-28T11:17:29.593",
+      "modified": "2026-10-28T11:17:29.593",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nworkqueue: Fix unbound pool lifetime for pending pwqs\n\nKASAN reports a use-after-free of an unbound worker_pool in\nnode_activate_pending_pwq():\n\n  BUG: KASAN: slab-use-after-free in _raw_spin_trylock+0x6d/0x120\n  Read of size 4 at addr ffff8880089ce000 by task kworker/u22:0/318\n\n  CPU: 1 UID: 0 PID: 318 Comm: kworker/u22:0 Not tainted 7.2.0 #1 PREEMPT(lazy)\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014\n  Workqueue:  0x0 (flush-8:0)\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x53/0x70\n   print_report+0xce/0x610\n   kasan_report+0xce/0x100\n   _raw_spin_trylock+0x6d/0x120\n   pwq_dec_nr_in_flight+0x4b4/0xcb0\n   process_one_work+0x921/0x11a0\n   worker_thread+0x4d0/0xd20\n   kthread+0x2de/0x3c0\n   ret_from_fork+0x3aa/0x620\n   ret_from_fork_asm+0x1a/0x30\n   </TASK>\n\n  Allocated by task 311:\n   alloc_pwq+0x439/0xca0\n   apply_wqattrs_prepare+0x75e/0xd10\n   apply_workqueue_attrs_locked+0x44/0xa0\n   wq_nice_store+0x350/0x450\n\n  Freed by task 0:\n   kfree+0x127/0x3b0\n   rcu_core+0x523/0x1780\n   handle_softirqs+0x1b3/0x610\n\n  Last potentially related work creation:\n   put_unbound_pool+0x3f3/0x7d0\n   pwq_release_workfn+0x494/0x8e0\n   kthread_worker_fn+0x1ff/0x790\n\nCanceling the last inactive work skips pwq_dec_nr_active(), so an empty\npwq can remain on pending_pwqs when its refcnt reaches zero.\npwq_release_workfn() currently puts the pool before removing that pwq.\nIf this drops the last pool reference, the pool can be RCU-freed while\nthe pwq remains reachable, and node_activate_pending_pwq() may trylock\nthe freed pool->lock.\n\nRemove the pwq from pending_pwqs before putting the pool.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99103"
+    },
+    {
+      "id": "CVE-2026-87880",
+      "published": "2026-10-28T11:17:28.257",
+      "modified": "2026-10-28T11:17:28.257",
+      "description": "Sensitive information disclosure due to missing SSL certificate verification affecting one component. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.0/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87880"
+    },
+    {
+      "id": "CVE-2026-87879",
+      "published": "2026-10-28T11:17:28.137",
+      "modified": "2026-10-28T11:17:28.137",
+      "description": "Sensitive information disclosure due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87879"
+    },
+    {
+      "id": "CVE-2026-87103",
+      "published": "2026-10-28T11:17:27.897",
+      "modified": "2026-10-28T11:17:27.897",
+      "description": "Sensitive information disclosure and manipulation due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87103"
+    },
+    {
+      "id": "CVE-2026-87102",
+      "published": "2026-10-28T11:17:27.770",
+      "modified": "2026-10-28T11:17:27.770",
+      "description": "Sensitive information disclosure and manipulation due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87102"
+    },
+    {
+      "id": "CVE-2026-87101",
+      "published": "2026-10-28T11:17:27.647",
+      "modified": "2026-10-28T11:17:27.647",
+      "description": "Sensitive information disclosure due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87101"
+    },
+    {
+      "id": "CVE-2026-87099",
+      "published": "2026-10-28T11:17:27.380",
+      "modified": "2026-10-28T11:17:27.380",
+      "description": "Cross-site scripting (XSS) vulnerability due to improper input validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87099"
+    },
+    {
+      "id": "CVE-2026-87098",
+      "published": "2026-10-28T11:17:27.253",
+      "modified": "2026-10-28T11:17:27.253",
+      "description": "Sensitive information disclosure due to improper authorization. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87098"
+    },
+    {
+      "id": "CVE-2026-87097",
+      "published": "2026-10-28T11:17:27.120",
+      "modified": "2026-10-28T11:17:27.120",
+      "description": "Sensitive information disclosure due to insufficiently protected credentials. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87097"
+    },
+    {
+      "id": "CVE-2026-6064",
+      "published": "2026-10-28T11:17:26.707",
+      "modified": "2026-10-28T11:17:26.707",
+      "description": "Link following vulnerability in Data Shredder components in Norton Antivirus, Avast Antivirus, and AVG Internet Security prior to 26.5.10933 on Windows allows a local, low-privileged attacker to escalate privileges to SYSTEM. During a privileged shred operation, enabling arbitrary file/folder deletion that is leveraged to gain NT AUTHORITY\\SYSTEM privelages.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6064"
+    },
+    {
+      "id": "CVE-2026-114406",
+      "published": "2026-10-21T21:17:58.547",
+      "modified": "2026-10-28T11:17:15.367",
+      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
+    },
+    {
+      "id": "CVE-2026-101274",
+      "published": "2026-10-28T11:17:13.577",
+      "modified": "2026-10-28T11:17:13.577",
+      "description": "When pretix is used as the identity provider in a Single-Sign-On (SSO) setup for customer accounts, the system did not properly validate the `response_type` requested in an authorization request against the configured grant type of the SSO client. This means that if an SSO client was configured to only allow the `code` response type, which requires knowledge of the client secret to use and would wrongfully send a response type like `id_token`, it would receive back a valid token. Exploiting this requires the attacker to run JavaScript on the page specified by `redirect_uri`, which must be from a list specified in the client configuration.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:P/VC:H/VI:L/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101274"
+    },
+    {
+      "id": "CVE-2025-30414",
+      "published": "2026-10-28T11:17:12.427",
+      "modified": "2026-10-28T11:17:12.427",
+      "description": "Local privilege escalation due to improper authentication. The following products are affected: Acronis Cyber Protect Cloud Agent (Windows) before build 42569, Acronis Cyber Protect 17 (Windows) before build 42587.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-30414"
+    },
     {
       "id": "CVE-2024-34324",
       "published": "2026-10-13T16:17:08.317",
@@ -539,26 +935,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57186"
-    },
-    {
-      "id": "CVE-2026-114406",
-      "published": "2026-10-21T21:17:58.547",
-      "modified": "2026-10-27T22:17:25.723",
-      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
     },
     {
       "id": "CVE-2026-114063",
@@ -41749,681 +42125,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42090"
-    },
-    {
-      "id": "CVE-2026-41471",
-      "published": "2026-05-04T18:16:29.447",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "The Easy PayPal Events & Tickets plugin for WordPress before version 1.4 contains an information disclosure vulnerability in the QR code scanning endpoint that allows unauthenticated attackers to enumerate and retrieve all customer order records. Attackers can iterate over sequential WordPress post IDs through the scan_qr.php endpoint to harvest the complete set of orders stored in the database without requiring authentication or prior knowledge of specific order identifiers.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41471"
-    },
-    {
-      "id": "CVE-2026-42084",
-      "published": "2026-05-04T18:16:30.357",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "OpenC3 COSMOS provides the functionality needed to send commands to and receive data from one or more embedded systems. Prior to versions 6.10.5 and 7.0.0-rc3, the OpenC3 password change functionality allows a user to change their password without providing the old password, by accepting a valid session token instead. In assumed breach scenarios, this behaviour can be exploited by an attacker who has already obtained a valid session token, to gain persistence in hijacked account (including admin) and prevent legitimate users from accessing the account. This issue has been patched in versions 6.10.5 and 7.0.0-rc3.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:openc3:cosmos:*:*:*:*:open_source:*:*:*",
-        "cpe:2.3:a:openc3:cosmos:7.0.0:rc1:*:*:open_source:*:*:*",
-        "cpe:2.3:a:openc3:cosmos:7.0.0:rc2:*:*:open_source:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42084"
-    },
-    {
-      "id": "CVE-2026-7791",
-      "published": "2026-05-04T22:16:20.697",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Improper privilege management in the log rotation mechanism of the Skylight Workspace Config Service in Amazon WorkSpaces for Windows before 2.6.2034.0 allows a local non-admin authenticated user to place arbitrary files into arbitrary locations bypassing file system permission protections, leading to local privilege escalation to SYSTEM.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7791"
-    },
-    {
-      "id": "CVE-2026-34000",
-      "published": "2026-05-05T16:16:11.647",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "A flaw was found in the X.Org X server. This out-of-bounds read vulnerability in the XKB geometry processing, specifically within the `CheckSetGeom()` and `XkbAddGeomKeyAlias` functions, allows an attacker to read uninitialized or out-of-bounds memory. An attacker with a connection to the X11 server, either locally or remotely, can exploit this without user interaction. This could lead to the disclosure of memory contents or cause a denial of service by crashing the server.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:x.org:x_server:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34000"
-    },
-    {
-      "id": "CVE-2026-34002",
-      "published": "2026-05-05T16:16:11.787",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "A flaw was found in the X.Org X server. This vulnerability, an out-of-bounds read, affects the XKB (X Keyboard Extension) modifier map handling. An attacker with access to the X11 server can exploit this by sending a malformed request, which causes the server to read beyond its intended memory boundaries. This can lead to the exposure of sensitive information or cause the server to crash, resulting in a denial of service.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:x.org:x_server:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34002"
-    },
-    {
-      "id": "CVE-2026-41287",
-      "published": "2026-05-06T15:16:10.767",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Stack-based Buffer Overflow vulnerability in the WatchGuard Agent discovery service on Windows allows Overflow Buffers. An unauthenticated attacker on the same local network could exploit this vulnerability to crash the agent service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:watchguard:agent:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41287"
-    },
-    {
-      "id": "CVE-2026-41286",
-      "published": "2026-05-06T16:16:09.950",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Stack-based Buffer Overflow vulnerability in the WatchGuard Agent discovery service on Windows allows Overflow Buffers. An unauthenticated attacker on the same local network could exploit this vulnerability to crash the agent service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:watchguard:agent:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41286"
-    },
-    {
-      "id": "CVE-2026-41288",
-      "published": "2026-05-06T16:16:10.147",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Incorrect permission assignment for a resource in the patch management component of the WatchGuard Agent on Windows allows an authenticated local user to elevate their privileges to NT AUTHORITY\\\\SYSTEM.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:watchguard:agent:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41288"
-    },
-    {
-      "id": "CVE-2026-6787",
-      "published": "2026-05-06T16:16:11.643",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Use of Hard-coded Cryptographic Key vulnerability in WatchGuard Agent on Windows allows Inclusion of Code in Existing Process.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:watchguard:agent:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6787"
-    },
-    {
-      "id": "CVE-2026-6788",
-      "published": "2026-05-06T16:16:11.780",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Uncontrolled Search Path Element vulnerability in WatchGuard Agent on Windows allows Using Malicious Files.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:watchguard:agent:*:*:*:*:*:windows:*:*"
-      ],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6788"
-    },
-    {
-      "id": "CVE-2026-21661",
-      "published": "2026-05-06T17:16:21.890",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "An Uncontrolled Search Path Element vulnerability in JohnsonControls AC2000 on Windows allows Leveraging/Manipulating Configuration File Search Paths.\n\nThis issue affects AC2000: from 10.6 before release 10, from 11.0 before release 9, from 12 before release 3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.4,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21661"
-    },
-    {
-      "id": "CVE-2026-0300",
-      "published": "2026-05-06T19:16:35.730",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "A buffer overflow vulnerability in the User-ID™ Authentication Portal (aka Captive Portal) service of Palo Alto Networks PAN-OS software allows an unauthenticated attacker to execute arbitrary code with root privileges on the PA-Series and VM-Series firewalls by sending specially crafted packets. \n\nThe risk of this issue is greatly reduced if you secure access to the User-ID™ Authentication Portal per the  best practice guidelines https://knowledgebase.paloaltonetworks.com/KCSArticleDetail  by restricting access to only trusted internal IP addresses.\n\nPrisma Access, Cloud NGFW and Panorama appliances are not impacted by this vulnerability.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.1:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.3:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.4:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.5:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.6:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h12:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h16:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h19:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h21:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h24:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h3:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h32:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h6:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.7:h8:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.9:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h10:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h12:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h14:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h17:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h18:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h2:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h21:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h27:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h3:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h30:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h31:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h5:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h7:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.10:h9:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.11:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.12:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h10:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h16:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h18:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h2:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h3:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h5:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.13:h7:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.14:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.15:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.16:h6:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.17:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:10.2.18:h5:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.1:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.3:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h13:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h15:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h16:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h17:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h18:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h25:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h27:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h32:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h7:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.4:h9:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.5:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h10:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h14:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h17:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h19:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h2:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h20:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h21:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h22:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h23:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h25:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h29:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h3:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h5:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h6:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.6:h7:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.7:-:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.7:h1:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.7:h2:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.7:h4:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.8:*:*:*:*:*:*:*",
-        "cpe:2.3:o:paloaltonetworks:pan-os:11.1.9:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:N/E:A/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:Y/R:U/V:C/RE:M/U:Red"
-      },
-      "kev": true,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0300"
-    },
-    {
-      "id": "CVE-2026-7896",
-      "published": "2026-05-06T19:16:37.870",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Integer overflow in Blink in Google Chrome prior to 148.0.7778.96 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: Critical)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7896"
-    },
-    {
-      "id": "CVE-2026-7897",
-      "published": "2026-05-06T19:16:37.990",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Use after free in Mobile in Google Chrome on iOS prior to 148.0.7778.96 allowed a remote attacker who convinced a user to engage in specific UI gestures to execute arbitrary code via a crafted HTML page. (Chromium security severity: Critical)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7897"
-    },
-    {
-      "id": "CVE-2026-7899",
-      "published": "2026-05-06T19:16:38.200",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Out of bounds read and write in V8 in Google Chrome prior to 148.0.7778.96 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7899"
-    },
-    {
-      "id": "CVE-2026-7900",
-      "published": "2026-05-06T19:16:38.300",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Heap buffer overflow in ANGLE in Google Chrome prior to 148.0.7778.96 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7900"
-    },
-    {
-      "id": "CVE-2026-7901",
-      "published": "2026-05-06T19:16:38.403",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Use after free in ANGLE in Google Chrome on Mac prior to 148.0.7778.96 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7901"
-    },
-    {
-      "id": "CVE-2026-7902",
-      "published": "2026-05-06T19:16:38.503",
-      "modified": "2026-10-26T19:10:00.163",
-      "description": "Out of bounds memory access in V8 in Google Chrome prior to 148.0.7778.96 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-7902"
     }
   ],
   "kev": [
@@ -44190,11 +43891,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 63,
-    "high": 375,
-    "medium": 217,
-    "kev": 8,
-    "p1": 48,
-    "p2": 392
+    "critical": 62,
+    "high": 364,
+    "medium": 221,
+    "kev": 7,
+    "p1": 47,
+    "p2": 381
   }
 }
