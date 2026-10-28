@@ -1,6 +1,780 @@
 {
-  "updated": "2026-10-28T14:35:15.452313+00:00",
+  "updated": "2026-10-28T15:33:18.189336+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-96521",
+      "published": "2026-10-13T21:20:07.220",
+      "modified": "2026-10-28T15:32:51.700",
+      "description": "Photoshop Desktop is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:adobe:photoshop:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96521"
+    },
+    {
+      "id": "CVE-2026-86929",
+      "published": "2026-10-26T21:20:30.323",
+      "modified": "2026-10-28T15:31:10.737",
+      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8.2, macOS Tahoe 26.7.2. Processing a maliciously crafted file may lead to arbitrary code execution.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "*",
+          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86929"
+    },
+    {
+      "id": "CVE-2026-95664",
+      "published": "2026-10-26T09:16:37.220",
+      "modified": "2026-10-28T15:28:37.123",
+      "description": "Improper Neutralization of Special Elements used in an Expression Language Statement ('Expression Language Injection') vulnerability in Apache Camel AWS2-s3 component.\n\n\n\nThis issue affects Apache Camel: from 4.8.0 before 4.18.5, from 4.19.0 before 4.22.2.\n\n\n\nFor the object it uploads, reads or deletes, the camel-aws2-s3 producer takes the key from the CamelAwsS3Key message header and falls back to the keyName option configured on the endpoint only when that header is absent. Since 4.8.0, AWS2S3Utils.determineKey() also passed the resulting value to the Simple language whenever it contained ${ or $simple{, so that a route could use a dynamic key, and the evaluation applied to a value taken from the header as well as to the configured option. The header is not route configuration, however: the aws2-s3 consumer sets CamelAwsS3Key on the exchanges it creates to the key of the object it read, that is, the name of the object in the bucket. In a route that does nothing more than consume from one aws2-s3 endpoint and produce to another, the name of each consumed object therefore reached the producer, and a name containing either marker was evaluated as an expression, although the route author never asked for any evaluation, and configuring keyName on the producer did not prevent it, because the header took precedence. A key that a route copied into the header from other message content was evaluated in the same way. Anyone able to choose the name of an object in a bucket that such a route consumes, typically a principal allowed to upload to that bucket, could therefore have Simple expressions of their choosing evaluated in the Camel process. The Simple language can read JVM system properties, environment variables and configuration properties, which commonly carry credentials, and, where camel-bean is on the classpath, invoke methods on beans in the registry. The evaluated result became the key the producer used, so reading a value back additionally required the ability to see object names in the destination bucket, while a method invocation took effect without it; together with the need to name an object in a consumed bucket, this is why the severity is assessed medium. The bucket name went through the same evaluation, but the consumer only ever places the bucket configured on its own endpoint in a bucket header, never a value derived from a remote object, so the bucket name was not reachable in this way. Releases before 4.8.0 used the key from the header as given and are not affected.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.2. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.8.x to 4.17.x and 4.19.x to 4.21.x release lines reached end of life before this issue was resolved and will not receive a fix, so deployments on them must move to a supported release. After upgrading, a key or bucket name supplied through a message header is used literally, so a route that put an unevaluated Simple expression in the CamelAwsS3Key or CamelAwsS3OverrideBucketName header must evaluate it in the route instead, for example with setHeader and simple(), or configure it as the keyName or bucketName option of the endpoint. For deployments that cannot upgrade immediately, do not let a key derived from an object name or from other untrusted message content reach an aws2-s3 producer unchecked: in routes that pass exchanges from an aws2-s3 consumer to an aws2-s3 producer, either remove the CamelAwsS3Key header before the producer with removeHeader(“CamelAwsS3Key”), so that the keyName configured on the endpoint is used, or reject exchanges whose CamelAwsS3Key header contains ${ or $simple{. Configuring keyName alone is not a workaround, because the header takes precedence over it. As defence in depth, allow only trusted principals to write to buckets that Camel routes consume.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:camel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95664"
+    },
+    {
+      "id": "CVE-2026-52729",
+      "published": "2026-10-28T14:17:04.137",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "Xibo is an open source digital signage platform with a web content management system and Windows display player software. Prior to 4.4.3, missing access-control checks on `PUT/DELETE /action/{id}` allow an authenticated user to modify or delete actions on any Layout. Exploitation requires the privilege to allow edits, including deletion, to all created Layouts, which is granted to non-administrators as standard. This issue concerns `Layout actions` rather than the separately reported DataSet export vulnerability. This issue is fixed in version 4.4.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-52729"
+    },
+    {
+      "id": "CVE-2026-50541",
+      "published": "2026-10-28T14:17:03.980",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "Xibo is an open source digital signage platform with a web content management system and Windows display player software. Prior to 4.4.3, missing access-control checks on `GET /dataset/export/csv/{id}` allow an authenticated user to export data from any dataset, including datasets created by administrators, by iterating over `sequential dataset IDs`. Exploitation requires access to the privilege allowing edits, including deletion, to all created `DataSets` independently of Layouts. This privilege is not granted to non-administrators as standard. This issue is fixed in version 4.4.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50541"
+    },
+    {
+      "id": "CVE-2026-55369",
+      "published": "2026-10-28T13:17:08.120",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "Waline is a comment system with backend support. Prior to version 1.41.1, the login endpoint POST /api/token reads the email field from the request body without checking its type and passes it straight into the MongoDB storage query. When email is not a string (for example a JSON object such as {\"$ne\": null}), the MongoDB storage adapter's parseWhere silently DROPS the field rather than rejecting the request, producing an empty filter that matches ALL users. The endpoint then verifies the submitted password against the FIRST user returned (user[0]), which in Waline is the first-registered user — the site administrator. This is a PARTIAL authentication bypass, not a full one. The attacker still needs a valid password for that first user; this is not a zero-knowledge bypass and it does not disclose passwords. Its concrete effects are: (1) the email/identifier factor is removed for the administrator account, (2) user enumeration (a non-string email never fails the \"no such user\" branch), and (3) credential-stuffing amplification — an attacker can test a leaked or weak password against the administrator account without knowing the administrator's email. This issue has been patched in version 1.41.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55369"
+    },
+    {
+      "id": "CVE-2026-101274",
+      "published": "2026-10-28T11:17:13.577",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "When pretix is used as the identity provider in a Single-Sign-On (SSO) setup for customer accounts, the system did not properly validate the `response_type` requested in an authorization request against the configured grant type of the SSO client. This means that if an SSO client was configured to only allow the `code` response type, which requires knowledge of the client secret to use and would wrongfully send a response type like `id_token`, it would receive back a valid token. Exploiting this requires the attacker to run JavaScript on the page specified by `redirect_uri`, which must be from a list specified in the client configuration.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:P/VC:H/VI:L/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101274"
+    },
+    {
+      "id": "CVE-2026-50571",
+      "published": "2026-10-27T23:17:05.687",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "WebSub is a W3C recommendation produced by the Social Web Working Group. In recommendation REC-websub-20180123, the intent-verification protocol requires a subscriber to echo the `hub.challenge` value, also exposed as `hub_challenge` by some frameworks, but does not require safe response media typing or disabled MIME sniffing. An attacker can initiate a subscription to obtain a callback URL and redirect a victim browser to a crafted verification request containing HTML or JavaScript. Subscribers that return the challenge as `text/html` can execute the reflected content in the subscriber origin, using a victim's existing session to read private data or perform actions, exposing `localStorage` or `sessionStorage` and browser permissions granted to that origin. An alternative uses the verification response as an attacker-controlled same-origin script resource to bypass `script-src 'self'`; this can remain possible with `application/octet-stream` when MIME sniffing is allowed. Safe media typing and `X-Content-Type-Options: nosniff` are both needed to address the described scenarios. WebSub Rocks demonstrated reflection, but the advisory does not establish practical impact on that demonstration site.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50571"
+    },
+    {
+      "id": "CVE-2026-116682",
+      "published": "2026-10-27T18:17:36.003",
+      "modified": "2026-10-28T15:24:56.033",
+      "description": "FileBrowser Quantum is a free, self-hosted, web-based file manager. Prior to 1.5.2-stable and 2.0.1-beta, file read handling in backend/pkg/indexing/indexingFiles.go resolves symbolic links through GetRealPath without confirming that the resolved target remains inside the source root and the user's authorized scope. Download, preview, media, OnlyOffice, and public-share read flows that enable FollowSymlinks can therefore serve an out-of-scope target through a reachable in-scope symlink. An authenticated user with download access can read server-accessible files outside the assigned scope, and a holder of a public share link can do the same without an account when the shared directory exposes such a symlink. This issue is fixed in 1.5.2-stable and 2.0.1-beta.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116682"
+    },
+    {
+      "id": "CVE-2026-6064",
+      "published": "2026-10-28T11:17:26.707",
+      "modified": "2026-10-28T15:21:31.673",
+      "description": "Link following vulnerability in Data Shredder components in Norton Antivirus, Avast Antivirus, and AVG Internet Security prior to 26.5.10933 on Windows allows a local, low-privileged attacker to escalate privileges to SYSTEM. During a privileged shred operation, enabling arbitrary file/folder deletion that is leveraged to gain NT AUTHORITY\\SYSTEM privelages.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6064"
+    },
+    {
+      "id": "CVE-2026-118131",
+      "published": "2026-10-27T18:17:36.700",
+      "modified": "2026-10-28T15:21:31.673",
+      "description": "GnuPG (version 2.5.21) for Windows contains a vulnerability where default Discretionary Access Control List (DACL) inheritance on the C:\\ProgramData directory allows members of the BUILTIN\\Users group to create arbitrary subdirectories under this path. An attacker with low-privilege access can create the expected GnuPG configuration directory and inject malicious configuration files consumed by GnuPG components. This can result in code execution within the security context of the victim user.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118131"
+    },
+    {
+      "id": "CVE-2026-97631",
+      "published": "2026-10-22T17:17:02.027",
+      "modified": "2026-10-28T15:17:10.787",
+      "description": "EDK2 contains a vulnerability in BIOS where a user may cause “Out-of-bounds\nWrite”, Classic\nBuffer Overflow, and “Incorrect Calculation of Buffer Size” by remote access. Successful exploitation of this vulnerability\ncan lead to arbitrary\ncode execution. It could also impact\nConfidentiality,\nIntegrity,\nand Availability.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.5,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-97631"
+    },
+    {
+      "id": "CVE-2026-87386",
+      "published": "2026-10-20T22:20:16.820",
+      "modified": "2026-10-28T15:17:08.550",
+      "description": "Vulnerability in the JD Edwards EnterpriseOne General Ledger product of Oracle JD Edwards (component: E1 Foundation).   The supported version that is affected is 9.2. Difficult to exploit vulnerability allows low privileged attacker with network access via JDENET to compromise JD Edwards EnterpriseOne General Ledger.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of JD Edwards EnterpriseOne General Ledger. CVSS 3.1 Base Score 5.3 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87386"
+    },
+    {
+      "id": "CVE-2026-87367",
+      "published": "2026-10-20T22:20:14.727",
+      "modified": "2026-10-28T15:17:04.867",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JAXP).  Supported versions that are affected are Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27; Oracle GraalVM for JDK: 17.0.20.1 and  21.0.12.1; Oracle GraalVM Enterprise Edition: 21.3.19.1.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in  unauthorized update, insert or delete access to some of Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. CVSS 3.1 Base Score 3.7 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87367"
+    },
+    {
+      "id": "CVE-2026-103600",
+      "published": "2026-10-02T08:17:00.363",
+      "modified": "2026-10-28T14:48:30.170",
+      "description": "Uncontrolled recursion in the ASN.1 parser (Asn1InputStream, Asn1StreamParser) in Legion of the Bouncy Castle Inc. bc-csharp before 2.7.0 allows a remote unauthenticated attacker to cause a denial of service via a crafted ASN.1 encoding of deeply nested constructed elements (for example SEQUENCE inside SEQUENCE, in definite-length DER or indefinite-length BER form), because each nesting level is parsed by a further recursive call with no bound on depth. About 2,000 levels (8 KB of DER) are enough to exhaust a 1.5 MB thread stack, the .NET main-thread default on Windows, and raise a StackOverflowException, which .NET cannot catch and which terminates the whole process; on threads with larger stacks, parse time instead grows quadratically with depth (about 9 seconds of CPU for a 64 KB input). Any path that parses untrusted ASN.1 is exposed, including X.509 certificates and CRLs, CMS/PKCS#7, PKCS#8/PKCS#12, OCSP and TLS Certificate messages.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:bouncycastle:bc-csharp:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103600"
+    },
+    {
+      "id": "CVE-2025-64394",
+      "published": "2026-10-27T17:16:53.867",
+      "modified": "2026-10-28T14:47:07.963",
+      "description": "A vulnerability allowing a low-privileged local user to write arbitrary files with SYSTEM privileges during the installation of Veeam Backup for Microsoft 365, which can lead to privilege escalation or denial of service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:A/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64394"
+    },
+    {
+      "id": "CVE-2026-106078",
+      "published": "2026-10-27T17:16:56.793",
+      "modified": "2026-10-28T14:47:07.963",
+      "description": "A vulnerability allowing an unauthenticated attacker to bypass REST API authentication with a forged federation token and receive responses from REST API endpoints that do not call the Veeam Backup for Microsoft 365 backup service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106078"
+    },
+    {
+      "id": "CVE-2026-106077",
+      "published": "2026-10-27T17:16:56.673",
+      "modified": "2026-10-28T14:47:07.963",
+      "description": "A vulnerability allowing a user with the Veeam Backup for Microsoft 365 Administrator role to read arbitrary files on the backup server with LocalSystem privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106077"
+    },
+    {
+      "id": "CVE-2026-106076",
+      "published": "2026-10-27T17:16:56.553",
+      "modified": "2026-10-28T14:47:07.963",
+      "description": "A vulnerability allowing an authenticated organization-transfer peer to inject SQL into the configuration database of the source Veeam Backup for Microsoft 365 server, leading to cross-tenant read and write of configuration data and remote code execution as the PostgreSQL service account.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106076"
+    },
+    {
+      "id": "CVE-2026-92377",
+      "published": "2026-10-27T16:17:32.213",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "Improper access control in the Patch\nManagement update mechanism of TeamViewer Full Client and Host for Windows\nprior to version 15.82 allows a local authenticated attacker with low\nprivileges to supply a signed executable through a forged IPC response and\ncause it to load a malicious DLL from a user-writable temporary directory.\nSuccessful exploitation results in arbitrary code execution with NT\nAUTHORITY\\SYSTEM privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92377"
+    },
+    {
+      "id": "CVE-2026-92376",
+      "published": "2026-10-27T16:17:32.103",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "Improper authentication in the\ninter-process communication (IPC) mechanism of TeamViewer Remote Management\nMonitoring for Windows prior to version 26.10.1 allows a local authenticated\nattacker with low privileges to impersonate the IPC broker and cause the\nMonitoring service to execute arbitrary code with NT AUTHORITY\\SYSTEM\nprivileges, resulting in local privilege escalation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92376"
+    },
+    {
+      "id": "CVE-2026-92374",
+      "published": "2026-10-27T16:17:31.873",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "A time-of-check time-of-use (TOCTOU) race condition combined with improper symbolic link handling in the privileged helper of TeamViewer Full Client and Host prior to version 15.83 for macOS allows a local attacker with low privileges to bypass installer package verification and install a malicious package. Successful exploitation can lead to local privilege escalation to root.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92374"
+    },
+    {
+      "id": "CVE-2026-92372",
+      "published": "2026-10-27T16:17:31.760",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "An out-of-bounds write vulnerability in the\nscreen-image decoder of TeamViewer Full Client for Linux and macOS prior to\nversion 15.83 allows a remote attacker to execute arbitrary code by supplying\ncrafted screen-image data during a remote-control session. The vulnerability\ncan also be exploited by persuading a user to open a specially crafted\nTeamViewer session recording (.tvs). Missing destination bounds checking in the\ndecoder allows crafted screen-image data to cause an out-of-bounds write to the\nimage buffer. Exploitation requires user interaction.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92372"
+    },
+    {
+      "id": "CVE-2026-111584",
+      "published": "2026-10-27T16:17:29.757",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "A race condition in the installation\nprocess of TeamViewer Remote Management - Patch Management for Windows prior to\nversion 26.9.1 allows a local authenticated attacker with low privileges to\nexecute arbitrary code with elevated privileges by replacing the service\nexecutable in an insufficiently protected temporary directory during Patch\nManagement activation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111584"
+    },
+    {
+      "id": "CVE-2026-111583",
+      "published": "2026-10-27T16:17:29.643",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "Improper access control in the installer\nstaging directory used by TeamViewer Full Client and Host prior to version\n15.82 for Windows during installation of Advanced Asset Management allows a\nlocal authenticated user with low privileges to execute arbitrary commands as\nSYSTEM. An attacker can place a crafted installer options file that is\nprocessed by the Advanced Asset Management installer during service activation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111583"
+    },
+    {
+      "id": "CVE-2026-111582",
+      "published": "2026-10-27T16:17:29.513",
+      "modified": "2026-10-28T14:45:23.073",
+      "description": "A DLL loading vulnerability in the\nTeamViewer Remote Management Monitoring installer for Windows prior to version 26.10.1\nallows a local authenticated attacker with low privileges to execute arbitrary\ncode with elevated privileges. Exploitation requires user interaction.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111582"
+    },
+    {
+      "id": "CVE-2026-118180",
+      "published": "2026-10-27T19:17:29.693",
+      "modified": "2026-10-28T14:42:32.260",
+      "description": "When logging in to a Matrix account, Thunderbird used the homeserver address provided in the server's login response without validating it. A malicious or compromised homeserver could provide a file: URL, causing Thunderbird to send all further Matrix requests of that session to local files or, on Windows, to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118180"
+    },
+    {
+      "id": "CVE-2026-118178",
+      "published": "2026-10-27T19:17:29.480",
+      "modified": "2026-10-28T14:42:32.260",
+      "description": "A remote RSS feed could use the itunes:new-feed-url or newLocation element to permanently change its stored subscription URL to a file: URL. Thunderbird then read that location on every feed update. This allowed a malicious feed, or an attacker able to modify a feed delivered over HTTP, to make Thunderbird read local files and, on Windows, connect to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are affected by the local file read only. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118178"
+    },
+    {
+      "id": "CVE-2026-118177",
+      "published": "2026-10-27T19:17:29.370",
+      "modified": "2026-10-28T14:42:32.260",
+      "description": "When looking for calendars in a directory on a server, during account setup or when adding a new network calendar, Thunderbird accepted calendar locations pointing to other servers, local files or network shares. A malicious server, or a network attacker when the lookup used plain HTTP, could make Thunderbird subscribe to such a location. On Windows this could leak the user's NTLM credentials to an attacker-controlled host on every calendar refresh, and changes to the calendar could be written to the attacker's share or overwrite a local file. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118177"
+    },
+    {
+      "id": "CVE-2026-118176",
+      "published": "2026-10-27T19:17:29.260",
+      "modified": "2026-10-28T14:42:32.260",
+      "description": "Thunderbird's check that prevents mailbox: URLs from accessing files on remote Windows network shares could be bypassed using extended-length UNC paths. Displaying a specially crafted email could cause Thunderbird to connect to an SMB server chosen by the attacker, disclosing the user's Windows account name and NTLM authentication data, which could be used for offline password cracking or relay attacks.\nThis bug only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118176"
+    },
+    {
+      "id": "CVE-2026-118174",
+      "published": "2026-10-27T19:17:29.037",
+      "modified": "2026-10-28T14:42:32.260",
+      "description": "When a message containing an OpenPGP key attachment was displayed, Thunderbird automatically loaded the attachment's content to offer importing the key. A sender could mark the attachment as an external attachment pointing to an arbitrary URL, which Thunderbird then loaded without any user interaction, bypassing remote content blocking. On Windows, a URL pointing to an attacker-controlled network share could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. On other operating systems, the issue allowed a remote request that bypassed remote content blocking. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118174"
+    },
+    {
+      "id": "CVE-2026-112351",
+      "published": "2026-10-27T20:17:12.853",
+      "modified": "2026-10-28T14:41:48.527",
+      "description": "Sunhillo SureLine before 9.1.5 contains an OS command injection vulnerability in the networkDiag.cgi endpoint that allows an authenticated remote attacker with any web account to execute arbitrary commands as root by injecting shell metacharacters into the ipAddr or dnsAddr parameters. Attackers can bypass the incomplete character denylist from the prior CVE-2021-36380 fix using URL-encoded newline (%0a) or ampersand (%26) sequences that act as command separators after decoding in the ping, nslookup, or traceroute diagnostic modes, leading to full system compromise.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112351"
+    },
+    {
+      "id": "CVE-2026-115495",
+      "published": "2026-10-27T16:17:30.420",
+      "modified": "2026-10-28T14:39:26.893",
+      "description": "Cleartext Transmission of Sensitive Information vulnerability in the WatchGuard Mobile VPN with SSL client for Windows allows a local attacker who can capture loopback traffic to obtain the user’s VPN username and password.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115495"
+    },
+    {
+      "id": "CVE-2026-112710",
+      "published": "2026-10-27T16:17:30.120",
+      "modified": "2026-10-28T14:39:26.893",
+      "description": "A heap-based buffer overflow vulnerability exists in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112710"
+    },
+    {
+      "id": "CVE-2026-112709",
+      "published": "2026-10-27T16:17:29.997",
+      "modified": "2026-10-28T14:39:26.893",
+      "description": "A heap-based buffer overflow vulnerability in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112709"
+    },
     {
       "id": "CVE-2026-104029",
       "published": "2026-10-05T20:17:08.487",
@@ -788,46 +1562,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87358"
     },
     {
-      "id": "CVE-2026-52729",
-      "published": "2026-10-28T14:17:04.137",
-      "modified": "2026-10-28T14:17:04.137",
-      "description": "Xibo is an open source digital signage platform with a web content management system and Windows display player software. Prior to 4.4.3, missing access-control checks on `PUT/DELETE /action/{id}` allow an authenticated user to modify or delete actions on any Layout. Exploitation requires the privilege to allow edits, including deletion, to all created Layouts, which is granted to non-administrators as standard. This issue concerns `Layout actions` rather than the separately reported DataSet export vulnerability. This issue is fixed in version 4.4.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-52729"
-    },
-    {
-      "id": "CVE-2026-50541",
-      "published": "2026-10-28T14:17:03.980",
-      "modified": "2026-10-28T14:17:03.980",
-      "description": "Xibo is an open source digital signage platform with a web content management system and Windows display player software. Prior to 4.4.3, missing access-control checks on `GET /dataset/export/csv/{id}` allow an authenticated user to export data from any dataset, including datasets created by administrators, by iterating over `sequential dataset IDs`. Exploitation requires access to the privilege allowing edits, including deletion, to all created `DataSets` independently of Layouts. This privilege is not granted to non-administrators as standard. This issue is fixed in version 4.4.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50541"
-    },
-    {
       "id": "CVE-2026-118330",
       "published": "2026-10-27T23:17:01.267",
       "modified": "2026-10-28T14:17:00.217",
@@ -912,29 +1646,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118310"
-    },
-    {
-      "id": "CVE-2025-64394",
-      "published": "2026-10-27T17:16:53.867",
-      "modified": "2026-10-28T14:10:00.220",
-      "description": "A vulnerability allowing a low-privileged local user to write arbitrary files with SYSTEM privileges during the installation of Veeam Backup for Microsoft 365, which can lead to privilege escalation or denial of service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:A/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION",
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64394"
     },
     {
       "id": "CVE-2025-13833",
@@ -2180,28 +2891,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70163"
-    },
-    {
-      "id": "CVE-2026-55369",
-      "published": "2026-10-28T13:17:08.120",
-      "modified": "2026-10-28T13:17:08.120",
-      "description": "Waline is a comment system with backend support. Prior to version 1.41.1, the login endpoint POST /api/token reads the email field from the request body without checking its type and passes it straight into the MongoDB storage query. When email is not a string (for example a JSON object such as {\"$ne\": null}), the MongoDB storage adapter's parseWhere silently DROPS the field rather than rejecting the request, producing an empty filter that matches ALL users. The endpoint then verifies the submitted password against the FIRST user returned (user[0]), which in Waline is the first-registered user — the site administrator. This is a PARTIAL authentication bypass, not a full one. The attacker still needs a valid password for that first user; this is not a zero-knowledge bypass and it does not disclose passwords. Its concrete effects are: (1) the email/identifier factor is removed for the administrator account, (2) user enumeration (a non-string email never fails the \"no such user\" branch), and (3) credential-stuffing amplification — an attacker can test a leaked or weak password against the administrator account without knowing the administrator's email. This issue has been patched in version 1.41.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "AUTH_BYPASS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-55369"
     },
     {
       "id": "CVE-2026-70164",
@@ -3701,26 +4390,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99103"
     },
     {
-      "id": "CVE-2026-6064",
-      "published": "2026-10-28T11:17:26.707",
-      "modified": "2026-10-28T11:17:26.707",
-      "description": "Link following vulnerability in Data Shredder components in Norton Antivirus, Avast Antivirus, and AVG Internet Security prior to 26.5.10933 on Windows allows a local, low-privileged attacker to escalate privileges to SYSTEM. During a privileged shred operation, enabling arbitrary file/folder deletion that is leveraged to gain NT AUTHORITY\\SYSTEM privelages.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6064"
-    },
-    {
       "id": "CVE-2026-114406",
       "published": "2026-10-21T21:17:58.547",
       "modified": "2026-10-28T11:17:15.367",
@@ -3739,26 +4408,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
-    },
-    {
-      "id": "CVE-2026-101274",
-      "published": "2026-10-28T11:17:13.577",
-      "modified": "2026-10-28T11:17:13.577",
-      "description": "When pretix is used as the identity provider in a Single-Sign-On (SSO) setup for customer accounts, the system did not properly validate the `response_type` requested in an authorization request against the configured grant type of the SSO client. This means that if an SSO client was configured to only allow the `code` response type, which requires knowledge of the client secret to use and would wrongfully send a response type like `id_token`, it would receive back a valid token. Exploiting this requires the attacker to run JavaScript on the page specified by `redirect_uri`, which must be from a list specified in the client configuration.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:H/UI:P/VC:H/VI:L/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101274"
     },
     {
       "id": "CVE-2024-34324",
@@ -3966,26 +4615,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114376"
-    },
-    {
-      "id": "CVE-2026-50571",
-      "published": "2026-10-27T23:17:05.687",
-      "modified": "2026-10-27T23:17:05.687",
-      "description": "WebSub is a W3C recommendation produced by the Social Web Working Group. In recommendation REC-websub-20180123, the intent-verification protocol requires a subscriber to echo the `hub.challenge` value, also exposed as `hub_challenge` by some frameworks, but does not require safe response media typing or disabled MIME sniffing. An attacker can initiate a subscription to obtain a callback URL and redirect a victim browser to a crafted verification request containing HTML or JavaScript. Subscribers that return the challenge as `text/html` can execute the reflected content in the subscriber origin, using a victim's existing session to read private data or perform actions, exposing `localStorage` or `sessionStorage` and browser permissions granted to that origin. An alternative uses the verification response as an attacker-controlled same-origin script resource to bypass `script-src 'self'`; this can remain possible with `application/octet-stream` when MIME sniffing is allowed. Safe media typing and `X-Content-Type-Options: nosniff` are both needed to address the described scenarios. WebSub Rocks demonstrated reflection, but the advisory does not establish practical impact on that demonstration site.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50571"
     },
     {
       "id": "CVE-2024-47569",
@@ -4813,28 +5442,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87290"
-    },
-    {
-      "id": "CVE-2026-112351",
-      "published": "2026-10-27T20:17:12.853",
-      "modified": "2026-10-27T20:17:12.853",
-      "description": "Sunhillo SureLine before 9.1.5 contains an OS command injection vulnerability in the networkDiag.cgi endpoint that allows an authenticated remote attacker with any web account to execute arbitrary commands as root by injecting shell metacharacters into the ipAddr or dnsAddr parameters. Attackers can bypass the incomplete character denylist from the prior CVE-2021-36380 fix using URL-encoded newline (%0a) or ampersand (%26) sequences that act as command separators after decoding in the ping, nslookup, or traceroute diagnostic modes, leading to full system compromise.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112351"
     },
     {
       "id": "CVE-2026-83826",
@@ -6691,116 +7298,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87255"
     },
     {
-      "id": "CVE-2026-118180",
-      "published": "2026-10-27T19:17:29.693",
-      "modified": "2026-10-27T19:17:29.693",
-      "description": "When logging in to a Matrix account, Thunderbird used the homeserver address provided in the server's login response without validating it. A malicious or compromised homeserver could provide a file: URL, causing Thunderbird to send all further Matrix requests of that session to local files or, on Windows, to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118180"
-    },
-    {
-      "id": "CVE-2026-118178",
-      "published": "2026-10-27T19:17:29.480",
-      "modified": "2026-10-27T19:17:29.480",
-      "description": "A remote RSS feed could use the itunes:new-feed-url or newLocation element to permanently change its stored subscription URL to a file: URL. Thunderbird then read that location on every feed update. This allowed a malicious feed, or an attacker able to modify a feed delivered over HTTP, to make Thunderbird read local files and, on Windows, connect to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are affected by the local file read only. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118178"
-    },
-    {
-      "id": "CVE-2026-118177",
-      "published": "2026-10-27T19:17:29.370",
-      "modified": "2026-10-27T19:17:29.370",
-      "description": "When looking for calendars in a directory on a server, during account setup or when adding a new network calendar, Thunderbird accepted calendar locations pointing to other servers, local files or network shares. A malicious server, or a network attacker when the lookup used plain HTTP, could make Thunderbird subscribe to such a location. On Windows this could leak the user's NTLM credentials to an attacker-controlled host on every calendar refresh, and changes to the calendar could be written to the attacker's share or overwrite a local file. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118177"
-    },
-    {
-      "id": "CVE-2026-118176",
-      "published": "2026-10-27T19:17:29.260",
-      "modified": "2026-10-27T19:17:29.260",
-      "description": "Thunderbird's check that prevents mailbox: URLs from accessing files on remote Windows network shares could be bypassed using extended-length UNC paths. Displaying a specially crafted email could cause Thunderbird to connect to an SMB server chosen by the attacker, disclosing the user's Windows account name and NTLM authentication data, which could be used for offline password cracking or relay attacks.\nThis bug only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118176"
-    },
-    {
-      "id": "CVE-2026-118174",
-      "published": "2026-10-27T19:17:29.037",
-      "modified": "2026-10-27T19:17:29.037",
-      "description": "When a message containing an OpenPGP key attachment was displayed, Thunderbird automatically loaded the attachment's content to offer importing the key. A sender could mark the attachment as an external attachment pointing to an arbitrary URL, which Thunderbird then loaded without any user interaction, bypassing remote content blocking. On Windows, a URL pointing to an attacker-controlled network share could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. On other operating systems, the issue allowed a remote request that bypassed remote content blocking. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118174"
-    },
-    {
       "id": "CVE-2026-105007",
       "published": "2026-10-13T19:17:56.893",
       "modified": "2026-10-27T18:45:27.333",
@@ -7080,46 +7577,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105008"
-    },
-    {
-      "id": "CVE-2026-118131",
-      "published": "2026-10-27T18:17:36.700",
-      "modified": "2026-10-27T18:17:36.700",
-      "description": "GnuPG (version 2.5.21) for Windows contains a vulnerability where default Discretionary Access Control List (DACL) inheritance on the C:\\ProgramData directory allows members of the BUILTIN\\Users group to create arbitrary subdirectories under this path. An attacker with low-privilege access can create the expected GnuPG configuration directory and inject malicious configuration files consumed by GnuPG components. This can result in code execution within the security context of the victim user.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118131"
-    },
-    {
-      "id": "CVE-2026-116682",
-      "published": "2026-10-27T18:17:36.003",
-      "modified": "2026-10-27T18:17:36.003",
-      "description": "FileBrowser Quantum is a free, self-hosted, web-based file manager. Prior to 1.5.2-stable and 2.0.1-beta, file read handling in backend/pkg/indexing/indexingFiles.go resolves symbolic links through GetRealPath without confirming that the resolved target remains inside the source root and the user's authorized scope. Download, preview, media, OnlyOffice, and public-share read flows that enable FollowSymlinks can therefore serve an out-of-scope target through a reachable in-scope symlink. An authenticated user with download access can read server-accessible files outside the assigned scope, and a holder of a public share link can do the same without an account when the shared directory exposes such a symlink. This issue is fixed in 1.5.2-stable and 2.0.1-beta.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.6,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116682"
     },
     {
       "id": "CVE-2024-46062",
@@ -7756,68 +8213,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105003"
     },
     {
-      "id": "CVE-2026-106078",
-      "published": "2026-10-27T17:16:56.793",
-      "modified": "2026-10-27T17:16:56.793",
-      "description": "A vulnerability allowing an unauthenticated attacker to bypass REST API authentication with a forged federation token and receive responses from REST API endpoints that do not call the Veeam Backup for Microsoft 365 backup service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106078"
-    },
-    {
-      "id": "CVE-2026-106077",
-      "published": "2026-10-27T17:16:56.673",
-      "modified": "2026-10-27T17:16:56.673",
-      "description": "A vulnerability allowing a user with the Veeam Backup for Microsoft 365 Administrator role to read arbitrary files on the backup server with LocalSystem privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106077"
-    },
-    {
-      "id": "CVE-2026-106076",
-      "published": "2026-10-27T17:16:56.553",
-      "modified": "2026-10-27T17:16:56.553",
-      "description": "A vulnerability allowing an authenticated organization-transfer peer to inject SQL into the configuration database of the source Veeam Backup for Microsoft 365 server, leading to cross-tenant read and write of configuration data and remote code execution as the PostgreSQL service account.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106076"
-    },
-    {
       "id": "CVE-2026-87694",
       "published": "2026-10-13T19:21:21.980",
       "modified": "2026-10-27T17:02:40.627",
@@ -8320,220 +8715,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87699"
-    },
-    {
-      "id": "CVE-2026-92377",
-      "published": "2026-10-27T16:17:32.213",
-      "modified": "2026-10-27T16:17:32.213",
-      "description": "Improper access control in the Patch\nManagement update mechanism of TeamViewer Full Client and Host for Windows\nprior to version 15.82 allows a local authenticated attacker with low\nprivileges to supply a signed executable through a forged IPC response and\ncause it to load a malicious DLL from a user-writable temporary directory.\nSuccessful exploitation results in arbitrary code execution with NT\nAUTHORITY\\SYSTEM privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92377"
-    },
-    {
-      "id": "CVE-2026-92376",
-      "published": "2026-10-27T16:17:32.103",
-      "modified": "2026-10-27T16:17:32.103",
-      "description": "Improper authentication in the\ninter-process communication (IPC) mechanism of TeamViewer Remote Management\nMonitoring for Windows prior to version 26.10.1 allows a local authenticated\nattacker with low privileges to impersonate the IPC broker and cause the\nMonitoring service to execute arbitrary code with NT AUTHORITY\\SYSTEM\nprivileges, resulting in local privilege escalation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92376"
-    },
-    {
-      "id": "CVE-2026-92374",
-      "published": "2026-10-27T16:17:31.873",
-      "modified": "2026-10-27T16:17:31.873",
-      "description": "A time-of-check time-of-use (TOCTOU) race condition combined with improper symbolic link handling in the privileged helper of TeamViewer Full Client and Host prior to version 15.83 for macOS allows a local attacker with low privileges to bypass installer package verification and install a malicious package. Successful exploitation can lead to local privilege escalation to root.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92374"
-    },
-    {
-      "id": "CVE-2026-92372",
-      "published": "2026-10-27T16:17:31.760",
-      "modified": "2026-10-27T16:17:31.760",
-      "description": "An out-of-bounds write vulnerability in the\nscreen-image decoder of TeamViewer Full Client for Linux and macOS prior to\nversion 15.83 allows a remote attacker to execute arbitrary code by supplying\ncrafted screen-image data during a remote-control session. The vulnerability\ncan also be exploited by persuading a user to open a specially crafted\nTeamViewer session recording (.tvs). Missing destination bounds checking in the\ndecoder allows crafted screen-image data to cause an out-of-bounds write to the\nimage buffer. Exploitation requires user interaction.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92372"
-    },
-    {
-      "id": "CVE-2026-115495",
-      "published": "2026-10-27T16:17:30.420",
-      "modified": "2026-10-27T16:17:30.420",
-      "description": "Cleartext Transmission of Sensitive Information vulnerability in the WatchGuard Mobile VPN with SSL client for Windows allows a local attacker who can capture loopback traffic to obtain the user’s VPN username and password.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115495"
-    },
-    {
-      "id": "CVE-2026-112710",
-      "published": "2026-10-27T16:17:30.120",
-      "modified": "2026-10-27T16:17:30.120",
-      "description": "A heap-based buffer overflow vulnerability exists in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112710"
-    },
-    {
-      "id": "CVE-2026-112709",
-      "published": "2026-10-27T16:17:29.997",
-      "modified": "2026-10-27T16:17:29.997",
-      "description": "A heap-based buffer overflow vulnerability in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112709"
-    },
-    {
-      "id": "CVE-2026-111584",
-      "published": "2026-10-27T16:17:29.757",
-      "modified": "2026-10-27T16:17:29.757",
-      "description": "A race condition in the installation\nprocess of TeamViewer Remote Management - Patch Management for Windows prior to\nversion 26.9.1 allows a local authenticated attacker with low privileges to\nexecute arbitrary code with elevated privileges by replacing the service\nexecutable in an insufficiently protected temporary directory during Patch\nManagement activation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111584"
-    },
-    {
-      "id": "CVE-2026-111583",
-      "published": "2026-10-27T16:17:29.643",
-      "modified": "2026-10-27T16:17:29.643",
-      "description": "Improper access control in the installer\nstaging directory used by TeamViewer Full Client and Host prior to version\n15.82 for Windows during installation of Advanced Asset Management allows a\nlocal authenticated user with low privileges to execute arbitrary commands as\nSYSTEM. An attacker can place a crafted installer options file that is\nprocessed by the Advanced Asset Management installer during service activation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111583"
-    },
-    {
-      "id": "CVE-2026-111582",
-      "published": "2026-10-27T16:17:29.513",
-      "modified": "2026-10-27T16:17:29.513",
-      "description": "A DLL loading vulnerability in the\nTeamViewer Remote Management Monitoring installer for Windows prior to version 26.10.1\nallows a local authenticated attacker with low privileges to execute arbitrary\ncode with elevated privileges. Exploitation requires user interaction.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111582"
     },
     {
       "id": "CVE-2026-113644",
@@ -12560,28 +12741,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113952"
-    },
-    {
-      "id": "CVE-2026-86929",
-      "published": "2026-10-26T21:20:30.323",
-      "modified": "2026-10-27T14:52:57.863",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Golden Gate 27, macOS Sequoia 15.8.2, macOS Tahoe 26.7.2. Processing a maliciously crafted file may lead to arbitrary code execution.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86929"
     },
     {
       "id": "CVE-2026-86916",
@@ -43801,159 +43960,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24186"
-    },
-    {
-      "id": "CVE-2026-24204",
-      "published": "2026-04-28T19:36:45.397",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "NVIDIA Flare SDK contains a vulnerability where an Attacker may cause an Improper Input Validation by path traversing. A successful exploit of this vulnerability may lead to information disclosure.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "-",
-          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:nvidia:nvflare:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24204"
-    },
-    {
-      "id": "CVE-2026-22745",
-      "published": "2026-04-29T12:16:18.620",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "Spring MVC and WebFlux applications are vulnerable to Denial of Service attacks when resolving static resources.\n\n\nMore precisely, an application can be vulnerable when all the following are true:\n\n  *  the application is using Spring MVC or Spring WebFlux\n  *  the application is serving static resources from the file system\n  *  the application is running on a Windows platform\n\n\nWhen all the conditions above are met, the attacker can send malicious requests that are slow to resolve and that can keep HTTP connections in use. This can cause a Denial of Service on the application.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:vmware:spring_framework:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-22745"
-    },
-    {
-      "id": "CVE-2026-42525",
-      "published": "2026-04-29T14:16:19.557",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "Jenkins Microsoft Entra ID (previously Azure AD) Plugin 666.v6060de32f87d and earlier does not restrict the redirect URL after login, allowing attackers to perform phishing attacks.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:jenkins:azure_ad:*:*:*:*:*:jenkins:*:*"
-      ],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42525"
-    },
-    {
-      "id": "CVE-2026-25852",
-      "published": "2026-04-29T15:16:05.313",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "Local privilege escalation due to DLL hijacking vulnerability. The following products are affected: Acronis DeviceLock DLP (Windows) before build 9.0.93212.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.0/AV:L/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25852"
-    },
-    {
-      "id": "CVE-2026-41220",
-      "published": "2026-04-29T15:16:05.950",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "Local privilege escalation due to improper input validation. The following products are affected: Acronis DeviceLock DLP (Windows) before build 9.0.93212, Acronis Cyber Protect Cloud Agent (Windows) before build 42183.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41220"
-    },
-    {
-      "id": "CVE-2026-41952",
-      "published": "2026-04-29T15:16:06.417",
-      "modified": "2026-10-26T20:10:00.160",
-      "description": "Local privilege escalation due to improper input validation. The following products are affected: Acronis DeviceLock DLP (Windows) before build 9.0.93212, Acronis Cyber Protect Cloud Agent (Windows) before build 42183.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41952"
     }
   ],
   "kev": [
@@ -45720,11 +45726,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 57,
+    "critical": 58,
     "high": 374,
-    "medium": 227,
+    "medium": 225,
     "kev": 6,
     "p1": 42,
-    "p2": 391
+    "p2": 392
   }
 }
