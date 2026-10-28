@@ -1,6 +1,29 @@
 {
-  "updated": "2026-10-28T23:06:40.416734+00:00",
+  "updated": "2026-10-28T23:46:22.476993+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-75520",
+      "published": "2026-10-28T23:17:10.537",
+      "modified": "2026-10-28T23:17:10.537",
+      "description": "Domoticz is a free, open source home automation system for Linux, Windows, macOS, and Raspberry Pi. Prior to 2026.3, the `udevices` JSON command handler, `Cmd_UpdateDevices` in `main/WebServerCmds.cpp`, performed no `session.rights` check before invoking a Lua parser script, while its sibling command handlers gate access by role. A low-privilege authenticated user could trigger execution of an existing operator-installed Lua parser script with attacker-controlled input through the `GET /json.htm` endpoint with `type=command` and `param=udevices`. The `script` parameter also lacked a `..` path-traversal guard: `CLuaHandler::executeLuaScript` in `main/LuaHandler.cpp` constructed the filename from the parser directory and the supplied script name before passing it to `luaL_loadfile`. Execution is limited to already-installed valid Lua files; this is not arbitrary code execution, and the advisory states that file-write and upload paths require administrator privileges. This issue is addressed in version 2026.3.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75520"
+    },
     {
       "id": "CVE-2026-83596",
       "published": "2026-08-31T21:17:55.190",
@@ -55839,40 +55862,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41134"
-    },
-    {
-      "id": "CVE-2026-6921",
-      "published": "2026-04-23T18:16:30.790",
-      "modified": "2026-10-26T22:10:00.163",
-      "description": "Race in GPU in Google Chrome on Windows prior to 147.0.7727.117 allowed a remote attacker to potentially perform a sandbox escape via a crafted video file. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:google:android:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-6921"
     }
   ],
   "kev": [
@@ -57642,10 +57631,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 38,
-    "high": 411,
-    "medium": 208,
+    "high": 410,
+    "medium": 209,
     "kev": 6,
     "p1": 29,
-    "p2": 421
+    "p2": 420
   }
 }
