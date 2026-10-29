@@ -1,6 +1,68 @@
 {
-  "updated": "2026-10-29T01:39:04.359732+00:00",
+  "updated": "2026-10-29T02:28:12.141277+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-57184",
+      "published": "2026-10-26T20:17:56.517",
+      "modified": "2026-10-29T02:16:52.357",
+      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, insufficient bounds checking in the `chan_ooh323` `Q.931` `information-element parser` permits an `out-of-bounds read` that may allow an unauthenticated attacker to crash Asterisk using carefully crafted `setup packets`. The `chan_ooh323` addon channel driver must be explicitly compiled and installed, which is not the default, and its port must be publicly reachable. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57184"
+    },
+    {
+      "id": "CVE-2026-114645",
+      "published": "2026-10-22T19:17:38.157",
+      "modified": "2026-10-29T02:16:50.320",
+      "description": "A 32-bit integer wraparound in the MongoDB C Driver's Windows-only Kerberos/SSPI authentication code can cause an undersized heap buffer to be allocated when an excessively long credential value is supplied in the client's connection configuration. A party able to control that client-side configuration, in conjunction with the affected authentication mechanism, can cause the driver to write outside the bounds of the allocated buffer. This may result in corruption of client process memory and denial of service of the client application. The issue affects only client builds compiled with the Windows-native authentication backend.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:N/VC:L/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114645"
+    },
+    {
+      "id": "CVE-2026-101935",
+      "published": "2026-10-28T08:16:29.567",
+      "modified": "2026-10-29T02:16:45.040",
+      "description": "The Echo Knowledge Base – Documentation, FAQs, Chat & Smart Search plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'new_kb_config' parameter (specifically the article-mobile-break-point-v2 key, among other config keys interpolated into the <style> element) in versions up to, and including, 17.214.0 This is due to insufficient input sanitization and output escaping in EPKB_Frontend_Editor::fe_preview_config() and EPKB_Articles_Setup: on every knowledge base article page view, when the request supplies epkb_fe_reload_mode=on, an attacker-controlled JSON blob is merged over the stored KB configuration and several values are concatenated directly into a stylesheet emitted inside a literal <style> element without escaping (minify_css() does not strip <, > or /). This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user (with Editor-level access or above, holding the manage_categories capability, or an Administrator) into performing an action such as clicking on a specially crafted link.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101935"
+    },
     {
       "id": "CVE-2026-75520",
       "published": "2026-10-28T23:17:10.537",
@@ -34220,26 +34282,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108133"
     },
     {
-      "id": "CVE-2026-101935",
-      "published": "2026-10-28T08:16:29.567",
-      "modified": "2026-10-28T13:46:33.207",
-      "description": "The Echo Knowledge Base – Documentation, FAQs, Chat & Smart Search plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'new_kb_config' parameter (specifically the article-mobile-break-point-v2 key, among other config keys interpolated into the <style> element) in versions up to, and including, 17.214.0 This is due to insufficient input sanitization and output escaping in EPKB_Frontend_Editor::fe_preview_config() and EPKB_Articles_Setup: on every knowledge base article page view, when the request supplies epkb_fe_reload_mode=on, an attacker-controlled JSON blob is merged over the stored KB configuration and several values are concatenated directly into a stylesheet emitted inside a literal <style> element without escaping (minify_css() does not strip <, > or /). This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user (with Editor-level access or above, holding the manage_categories capability, or an Administrator) into performing an action such as clicking on a specially crafted link.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101935"
-    },
-    {
       "id": "CVE-2026-108134",
       "published": "2026-10-13T19:18:03.830",
       "modified": "2026-10-28T13:41:27.793",
@@ -42259,26 +42301,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57187"
-    },
-    {
-      "id": "CVE-2026-57184",
-      "published": "2026-10-26T20:17:56.517",
-      "modified": "2026-10-27T15:08:50.630",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, insufficient bounds checking in the `chan_ooh323` `Q.931` `information-element parser` permits an `out-of-bounds read` that may allow an unauthenticated attacker to crash Asterisk using carefully crafted `setup packets`. The `chan_ooh323` addon channel driver must be explicitly compiled and installed, which is not the default, and its port must be publicly reachable. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57184"
     },
     {
       "id": "CVE-2026-116638",
@@ -55833,35 +55855,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-34068"
-    },
-    {
-      "id": "CVE-2026-41134",
-      "published": "2026-04-22T21:17:09.027",
-      "modified": "2026-10-26T22:10:00.163",
-      "description": "Kiota is an OpenAPI based HTTP Client code generator. Versions prior to 1.29.1 and 1.31.1 are affected by a code-generation literal injection vulnerability in multiple writer sinks (for example: serialization/deserialization keys, path/query parameter mappings, URL template metadata, enum/property metadata, and default value emission). When malicious values from an OpenAPI description are emitted into generated source without context-appropriate escaping, an attacker can break out of string literals and inject additional code into generated clients. This issue is only practically exploitable when the OpenAPI description used for generation is from an untrusted source, or a normally trusted OpenAPI description has been compromised/tampered with. Only generating from trusted, integrity-protected API descriptions significantly reduces the risk. To remediate the issue, upgrade Kiota to 1.29.1, 1.31.1, or later and regenerate/refresh existing generated clients as a precaution. Refreshing generated clients ensures previously generated vulnerable code is replaced with hardened output.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "kiota",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:kiota:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:kiota:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41134"
     }
   ],
   "kev": [
@@ -57631,10 +57624,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 38,
-    "high": 410,
-    "medium": 209,
+    "high": 409,
+    "medium": 210,
     "kev": 6,
     "p1": 29,
-    "p2": 420
+    "p2": 419
   }
 }
