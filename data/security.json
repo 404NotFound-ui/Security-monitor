@@ -1,6 +1,1270 @@
 {
-  "updated": "2026-10-30T17:13:20.209550+00:00",
+  "updated": "2026-10-30T17:54:45.747299+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-115805",
+      "published": "2026-10-29T17:18:01.840",
+      "modified": "2026-10-30T17:44:35.820",
+      "description": "Improper handling of local filesystem paths in Rapid7 Insight Agent on Linux and macOS may allow authenticated local users to gain elevated privileges. Exploitation requires existing local access and depends on the Agent's inventory collection processing the crafted path.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115805"
+    },
+    {
+      "id": "CVE-2026-119251",
+      "published": "2026-10-29T19:17:21.480",
+      "modified": "2026-10-30T17:44:35.820",
+      "description": "A malicious actor with local access and high privileges could exploit an Improper Access Control vulnerability found in WiFiman Desktop for macOS to escalate privileges on the host device.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119251"
+    },
+    {
+      "id": "CVE-2026-119250",
+      "published": "2026-10-29T19:17:21.363",
+      "modified": "2026-10-30T17:44:35.820",
+      "description": "A malicious actor with local access and low privileges could exploit an External Control of File Name or Path vulnerability found in WiFiman Desktop for macOS to execute arbitrary commands with root privileges on the host device.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119250"
+    },
+    {
+      "id": "CVE-2026-119249",
+      "published": "2026-10-29T19:17:21.237",
+      "modified": "2026-10-30T17:44:35.820",
+      "description": "A malicious actor with access to the network could exploit a Binding to an Unrestricted IP Address vulnerability found in WiFiman Desktop for macOS to obtain information about the host device.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119249"
+    },
+    {
+      "id": "CVE-2026-63917",
+      "published": "2026-07-19T16:17:09.783",
+      "modified": "2026-10-30T17:44:18.477",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nip6: vti: Use ip6_tnl.net in vti6_changelink().\n\nip netns add ns1\nip netns add ns2\nip -n ns1 link add vti6_test type vti6 remote ::1 local ::2 key 7\nip -n ns1 link set vti6_test netns ns2\nip -n ns2 link set vti6_test type vti6 remote ::3 local ::4 key 9\nip netns del ns2\nip netns del ns1\n[  132.495484] ------------[ cut here ]------------\n[  132.497609] kernel BUG at net/core/dev.c:12376!\n\nCommit 61220ab34948 (\"vti6: Enable namespace changing\") dropped\nNETIF_F_NETNS_LOCAL from vti6 devices. A vti6 tunnel can then\nmove through IFLA_NET_NS_FD. After the move dev_net(dev) points\nat the new netns while t->net stays at the creation netns.\n\nvti6_changelink() and vti6_update() still use dev_net(dev) and\ndev_net(t->dev). They unlink from one per netns hash and relink\ninto another. The creation netns is left with a stale entry.\ncleanup_net() of that netns later walks freed memory.\n\nReachable from an unprivileged user namespace (unshare --user\n--map-root-user --net). Cross tenant scope on container hosts.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63917"
+    },
+    {
+      "id": "CVE-2026-119193",
+      "published": "2026-10-29T20:17:30.340",
+      "modified": "2026-10-30T17:18:03.880",
+      "description": "PHPUnit is a testing framework for PHP. From 13.4.0 until 13.4.4, the TestCase::coverageFilesDirectory() logic in src/Runner/Phpt/TestCase.php creates temporary files for PHPT code coverage in a predictable phpunit-phpt directory under sys_get_temp_dir() and reuses that directory without verifying its ownership or permissions. On multi-user systems with a shared temporary path, a local attacker who creates the directory before the developer runs PHPT tests with code coverage can replace the generated job file before the child process executes it with require, allowing arbitrary code execution with the developer's privileges while the test and coverage report appear successful. PHPUnit 12.5 and earlier, default macOS and Windows configurations with per-user temporary directories, and single-user environments where another user cannot create files in the temporary path are not affected. This issue is fixed in 13.4.4.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119193"
+    },
+    {
+      "id": "CVE-2026-92092",
+      "published": "2026-10-29T20:17:36.440",
+      "modified": "2026-10-30T17:17:30.957",
+      "description": "A flaw was found in openshift-ansible. The installer container's `run` script downloads and executes remote inventory and dynamic scripts without integrity verification. A remote attacker, by performing a Man-in-the-Middle (MITM) attack or compromising the HTTP server providing these scripts, could substitute an arbitrary executable. This malicious executable would then run with the installer's user ID (UID) and full cluster-provisioning privileges, leading to arbitrary code execution.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92092"
+    },
+    {
+      "id": "CVE-2026-85268",
+      "published": "2026-10-30T11:17:33.750",
+      "modified": "2026-10-30T17:17:29.993",
+      "description": "A Cross-Site Scripting (XSS) (CWE-79) vulnerability in the auth/handler in Google Cloud Identity Platform and Firebase Authentication versions prior to 2026-08-14 on iOS allows an unauthenticated remote attacker to execute arbitrary JavaScript using a malicious iOS bundle ID.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Amber"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85268"
+    },
+    {
+      "id": "CVE-2026-79704",
+      "published": "2026-10-21T12:17:23.787",
+      "modified": "2026-10-30T17:17:29.490",
+      "description": "An out-of-bounds read vulnerability exists in the streaming RPC client of Apache bRPC (versions 1.11.0 through  1.17.0) on all platforms. A client that creates multiple streams in a single RPC expects the server response to carry exactly one extra_stream_id for every additional stream. The response handling path indexed the returned identifiers using the locally created stream count without first validating the size of the returned list, so a malicious or compromised server (or an on-path attacker) can trigger an out-of-bounds read in the client by returning a malformed StreamSettings response with fewer extra_stream_ids than expected. This may crash the client process (denial of service) or leak unintended memory contents into subsequent stream handling; surplus identifiers have no valid client-stream mapping and are processed inconsistently.\n\nRoot Cause:\nSince bRPC 1.11.0, a client can create multiple streams in one RPC via batch StreamCreate. The expected behavior is that the server response must return exactly (N-1) extra_stream_ids, where N is the number of locally created streams. In Controller::HandleStreamConnection, the response path reads extra_stream_ids[i-1] for each additional local stream without first comparing the returned list size with (N-1). If the server returns fewer identifiers, the read runs past the end of the returned list (out-of-bounds read); if it returns more, the surplus identifiers have no corresponding client-side stream.\n\nAffected Scenarios:\nA bRPC client using multi-stream RPC (creating more than one stream in a single RPC) that connects to an untrusted, malicious, or compromised server or to a server reached through an untrusted network path. The server sends a malformed StreamSettings response to trigger the issue.\n\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3485 \n\n\nNote:\nThe fix makes the client reject responses whose extra_stream_ids count does not exactly match the number of additional client streams. Such mismatched responses now fail the RPC with ERESPONSE and go through the existing stream cleanup path, instead of being partially processed.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-79704"
+    },
+    {
+      "id": "CVE-2026-78334",
+      "published": "2026-10-21T12:17:23.650",
+      "modified": "2026-10-30T17:17:29.320",
+      "description": "Missing authentication in the streaming RPC path of Apache bRPC (version < 1.18.0) on all platforms allows a remote attacker to bypass server authentication and inject or deliver streaming frames, when a server is configured with an Authenticator.\n\nRoot Cause:\nWhen authentication is configured, streaming RPC frames are consumed directly by the streaming parser (ParseStreamingMessage) and never pass through InputMessenger's authentication hook, so an unauthenticated peer can exchange frames without being authenticated. In addition, a server-accepted stream is bound lazily to the first frame that happens to carry its id, so a stream could accept a frame carrying its id from a socket other than the socket that created the stream.\n\nAffected Scenarios:\nA bRPC server configured with authentication that serves streaming RPC from an untrusted network, or a deployment where a foreign connection can impersonate a stream by id, can be made to accept unauthorized streaming frames.\n\nHow to Fix:\nUpgrade bRPC to 1.18.0, which fixes this issue, or apply the patch in PR https://github.com/apache/brpc/pull/3481. \n\nNote:\nThe fix rejects streaming frames on server sockets when configured authentication has not completed, and keeps server-accepted streams bound to the socket of their creating RPC and rejects frames arriving from another socket. Authenticated streaming RPC behavior and the wire format are unchanged; only unauthenticated or foreign-socket frames are now rejected.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78334"
+    },
+    {
+      "id": "CVE-2026-78066",
+      "published": "2026-10-21T12:17:23.527",
+      "modified": "2026-10-30T17:17:29.110",
+      "description": "Resource exhaustion in Apache bRPC (version < 1.18.0) on all platforms: multiple parsers that accept wire-controlled input bound no limit on the sizes declared by the client or on decompressed output, which attackers can use to drive disproportionate memory use and crash the process.\n\nRoot Cause:\n1) The gzip/zlib/snappy decompressors enforce no output limit: -max_body_size is checked against the compressed bytes only, so a cap-compliant body (e.g. 64 MiB) can decompress to tens of GiB.\n2) The AMF string readers allocate the declared length before the bytes are actually available.\n3) RTMP chunk headers may re-declare a message length mid-stream; the declared length was never bounded and the partial reassembly buffer kept growing.\n4) The sofa-pbrpc parser does not bound meta_size.\n5) mcpack2pb trusts wire-declared item counts for Reserve() and a string value_size of 0 underflows the buffer size, aborting the process.\n\nAffected Scenarios:\nAny bRPC service accepting gzip/zlib/snappy-compressed bodies or rtmp, sofa-pbrpc, or mcpack2pb messages from untrusted clients.\n\nHow to Fix:(Choose one of the following options) 1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n\n2. Apply this patch: https://github.com/apache/brpc/pull/3476\n\nNote:\nAfter the fix, requests whose decompressed size, RTMP message length, or mcpack declared count exceed the new limits are rejected. Operators who legitimately need larger values can raise the corresponding flag (-max_decompressed_body_size, max_body_size).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78066"
+    },
+    {
+      "id": "CVE-2026-78058",
+      "published": "2026-10-21T12:17:23.373",
+      "modified": "2026-10-30T17:17:28.880",
+      "description": "Uncontrolled resource consumption in the HTTP/2 (h2) receive path of Apache bRPC (version < 1.18.0) on all platforms allows a remote unauthenticated attacker to crash the server or grow its memory without bound by sending crafted HTTP/2 frames.\n\nRoot Cause:\nThe h2 parser, enabled by default on every bRPC server port and used by h2/gRPC clients, trusts the peer to respect receive-side limits that bRPC advertises but never enforces:\n1. SETTINGS_MAX_CONCURRENT_STREAMS defaulted to unlimited and was never checked on the server, letting a peer pin an unbounded number of pending streams per connection (~100x memory amplification).\n2. SETTINGS_MAX_HEADER_LIST_SIZE defaulted to unlimited and was never enforced; 1-byte HPACK indexed references amplify a small HEADERS frame ~4000x into an unbounded decoded header list (\"HPACK bomb\"), and a never-completed HEADERS/CONTINUATION block accumulates memory without limit.\n3. Control-frame acks (PING/SETTINGS acks, RST_STREAM, GOAWAY, WINDOW_UPDATE) unconditionally bypassed the -socket_max_unwritten_bytes write cap, so a PING flood combined with withheld TCP reads grew the connection buffer without the documented bound.\n4. The HPACK dynamic table size update was validated against the protocol default (4096) instead of the advertised SETTINGS_HEADER_TABLE_SIZE, which together with the dynamic-table queue/accounting issue can desynchronize the decoder and dereference NULL (crash).\n\nAffected scenarios:\nAny bRPC server serving HTTP/h2/gRPC to an untrusted network, and any bRPC h2/gRPC client connecting to an untrusted backend. The h2 parser runs before any Authenticator check on the shared port.\n\nHow to fix: \nUpgrade bRPC, or apply the patch in https://github.com/apache/brpc/pull/3474.\n\nNote:\nAfter applying the fix the following limits are enforced by default:\n- max_concurrent_streams: 1024 per connection (4294967295 restores unlimited).\n- max_header_list_size: 1 MiB decoded size per stream (4294967295 restores unlimited; -h2_client_max_header_list_size for clients).\n- h2 control-frame acks respect -socket_max_unwritten_bytes (-h2_ack_ignore_eovercrowded restores the old behavior).\nRequests exceeding these limits are rejected (RST_STREAM(REFUSED_STREAM) or a connection error).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78058"
+    },
+    {
+      "id": "CVE-2026-78048",
+      "published": "2026-10-21T12:17:23.213",
+      "modified": "2026-10-30T17:17:28.423",
+      "description": "A reachable-assertion flaw in the HPACK header-compression decoder of the HTTP/2 (h2/gRPC) stack in Apache bRPC (version < 1.18.0) on all platforms allows a remote attacker to crash the server process by sending a crafted sequence of HPACK headers, resulting in a denial of service.\n\nRoot Cause:\nIn src/brpc/details/hpack.cpp, IndexTable::Init sizes the dynamic-table ring buffer as num_headers = max_size / (32 + 2), i.e. it assumes a minimum table entry of 34 bytes (name >= 1 byte + value >= 1 byte + 32 bytes of overhead). However, RFC 7541 section 4.1 specifies that the minimum entry size is 33 bytes, because the value may be empty (name >= 1 byte + value == 0 + 32 bytes). For the default 4096-byte table this allocates only 120 slots (4096/34). Eviction in AddHeader is driven by byte usage (_max_size), not by slot count, so a peer can add 121 minimal 33-byte entries (121*33 = 3993 <= 4096) without triggering eviction. The 121st AddHeader then hits CHECK(!_header_queue.full()), which aborts the process.\n\nAffected Scenarios:\nUse a bRPC server that serves HTTP/2 or gRPC requests (e.g. via the h2 protocol) from an untrusted network. The malicious header block is processed during HPACK decoding of incoming requests without authentication.\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch: https://github.com/apache/brpc/pull/3462\n\nNote:\nThe fix sizes the dynamic table for the 33-byte minimum entry (max_size / (32 + 1)) and ensures at least one ring-buffer slot is kept when max_size is smaller than the minimum entry, so that initialization cannot fail on malloc(0).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-78048"
+    },
+    {
+      "id": "CVE-2026-74758",
+      "published": "2026-10-21T12:17:22.863",
+      "modified": "2026-10-30T17:17:28.090",
+      "description": "A heap use-after-free in the RTMP protocol component of Apache bRPC (versions < 1.18.0) allows a remote attacker to crash a bRPC RTMP server by sending a crafted Abort control message. No authentication or application-level request is required.\n\nRoot Cause:\nWhen an RTMP Abort control message names the chunk stream that is currently being parsed (the chunk stream carrying the message itself), RtmpChunkStream::OnAbortMessage calls RtmpContext::ClearChunkStream, which deletes the RtmpChunkStream while its Feed() is still running. After the message handler returns, Feed() continues to access members of the deleted object, resulting in a heap-use-after-free.\n\nAffected Scenarios:\nbRPC servers that enable RTMP support (ServerOptions.rtmp_service set) and accept connections from untrusted networks.\n\nHow to Fix:\n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3452 \n\nThe fix skips clearing the chunk stream when the Abort message targets the chunk stream that is currently being parsed.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74758"
+    },
+    {
+      "id": "CVE-2026-61789",
+      "published": "2026-10-30T17:17:26.743",
+      "modified": "2026-10-30T17:17:26.867",
+      "description": "DBHub is a database MCP server for Postgres, MySQL, SQL Server, Oracle, MariaDB, SQLite. Prior to 0.22.6, read-only SQL validation can be bypassed on the MySQL and MariaDB connectors. In `src/utils/sql-parser.ts`, `scanSingleLineComment` treats every double dash as a comment start, whereas MySQL and MariaDB require following whitespace, a control character, or the end of the line. The read-only check in `src/tools/execute-sql.ts` validates split statements with `isReadOnlySQL`, but `src/connectors/mysql/index.ts` and `src/connectors/mariadb/index.ts` execute the original string with `multipleStatements` enabled. A double dash followed by a non-whitespace character can therefore hide a subsequent write or destructive DDL statement from the validator while the database interprets the dashes as minus operators and executes both statements. Anyone able to influence the assistant's SQL, including through prompt injection in content the assistant reads, can bypass read-only mode to modify or drop database data, subject to the database account's privileges. PostgreSQL is not affected by this path because its double-dash parsing agrees with the checker and its connector executes individual split statements. This issue is fixed in version 0.22.6.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:N/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61789"
+    },
+    {
+      "id": "CVE-2026-42010",
+      "published": "2026-05-07T12:16:17.977",
+      "modified": "2026-10-30T17:17:24.523",
+      "description": "A flaw was found in gnutls. Servers configured with RSA-PSK (Rivest–Shamir–Adleman – Pre-Shared Key) wrongfully matched usernames containing a NUL character with truncated usernames. A remote attacker could exploit this by sending a specially crafted username, leading to an authentication bypass. This vulnerability allows an attacker to gain unauthorized access by circumventing the authentication process.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42010"
+    },
+    {
+      "id": "CVE-2026-42009",
+      "published": "2026-05-18T13:16:32.707",
+      "modified": "2026-10-30T17:17:23.663",
+      "description": "A flaw was found in gnutls. A remote attacker could exploit an issue in the Datagram Transport Layer Security (DTLS) packet reordering logic. The comparator function, responsible for ordering DTLS packets by sequence numbers, did not correctly handle packets with duplicate sequence numbers. This could lead to unstable packet ordering or undefined behavior, resulting in a denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "8.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "8.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "8.10",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for update services for sap solutions",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian els",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "10.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:gnutls:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:8.10:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:8.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:8.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_update_services_for_sap_solutions:9.8:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_els:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_eus:10.2:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_els:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_els:10.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:10.2:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42009"
+    },
+    {
+      "id": "CVE-2026-119299",
+      "published": "2026-10-30T17:17:18.230",
+      "modified": "2026-10-30T17:17:18.230",
+      "description": "gopacket provides packet processing capabilities for Go. Prior to 1.7.2, the SCTP chunk chain in layers/sctp.go passes attacker-controlled declared lengths and counts to decodeSCTPInit, decodeSCTPShutdown, decodeSCTPError, decodeSCTPSack, and decodeSCTPParameter without checking that each chunk contains the fixed fields, parameter TLVs, gap acknowledgements, or duplicate TSNs those sub-decoders read. A crafted SCTP segment can therefore cause out-of-bounds or inverted slice panics; the panic can terminate applications that use gopacket.DecodeOptions.SkipDecodeRecovery, direct registered decoders, or DecodingLayerParser with IgnorePanic enabled, while the default recovery-enabled APIs convert it to a per-packet decode error. This is the SCTP sub-decoder residual named but not remediated by CVE-2026-65819, whose version 1.7.1 changes bounded the generic dispatcher but left these per-type reads and loops unchecked. The impact is availability only, with no data disclosure, modification, or allocation amplification. This issue is fixed in version 1.7.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119299"
+    },
+    {
+      "id": "CVE-2026-107239",
+      "published": "2026-10-29T23:16:54.887",
+      "modified": "2026-10-30T17:17:12.403",
+      "description": "A vulnerability allowing a member of the Veeam Virtualization Extensions Users group to perform remote code execution (RCE) on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107239"
+    },
+    {
+      "id": "CVE-2026-107238",
+      "published": "2026-10-29T23:16:54.760",
+      "modified": "2026-10-30T17:17:12.280",
+      "description": "A vulnerability allowing an authenticated domain user to perform remote code execution (RCE) as the LocalSystem account on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107238"
+    },
+    {
+      "id": "CVE-2024-9675",
+      "published": "2024-10-09T15:15:17.837",
+      "modified": "2026-10-30T17:17:10.070",
+      "description": "A vulnerability was found in Buildah. Cache mounts do not properly validate that user-specified paths for the cache are within our cache directory, allowing a `RUN` instruction in a Container file to mount an arbitrary directory from the host (read/write) into the container as long as those files can be accessed by the user running Buildah.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.17",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64",
+          "version": "8.0_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.0_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64",
+          "version": "9.0_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:9.0_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64 eus",
+          "version": "8.8_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:8.8_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64 eus",
+          "version": "9.0_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.0_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64 eus",
+          "version": "9.2_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.2_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64 eus",
+          "version": "9.4_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.4_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "8.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "8.8_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.8_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.2_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.4_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.4_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "8.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "8.8_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.8_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.2_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.4_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.4_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "9.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "9.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "8.6_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.6_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "8.8_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.8_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.2_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.2_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.4_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.4_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux update services for sap solutions",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux update services for sap solutions",
+          "version": "8.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:8.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux update services for sap solutions",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux update services for sap solutions",
+          "version": "9.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux update services for sap solutions",
+          "version": "9.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.4:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:buildah_project:buildah:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.0_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:9.0_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:8.8_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.0_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.2_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.4_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.8_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.4_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.8_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.4_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.6_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:8.8_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.2_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.4_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:8.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_update_services_for_sap_solutions:9.4:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9675"
+    },
+    {
+      "id": "CVE-2024-7557",
+      "published": "2024-08-12T13:38:43.727",
+      "modified": "2026-10-30T17:17:09.797",
+      "description": "A vulnerability was found in OpenShift AI that allows for authentication bypass and privilege escalation across models within the same namespace. When deploying AI models, the UI provides the option to protect models with authentication. However, credentials from one model can be used to access other models and APIs within the same namespace. The exposed ServiceAccount tokens, visible in the UI, can be utilized with oc --token={token} to exploit the elevated view privileges associated with the ServiceAccount, leading to unauthorized access to additional resources.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift ai",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift_ai:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift data science",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:openshift_data_science:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:openshift_ai:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_data_science:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION",
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7557"
+    },
+    {
+      "id": "CVE-2023-22793",
+      "published": "2026-10-29T23:16:54.270",
+      "modified": "2026-10-30T17:17:07.530",
+      "description": "A vulnerability allowing an unauthenticated attacker to perform remote code execution (RCE) on servers running the Veeam Virtualization Extensions service of Veeam Management Pack for Microsoft System Center.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22793"
+    },
+    {
+      "id": "CVE-2013-2056",
+      "published": "2013-07-31T13:20:24.697",
+      "modified": "2026-10-30T17:17:07.210",
+      "description": "A flaw was found in Red Hat Network Satellite. The Inter-Satellite Sync (ISS) operation, which synchronizes data between satellites, does not properly verify the authenticity of clients. This allows remote attackers to bypass the initial authentication process and obtain sensitive channel content. This vulnerability leads to unauthorized information disclosure.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "5.3",
+          "cpe": "cpe:2.3:a:redhat:satellite:5.3:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "5.4",
+          "cpe": "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "5.5",
+          "cpe": "cpe:2.3:a:redhat:satellite:5.5:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:satellite:5.3:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:satellite:5.5:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-2056"
+    },
+    {
+      "id": "CVE-2012-5562",
+      "published": "2019-12-02T19:15:11.027",
+      "modified": "2026-10-30T17:17:06.707",
+      "description": "A flaw was found in rhn-proxy. This vulnerability may allow the rhn-proxy to transmit user credentials in clear-text when it accesses RHN Satellite. This could lead to information disclosure, where sensitive authentication details are exposed to unauthorized parties.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:satellite:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:satellite:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-5562"
+    },
+    {
+      "id": "CVE-2026-61730",
+      "published": "2026-10-30T15:16:53.223",
+      "modified": "2026-10-30T17:13:54.187",
+      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. In affected deployments, the unauthenticated `/scoutsuite-report` `StaticFiles` mount in `backend/copilot.py` exposes the `scoutsuite-report` directory even though normal /api routes require JWT authentication. Generated HTML reports and `scoutsuite-results/scoutsuite_results_<name>.js` files disclose AWS, Azure and GCP IAM principals, resource inventories, misconfigurations and findings. Report names derive from caller-selected names with predictable defaults. During an admin- or analyst-initiated GCP scan, `backend/app/integrations/scoutsuite/routes/scoutsuite.py` saves the uploaded Google service-account JSON key into that same web-served directory. In `backend/app/integrations/scoutsuite/services/scoutsuite.py`, `generate_gcp_report_background` removes the key only after the scan finishes. Any anonymous client that can reach the host and request the file path can therefore retrieve the private key during the scan and use the service account's cloud permissions, as well as read retained cloud-security reports. Credential isolation is released in version 0.1.77; a release fully remediating the report-disclosure component has not been established.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61730"
+    },
+    {
+      "id": "CVE-2026-61708",
+      "published": "2026-10-30T15:16:52.793",
+      "modified": "2026-10-30T17:13:54.187",
+      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. Prior to 0.1.76, `POST /api/agent_data_store/upload` in `backend/app/data_store/data_store_routes.py` permits `customer_user` callers to choose `bucket_name` and `object_name` without an allowlist, tenant prefix, ownership check or content restriction. The only file check requires a nonempty filename. The operations in `backend/app/data_store/data_store_operations.py` create missing buckets and upsert objects, allowing existing objects belonging to any tenant to be overwritten. Targets include `sysmon-configs/<customer_code>/sysmon_config.xml` distributed to managed Windows endpoints, `copilot-case-report-templates/<name>` rendered server-side, and case evidence or forensic artifacts under `copilot-cases/<case_id>/<file>` and `velociraptor-artifacts/<agent_id>/<flow_id>/<file>`. A lowest-privilege user can tamper with cross-tenant evidence, blind endpoint telemetry, poison report templates for later code execution, plant data or exhaust storage. Sibling list, download and delete routes remain restricted to admin/analyst; the exposed operation is the upload write path. This issue is fixed in version 0.1.76.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61708"
+    },
+    {
+      "id": "CVE-2026-119288",
+      "published": "2026-10-30T16:17:42.873",
+      "modified": "2026-10-30T17:13:54.187",
+      "description": "Zuke is a code-first, strongly typed build automation system for Deno. Prior to 1.51.0, @zuke/core launches resolved Windows .cmd and .bat shims by prepending cmd /c, causing cmd.exe to reparse a command line assembled with C-runtime quoting rules. A build running on Windows that resolves a tool from node_modules/.bin and passes attacker-influenced text containing an unquoted &, |, or ^ metacharacter can execute an additional attacker-chosen command in the build's context with access to its credentials. POSIX platforms are not affected. This issue is fixed in version 1.51.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119288"
+    },
     {
       "id": "CVE-2026-118778",
       "published": "2026-10-29T19:17:20.420",
@@ -43,46 +1307,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92203"
-    },
-    {
-      "id": "CVE-2026-61730",
-      "published": "2026-10-30T15:16:53.223",
-      "modified": "2026-10-30T16:17:57.870",
-      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. In affected deployments, the unauthenticated `/scoutsuite-report` `StaticFiles` mount in `backend/copilot.py` exposes the `scoutsuite-report` directory even though normal /api routes require JWT authentication. Generated HTML reports and `scoutsuite-results/scoutsuite_results_<name>.js` files disclose AWS, Azure and GCP IAM principals, resource inventories, misconfigurations and findings. Report names derive from caller-selected names with predictable defaults. During an admin- or analyst-initiated GCP scan, `backend/app/integrations/scoutsuite/routes/scoutsuite.py` saves the uploaded Google service-account JSON key into that same web-served directory. In `backend/app/integrations/scoutsuite/services/scoutsuite.py`, `generate_gcp_report_background` removes the key only after the scan finishes. Any anonymous client that can reach the host and request the file path can therefore retrieve the private key during the scan and use the service account's cloud permissions, as well as read retained cloud-security reports. Credential isolation is released in version 0.1.77; a release fully remediating the report-disclosure component has not been established.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61730"
-    },
-    {
-      "id": "CVE-2026-61708",
-      "published": "2026-10-30T15:16:52.793",
-      "modified": "2026-10-30T16:17:57.763",
-      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. Prior to 0.1.76, `POST /api/agent_data_store/upload` in `backend/app/data_store/data_store_routes.py` permits `customer_user` callers to choose `bucket_name` and `object_name` without an allowlist, tenant prefix, ownership check or content restriction. The only file check requires a nonempty filename. The operations in `backend/app/data_store/data_store_operations.py` create missing buckets and upsert objects, allowing existing objects belonging to any tenant to be overwritten. Targets include `sysmon-configs/<customer_code>/sysmon_config.xml` distributed to managed Windows endpoints, `copilot-case-report-templates/<name>` rendered server-side, and case evidence or forensic artifacts under `copilot-cases/<case_id>/<file>` and `velociraptor-artifacts/<agent_id>/<flow_id>/<file>`. A lowest-privilege user can tamper with cross-tenant evidence, blind endpoint telemetry, poison report templates for later code execution, plant data or exhaust storage. Sibling list, download and delete routes remain restricted to admin/analyst; the exposed operation is the upload write path. This issue is fixed in version 0.1.76.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61708"
     },
     {
       "id": "CVE-2026-48164",
@@ -145,26 +1369,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119703"
-    },
-    {
-      "id": "CVE-2026-119288",
-      "published": "2026-10-30T16:17:42.873",
-      "modified": "2026-10-30T16:17:42.873",
-      "description": "Zuke is a code-first, strongly typed build automation system for Deno. Prior to 1.51.0, @zuke/core launches resolved Windows .cmd and .bat shims by prepending cmd /c, causing cmd.exe to reparse a command line assembled with C-runtime quoting rules. A build running on Windows that resolves a tool from node_modules/.bin and passes attacker-influenced text containing an unquoted &, |, or ^ metacharacter can execute an additional attacker-chosen command in the build's context with access to its credentials. POSIX platforms are not affected. This issue is fixed in version 1.51.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119288"
     },
     {
       "id": "CVE-2026-10843",
@@ -5682,28 +6886,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119566"
     },
     {
-      "id": "CVE-2026-85268",
-      "published": "2026-10-30T11:17:33.750",
-      "modified": "2026-10-30T11:17:33.750",
-      "description": "A Cross-Site Scripting (XSS) (CWE-79) vulnerability in the auth/handler in Google Cloud Identity Platform and Firebase Authentication versions prior to 2026-08-14 on iOS allows an unauthenticated remote attacker to execute arbitrary JavaScript using a malicious iOS bundle ID.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Amber"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85268"
-    },
-    {
       "id": "CVE-2026-111497",
       "published": "2026-10-22T14:17:37.190",
       "modified": "2026-10-30T11:17:32.020",
@@ -6221,29 +7403,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92574"
     },
     {
-      "id": "CVE-2026-92092",
-      "published": "2026-10-29T20:17:36.440",
-      "modified": "2026-10-30T05:16:59.817",
-      "description": "A flaw was found in openshift-ansible. The installer container's `run` script downloads and executes remote inventory and dynamic scripts without integrity verification. A remote attacker, by performing a Man-in-the-Middle (MITM) attack or compromising the HTTP server providing these scripts, could substitute an arbitrary executable. This malicious executable would then run with the installer's user ID (UID) and full cluster-provisioning privileges, leading to arbitrary code execution.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.4,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "RCE",
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92092"
-    },
-    {
       "id": "CVE-2026-75888",
       "published": "2026-10-12T17:17:35.723",
       "modified": "2026-10-30T05:16:59.470",
@@ -6714,26 +7873,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84295"
     },
     {
-      "id": "CVE-2026-115805",
-      "published": "2026-10-29T17:18:01.840",
-      "modified": "2026-10-30T04:18:18.673",
-      "description": "Improper handling of local filesystem paths in Rapid7 Insight Agent on Linux and macOS may allow authenticated local users to gain elevated privileges. Exploitation requires existing local access and depends on the Agent's inventory collection processing the crafted path.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115805"
-    },
-    {
       "id": "CVE-2026-28367",
       "published": "2026-03-27T17:16:27.750",
       "modified": "2026-10-30T03:16:41.440",
@@ -7146,72 +8285,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58010"
     },
     {
-      "id": "CVE-2026-107239",
-      "published": "2026-10-29T23:16:54.887",
-      "modified": "2026-10-29T23:16:54.887",
-      "description": "A vulnerability allowing a member of the Veeam Virtualization Extensions Users group to perform remote code execution (RCE) on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107239"
-    },
-    {
-      "id": "CVE-2026-107238",
-      "published": "2026-10-29T23:16:54.760",
-      "modified": "2026-10-29T23:16:54.760",
-      "description": "A vulnerability allowing an authenticated domain user to perform remote code execution (RCE) as the LocalSystem account on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107238"
-    },
-    {
-      "id": "CVE-2023-22793",
-      "published": "2026-10-29T23:16:54.270",
-      "modified": "2026-10-29T23:16:54.270",
-      "description": "A vulnerability allowing an unauthenticated attacker to perform remote code execution (RCE) on servers running the Veeam Virtualization Extensions service of Veeam Management Pack for Microsoft System Center.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22793"
-    },
-    {
       "id": "CVE-2026-68563",
       "published": "2026-07-30T22:16:56.353",
       "modified": "2026-10-29T22:17:08.127",
@@ -7341,68 +8414,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13717"
-    },
-    {
-      "id": "CVE-2026-119251",
-      "published": "2026-10-29T19:17:21.480",
-      "modified": "2026-10-29T21:17:20.790",
-      "description": "A malicious actor with local access and high privileges could exploit an Improper Access Control vulnerability found in WiFiman Desktop for macOS to escalate privileges on the host device.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119251"
-    },
-    {
-      "id": "CVE-2026-119250",
-      "published": "2026-10-29T19:17:21.363",
-      "modified": "2026-10-29T21:17:20.667",
-      "description": "A malicious actor with local access and low privileges could exploit an External Control of File Name or Path vulnerability found in WiFiman Desktop for macOS to execute arbitrary commands with root privileges on the host device.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119250"
-    },
-    {
-      "id": "CVE-2026-119249",
-      "published": "2026-10-29T19:17:21.237",
-      "modified": "2026-10-29T21:17:20.567",
-      "description": "A malicious actor with access to the network could exploit a Binding to an Unrestricted IP Address vulnerability found in WiFiman Desktop for macOS to obtain information about the host device.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119249"
     },
     {
       "id": "CVE-2026-118641",
@@ -8890,29 +9901,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51831"
-    },
-    {
-      "id": "CVE-2026-119193",
-      "published": "2026-10-29T20:17:30.340",
-      "modified": "2026-10-29T20:17:30.340",
-      "description": "PHPUnit is a testing framework for PHP. From 13.4.0 until 13.4.4, the TestCase::coverageFilesDirectory() logic in src/Runner/Phpt/TestCase.php creates temporary files for PHPT code coverage in a predictable phpunit-phpt directory under sys_get_temp_dir() and reuses that directory without verifying its ownership or permissions. On multi-user systems with a shared temporary path, a local attacker who creates the directory before the developer runs PHPT tests with code coverage can replace the generated job file before the child process executes it with require, allowing arbitrary code execution with the developer's privileges while the test and coverage report appear successful. PHPUnit 12.5 and earlier, default macOS and Windows configurations with per-user temporary directories, and single-user environments where another user cannot create files in the temporary path are not affected. This issue is fixed in 13.4.4.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119193"
     },
     {
       "id": "CVE-2026-116197",
@@ -69915,482 +70903,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118174"
-    },
-    {
-      "id": "CVE-2026-112351",
-      "published": "2026-10-27T20:17:12.853",
-      "modified": "2026-10-28T14:41:48.527",
-      "description": "Sunhillo SureLine before 9.1.5 contains an OS command injection vulnerability in the networkDiag.cgi endpoint that allows an authenticated remote attacker with any web account to execute arbitrary commands as root by injecting shell metacharacters into the ipAddr or dnsAddr parameters. Attackers can bypass the incomplete character denylist from the prior CVE-2021-36380 fix using URL-encoded newline (%0a) or ampersand (%26) sequences that act as command separators after decoding in the ping, nslookup, or traceroute diagnostic modes, leading to full system compromise.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112351"
-    },
-    {
-      "id": "CVE-2026-115495",
-      "published": "2026-10-27T16:17:30.420",
-      "modified": "2026-10-28T14:39:26.893",
-      "description": "Cleartext Transmission of Sensitive Information vulnerability in the WatchGuard Mobile VPN with SSL client for Windows allows a local attacker who can capture loopback traffic to obtain the user’s VPN username and password.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115495"
-    },
-    {
-      "id": "CVE-2026-112710",
-      "published": "2026-10-27T16:17:30.120",
-      "modified": "2026-10-28T14:39:26.893",
-      "description": "A heap-based buffer overflow vulnerability exists in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112710"
-    },
-    {
-      "id": "CVE-2026-112709",
-      "published": "2026-10-27T16:17:29.997",
-      "modified": "2026-10-28T14:39:26.893",
-      "description": "A heap-based buffer overflow vulnerability in the Fireware OS authentication service allows an attacker who controls or intercepts traffic to the configured Active Directory server to create a denial of service condition and potentially execute arbitrary code by returning a specially crafted response.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.2,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112709"
-    },
-    {
-      "id": "CVE-2026-104029",
-      "published": "2026-10-05T20:17:08.487",
-      "modified": "2026-10-28T14:30:30.303",
-      "description": "A flaw was found in SSSD. A local attacker can exploit this vulnerability by sending a specially crafted request to the autofs responder UNIX socket. Due to improper buffer offset calculation during request parsing, the service performs an out-of-bounds memory read. This flaw can cause the autofs responder process to crash, resulting in a denial of service (DoS).",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104029"
-    },
-    {
-      "id": "CVE-2026-104030",
-      "published": "2026-10-05T20:17:08.637",
-      "modified": "2026-10-28T14:28:14.463",
-      "description": "A flaw was found in sssd. This vulnerability allows a local user to cause a Denial of Service (DoS) by submitting a specially crafted passkey authentication token that lacks null terminators. The authentication service reads past the end of the provided memory buffer, causing the process to crash and disrupting authentication services.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104030"
-    },
-    {
-      "id": "CVE-2026-104031",
-      "published": "2026-10-06T01:16:33.843",
-      "modified": "2026-10-28T14:27:44.513",
-      "description": "A flaw was found in SSSD. In configurations where the autofs responder service is enabled, memory allocated during successful request processing is not released until the client connection terminates. A local attacker can exploit this vulnerability by maintaining an open connection and repeatedly submitting valid requests, leading to memory exhaustion and a Denial of Service (DoS).",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104031"
-    },
-    {
-      "id": "CVE-2026-57188",
-      "published": "2026-10-27T18:17:37.367",
-      "modified": "2026-10-28T14:22:07.513",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, an authenticated attacker may cause a stack buffer overflow in `res_xmpp` `XMPP namespace prefix` handling using carefully crafted packets. The `res_xmpp` module must be loaded, an XMPP connection must be configured in `xmpp.conf`, and the attacker must have an XMPP account on the same or a federated server. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57188"
-    },
-    {
-      "id": "CVE-2026-104032",
-      "published": "2026-10-06T01:16:33.997",
-      "modified": "2026-10-28T14:20:47.917",
-      "description": "A flaw was found in SSSD. An unprivileged local user can repeatedly request master automount map updates through the autofs responder due to missing authorization checks. This triggers global cache invalidation and forces repeated lookups to backend directory providers, leading to a Denial of Service (DoS) from degraded automount availability and elevated resource consumption.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104032"
-    },
-    {
-      "id": "CVE-2026-87879",
-      "published": "2026-10-28T11:17:28.137",
-      "modified": "2026-10-28T14:19:59.503",
-      "description": "Sensitive information disclosure due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87879"
-    },
-    {
-      "id": "CVE-2026-87101",
-      "published": "2026-10-28T11:17:27.647",
-      "modified": "2026-10-28T14:19:59.503",
-      "description": "Sensitive information disclosure due to improper token validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.2,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87101"
-    },
-    {
-      "id": "CVE-2026-87099",
-      "published": "2026-10-28T11:17:27.380",
-      "modified": "2026-10-28T14:19:59.503",
-      "description": "Cross-site scripting (XSS) vulnerability due to improper input validation. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.0/AV:N/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87099"
-    },
-    {
-      "id": "CVE-2026-87098",
-      "published": "2026-10-28T11:17:27.253",
-      "modified": "2026-10-28T14:19:59.503",
-      "description": "Sensitive information disclosure due to improper authorization. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87098"
-    },
-    {
-      "id": "CVE-2026-87097",
-      "published": "2026-10-28T11:17:27.120",
-      "modified": "2026-10-28T14:19:59.503",
-      "description": "Sensitive information disclosure due to insufficiently protected credentials. The following products are affected: Acronis Cyber Protect 17 (Linux, Windows) before build 42587.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87097"
-    },
-    {
-      "id": "CVE-2026-57199",
-      "published": "2026-10-27T22:17:27.723",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, `app_sms.c` copies externally controlled `SMS` lengths into `fixed in-struct buffers` without sufficient bounds checks, allowing an attacker to corrupt memory or crash Asterisk. The administrator must explicitly use the `SMS` dialplan application, which is useful when routing calls to or from `analog devices`, and must not have ensured that data passed to the application is valid. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.3,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57199"
     }
   ],
   "kev": [
@@ -72161,11 +72673,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 46,
-    "high": 561,
-    "medium": 323,
+    "critical": 45,
+    "high": 571,
+    "medium": 317,
     "kev": 5,
-    "p1": 26,
-    "p2": 581
+    "p1": 27,
+    "p2": 589
   }
 }
