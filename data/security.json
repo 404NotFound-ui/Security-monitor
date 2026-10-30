@@ -1,6 +1,48 @@
 {
-  "updated": "2026-10-30T07:12:25.750748+00:00",
+  "updated": "2026-10-30T08:13:54.137730+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-118593",
+      "published": "2026-10-30T07:16:33.207",
+      "modified": "2026-10-30T07:16:33.357",
+      "description": "A flaw was found in Red Hat Enterprise Linux 9 kernel builds. An incomplete backport of the CVE-2026-46099 fix in RHEL 9.6 through 9.10 left a local_bh imbalance in seg6_input_core(), where the drop path returns with bottom halves still disabled. This can lead to softirq starvation and denial of service on systems with SRv6 tunnels configured. Upstream and RHEL 10 are not affected.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118593"
+    },
+    {
+      "id": "CVE-2026-114406",
+      "published": "2026-10-21T21:17:58.547",
+      "modified": "2026-10-30T07:16:32.100",
+      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
+    },
     {
       "id": "CVE-2026-71226",
       "published": "2026-08-05T13:24:47.223",
@@ -163,26 +205,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
-    },
-    {
-      "id": "CVE-2026-114406",
-      "published": "2026-10-21T21:17:58.547",
-      "modified": "2026-10-30T05:16:58.400",
-      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
     },
     {
       "id": "CVE-2026-96203",
@@ -74963,26 +74985,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112697"
-    },
-    {
-      "id": "CVE-2026-112698",
-      "published": "2026-10-26T21:18:04.697",
-      "modified": "2026-10-27T14:53:24.677",
-      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 26.7.2 and iPadOS 26.7.2, iOS 27.2 and iPadOS 27.2, macOS Golden Gate 27.2, macOS Sequoia 15.8.2, macOS Tahoe 26.7.2. An app may be able to cause unexpected system termination.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112698"
     }
   ],
   "kev": [
@@ -76755,7 +76757,7 @@
     "total_relevant_cves": 1000,
     "critical": 40,
     "high": 544,
-    "medium": 285,
+    "medium": 286,
     "kev": 6,
     "p1": 28,
     "p2": 556
