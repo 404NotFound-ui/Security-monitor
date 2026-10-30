@@ -1,6 +1,191 @@
 {
-  "updated": "2026-10-30T16:17:30.737533+00:00",
+  "updated": "2026-10-30T17:13:20.209550+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-118778",
+      "published": "2026-10-29T19:17:20.420",
+      "modified": "2026-10-30T17:07:53.700",
+      "description": "Forge (also called node-forge) is a native implementation of Transport Layer Security in JavaScript. Prior to 1.4.1, the affected implementation used forge.tls.createConnection(), c.session.serverCertificate, RSA key exchange to process the relevant input or security decision. node-forge's TLS client checked the wrong property when deciding whether a server certificate was missing. A malicious TLS server or on-path peer could omit the Certificate message and reach code that dereferenced the absent certificate, causing an uncaught exception and terminating the connection or process. This issue is fixed in version 1.4.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118778"
+    },
+    {
+      "id": "CVE-2026-92203",
+      "published": "2026-10-21T18:17:30.757",
+      "modified": "2026-10-30T16:17:59.520",
+      "description": "Airbyte SharePoint Connector _get_shared_drive_object Server-Side Request Forgery Information Disclosure Vulnerability. This vulnerability allows remote attackers to initiate arbitrary server-side requests on affected installations of Airbyte. Authentication is required to exploit this vulnerability.\n\nThe specific flaw exists within the implementation of the _get_shared_drive_object method. The issue results from the lack of proper validation of a URI prior to accessing resources. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28215.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92203"
+    },
+    {
+      "id": "CVE-2026-61730",
+      "published": "2026-10-30T15:16:53.223",
+      "modified": "2026-10-30T16:17:57.870",
+      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. In affected deployments, the unauthenticated `/scoutsuite-report` `StaticFiles` mount in `backend/copilot.py` exposes the `scoutsuite-report` directory even though normal /api routes require JWT authentication. Generated HTML reports and `scoutsuite-results/scoutsuite_results_<name>.js` files disclose AWS, Azure and GCP IAM principals, resource inventories, misconfigurations and findings. Report names derive from caller-selected names with predictable defaults. During an admin- or analyst-initiated GCP scan, `backend/app/integrations/scoutsuite/routes/scoutsuite.py` saves the uploaded Google service-account JSON key into that same web-served directory. In `backend/app/integrations/scoutsuite/services/scoutsuite.py`, `generate_gcp_report_background` removes the key only after the scan finishes. Any anonymous client that can reach the host and request the file path can therefore retrieve the private key during the scan and use the service account's cloud permissions, as well as read retained cloud-security reports. Credential isolation is released in version 0.1.77; a release fully remediating the report-disclosure component has not been established.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61730"
+    },
+    {
+      "id": "CVE-2026-61708",
+      "published": "2026-10-30T15:16:52.793",
+      "modified": "2026-10-30T16:17:57.763",
+      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. Prior to 0.1.76, `POST /api/agent_data_store/upload` in `backend/app/data_store/data_store_routes.py` permits `customer_user` callers to choose `bucket_name` and `object_name` without an allowlist, tenant prefix, ownership check or content restriction. The only file check requires a nonempty filename. The operations in `backend/app/data_store/data_store_operations.py` create missing buckets and upsert objects, allowing existing objects belonging to any tenant to be overwritten. Targets include `sysmon-configs/<customer_code>/sysmon_config.xml` distributed to managed Windows endpoints, `copilot-case-report-templates/<name>` rendered server-side, and case evidence or forensic artifacts under `copilot-cases/<case_id>/<file>` and `velociraptor-artifacts/<agent_id>/<flow_id>/<file>`. A lowest-privilege user can tamper with cross-tenant evidence, blind endpoint telemetry, poison report templates for later code execution, plant data or exhaust storage. Sibling list, download and delete routes remain restricted to admin/analyst; the exposed operation is the upload write path. This issue is fixed in version 0.1.76.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61708"
+    },
+    {
+      "id": "CVE-2026-48164",
+      "published": "2026-10-30T15:16:52.217",
+      "modified": "2026-10-30T16:17:56.430",
+      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, the `host_session_id` query/form parameter is substituted into the `cool.html` editor page without HTML encoding, unlike parameters passed through the existing variable-encoding mechanism. An attacker who induces a victim to load a crafted URL can inject HTML and, in the absence of an effective `Content Security Policy`, execute scripts in the Collabora Online iframe's origin, exposing the session authentication token and page contents. A reverse proxy that preserves the `Content Security Policy` header sent by `coolwsd` mitigates the script-execution scenario. This issue is fixed in versions 24.04.18 and 25.04.11.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48164"
+    },
+    {
+      "id": "CVE-2026-119719",
+      "published": "2026-10-30T16:17:55.473",
+      "modified": "2026-10-30T16:17:55.473",
+      "description": "Blender before 4.5.15 and 5.x before 5.2.3 contains a heap buffer overflow vulnerability in the blend file thumbnail extractor caused by 32-bit integer overflow in thumb_data_vertical_flip(). Attackers can craft a .blend file with malicious TEST block dimensions that trigger an out-of-bounds write when blender-thumbnailer or the Windows shell extension previews it, causing crashes or code execution.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119719"
+    },
+    {
+      "id": "CVE-2026-119703",
+      "published": "2026-10-30T16:17:51.120",
+      "modified": "2026-10-30T16:17:51.120",
+      "description": "xiaozhi-esp32-server through 0.9.8 contains an authentication bypass vulnerability in WebSocketServer._handle_auth that allows remote unauthenticated attackers to skip Bearer HMAC token verification by spoofing the Device-ID header. Attackers supplying an allowlisted MAC-address-shaped device identifier can open an authenticated WebSocket session, issue voice-assistant commands, exchange audio, and read that device's conversation context.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119703"
+    },
+    {
+      "id": "CVE-2026-119288",
+      "published": "2026-10-30T16:17:42.873",
+      "modified": "2026-10-30T16:17:42.873",
+      "description": "Zuke is a code-first, strongly typed build automation system for Deno. Prior to 1.51.0, @zuke/core launches resolved Windows .cmd and .bat shims by prepending cmd /c, causing cmd.exe to reparse a command line assembled with C-runtime quoting rules. A build running on Windows that resolves a tool from node_modules/.bin and passes attacker-influenced text containing an unquoted &, |, or ^ metacharacter can execute an additional attacker-chosen command in the build's context with access to its credentials. POSIX platforms are not affected. This issue is fixed in version 1.51.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119288"
+    },
+    {
+      "id": "CVE-2026-10843",
+      "published": "2026-06-04T12:16:24.970",
+      "modified": "2026-10-30T16:17:37.400",
+      "description": "A flaw was found in the OpenShift Cloud Credential Operator Mint-mode IAM policies for AWS. Operator credentials are provisioned with account-wide scope for destructive actions rather than being restricted to cluster-owned resources, enabling cross-scope impact after credential compromise.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-10843"
+    },
     {
       "id": "CVE-2026-76294",
       "published": "2026-10-21T23:17:27.323",
@@ -297,66 +482,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61916"
-    },
-    {
-      "id": "CVE-2026-61730",
-      "published": "2026-10-30T15:16:53.223",
-      "modified": "2026-10-30T15:16:53.223",
-      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. In affected deployments, the unauthenticated `/scoutsuite-report` `StaticFiles` mount in `backend/copilot.py` exposes the `scoutsuite-report` directory even though normal /api routes require JWT authentication. Generated HTML reports and `scoutsuite-results/scoutsuite_results_<name>.js` files disclose AWS, Azure and GCP IAM principals, resource inventories, misconfigurations and findings. Report names derive from caller-selected names with predictable defaults. During an admin- or analyst-initiated GCP scan, `backend/app/integrations/scoutsuite/routes/scoutsuite.py` saves the uploaded Google service-account JSON key into that same web-served directory. In `backend/app/integrations/scoutsuite/services/scoutsuite.py`, `generate_gcp_report_background` removes the key only after the scan finishes. Any anonymous client that can reach the host and request the file path can therefore retrieve the private key during the scan and use the service account's cloud permissions, as well as read retained cloud-security reports. Credential isolation is released in version 0.1.77; a release fully remediating the report-disclosure component has not been established.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61730"
-    },
-    {
-      "id": "CVE-2026-61708",
-      "published": "2026-10-30T15:16:52.793",
-      "modified": "2026-10-30T15:16:52.793",
-      "description": "SOCFortress CoPilot focuses on providing a single pane of glass for all your security operations needs. Prior to 0.1.76, `POST /api/agent_data_store/upload` in `backend/app/data_store/data_store_routes.py` permits `customer_user` callers to choose `bucket_name` and `object_name` without an allowlist, tenant prefix, ownership check or content restriction. The only file check requires a nonempty filename. The operations in `backend/app/data_store/data_store_operations.py` create missing buckets and upsert objects, allowing existing objects belonging to any tenant to be overwritten. Targets include `sysmon-configs/<customer_code>/sysmon_config.xml` distributed to managed Windows endpoints, `copilot-case-report-templates/<name>` rendered server-side, and case evidence or forensic artifacts under `copilot-cases/<case_id>/<file>` and `velociraptor-artifacts/<agent_id>/<flow_id>/<file>`. A lowest-privilege user can tamper with cross-tenant evidence, blind endpoint telemetry, poison report templates for later code execution, plant data or exhaust storage. Sibling list, download and delete routes remain restricted to admin/analyst; the exposed operation is the upload write path. This issue is fixed in version 0.1.76.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61708"
-    },
-    {
-      "id": "CVE-2026-48164",
-      "published": "2026-10-30T15:16:52.217",
-      "modified": "2026-10-30T15:16:52.217",
-      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, the `host_session_id` query/form parameter is substituted into the `cool.html` editor page without HTML encoding, unlike parameters passed through the existing variable-encoding mechanism. An attacker who induces a victim to load a crafted URL can inject HTML and, in the absence of an effective `Content Security Policy`, execute scripts in the Collabora Online iframe's origin, exposing the session authentication token and page contents. A reverse proxy that preserves the `Content Security Policy` header sent by `coolwsd` mitigates the script-execution scenario. This issue is fixed in versions 24.04.18 and 25.04.11.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48164"
     },
     {
       "id": "CVE-2026-46499",
@@ -19041,26 +19166,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47235"
-    },
-    {
-      "id": "CVE-2026-118778",
-      "published": "2026-10-29T19:17:20.420",
-      "modified": "2026-10-29T19:17:20.420",
-      "description": "Forge (also called node-forge) is a native implementation of Transport Layer Security in JavaScript. Prior to 1.4.1, the affected implementation used forge.tls.createConnection(), c.session.serverCertificate, RSA key exchange to process the relevant input or security decision. node-forge's TLS client checked the wrong property when deciding whether a server certificate was missing. A malicious TLS server or on-path peer could omit the Certificate message and reach code that dereferenced the absent certificate, causing an uncaught exception and terminating the connection or process. This issue is fixed in version 1.4.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118778"
     },
     {
       "id": "CVE-2026-116776",
@@ -70286,110 +70391,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57199"
-    },
-    {
-      "id": "CVE-2026-57192",
-      "published": "2026-10-27T22:17:27.567",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, an authenticated attacker may cause a heap buffer overflow through an out-of-bounds write in the `Codec2` decoder caused by a `floor/ceil sample-count mismatch`. The `codec_codec2` module must be loaded and `Codec2` must be configured on the attacked endpoint. The attacker must pass SIP authentication by username/password or `source IP address matching`, establish a call using `Codec2`, and send carefully crafted `Codec2` audio packets. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57192"
-    },
-    {
-      "id": "CVE-2026-57191",
-      "published": "2026-10-27T22:17:27.390",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, an unbounded `sscanf` in `res_pjsip_pubsub` when parsing the `MWI NOTIFY` `Message-Account` field may allow an unauthenticated attacker to send a carefully crafted packet that causes a stack buffer overflow and corrupts the underlying transport, permanently disabling all SIP functionality. An Asterisk restart is required to restore full operation. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57191"
-    },
-    {
-      "id": "CVE-2026-57200",
-      "published": "2026-10-27T21:18:06.843",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 22.8-cert3, an authenticated attacker with read-only permissions for the `Asterisk REST Interface (ARI)` may, under certain conditions, execute write operations through `REST-over-WebSocket`. The authorization bypass permits `arbitrary module path` loading and conditional remote code execution. The Asterisk HTTP web server must be enabled and reachable, and the attacker must already have valid `read-only ARI credentials`. HTTP is disabled by default and binds only to 127.0.0.1 by default even when enabled. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57200"
-    },
-    {
-      "id": "CVE-2026-57195",
-      "published": "2026-10-27T21:18:06.633",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, a NULL pointer dereference in the `Asterisk Manager Interface (AMI)` may allow an unauthenticated attacker to crash Asterisk when `Digest Authentication` is used via `HTTP`. The Asterisk `HTTP` web server, AMI, and AMI access via `HTTP` must all be enabled; each is disabled by default. The attacker must be able to connect to the `HTTP` server, which binds only to `127.0.0.1` by default even when enabled. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57195"
-    },
-    {
-      "id": "CVE-2026-57201",
-      "published": "2026-10-27T17:17:02.117",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, a stack buffer overflow in the H.323 `ooTrace()` trace-logging function can occur when unbounded `vsprintf` writes into a fixed `2048-byte buffer`. A remote attacker may send a carefully crafted packet that causes the Asterisk process to crash. The `chan_ooh323` addon channel driver must be explicitly compiled and installed, which is not the default, and its port must be publicly reachable. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57201"
     }
   ],
   "kev": [
