@@ -1,10 +1,893 @@
 {
-  "updated": "2026-10-30T17:54:45.747299+00:00",
+  "updated": "2026-10-30T18:37:29.745723+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-109592",
+      "published": "2026-10-30T18:17:19.390",
+      "modified": "2026-10-30T18:33:26.087",
+      "description": "The OpenStation: Desktop Windows, Dock & Virtual Desktops for WP Admin plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.1.16. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to modify arbitrary other users' placement rows (position, sort order, parent folder, and meta) and read serialized metadata — including title, permalink, and post status — of the entities those orphaned placements reference. Exploitation requires at least one orphaned placement to exist — a state produced naturally by the plugin's own trash cascade, which marks a parent folder as trashed while leaving child placements' parent_id intact — and the attacker must first self-enable OpenStation via the save-openstation AJAX endpoint, which requires only the 'read' capability held by every default WordPress role. This was also independently found by the OpenStation team.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109592"
+    },
+    {
+      "id": "CVE-2026-115820",
+      "published": "2026-10-30T18:17:23.247",
+      "modified": "2026-10-30T18:33:26.087",
+      "description": "The Majestic Support – The Leading-Edge Help Desk & Customer Support Plugin plugin for WordPress is vulnerable to generic SQL Injection via the 'columns (array keys)' parameter in all versions up to, and including, 1.2.2 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with subscriber-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. Any authenticated WordPress user with Subscriber-level access can exploit this because the 'saveusereraserequest' task is whitelisted for front-end customer use, the plugin auto-provisions a help-desk record for every WordPress account, and the only guard is a nonce the attacker legitimately obtains from their own 'Add erase request' page.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115820"
+    },
+    {
+      "id": "CVE-2026-96203",
+      "published": "2026-10-29T16:20:09.003",
+      "modified": "2026-10-30T18:18:21.170",
+      "description": "Use after free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96203"
+    },
+    {
+      "id": "CVE-2026-96199",
+      "published": "2026-10-29T16:20:08.737",
+      "modified": "2026-10-30T18:18:21.023",
+      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96199"
+    },
+    {
+      "id": "CVE-2026-96198",
+      "published": "2026-10-29T16:20:08.607",
+      "modified": "2026-10-30T18:18:20.877",
+      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96198"
+    },
+    {
+      "id": "CVE-2026-96196",
+      "published": "2026-10-29T16:20:08.477",
+      "modified": "2026-10-30T18:18:20.730",
+      "description": "Incomplete list of disallowed inputs in Microsoft Edge (Chromium-based) allows an unauthorized attacker to bypass a security feature over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96196"
+    },
+    {
+      "id": "CVE-2026-96192",
+      "published": "2026-10-29T16:20:08.347",
+      "modified": "2026-10-30T18:18:20.607",
+      "description": "Use after free in Microsoft Edge for iOS allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96192"
+    },
+    {
+      "id": "CVE-2026-90872",
+      "published": "2026-10-29T16:20:05.417",
+      "modified": "2026-10-30T18:18:19.807",
+      "description": "Improper neutralization of directives in dynamically evaluated code in the Manager web console of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an authenticated Manager administrator to execute arbitrary commands with the privileges of the WS_FTP Server IIS worker process.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90872"
+    },
+    {
+      "id": "CVE-2026-90871",
+      "published": "2026-10-29T16:20:05.307",
+      "modified": "2026-10-30T18:18:17.843",
+      "description": "Improper limitation of a pathname to a restricted directory in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an unauthenticated attacker to affect files outside the intended directory.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90871"
+    },
+    {
+      "id": "CVE-2026-90870",
+      "published": "2026-10-29T16:20:05.190",
+      "modified": "2026-10-30T18:18:17.703",
+      "description": "A missing release of backend receiver sessions in the Ad Hoc Transfer component of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could lead to server resource exhaustion and service degradation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90870"
+    },
+    {
+      "id": "CVE-2026-90869",
+      "published": "2026-10-29T16:20:05.080",
+      "modified": "2026-10-30T18:18:17.587",
+      "description": "A remote attacker who knows a valid account's enrolled SSH public key can terminate the shared SSH service in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90869"
+    },
+    {
+      "id": "CVE-2026-90868",
+      "published": "2026-10-29T16:20:04.963",
+      "modified": "2026-10-30T18:18:17.463",
+      "description": "An OS command injection vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow arbitrary command execution under certain configurations.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.9,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90868"
+    },
+    {
+      "id": "CVE-2026-90867",
+      "published": "2026-10-29T16:20:04.827",
+      "modified": "2026-10-30T18:18:17.340",
+      "description": "Improper access control in the Web Admin console of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could expose administrative functionality to remote authentication attempts.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90867"
+    },
+    {
+      "id": "CVE-2026-90866",
+      "published": "2026-10-29T16:20:04.690",
+      "modified": "2026-10-30T18:18:17.220",
+      "description": "A path traversal vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to access locations outside their authorized scope, potentially enabling remote code execution.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90866"
+    },
+    {
+      "id": "CVE-2026-90865",
+      "published": "2026-10-29T16:20:04.570",
+      "modified": "2026-10-30T18:18:17.093",
+      "description": "An OS command injection vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow arbitrary command execution with elevated privileges under certain configurations.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90865"
+    },
+    {
+      "id": "CVE-2026-90864",
+      "published": "2026-10-29T16:20:04.453",
+      "modified": "2026-10-30T18:18:16.967",
+      "description": "A path traversal vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to access or modify files outside their authorized scope.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90864"
+    },
+    {
+      "id": "CVE-2026-90863",
+      "published": "2026-10-29T16:20:04.337",
+      "modified": "2026-10-30T18:18:16.837",
+      "description": "Missing authorization in the administrative interface of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to exceed their authorized scope, potentially enabling arbitrary command execution with elevated privileges and complete compromise of the underlying server.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90863"
+    },
+    {
+      "id": "CVE-2026-90862",
+      "published": "2026-10-29T16:20:04.220",
+      "modified": "2026-10-30T18:18:16.713",
+      "description": "Improper authentication in the Web Transfer Module of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an attacker with a user’s password to access certain files associated with that account without satisfying multi-factor authentication requirements.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90862"
+    },
+    {
+      "id": "CVE-2026-90861",
+      "published": "2026-10-29T16:20:04.097",
+      "modified": "2026-10-30T18:18:16.590",
+      "description": "Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows may expose a user's password in clear text to another administrator, who could use it to gain broader administrative access to the server.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90861"
+    },
+    {
+      "id": "CVE-2026-88090",
+      "published": "2026-10-29T16:19:54.280",
+      "modified": "2026-10-30T18:18:15.893",
+      "description": "Access of resource using incompatible type ('type confusion') in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88090"
+    },
+    {
+      "id": "CVE-2026-88077",
+      "published": "2026-10-29T16:19:52.807",
+      "modified": "2026-10-30T18:18:15.730",
+      "description": "Integer overflow or wraparound in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88077"
+    },
+    {
+      "id": "CVE-2026-85899",
+      "published": "2026-10-29T16:19:45.410",
+      "modified": "2026-10-30T18:18:14.470",
+      "description": "Use after free in Microsoft Edge (Chromium-based) allows an authorized attacker to elevate privileges over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85899"
+    },
+    {
+      "id": "CVE-2026-85897",
+      "published": "2026-10-29T16:19:45.220",
+      "modified": "2026-10-30T18:18:14.307",
+      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85897"
+    },
+    {
+      "id": "CVE-2026-85890",
+      "published": "2026-10-29T16:19:45.017",
+      "modified": "2026-10-30T18:18:14.130",
+      "description": "Double free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85890"
+    },
+    {
+      "id": "CVE-2026-84296",
+      "published": "2026-10-29T16:19:29.980",
+      "modified": "2026-10-30T18:18:13.973",
+      "description": "Multi-Factor Authentication Bypass vulnerability in SSH component in Progress Software WS_FTP Server versions prior to 2024.0.6, and 2025.0.3 on Windows allows authenticated users to bypass MFA requirements through improper association of authentication factors between accounts.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84296"
+    },
+    {
+      "id": "CVE-2026-84295",
+      "published": "2026-10-29T16:19:29.860",
+      "modified": "2026-10-30T18:18:13.827",
+      "description": "Improper authentication in Progress Software WS_FTP Server versions prior to 2024.0.6 and 2025.0.3 on Windows could allow an unauthenticated remote attacker to access sensitive information, including administrative credentials.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 10.0,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84295"
+    },
+    {
+      "id": "CVE-2026-74755",
+      "published": "2026-10-21T12:17:22.550",
+      "modified": "2026-10-30T18:18:12.603",
+      "description": "An integer underflow in the mcpack2pb component of Apache bRPC (version < 1.18.0) on all platforms allows remote attackers to crash a bRPC server by sending a request containing a string field with a zero value_size. The UnparsedValue::as_string() function computes `_size - 1` without validating `_size`; when value_size is 0 the expression underflows to SIZE_MAX, resize() throws std::length_error, and because the exception is not caught on the request parsing path the process aborts (SIGABRT).\n\nRoot Cause:\nIn src/mcpack2pb/parser.cpp, UnparsedValue::as_string() resizes the output string to `_size - 1`, where `_size` is the value_size of a string field taken directly from the network data. A value_size of 0 underflows the unsigned size_t, and the subsequent resize() throws an exception that is not caught.\n\nAffected Scenarios:\nbRPC servers that accept nshead frames wired to the ubrpc mcpack2 adaptor (for example the NsheadService + UbrpcMcpack2Adaptor deployment pattern) can be crashed by a single unauthenticated request. Stock open-source bRPC registers the ubrpc/nshead_mcpack protocols as client-only, so default server configurations are not affected.\n\nHow to Fix:\n1. Upgrade bRPC to a version that includes this fix.\n2. Apply the patch in PR  https://github.com/apache/brpc/pull/3450",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-74755"
+    },
+    {
+      "id": "CVE-2026-73197",
+      "published": "2026-08-20T11:16:21.553",
+      "modified": "2026-10-30T18:18:12.363",
+      "description": "A flaw was found in FreeIPA. A remote, unauthenticated attacker can exploit this vulnerability by sending oversized form POST requests to the `/ipa/migration/migration.py` endpoint. This can force the migration handler to read attacker-controlled request bodies fully into memory, leading to increased memory usage, slower request handling, and potential service disruption or denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:freeipa:freeipa:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73197"
+    },
+    {
+      "id": "CVE-2026-69446",
+      "published": "2026-10-30T18:18:07.587",
+      "modified": "2026-10-30T18:18:07.710",
+      "description": "Incorrect authorization in Microsoft Edge (Chromium-based) allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69446"
+    },
+    {
+      "id": "CVE-2026-66392",
+      "published": "2026-10-21T12:17:22.417",
+      "modified": "2026-10-30T18:18:03.973",
+      "description": "Apache bRPC versions before 1.18.0 validate the server certificate chain when client TLS peer verification is enabled, but do not bind the certificate to an expected DNS name or IP address. A network attacker who can redirect or intercept a connection and who possesses a certificate issued by a CA trusted by the client for another name may impersonate the requested TLS endpoint.\n\n\nAffected Scenarios:\nApplications use a bRPC client Channel to connect to an untrusted network with certificate verification enabled and trust a CA that can issue certificates for identities other than the intended endpoint.\n\n\nHow to Fix:\nUpgrade to Apache bRPC 1.18.0 and enable VERIFY_PEER with a positive verify_depth. HTTPS Channels automatically verify the certificate against the host in the Channel URL. Callers may set VerifyOptions::expected_peer_name explicitly when the certificate identity differs from the URL host. Alternatively, apply the patch from  https://github.com/apache/brpc/pull/3408 .\n\nNote:\nThe new option performs DNS SAN or IP SAN verification during the TLS handshake. Configurations that set expected_peer_name while peer verification is disabled are rejected.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66392"
+    },
+    {
+      "id": "CVE-2026-19654",
+      "published": "2026-08-12T21:17:38.517",
+      "modified": "2026-10-30T18:17:29.673",
+      "description": "A unauthenticated remote peer may lead rsyslogd to crash due to a flaw in the optional imptcp module. A crafted input sequence during oversize-frame recovery can cause an invalid internal message length and terminate rsyslogd. No confidentiality or integrity impact, privilege escalation, or code execution has been identified. imtcp and the default imptcp framing modes are not affected.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:rsyslog:rsyslog:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19654"
+    },
+    {
+      "id": "CVE-2026-19550",
+      "published": "2026-08-11T21:17:35.087",
+      "modified": "2026-10-30T18:17:29.463",
+      "description": "A flaw was found in FreeIPA. The trust-fetch-domains command is gated by a read-only permission on the trust object rather than a trust-administration permission, allowing an authenticated, non-privileged IPA user to trigger a privileged Active Directory trust refresh using an attacker-supplied server and credentials, resulting in unauthorized, attacker-controlled modification of trusted-domain and ID-range identity data in the IPA LDAP directory.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:freeipa:freeipa:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-19550"
+    },
+    {
+      "id": "CVE-2026-13097",
+      "published": "2026-08-20T11:16:20.293",
+      "modified": "2026-10-30T18:17:28.027",
+      "description": "A privilege escalation flaw was found in FreeIPA. The uniqueness constraint enforced on Kerberos principal name attributes in the 389-ds directory server does not properly account for equivalent representations of the same principal name, allowing a user with sufficient LDAP write privileges to create a service principal that impersonates an existing privileged one. This can lead to unauthorized acquisition of Kerberos service tickets for sensitive services, potentially resulting in full domain compromise.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:freeipa:freeipa:4.12.2:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13097"
+    },
+    {
+      "id": "CVE-2026-116638",
+      "published": "2026-10-26T19:16:31.117",
+      "modified": "2026-10-30T18:17:24.057",
+      "description": "The Windows Recovery Environment (WinRE) in Windows 10 and 11 may allow an attacker to bypass firmware security controls, including administrator-configured UEFI/BIOS passwords. An attacker with physical or administrative access to a device may be able to leverage WinRE-related boot mechanisms to circumvent firmware protections and gain unauthorized access to system resources.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116638"
+    },
+    {
+      "id": "CVE-2026-115922",
+      "published": "2026-10-26T18:17:40.163",
+      "modified": "2026-10-30T18:17:23.540",
+      "description": "Open Neural Network Exchange (ONNX) is an open standard for machine learning interoperability. Prior to 1.22.0, _unpack_2bit() and _unpack_4bit() resize unpacked arrays according to attacker-controlled TensorProto.dims without verifying that raw_data or int32_data encodes the declared number of elements. Materializing an untrusted UINT2, INT2, UINT4, INT4, or FLOAT4E2M1 tensor through onnx.numpy_helper.to_array() or onnx.reference.ReferenceEvaluator can therefore expand a small packed payload into a disproportionately large allocation and exhaust memory. This issue is fixed in version 1.22.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115922"
+    },
     {
       "id": "CVE-2026-115805",
       "published": "2026-10-29T17:18:01.840",
-      "modified": "2026-10-30T17:44:35.820",
+      "modified": "2026-10-30T18:17:23.107",
       "description": "Improper handling of local filesystem paths in Rapid7 Insight Agent on Linux and macOS may allow authenticated local users to gain elevated privileges. Exploitation requires existing local access and depends on the Agent's inventory collection processing the crafted path.",
       "vendors": [
         "Apple"
@@ -20,6 +903,48 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115805"
+    },
+    {
+      "id": "CVE-2026-106781",
+      "published": "2026-10-26T15:16:35.137",
+      "modified": "2026-10-30T18:17:17.497",
+      "description": "An issue in WCH CH340/CH341 USB-to-Serial Windows Driver setup package CH341SER.EXE version 4.0 allows a local attacker to escalate privileges.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106781"
+    },
+    {
+      "id": "CVE-2026-66067",
+      "published": "2026-09-23T21:16:58.783",
+      "modified": "2026-10-30T18:08:08.133",
+      "description": "RabbitMQ is a messaging and streaming broker. Prior to versions 4.2.7 and 4.3.1, The stream open handler calls only check_vhost_access; it omits the node/vhost/user connection-limit checks that rabbit_reader performs for AMQP. A developer %% FIXME comment at the cited line explicitly acknowledges the gap. No compensating enforcement exists in connection tracking or elsewhere in rabbitmq_stream. An authenticated tenant can fully bypass operator-configured per-user and per-vhost connection caps by connecting via port 5552 instead of 5672. Preconditions include rabbitmq_stream plugin enabled Authenticated stream-protocol credentials Operator relies on per-user/per-vhost connection limits for tenant isolation. This issue is fixed in versions 4.2.7 and 4.3.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:broadcom:rabbitmq_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66067"
     },
     {
       "id": "CVE-2026-119251",
@@ -7443,434 +8368,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-49329"
-    },
-    {
-      "id": "CVE-2026-96203",
-      "published": "2026-10-29T16:20:09.003",
-      "modified": "2026-10-30T04:18:30.887",
-      "description": "Use after free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96203"
-    },
-    {
-      "id": "CVE-2026-96199",
-      "published": "2026-10-29T16:20:08.737",
-      "modified": "2026-10-30T04:18:30.710",
-      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96199"
-    },
-    {
-      "id": "CVE-2026-96198",
-      "published": "2026-10-29T16:20:08.607",
-      "modified": "2026-10-30T04:18:30.547",
-      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96198"
-    },
-    {
-      "id": "CVE-2026-96196",
-      "published": "2026-10-29T16:20:08.477",
-      "modified": "2026-10-30T04:18:30.417",
-      "description": "Incomplete list of disallowed inputs in Microsoft Edge (Chromium-based) allows an unauthorized attacker to bypass a security feature over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96196"
-    },
-    {
-      "id": "CVE-2026-96192",
-      "published": "2026-10-29T16:20:08.347",
-      "modified": "2026-10-30T04:18:30.280",
-      "description": "Use after free in Microsoft Edge for iOS allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96192"
-    },
-    {
-      "id": "CVE-2026-90872",
-      "published": "2026-10-29T16:20:05.417",
-      "modified": "2026-10-30T04:18:29.550",
-      "description": "Improper neutralization of directives in dynamically evaluated code in the Manager web console of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an authenticated Manager administrator to execute arbitrary commands with the privileges of the WS_FTP Server IIS worker process.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90872"
-    },
-    {
-      "id": "CVE-2026-90868",
-      "published": "2026-10-29T16:20:04.963",
-      "modified": "2026-10-30T04:18:29.410",
-      "description": "An OS command injection vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow arbitrary command execution under certain configurations.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.9,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90868"
-    },
-    {
-      "id": "CVE-2026-90867",
-      "published": "2026-10-29T16:20:04.827",
-      "modified": "2026-10-30T04:18:29.290",
-      "description": "Improper access control in the Web Admin console of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could expose administrative functionality to remote authentication attempts.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90867"
-    },
-    {
-      "id": "CVE-2026-90866",
-      "published": "2026-10-29T16:20:04.690",
-      "modified": "2026-10-30T04:18:29.170",
-      "description": "A path traversal vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to access locations outside their authorized scope, potentially enabling remote code execution.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90866"
-    },
-    {
-      "id": "CVE-2026-90865",
-      "published": "2026-10-29T16:20:04.570",
-      "modified": "2026-10-30T04:18:29.047",
-      "description": "An OS command injection vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow arbitrary command execution with elevated privileges under certain configurations.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90865"
-    },
-    {
-      "id": "CVE-2026-90864",
-      "published": "2026-10-29T16:20:04.453",
-      "modified": "2026-10-30T04:18:28.927",
-      "description": "A path traversal vulnerability in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to access or modify files outside their authorized scope.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90864"
-    },
-    {
-      "id": "CVE-2026-90863",
-      "published": "2026-10-29T16:20:04.337",
-      "modified": "2026-10-30T04:18:28.807",
-      "description": "Missing authorization in the administrative interface of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow a delegated Host Administrator to exceed their authorized scope, potentially enabling arbitrary command execution with elevated privileges and complete compromise of the underlying server.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90863"
-    },
-    {
-      "id": "CVE-2026-90861",
-      "published": "2026-10-29T16:20:04.097",
-      "modified": "2026-10-30T04:18:28.687",
-      "description": "Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows may expose a user's password in clear text to another administrator, who could use it to gain broader administrative access to the server.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90861"
-    },
-    {
-      "id": "CVE-2026-88090",
-      "published": "2026-10-29T16:19:54.280",
-      "modified": "2026-10-30T04:18:28.177",
-      "description": "Access of resource using incompatible type ('type confusion') in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88090"
-    },
-    {
-      "id": "CVE-2026-88077",
-      "published": "2026-10-29T16:19:52.807",
-      "modified": "2026-10-30T04:18:28.003",
-      "description": "Integer overflow or wraparound in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88077"
-    },
-    {
-      "id": "CVE-2026-85899",
-      "published": "2026-10-29T16:19:45.410",
-      "modified": "2026-10-30T04:18:25.860",
-      "description": "Use after free in Microsoft Edge (Chromium-based) allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85899"
-    },
-    {
-      "id": "CVE-2026-85897",
-      "published": "2026-10-29T16:19:45.220",
-      "modified": "2026-10-30T04:18:25.693",
-      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85897"
-    },
-    {
-      "id": "CVE-2026-85890",
-      "published": "2026-10-29T16:19:45.017",
-      "modified": "2026-10-30T04:18:25.537",
-      "description": "Double free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85890"
-    },
-    {
-      "id": "CVE-2026-84296",
-      "published": "2026-10-29T16:19:29.980",
-      "modified": "2026-10-30T04:18:25.387",
-      "description": "Multi-Factor Authentication Bypass vulnerability in SSH component in Progress Software WS_FTP Server versions prior to 2024.0.6, and 2025.0.3 on Windows allows authenticated users to bypass MFA requirements through improper association of authentication factors between accounts.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "AUTH_BYPASS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84296"
-    },
-    {
-      "id": "CVE-2026-84295",
-      "published": "2026-10-29T16:19:29.860",
-      "modified": "2026-10-30T04:18:25.237",
-      "description": "Improper authentication in Progress Software WS_FTP Server versions prior to 2024.0.6 and 2025.0.3 on Windows could allow an unauthenticated remote attacker to access sensitive information, including administrative credentials.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 10.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-84295"
     },
     {
       "id": "CVE-2026-28367",
@@ -32713,88 +33210,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101773"
-    },
-    {
-      "id": "CVE-2026-90871",
-      "published": "2026-10-29T16:20:05.307",
-      "modified": "2026-10-29T16:24:53.840",
-      "description": "Improper limitation of a pathname to a restricted directory in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an unauthenticated attacker to affect files outside the intended directory.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90871"
-    },
-    {
-      "id": "CVE-2026-90870",
-      "published": "2026-10-29T16:20:05.190",
-      "modified": "2026-10-29T16:24:53.840",
-      "description": "A missing release of backend receiver sessions in the Ad Hoc Transfer component of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could lead to server resource exhaustion and service degradation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90870"
-    },
-    {
-      "id": "CVE-2026-90869",
-      "published": "2026-10-29T16:20:05.080",
-      "modified": "2026-10-29T16:24:53.840",
-      "description": "A remote attacker who knows a valid account's enrolled SSH public key can terminate the shared SSH service in Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90869"
-    },
-    {
-      "id": "CVE-2026-90862",
-      "published": "2026-10-29T16:20:04.220",
-      "modified": "2026-10-29T16:24:53.840",
-      "description": "Improper authentication in the Web Transfer Module of Progress Software WS_FTP Server versions prior to 2024.0.7 and 2025.0.4 on Windows could allow an attacker with a user’s password to access certain files associated with that account without satisfying multi-factor authentication requirements.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90862"
     },
     {
       "id": "CVE-2026-84294",
@@ -70623,286 +71038,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106077"
-    },
-    {
-      "id": "CVE-2026-106076",
-      "published": "2026-10-27T17:16:56.553",
-      "modified": "2026-10-28T14:47:07.963",
-      "description": "A vulnerability allowing an authenticated organization-transfer peer to inject SQL into the configuration database of the source Veeam Backup for Microsoft 365 server, leading to cross-tenant read and write of configuration data and remote code execution as the PostgreSQL service account.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.0,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-106076"
-    },
-    {
-      "id": "CVE-2026-92377",
-      "published": "2026-10-27T16:17:32.213",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "Improper access control in the Patch\nManagement update mechanism of TeamViewer Full Client and Host for Windows\nprior to version 15.82 allows a local authenticated attacker with low\nprivileges to supply a signed executable through a forged IPC response and\ncause it to load a malicious DLL from a user-writable temporary directory.\nSuccessful exploitation results in arbitrary code execution with NT\nAUTHORITY\\SYSTEM privileges.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92377"
-    },
-    {
-      "id": "CVE-2026-92376",
-      "published": "2026-10-27T16:17:32.103",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "Improper authentication in the\ninter-process communication (IPC) mechanism of TeamViewer Remote Management\nMonitoring for Windows prior to version 26.10.1 allows a local authenticated\nattacker with low privileges to impersonate the IPC broker and cause the\nMonitoring service to execute arbitrary code with NT AUTHORITY\\SYSTEM\nprivileges, resulting in local privilege escalation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92376"
-    },
-    {
-      "id": "CVE-2026-92374",
-      "published": "2026-10-27T16:17:31.873",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "A time-of-check time-of-use (TOCTOU) race condition combined with improper symbolic link handling in the privileged helper of TeamViewer Full Client and Host prior to version 15.83 for macOS allows a local attacker with low privileges to bypass installer package verification and install a malicious package. Successful exploitation can lead to local privilege escalation to root.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92374"
-    },
-    {
-      "id": "CVE-2026-92372",
-      "published": "2026-10-27T16:17:31.760",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "An out-of-bounds write vulnerability in the\nscreen-image decoder of TeamViewer Full Client for Linux and macOS prior to\nversion 15.83 allows a remote attacker to execute arbitrary code by supplying\ncrafted screen-image data during a remote-control session. The vulnerability\ncan also be exploited by persuading a user to open a specially crafted\nTeamViewer session recording (.tvs). Missing destination bounds checking in the\ndecoder allows crafted screen-image data to cause an out-of-bounds write to the\nimage buffer. Exploitation requires user interaction.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92372"
-    },
-    {
-      "id": "CVE-2026-111584",
-      "published": "2026-10-27T16:17:29.757",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "A race condition in the installation\nprocess of TeamViewer Remote Management - Patch Management for Windows prior to\nversion 26.9.1 allows a local authenticated attacker with low privileges to\nexecute arbitrary code with elevated privileges by replacing the service\nexecutable in an insufficiently protected temporary directory during Patch\nManagement activation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111584"
-    },
-    {
-      "id": "CVE-2026-111583",
-      "published": "2026-10-27T16:17:29.643",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "Improper access control in the installer\nstaging directory used by TeamViewer Full Client and Host prior to version\n15.82 for Windows during installation of Advanced Asset Management allows a\nlocal authenticated user with low privileges to execute arbitrary commands as\nSYSTEM. An attacker can place a crafted installer options file that is\nprocessed by the Advanced Asset Management installer during service activation.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111583"
-    },
-    {
-      "id": "CVE-2026-111582",
-      "published": "2026-10-27T16:17:29.513",
-      "modified": "2026-10-28T14:45:23.073",
-      "description": "A DLL loading vulnerability in the\nTeamViewer Remote Management Monitoring installer for Windows prior to version 26.10.1\nallows a local authenticated attacker with low privileges to execute arbitrary\ncode with elevated privileges. Exploitation requires user interaction.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111582"
-    },
-    {
-      "id": "CVE-2026-118180",
-      "published": "2026-10-27T19:17:29.693",
-      "modified": "2026-10-28T14:42:32.260",
-      "description": "When logging in to a Matrix account, Thunderbird used the homeserver address provided in the server's login response without validating it. A malicious or compromised homeserver could provide a file: URL, causing Thunderbird to send all further Matrix requests of that session to local files or, on Windows, to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118180"
-    },
-    {
-      "id": "CVE-2026-118178",
-      "published": "2026-10-27T19:17:29.480",
-      "modified": "2026-10-28T14:42:32.260",
-      "description": "A remote RSS feed could use the itunes:new-feed-url or newLocation element to permanently change its stored subscription URL to a file: URL. Thunderbird then read that location on every feed update. This allowed a malicious feed, or an attacker able to modify a feed delivered over HTTP, to make Thunderbird read local files and, on Windows, connect to an attacker-controlled network share, which could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. Other operating systems are affected by the local file read only. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118178"
-    },
-    {
-      "id": "CVE-2026-118177",
-      "published": "2026-10-27T19:17:29.370",
-      "modified": "2026-10-28T14:42:32.260",
-      "description": "When looking for calendars in a directory on a server, during account setup or when adding a new network calendar, Thunderbird accepted calendar locations pointing to other servers, local files or network shares. A malicious server, or a network attacker when the lookup used plain HTTP, could make Thunderbird subscribe to such a location. On Windows this could leak the user's NTLM credentials to an attacker-controlled host on every calendar refresh, and changes to the calendar could be written to the attacker's share or overwrite a local file. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118177"
-    },
-    {
-      "id": "CVE-2026-118176",
-      "published": "2026-10-27T19:17:29.260",
-      "modified": "2026-10-28T14:42:32.260",
-      "description": "Thunderbird's check that prevents mailbox: URLs from accessing files on remote Windows network shares could be bypassed using extended-length UNC paths. Displaying a specially crafted email could cause Thunderbird to connect to an SMB server chosen by the attacker, disclosing the user's Windows account name and NTLM authentication data, which could be used for offline password cracking or relay attacks.\nThis bug only affects Thunderbird on Windows. Other operating systems are unaffected. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118176"
-    },
-    {
-      "id": "CVE-2026-118174",
-      "published": "2026-10-27T19:17:29.037",
-      "modified": "2026-10-28T14:42:32.260",
-      "description": "When a message containing an OpenPGP key attachment was displayed, Thunderbird automatically loaded the attachment's content to offer importing the key. A sender could mark the attachment as an external attachment pointing to an arbitrary URL, which Thunderbird then loaded without any user interaction, bypassing remote content blocking. On Windows, a URL pointing to an attacker-controlled network share could leak the user's NTLM credentials.\nThe NTLM credential leak only affects Thunderbird on Windows. On other operating systems, the issue allowed a remote request that bypassed remote content blocking. This vulnerability was fixed in Thunderbird 159 and Thunderbird 153.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118174"
     }
   ],
   "kev": [
@@ -72673,11 +72808,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 45,
+    "critical": 44,
     "high": 571,
-    "medium": 317,
+    "medium": 323,
     "kev": 5,
-    "p1": 27,
+    "p1": 26,
     "p2": 589
   }
 }
