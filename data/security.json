@@ -1,6 +1,299 @@
 {
-  "updated": "2026-10-30T19:28:21.619710+00:00",
+  "updated": "2026-10-30T20:11:06.913260+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-62298",
+      "published": "2026-10-30T19:18:33.027",
+      "modified": "2026-10-30T19:39:14.897",
+      "description": "mouse07410/asn1c is an ASN.1 compiler. Prior to 1.2.5, `OPEN TYPE` decoding can dereference an unallocated member pointer and crash the consuming program. `OPEN_TYPE_aper_get` in `OPEN_TYPE_aper.c`, `OPEN_TYPE_ber_get` in `OPEN_TYPE_ber.c`, `OPEN_TYPE_oer_get` in `OPEN_TYPE_oer.c`, and `OPEN_TYPE_uper_get` in `OPEN_TYPE_uper.c` share the pattern: a conditional null check on `*memb_ptr2` resets presence only when the member exists, but execution then unconditionally computes an inner value from that pointer and a member offset. If the `OPEN TYPE` member has not been allocated, the null-pointer arithmetic and subsequent read cause a segmentation fault. The advisory demonstrates UPER and APER crashes for `E2connectionUpdateAcknowledge`, notes that `E2AP` uses APER, and provides a BER reproducer; OER is also explicitly identified as affected. This issue is fixed in version 1.2.5.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 0.0,
+        "severity": "NONE",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62298"
+    },
+    {
+      "id": "CVE-2026-100355",
+      "published": "2026-10-30T14:16:35.690",
+      "modified": "2026-10-30T19:39:14.897",
+      "description": "Campfire is a web-based chat application. In version 1.4.4 and earlier, when a Campfire message contains a link, the server fetches it to build an OpenGraph unfurl preview. `RestrictedHTTP::PrivateNetworkGuard` relied on Ruby's `IPAddr#private? `` IPAddr#loopback?`, and `IPAddr#link_local?` predicates plus IPv4-mapped and IPv4-compatible checks, which do not cover several special-use ranges. An authenticated user can post a link to a hostname resolving to CGNAT `100.64.0.0/10`, NAT64 `64:ff9b::/96` or `64:ff9b:1::/48`, or 6to4 `2002::/16` to bypass the guard and cause server-side requests to internal network resources. The NAT64 and 6to4 ranges can embed an internal IPv4 target. Confidentiality impact is limited to returned OpenGraph metadata, and most internal endpoints return none. There is no integrity or availability impact. An initial fix was released in version 1.4.5.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100355"
+    },
+    {
+      "id": "CVE-2026-85268",
+      "published": "2026-10-30T11:17:33.750",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "A Cross-Site Scripting (XSS) (CWE-79) vulnerability in the auth/handler in Google Cloud Identity Platform and Firebase Authentication versions prior to 2026-08-14 on iOS allows an unauthenticated remote attacker to execute arbitrary JavaScript using a malicious iOS bundle ID.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Amber"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85268"
+    },
+    {
+      "id": "CVE-2026-119299",
+      "published": "2026-10-30T17:17:18.230",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "gopacket provides packet processing capabilities for Go. Prior to 1.7.2, the SCTP chunk chain in layers/sctp.go passes attacker-controlled declared lengths and counts to decodeSCTPInit, decodeSCTPShutdown, decodeSCTPError, decodeSCTPSack, and decodeSCTPParameter without checking that each chunk contains the fixed fields, parameter TLVs, gap acknowledgements, or duplicate TSNs those sub-decoders read. A crafted SCTP segment can therefore cause out-of-bounds or inverted slice panics; the panic can terminate applications that use gopacket.DecodeOptions.SkipDecodeRecovery, direct registered decoders, or DecodingLayerParser with IgnorePanic enabled, while the default recovery-enabled APIs convert it to a per-packet decode error. This is the SCTP sub-decoder residual named but not remediated by CVE-2026-65819, whose version 1.7.1 changes bounded the generic dispatcher but left these per-type reads and loops unchecked. The impact is availability only, with no data disclosure, modification, or allocation amplification. This issue is fixed in version 1.7.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119299"
+    },
+    {
+      "id": "CVE-2026-107239",
+      "published": "2026-10-29T23:16:54.887",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "A vulnerability allowing a member of the Veeam Virtualization Extensions Users group to perform remote code execution (RCE) on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107239"
+    },
+    {
+      "id": "CVE-2026-107238",
+      "published": "2026-10-29T23:16:54.760",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "A vulnerability allowing an authenticated domain user to perform remote code execution (RCE) as the LocalSystem account on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107238"
+    },
+    {
+      "id": "CVE-2023-22793",
+      "published": "2026-10-29T23:16:54.270",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "A vulnerability allowing an unauthenticated attacker to perform remote code execution (RCE) on servers running the Veeam Virtualization Extensions service of Veeam Management Pack for Microsoft System Center.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.3,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22793"
+    },
+    {
+      "id": "CVE-2026-48164",
+      "published": "2026-10-30T15:16:52.217",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, the `host_session_id` query/form parameter is substituted into the `cool.html` editor page without HTML encoding, unlike parameters passed through the existing variable-encoding mechanism. An attacker who induces a victim to load a crafted URL can inject HTML and, in the absence of an effective `Content Security Policy`, execute scripts in the Collabora Online iframe's origin, exposing the session authentication token and page contents. A reverse proxy that preserves the `Content Security Policy` header sent by `coolwsd` mitigates the script-execution scenario. This issue is fixed in versions 24.04.18 and 25.04.11.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48164"
+    },
+    {
+      "id": "CVE-2026-46499",
+      "published": "2026-10-30T15:16:52.063",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, several document operations delegated to `LibreOfficeKit` in the per-document kit process fail to enforce a session's read-only state. A read-only user, such as a viewer-role WOPI user, can send crafted `WebSocket` messages to execute document-mutating `UNO` commands and dialog operations despite the read-only interface. The changes can mislead co-viewers within the live session, or an authorized editor sharing the session can unknowingly save the modifications. The read-only attacker cannot save the document directly, and changes are discarded when the kit session ends unless an authorized editor saves them. This issue is fixed in versions 24.04.18 and 25.04.11.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46499"
+    },
+    {
+      "id": "CVE-2026-119682",
+      "published": "2026-10-30T15:16:51.327",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "An improper access control vulnerability exists in the multi-factor authentication (MFA) functionality of ManageEngine SharePoint Manager Plus (SPMP). A low-privileged authenticated user can bypass authorization checks to read and modify MFA configuration settings, enable or disable MFA for the application, enumerate MFA-enrolled users, and delete MFA-enrolled accounts. Successful exploitation could allow an attacker to weaken authentication protections or cause a denial of service by configuring invalid MFA settings, potentially locking legitimate users out of the application. This vulnerability was fixed in build 4507. The reproduction explicitly uses build 4506.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.9,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119682"
+    },
+    {
+      "id": "CVE-2026-119680",
+      "published": "2026-10-30T15:16:51.187",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "A stored cross-site scripting (XSS) vulnerability exists in the chart feature of SharePoint Manager Plus (SPMP) due to improper sanitization and HTML encoding of user-controlled data. An attacker can inject malicious HTML or JavaScript into attributes used to generate charts, including users' full names, site names, or group names. The injected content is stored and subsequently executed in the context of other users' browsers when the affected charts are rendered. This vulnerability was fixed in client application build 4508.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:L/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119680"
+    },
+    {
+      "id": "CVE-2026-51832",
+      "published": "2026-10-29T20:17:31.570",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "An issue in IDrive IDrive Backup for Windows Version 7.0.1.1 and below affected, remediated in Version 7.0.1.2 allows a local attacker to execute arbitrary code via the id_service.exe component",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51832"
+    },
+    {
+      "id": "CVE-2026-51831",
+      "published": "2026-10-29T20:17:31.450",
+      "modified": "2026-10-30T19:37:07.073",
+      "description": "An issue in IDrive IDrive Backup for Windows Version 7.0.1.1 and below affected, remediated in Version 7.0.1.2 allows a local attacker to execute arbitrary code via the id_service.exe component",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51831"
+    },
+    {
+      "id": "CVE-2026-115683",
+      "published": "2026-10-30T14:16:39.373",
+      "modified": "2026-10-30T19:27:58.620",
+      "description": "A race condition in Epiphany allows a malicious website to bypass the TLS/SSL certificate warning page.\n\nEpiphany registers the main-world script message handler \"tlsErrorPage\" so its internal TLS error page can implement \"Accept Risk and Proceed\". The handler was registered immediately before loading the error page, leaving a brief window where the previously loaded untrusted origin could still call window.webkit.messageHandlers.tlsErrorPage.postMessage(...). The only authorization check compares a numeric WebKit page id that increments predictably; an attacker can burst-guess ids and approve a certificate exception with no user click.\n\nIf a victim visits malicious site A that redirects to site B with an invalid certificate, site A can, for a few milliseconds, disable TLS certificate error warnings for host B until Epiphany is restarted, enabling man-in-the-middle or site spoofing for that host.\n\nUpstream report: https://gitlab.gnome.org/GNOME/epiphany/-/work_items/2978\nProof of concept: https://beford.net/poc/ssl_poc.html\nFix: https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/2245 (register handlers on LOAD_COMMITTED). No fixed release tagged yet; reporter and maintainer describe all current versions as affected. Maintainer notes the risky registration timing dates to commit 1da1caed (Epiphany 45.x era); before that the handlers were always registered and similarly reachable from web content.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115683"
+    },
     {
       "id": "CVE-2026-119703",
       "published": "2026-10-30T16:17:51.120",
@@ -177,26 +470,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68883"
-    },
-    {
-      "id": "CVE-2026-62298",
-      "published": "2026-10-30T19:18:33.027",
-      "modified": "2026-10-30T19:18:33.027",
-      "description": "mouse07410/asn1c is an ASN.1 compiler. Prior to 1.2.5, `OPEN TYPE` decoding can dereference an unallocated member pointer and crash the consuming program. `OPEN_TYPE_aper_get` in `OPEN_TYPE_aper.c`, `OPEN_TYPE_ber_get` in `OPEN_TYPE_ber.c`, `OPEN_TYPE_oer_get` in `OPEN_TYPE_oer.c`, and `OPEN_TYPE_uper_get` in `OPEN_TYPE_uper.c` share the pattern: a conditional null check on `*memb_ptr2` resets presence only when the member exists, but execution then unconditionally computes an inner value from that pointer and a member offset. If the `OPEN TYPE` member has not been allocated, the null-pointer arithmetic and subsequent read cause a segmentation fault. The advisory demonstrates UPER and APER crashes for `E2connectionUpdateAcknowledge`, notes that `E2AP` uses APER, and provides a BER reproducer; OER is also explicitly identified as affected. This issue is fixed in version 1.2.5.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 0.0,
-        "severity": "NONE",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62298"
     },
     {
       "id": "CVE-2026-21811",
@@ -2588,28 +2861,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92092"
     },
     {
-      "id": "CVE-2026-85268",
-      "published": "2026-10-30T11:17:33.750",
-      "modified": "2026-10-30T17:17:29.993",
-      "description": "A Cross-Site Scripting (XSS) (CWE-79) vulnerability in the auth/handler in Google Cloud Identity Platform and Firebase Authentication versions prior to 2026-08-14 on iOS allows an unauthenticated remote attacker to execute arbitrary JavaScript using a malicious iOS bundle ID.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:Amber"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85268"
-    },
-    {
       "id": "CVE-2026-79704",
       "published": "2026-10-21T12:17:23.787",
       "modified": "2026-10-30T17:17:29.490",
@@ -3104,70 +3355,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42009"
     },
     {
-      "id": "CVE-2026-119299",
-      "published": "2026-10-30T17:17:18.230",
-      "modified": "2026-10-30T17:17:18.230",
-      "description": "gopacket provides packet processing capabilities for Go. Prior to 1.7.2, the SCTP chunk chain in layers/sctp.go passes attacker-controlled declared lengths and counts to decodeSCTPInit, decodeSCTPShutdown, decodeSCTPError, decodeSCTPSack, and decodeSCTPParameter without checking that each chunk contains the fixed fields, parameter TLVs, gap acknowledgements, or duplicate TSNs those sub-decoders read. A crafted SCTP segment can therefore cause out-of-bounds or inverted slice panics; the panic can terminate applications that use gopacket.DecodeOptions.SkipDecodeRecovery, direct registered decoders, or DecodingLayerParser with IgnorePanic enabled, while the default recovery-enabled APIs convert it to a per-packet decode error. This is the SCTP sub-decoder residual named but not remediated by CVE-2026-65819, whose version 1.7.1 changes bounded the generic dispatcher but left these per-type reads and loops unchecked. The impact is availability only, with no data disclosure, modification, or allocation amplification. This issue is fixed in version 1.7.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119299"
-    },
-    {
-      "id": "CVE-2026-107239",
-      "published": "2026-10-29T23:16:54.887",
-      "modified": "2026-10-30T17:17:12.403",
-      "description": "A vulnerability allowing a member of the Veeam Virtualization Extensions Users group to perform remote code execution (RCE) on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107239"
-    },
-    {
-      "id": "CVE-2026-107238",
-      "published": "2026-10-29T23:16:54.760",
-      "modified": "2026-10-30T17:17:12.280",
-      "description": "A vulnerability allowing an authenticated domain user to perform remote code execution (RCE) as the LocalSystem account on servers running the Veeam Management Pack for Microsoft System Center Collector service.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107238"
-    },
-    {
       "id": "CVE-2024-9675",
       "published": "2024-10-09T15:15:17.837",
       "modified": "2026-10-30T17:17:10.070",
@@ -3538,28 +3725,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-7557"
     },
     {
-      "id": "CVE-2023-22793",
-      "published": "2026-10-29T23:16:54.270",
-      "modified": "2026-10-30T17:17:07.530",
-      "description": "A vulnerability allowing an unauthenticated attacker to perform remote code execution (RCE) on servers running the Veeam Virtualization Extensions service of Veeam Management Pack for Microsoft System Center.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.3,
-        "severity": "CRITICAL",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22793"
-    },
-    {
       "id": "CVE-2013-2056",
       "published": "2013-07-31T13:20:24.697",
       "modified": "2026-10-30T17:17:07.210",
@@ -3718,26 +3883,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92203"
-    },
-    {
-      "id": "CVE-2026-48164",
-      "published": "2026-10-30T15:16:52.217",
-      "modified": "2026-10-30T16:17:56.430",
-      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, the `host_session_id` query/form parameter is substituted into the `cool.html` editor page without HTML encoding, unlike parameters passed through the existing variable-encoding mechanism. An attacker who induces a victim to load a crafted URL can inject HTML and, in the absence of an effective `Content Security Policy`, execute scripts in the Collabora Online iframe's origin, exposing the session authentication token and page contents. A reverse proxy that preserves the `Content Security Policy` header sent by `coolwsd` mitigates the script-execution scenario. This issue is fixed in versions 24.04.18 and 25.04.11.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-48164"
     },
     {
       "id": "CVE-2026-10843",
@@ -4055,68 +4200,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-61916"
-    },
-    {
-      "id": "CVE-2026-46499",
-      "published": "2026-10-30T15:16:52.063",
-      "modified": "2026-10-30T15:16:52.063",
-      "description": "Collabora Online is a collaborative online office suite based on LibreOffice technology. Prior to 24.04.18 and 25.04.11, several document operations delegated to `LibreOfficeKit` in the per-document kit process fail to enforce a session's read-only state. A read-only user, such as a viewer-role WOPI user, can send crafted `WebSocket` messages to execute document-mutating `UNO` commands and dialog operations despite the read-only interface. The changes can mislead co-viewers within the live session, or an authorized editor sharing the session can unknowingly save the modifications. The read-only attacker cannot save the document directly, and changes are discarded when the kit session ends unless an authorized editor saves them. This issue is fixed in versions 24.04.18 and 25.04.11.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-46499"
-    },
-    {
-      "id": "CVE-2026-119682",
-      "published": "2026-10-30T15:16:51.327",
-      "modified": "2026-10-30T15:16:51.327",
-      "description": "An improper access control vulnerability exists in the multi-factor authentication (MFA) functionality of ManageEngine SharePoint Manager Plus (SPMP). A low-privileged authenticated user can bypass authorization checks to read and modify MFA configuration settings, enable or disable MFA for the application, enumerate MFA-enrolled users, and delete MFA-enrolled accounts. Successful exploitation could allow an attacker to weaken authentication protections or cause a denial of service by configuring invalid MFA settings, potentially locking legitimate users out of the application. This vulnerability was fixed in build 4507. The reproduction explicitly uses build 4506.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.9,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:L/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119682"
-    },
-    {
-      "id": "CVE-2026-119680",
-      "published": "2026-10-30T15:16:51.187",
-      "modified": "2026-10-30T15:16:51.187",
-      "description": "A stored cross-site scripting (XSS) vulnerability exists in the chart feature of SharePoint Manager Plus (SPMP) due to improper sanitization and HTML encoding of user-controlled data. An attacker can inject malicious HTML or JavaScript into attributes used to generate charts, including users' full names, site names, or group names. The injected content is stored and subsequently executed in the context of other users' browsers when the affected charts are rendered. This vulnerability was fixed in client application build 4508.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.5,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:L/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-119680"
     },
     {
       "id": "CVE-2026-101778",
@@ -4748,27 +4831,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13595"
     },
     {
-      "id": "CVE-2026-115683",
-      "published": "2026-10-30T14:16:39.373",
-      "modified": "2026-10-30T14:16:39.373",
-      "description": "A race condition in Epiphany allows a malicious website to bypass the TLS/SSL certificate warning page.\n\nEpiphany registers the main-world script message handler \"tlsErrorPage\" so its internal TLS error page can implement \"Accept Risk and Proceed\". The handler was registered immediately before loading the error page, leaving a brief window where the previously loaded untrusted origin could still call window.webkit.messageHandlers.tlsErrorPage.postMessage(...). The only authorization check compares a numeric WebKit page id that increments predictably; an attacker can burst-guess ids and approve a certificate exception with no user click.\n\nIf a victim visits malicious site A that redirects to site B with an invalid certificate, site A can, for a few milliseconds, disable TLS certificate error warnings for host B until Epiphany is restarted, enabling man-in-the-middle or site spoofing for that host.\n\nUpstream report: https://gitlab.gnome.org/GNOME/epiphany/-/work_items/2978\nProof of concept: https://beford.net/poc/ssl_poc.html\nFix: https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/2245 (register handlers on LOAD_COMMITTED). No fixed release tagged yet; reporter and maintainer describe all current versions as affected. Maintainer notes the risky registration timing dates to commit 1da1caed (Epiphany 45.x era); before that the handlers were always registered and similarly reachable from web content.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115683"
-    },
-    {
       "id": "CVE-2026-114148",
       "published": "2026-10-29T16:17:58.693",
       "modified": "2026-10-30T14:16:38.440",
@@ -4787,28 +4849,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114148"
-    },
-    {
-      "id": "CVE-2026-100355",
-      "published": "2026-10-30T14:16:35.690",
-      "modified": "2026-10-30T14:16:35.690",
-      "description": "Campfire is a web-based chat application. In version 1.4.4 and earlier, when a Campfire message contains a link, the server fetches it to build an OpenGraph unfurl preview. `RestrictedHTTP::PrivateNetworkGuard` relied on Ruby's `IPAddr#private? `` IPAddr#loopback?`, and `IPAddr#link_local?` predicates plus IPv4-mapped and IPv4-compatible checks, which do not cover several special-use ranges. An authenticated user can post a link to a hostname resolving to CGNAT `100.64.0.0/10`, NAT64 `64:ff9b::/96` or `64:ff9b:1::/48`, or 6to4 `2002::/16` to bypass the guard and cause server-side requests to internal network resources. The NAT64 and 6to4 ranges can embed an internal IPv4 target. Confidentiality impact is limited to returned OpenGraph metadata, and most internal endpoints return none. There is no integrity or availability impact. An initial fix was released in version 1.4.5.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.1,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-100355"
     },
     {
       "id": "CVE-2026-101770",
@@ -11700,46 +11740,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62013"
-    },
-    {
-      "id": "CVE-2026-51832",
-      "published": "2026-10-29T20:17:31.570",
-      "modified": "2026-10-29T20:17:31.570",
-      "description": "An issue in IDrive IDrive Backup for Windows Version 7.0.1.1 and below affected, remediated in Version 7.0.1.2 allows a local attacker to execute arbitrary code via the id_service.exe component",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51832"
-    },
-    {
-      "id": "CVE-2026-51831",
-      "published": "2026-10-29T20:17:31.450",
-      "modified": "2026-10-29T20:17:31.450",
-      "description": "An issue in IDrive IDrive Backup for Windows Version 7.0.1.1 and below affected, remediated in Version 7.0.1.2 allows a local attacker to execute arbitrary code via the id_service.exe component",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-51831"
     },
     {
       "id": "CVE-2026-116197",
