@@ -1,6 +1,79 @@
 {
-  "updated": "2026-10-30T15:21:48.857063+00:00",
+  "updated": "2026-10-30T16:17:30.737533+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-76294",
+      "published": "2026-10-21T23:17:27.323",
+      "modified": "2026-10-30T15:52:26.153",
+      "description": "In Splunk Enterprise versions below 10.4.4, 10.2.8, 10.0.11, and 9.4.16, a user who does not hold the \"admin\" or \"power\" Splunk roles could move field extractions or field transformations to apps for which the user does not have read access.\nThe vulnerability is possible because the Representational State Transfer (REST) API does not validate destination app access before it processes field extraction and field transformation move operations.\nFor more information see Use the Field extractions page (https://help.splunk.com/en/splunk-enterprise/manage-knowledge-objects/knowledge-management-manual/10.6/use-the-settings-pages-for-field-extractions-in-splunk-web/use-the-field-extractions-page) and Manage knowledge object permissions (https://help.splunk.com/en/splunk-enterprise/manage-knowledge-objects/knowledge-management-manual/10.6/get-started-with-knowledge-objects/manage-knowledge-object-permissions) in the Splunk documentation.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:splunk:splunk:*:*:*:*:enterprise:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76294"
+    },
+    {
+      "id": "CVE-2026-101780",
+      "published": "2026-10-20T22:18:33.593",
+      "modified": "2026-10-30T15:22:11.380",
+      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: X Plugin).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows low privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 6.5 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101780"
+    },
+    {
+      "id": "CVE-2026-101779",
+      "published": "2026-10-20T22:18:33.483",
+      "modified": "2026-10-30T15:20:46.540",
+      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Telemetry).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a partial denial of service (partial DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 2.7 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:L).",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 2.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101779"
+    },
     {
       "id": "CVE-2026-86147",
       "published": "2026-10-21T13:20:04.317",
@@ -70317,68 +70390,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57201"
-    },
-    {
-      "id": "CVE-2026-57198",
-      "published": "2026-10-27T17:17:01.963",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. In affected deployments, an authenticated attacker may cause a `T.140 RED` heap buffer overflow using carefully crafted packets, potentially allowing remote code execution or causing Asterisk to crash. The `chan_sip` channel driver must be installed and configured, and its `textsupport` option must be enabled; `textsupport` defaults to no. `The chan_sip driver was deprecated in Asterisk 20 and completely removed in all later versions.` Repository comparisons verify patch containment in Asterisk 20.20.1, 21.12.3, 22.10.1 and 23.4.1, and Certified Asterisk 20.7-cert11 and 22.8-cert3. The affected release-track scope remains unresolved: structured metadata includes later release tracks even though the advisory says the required `chan_sip` driver was removed there.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.3,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57198"
-    },
-    {
-      "id": "CVE-2026-57197",
-      "published": "2026-10-27T17:17:01.793",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, an unbounded `memcpy` of `OGG/Speex` packet data in `format_ogg_speex` can cause a heap buffer overflow and crash Asterisk when reading a file containing corrupted Speex audio. The attacker must create the file and make it available to Asterisk either through sufficiently elevated privileges or by convincing an Asterisk administrator to make it available. Asterisk must also be configured to play that file. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57197"
-    },
-    {
-      "id": "CVE-2026-57194",
-      "published": "2026-10-27T17:17:01.620",
-      "modified": "2026-10-28T14:18:37.620",
-      "description": "Asterisk is an open source private branch exchange and telephony toolkit. Prior to Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3, an out-of-bounds write in `chan_unistim` `DIALPAGE` digit handling can overflow the `phone_number` field and crash Asterisk when an attacker sends a carefully crafted incoming request packet. The `chan_unistim` module must be loaded and configured with a valid `UNISTIM UDP port` that the attacker can reach. The attacker must register as a configured `phone MAC`, or the deployment must have an equivalent `production/autoprovisioning` path that allows the client to reach the main page. This issue is fixed in Asterisk 20.20.1, 21.12.3, 22.10.1, 23.4.1 and Certified Asterisk 20.7-cert11, 22.8-cert3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-57194"
     }
   ],
   "kev": [
@@ -72150,10 +72161,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 46,
-    "high": 562,
-    "medium": 322,
+    "high": 561,
+    "medium": 323,
     "kev": 5,
     "p1": 26,
-    "p2": 582
+    "p2": 581
   }
 }
