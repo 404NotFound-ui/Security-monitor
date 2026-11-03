@@ -1,6 +1,134 @@
 {
-  "updated": "2026-11-03T02:02:48.148241+00:00",
+  "updated": "2026-11-03T09:34:06.418731+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-121023",
+      "published": "2026-11-03T09:17:12.177",
+      "modified": "2026-11-03T09:17:12.177",
+      "description": "Insertion of Sensitive Information into Log File (CWE-532) in the ARP Agent component in AxxonSoft AxxonNet before 3.25.0 on Windows and Linux allows a local attacker with read access to ARP Agent log files or support packages to obtain the plaintext password of the LDAP directory service account via WARNING-level log entries that contain serialized user synchronization data.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121023"
+    },
+    {
+      "id": "CVE-2026-121022",
+      "published": "2026-11-03T09:17:11.980",
+      "modified": "2026-11-03T09:17:11.980",
+      "description": "Use of Default Password (CWE-1393) in the web client in AxxonSoft Axxon One before 3.0.0 on Windows and Linux allows a remote unauthenticated attacker to log in as the built-in administrator with the default credentials on a newly installed system, because the web client did not enforce the mandatory change of the default password on first login.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121022"
+    },
+    {
+      "id": "CVE-2026-121021",
+      "published": "2026-11-03T09:17:11.807",
+      "modified": "2026-11-03T09:17:11.807",
+      "description": "Plaintext Storage of a Password (CWE-256) in the SecurityManager shared configuration in AxxonSoft Axxon One before 3.1.0 on Windows and Linux allows a local attacker with read access to the configuration directory or to configuration backups to obtain the password of the LDAP directory service account via the main.conf configuration file.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121021"
+    },
+    {
+      "id": "CVE-2026-121020",
+      "published": "2026-11-03T09:17:11.653",
+      "modified": "2026-11-03T09:17:11.653",
+      "description": "Exposure of Sensitive Information to an Unauthorized Actor (CWE-200) in the security configuration API in AxxonSoft Axxon One before 3.2.0 on Windows and Linux allows a remote authenticated user with limited privileges to enumerate all user accounts and roles configured in the system via the user configuration request, which returned the complete lists of users and roles regardless of the caller's permissions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121020"
+    },
+    {
+      "id": "CVE-2026-68076",
+      "published": "2026-08-12T16:17:15.223",
+      "modified": "2026-11-03T07:20:56.920",
+      "description": "Apache Airflow's environment-variable secrets backend resolved a team-scoped Connection or Variable from the wrong team's scope. The guard meant to prevent this only ran when no team scope was supplied, and its pattern could not match a team name containing an underscore, which team names are allowed to contain. When the guard did not apply, the lookup fell through to an unconditional global read that resolved the stored `AIRFLOW_CONN__<TEAM>___<ID>` variable regardless of which team asked. In multi-team mode an authenticated user of one team could therefore have `POST /api/v2/connections/test` resolve another team's Connection and authenticate outward with that team's credentials; the endpoint uses the credentials rather than returning them. Exploitation requires `[core] multi_team` enabled, `[core] test_connection` set to `Enabled` (it ships `Disabled`), team-scoped secrets provisioned as environment variables in the API-server process, and knowledge of the encoded identifier. Redirecting the test at an attacker-controlled host is separately blocked. Users are advised to upgrade to apache-airflow 3.3.1 or later.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:airflow:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68076"
+    },
+    {
+      "id": "CVE-2026-25219",
+      "published": "2026-04-15T13:16:24.343",
+      "modified": "2026-11-03T07:18:31.330",
+      "description": "The `access_key` and `connection_string` connection properties were not marked as sensitive names in secrets masker. This means that user with read permission could see the values in Connection UI, as well as when Connection was accidentaly logged to logs, those values could be seen in the logs. Azure Service Bus used those properties to store sensitive values. Possibly other providers could be also affected if they used the same fields to store sensitive data.\n\nIf you used Azure Service Bus connection with those values set or if you have other connections with those values storing sensitve values, you should upgrade Airflow to 3.1.8",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:apache:airflow:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-25219"
+    },
     {
       "id": "CVE-2026-105770",
       "published": "2026-11-03T01:16:44.147",
@@ -62355,156 +62483,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53709"
-    },
-    {
-      "id": "CVE-2023-53726",
-      "published": "2025-10-22T14:15:47.837",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\narm64: csum: Fix OoB access in IP checksum code for negative lengths\n\nAlthough commit c2c24edb1d9c (\"arm64: csum: Fix pathological zero-length\ncalls\") added an early return for zero-length input, syzkaller has\npopped up with an example of a _negative_ length which causes an\nundefined shift and an out-of-bounds read:\n\n | BUG: KASAN: slab-out-of-bounds in do_csum+0x44/0x254 arch/arm64/lib/csum.c:39\n | Read of size 4294966928 at addr ffff0000d7ac0170 by task syz-executor412/5975\n |\n | CPU: 0 PID: 5975 Comm: syz-executor412 Not tainted 6.4.0-rc4-syzkaller-g908f31f2a05b #0\n | Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023\n | Call trace:\n |  dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:233\n |  show_stack+0x2c/0x44 arch/arm64/kernel/stacktrace.c:240\n |  __dump_stack lib/dump_stack.c:88 [inline]\n |  dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106\n |  print_address_description mm/kasan/report.c:351 [inline]\n |  print_report+0x174/0x514 mm/kasan/report.c:462\n |  kasan_report+0xd4/0x130 mm/kasan/report.c:572\n |  kasan_check_range+0x264/0x2a4 mm/kasan/generic.c:187\n |  __kasan_check_read+0x20/0x30 mm/kasan/shadow.c:31\n |  do_csum+0x44/0x254 arch/arm64/lib/csum.c:39\n |  csum_partial+0x30/0x58 lib/checksum.c:128\n |  gso_make_checksum include/linux/skbuff.h:4928 [inline]\n |  __udp_gso_segment+0xaf4/0x1bc4 net/ipv4/udp_offload.c:332\n |  udp6_ufo_fragment+0x540/0xca0 net/ipv6/udp_offload.c:47\n |  ipv6_gso_segment+0x5cc/0x1760 net/ipv6/ip6_offload.c:119\n |  skb_mac_gso_segment+0x2b4/0x5b0 net/core/gro.c:141\n |  __skb_gso_segment+0x250/0x3d0 net/core/dev.c:3401\n |  skb_gso_segment include/linux/netdevice.h:4859 [inline]\n |  validate_xmit_skb+0x364/0xdbc net/core/dev.c:3659\n |  validate_xmit_skb_list+0x94/0x130 net/core/dev.c:3709\n |  sch_direct_xmit+0xe8/0x548 net/sched/sch_generic.c:327\n |  __dev_xmit_skb net/core/dev.c:3805 [inline]\n |  __dev_queue_xmit+0x147c/0x3318 net/core/dev.c:4210\n |  dev_queue_xmit include/linux/netdevice.h:3085 [inline]\n |  packet_xmit+0x6c/0x318 net/packet/af_packet.c:276\n |  packet_snd net/packet/af_packet.c:3081 [inline]\n |  packet_sendmsg+0x376c/0x4c98 net/packet/af_packet.c:3113\n |  sock_sendmsg_nosec net/socket.c:724 [inline]\n |  sock_sendmsg net/socket.c:747 [inline]\n |  __sys_sendto+0x3b4/0x538 net/socket.c:2144\n\nExtend the early return to reject negative lengths as well, aligning our\nimplementation with the generic code in lib/checksum.c",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53726"
-    },
-    {
-      "id": "CVE-2023-53727",
-      "published": "2025-10-22T14:15:47.977",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: fq_pie: avoid stalls in fq_pie_timer()\n\nWhen setting a high number of flows (limit being 65536),\nfq_pie_timer() is currently using too much time as syzbot reported.\n\nAdd logic to yield the cpu every 2048 flows (less than 150 usec\non debug kernels).\nIt should also help by not blocking qdisc fast paths for too long.\nWorst case (65536 flows) would need 31 jiffies for a complete scan.\n\nRelevant extract from syzbot report:\n\nrcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2663 jiffies s: 873 root: 0x1/.\nrcu: blocking rcu_node structures (internal RCU debug):\nSending NMI from CPU 1 to CPUs 0:\nNMI backtrace for cpu 0\nCPU: 0 PID: 5177 Comm: syz-executor273 Not tainted 6.5.0-syzkaller-00453-g727dbda16b83 #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023\nRIP: 0010:check_kcov_mode kernel/kcov.c:173 [inline]\nRIP: 0010:write_comp_data+0x21/0x90 kernel/kcov.c:236\nCode: 2e 0f 1f 84 00 00 00 00 00 65 8b 05 01 b2 7d 7e 49 89 f1 89 c6 49 89 d2 81 e6 00 01 00 00 49 89 f8 65 48 8b 14 25 80 b9 03 00 <a9> 00 01 ff 00 74 0e 85 f6 74 59 8b 82 04 16 00 00 85 c0 74 4f 8b\nRSP: 0018:ffffc90000007bb8 EFLAGS: 00000206\nRAX: 0000000000000101 RBX: ffffc9000dc0d140 RCX: ffffffff885893b0\nRDX: ffff88807c075940 RSI: 0000000000000100 RDI: 0000000000000001\nRBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000\nR10: 0000000000000000 R11: 0000000000000000 R12: ffffc9000dc0d178\nR13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000\nFS:  0000555555d54380(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007f6b442f6130 CR3: 000000006fe1c000 CR4: 00000000003506f0\nDR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\nDR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\nCall Trace:\n <NMI>\n </NMI>\n <IRQ>\n pie_calculate_probability+0x480/0x850 net/sched/sch_pie.c:415\n fq_pie_timer+0x1da/0x4f0 net/sched/sch_fq_pie.c:387\n call_timer_fn+0x1a0/0x580 kernel/time/timer.c:1700",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53727"
-    },
-    {
-      "id": "CVE-2023-53730",
-      "published": "2025-10-22T14:15:48.310",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nblk-iocost: use spin_lock_irqsave in adjust_inuse_and_calc_cost\n\nadjust_inuse_and_calc_cost() use spin_lock_irq() and IRQ will be enabled\nwhen unlock. DEADLOCK might happen if we have held other locks and disabled\nIRQ before invoking it.\n\nFix it by using spin_lock_irqsave() instead, which can keep IRQ state\nconsistent with before when unlock.\n\n  ================================\n  WARNING: inconsistent lock state\n  5.10.0-02758-g8e5f91fd772f #26 Not tainted\n  --------------------------------\n  inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.\n  kworker/2:3/388 [HC0[0]:SC0[0]:HE0:SE1] takes:\n  ffff888118c00c28 (&bfqd->lock){?.-.}-{2:2}, at: spin_lock_irq\n  ffff888118c00c28 (&bfqd->lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390\n  {IN-HARDIRQ-W} state was registered at:\n    __lock_acquire+0x3d7/0x1070\n    lock_acquire+0x197/0x4a0\n    __raw_spin_lock_irqsave\n    _raw_spin_lock_irqsave+0x3b/0x60\n    bfq_idle_slice_timer_body\n    bfq_idle_slice_timer+0x53/0x1d0\n    __run_hrtimer+0x477/0xa70\n    __hrtimer_run_queues+0x1c6/0x2d0\n    hrtimer_interrupt+0x302/0x9e0\n    local_apic_timer_interrupt\n    __sysvec_apic_timer_interrupt+0xfd/0x420\n    run_sysvec_on_irqstack_cond\n    sysvec_apic_timer_interrupt+0x46/0xa0\n    asm_sysvec_apic_timer_interrupt+0x12/0x20\n  irq event stamp: 837522\n  hardirqs last  enabled at (837521): [<ffffffff84b9419d>] __raw_spin_unlock_irqrestore\n  hardirqs last  enabled at (837521): [<ffffffff84b9419d>] _raw_spin_unlock_irqrestore+0x3d/0x40\n  hardirqs last disabled at (837522): [<ffffffff84b93fa3>] __raw_spin_lock_irq\n  hardirqs last disabled at (837522): [<ffffffff84b93fa3>] _raw_spin_lock_irq+0x43/0x50\n  softirqs last  enabled at (835852): [<ffffffff84e00558>] __do_softirq+0x558/0x8ec\n  softirqs last disabled at (835845): [<ffffffff84c010ff>] asm_call_irq_on_stack+0xf/0x20\n\n  other info that might help us debug this:\n   Possible unsafe locking scenario:\n\n         CPU0\n         ----\n    lock(&bfqd->lock);\n    <Interrupt>\n      lock(&bfqd->lock);\n\n   *** DEADLOCK ***\n\n  3 locks held by kworker/2:3/388:\n   #0: ffff888107af0f38 ((wq_completion)kthrotld){+.+.}-{0:0}, at: process_one_work+0x742/0x13f0\n   #1: ffff8881176bfdd8 ((work_completion)(&td->dispatch_work)){+.+.}-{0:0}, at: process_one_work+0x777/0x13f0\n   #2: ffff888118c00c28 (&bfqd->lock){?.-.}-{2:2}, at: spin_lock_irq\n   #2: ffff888118c00c28 (&bfqd->lock){?.-.}-{2:2}, at: bfq_bio_merge+0x141/0x390\n\n  stack backtrace:\n  CPU: 2 PID: 388 Comm: kworker/2:3 Not tainted 5.10.0-02758-g8e5f91fd772f #26\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014\n  Workqueue: kthrotld blk_throtl_dispatch_work_fn\n  Call Trace:\n   __dump_stack lib/dump_stack.c:77 [inline]\n   dump_stack+0x107/0x167\n   print_usage_bug\n   valid_state\n   mark_lock_irq.cold+0x32/0x3a\n   mark_lock+0x693/0xbc0\n   mark_held_locks+0x9e/0xe0\n   __trace_hardirqs_on_caller\n   lockdep_hardirqs_on_prepare.part.0+0x151/0x360\n   trace_hardirqs_on+0x5b/0x180\n   __raw_spin_unlock_irq\n   _raw_spin_unlock_irq+0x24/0x40\n   spin_unlock_irq\n   adjust_inuse_and_calc_cost+0x4fb/0x970\n   ioc_rqos_merge+0x277/0x740\n   __rq_qos_merge+0x62/0xb0\n   rq_qos_merge\n   bio_attempt_back_merge+0x12c/0x4a0\n   blk_mq_sched_try_merge+0x1b6/0x4d0\n   bfq_bio_merge+0x24a/0x390\n   __blk_mq_sched_bio_merge+0xa6/0x460\n   blk_mq_sched_bio_merge\n   blk_mq_submit_bio+0x2e7/0x1ee0\n   __submit_bio_noacct_mq+0x175/0x3b0\n   submit_bio_noacct+0x1fb/0x270\n   blk_throtl_dispatch_work_fn+0x1ef/0x2b0\n   process_one_work+0x83e/0x13f0\n   process_scheduled_works\n   worker_thread+0x7e3/0xd80\n   kthread+0x353/0x470\n   ret_from_fork+0x1f/0x30",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-53730"
-    },
-    {
-      "id": "CVE-2023-43000",
-      "published": "2025-11-05T19:15:47.937",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in macOS Ventura 13.5, iOS 16.6 and iPadOS 16.6, Safari 16.6, iOS 15.8.7 and iPadOS 15.8.7. Processing maliciously crafted web content may lead to memory corruption.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "safari",
-          "version": "*",
-          "cpe": "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:apple:safari:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": true,
-      "signals": [],
-      "priority": "P1",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-43000"
-    },
-    {
-      "id": "CVE-2023-54193",
-      "published": "2025-12-30T13:16:07.320",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: cls_api: remove block_cb from driver_list before freeing\n\nError handler of tcf_block_bind() frees the whole bo->cb_list on error.\nHowever, by that time the flow_block_cb instances are already in the driver\nlist because driver ndo_setup_tc() callback is called before that up the\ncall chain in tcf_block_offload_cmd(). This leaves dangling pointers to\nfreed objects in the list and causes use-after-free[0]. Fix it by also\nremoving flow_block_cb instances from driver_list before deallocating them.\n\n[0]:\n[  279.868433] ==================================================================\n[  279.869964] BUG: KASAN: slab-use-after-free in flow_block_cb_setup_simple+0x631/0x7c0\n[  279.871527] Read of size 8 at addr ffff888147e2bf20 by task tc/2963\n\n[  279.873151] CPU: 6 PID: 2963 Comm: tc Not tainted 6.3.0-rc6+ #4\n[  279.874273] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014\n[  279.876295] Call Trace:\n[  279.876882]  <TASK>\n[  279.877413]  dump_stack_lvl+0x33/0x50\n[  279.878198]  print_report+0xc2/0x610\n[  279.878987]  ? flow_block_cb_setup_simple+0x631/0x7c0\n[  279.879994]  kasan_report+0xae/0xe0\n[  279.880750]  ? flow_block_cb_setup_simple+0x631/0x7c0\n[  279.881744]  ? mlx5e_tc_reoffload_flows_work+0x240/0x240 [mlx5_core]\n[  279.883047]  flow_block_cb_setup_simple+0x631/0x7c0\n[  279.884027]  tcf_block_offload_cmd.isra.0+0x189/0x2d0\n[  279.885037]  ? tcf_block_setup+0x6b0/0x6b0\n[  279.885901]  ? mutex_lock+0x7d/0xd0\n[  279.886669]  ? __mutex_unlock_slowpath.constprop.0+0x2d0/0x2d0\n[  279.887844]  ? ingress_init+0x1c0/0x1c0 [sch_ingress]\n[  279.888846]  tcf_block_get_ext+0x61c/0x1200\n[  279.889711]  ingress_init+0x112/0x1c0 [sch_ingress]\n[  279.890682]  ? clsact_init+0x2b0/0x2b0 [sch_ingress]\n[  279.891701]  qdisc_create+0x401/0xea0\n[  279.892485]  ? qdisc_tree_reduce_backlog+0x470/0x470\n[  279.893473]  tc_modify_qdisc+0x6f7/0x16d0\n[  279.894344]  ? tc_get_qdisc+0xac0/0xac0\n[  279.895213]  ? mutex_lock+0x7d/0xd0\n[  279.896005]  ? __mutex_lock_slowpath+0x10/0x10\n[  279.896910]  rtnetlink_rcv_msg+0x5fe/0x9d0\n[  279.897770]  ? rtnl_calcit.isra.0+0x2b0/0x2b0\n[  279.898672]  ? __sys_sendmsg+0xb5/0x140\n[  279.899494]  ? do_syscall_64+0x3d/0x90\n[  279.900302]  ? entry_SYSCALL_64_after_hwframe+0x46/0xb0\n[  279.901337]  ? kasan_save_stack+0x2e/0x40\n[  279.902177]  ? kasan_save_stack+0x1e/0x40\n[  279.903058]  ? kasan_set_track+0x21/0x30\n[  279.903913]  ? kasan_save_free_info+0x2a/0x40\n[  279.904836]  ? ____kasan_slab_free+0x11a/0x1b0\n[  279.905741]  ? kmem_cache_free+0x179/0x400\n[  279.906599]  netlink_rcv_skb+0x12c/0x360\n[  279.907450]  ? rtnl_calcit.isra.0+0x2b0/0x2b0\n[  279.908360]  ? netlink_ack+0x1550/0x1550\n[  279.909192]  ? rhashtable_walk_peek+0x170/0x170\n[  279.910135]  ? kmem_cache_alloc_node+0x1af/0x390\n[  279.911086]  ? _copy_from_iter+0x3d6/0xc70\n[  279.912031]  netlink_unicast+0x553/0x790\n[  279.912864]  ? netlink_attachskb+0x6a0/0x6a0\n[  279.913763]  ? netlink_recvmsg+0x416/0xb50\n[  279.914627]  netlink_sendmsg+0x7a1/0xcb0\n[  279.915473]  ? netlink_unicast+0x790/0x790\n[  279.916334]  ? iovec_from_user.part.0+0x4d/0x220\n[  279.917293]  ? netlink_unicast+0x790/0x790\n[  279.918159]  sock_sendmsg+0xc5/0x190\n[  279.918938]  ____sys_sendmsg+0x535/0x6b0\n[  279.919813]  ? import_iovec+0x7/0x10\n[  279.920601]  ? kernel_sendmsg+0x30/0x30\n[  279.921423]  ? __copy_msghdr+0x3c0/0x3c0\n[  279.922254]  ? import_iovec+0x7/0x10\n[  279.923041]  ___sys_sendmsg+0xeb/0x170\n[  279.923854]  ? copy_msghdr_from_user+0x110/0x110\n[  279.924797]  ? ___sys_recvmsg+0xd9/0x130\n[  279.925630]  ? __perf_event_task_sched_in+0x183/0x470\n[  279.926656]  ? ___sys_sendmsg+0x170/0x170\n[  279.927529]  ? ctx_sched_in+0x530/0x530\n[  279.928369]  ? update_curr+0x283/0x4f0\n[  279.929185]  ? perf_event_update_userpage+0x570/0x570\n[  279.930201]  ? __fget_light+0x57/0x520\n[  279.931023]  ? __switch_to+0x53d/0xe70\n[  27\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54193"
-    },
-    {
-      "id": "CVE-2023-54196",
-      "published": "2025-12-30T13:16:07.653",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nfs/ntfs3: Fix NULL pointer dereference in 'ni_write_inode'\n\nSyzbot found the following issue:\nUnable to handle kernel NULL pointer dereference at virtual address 0000000000000016\nMem abort info:\n  ESR = 0x0000000096000006\n  EC = 0x25: DABT (current EL), IL = 32 bits\n  SET = 0, FnV = 0\n  EA = 0, S1PTW = 0\n  FSC = 0x06: level 2 translation fault\nData abort info:\n  ISV = 0, ISS = 0x00000006\n  CM = 0, WnR = 0\nuser pgtable: 4k pages, 48-bit VAs, pgdp=000000010af56000\n[0000000000000016] pgd=08000001090da003, p4d=08000001090da003, pud=08000001090ce003, pmd=0000000000000000\nInternal error: Oops: 0000000096000006 [#1] PREEMPT SMP\nModules linked in:\nCPU: 1 PID: 3036 Comm: syz-executor206 Not tainted 6.0.0-rc6-syzkaller-17739-g16c9f284e746 #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022\npstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)\npc : is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]\npc : ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232\nlr : ni_write_inode+0xa0/0x798 fs/ntfs3/frecord.c:3226\nsp : ffff8000126c3800\nx29: ffff8000126c3860 x28: 0000000000000000 x27: ffff0000c8b02000\nx26: ffff0000c7502320 x25: ffff0000c7502288 x24: 0000000000000000\nx23: ffff80000cbec91c x22: ffff0000c8b03000 x21: ffff0000c8b02000\nx20: 0000000000000001 x19: ffff0000c75024d8 x18: 00000000000000c0\nx17: ffff80000dd1b198 x16: ffff80000db59158 x15: ffff0000c4b6b500\nx14: 00000000000000b8 x13: 0000000000000000 x12: ffff0000c4b6b500\nx11: ff80800008be1b60 x10: 0000000000000000 x9 : ffff0000c4b6b500\nx8 : 0000000000000000 x7 : ffff800008be1b50 x6 : 0000000000000000\nx5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000\nx2 : 0000000000000008 x1 : 0000000000000001 x0 : 0000000000000000\nCall trace:\n is_rec_inuse fs/ntfs3/ntfs.h:313 [inline]\n ni_write_inode+0xac/0x798 fs/ntfs3/frecord.c:3232\n ntfs_evict_inode+0x54/0x84 fs/ntfs3/inode.c:1744\n evict+0xec/0x334 fs/inode.c:665\n iput_final fs/inode.c:1748 [inline]\n iput+0x2c4/0x324 fs/inode.c:1774\n ntfs_new_inode+0x7c/0xe0 fs/ntfs3/fsntfs.c:1660\n ntfs_create_inode+0x20c/0xe78 fs/ntfs3/inode.c:1278\n ntfs_create+0x54/0x74 fs/ntfs3/namei.c:100\n lookup_open fs/namei.c:3413 [inline]\n open_last_lookups fs/namei.c:3481 [inline]\n path_openat+0x804/0x11c4 fs/namei.c:3688\n do_filp_open+0xdc/0x1b8 fs/namei.c:3718\n do_sys_openat2+0xb8/0x22c fs/open.c:1311\n do_sys_open fs/open.c:1327 [inline]\n __do_sys_openat fs/open.c:1343 [inline]\n __se_sys_openat fs/open.c:1338 [inline]\n __arm64_sys_openat+0xb0/0xe0 fs/open.c:1338\n __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]\n invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]\n el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142\n do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206\n el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636\n el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654\n el0t_64_sync+0x18c/0x190\nCode: 97dafee4 340001b4 f9401328 2a1f03e0 (79402d14)\n---[ end trace 0000000000000000 ]---\n\nAbove issue may happens as follows:\nntfs_new_inode\n  mi_init\n    mi->mrec = kmalloc(sbi->record_size, GFP_NOFS); -->failed to allocate memory\n      if (!mi->mrec)\n        return -ENOMEM;\niput\n  iput_final\n    evict\n      ntfs_evict_inode\n        ni_write_inode\n\t  is_rec_inuse(ni->mi.mrec)-> As 'ni->mi.mrec' is NULL trigger NULL-ptr-deref\n\nTo solve above issue if new inode failed make inode bad before call 'iput()' in\n'ntfs_new_inode()'.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54196"
     }
   ],
   "kev": [
@@ -64277,11 +64255,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 45,
-    "high": 548,
-    "medium": 342,
-    "kev": 6,
-    "p1": 26,
-    "p2": 567
+    "critical": 46,
+    "high": 545,
+    "medium": 347,
+    "kev": 5,
+    "p1": 25,
+    "p2": 566
   }
 }
