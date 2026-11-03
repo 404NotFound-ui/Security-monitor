@@ -1,6 +1,1421 @@
 {
-  "updated": "2026-11-02T19:48:38.578150+00:00",
+  "updated": "2026-11-03T02:02:48.148241+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-105770",
+      "published": "2026-11-03T01:16:44.147",
+      "modified": "2026-11-03T01:16:44.147",
+      "description": "Octo STS (github.com/octo-sts/app) before 0.11.2 returns trust policy configuration to callers whose OIDC token does not satisfy that policy. TrustPolicy.CheckToken included the policy's issuer, subject and audience values or patterns and claim_pattern names and regular expressions in its PermissionDenied errors, which Exchange returned verbatim. Exchange also selected the GitHub App installation before checking the token, so errors from resolving the policy's app or app_pattern pin were returned to callers the policy does not trust. An attacker who holds any validly signed OIDC token, such as a GitHub Actions token from a repository they own, and who knows or guesses a target owner/repo and identity name can read that policy's matching rules, even when the policy is stored in a private repository. These rules often name internal repositories, branches, environments or cloud account identifiers. The issue does not allow minting tokens or bypassing a trust policy. This issue is fixed in 0.11.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105770"
+    },
+    {
+      "id": "CVE-2026-71450",
+      "published": "2026-11-02T23:17:21.200",
+      "modified": "2026-11-02T23:17:21.200",
+      "description": "Authentication bypass using an alternate path or channel vulnerability in Johnson Controls EasyIO Neo EC and CW Edge Controller allows Authentication Bypass.\n\nThis issue affects EasyIO Neo EC and CW Edge Controller: from EC 3.3b62 through EC 3.3b63 and from CW 3.3b24 through CW 3.3b25.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:H/UI:A/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "AUTH_BYPASS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71450"
+    },
+    {
+      "id": "CVE-2023-5869",
+      "published": "2023-12-10T18:15:07.410",
+      "modified": "2026-11-02T23:17:18.973",
+      "description": "A flaw was found in PostgreSQL that allows authenticated database users to execute arbitrary code through missing overflow checks during SQL array value modification. This issue exists due to an integer overflow during array modification where a remote user can trigger the overflow by providing specially crafted data. This enables the execution of arbitrary code on the target system, allowing users to write arbitrary bytes to memory and extensively read the server's memory.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder eus",
+          "version": "9.2",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_eus:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder eus for power little endian eus",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_eus_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder eus for power little endian eus",
+          "version": "9.2_ppc64le",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_eus_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for arm64 eus",
+          "version": "8.6_aarch64",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:8.6_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for arm64 eus",
+          "version": "9.0_aarch64",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:9.0_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for arm64 eus",
+          "version": "9.2_aarch64",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:9.2_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for ibm z systems eus",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for ibm z systems eus",
+          "version": "9.2_s390x",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for power little endian eus",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "codeready linux builder for power little endian eus",
+          "version": "9.2_ppc64le",
+          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "software collections",
+          "version": "1.0",
+          "cpe": "cpe:2.3:a:redhat:software_collections:1.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux desktop",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "8.8",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:8.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64",
+          "version": "8.8_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.8_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "7.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:7.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "8.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "8.6_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.6_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "8.8_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.8_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.2_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power big endian",
+          "version": "7.0_ppc64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_big_endian:7.0_ppc64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "7.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:7.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "8.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "8.6_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.6_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "8.8_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.8_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.2_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for scientific computing",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_scientific_computing:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "9.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.2",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server tus",
+          "version": "8.6",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux workstation",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:postgresql:postgresql:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:postgresql:postgresql:16.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_eus:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_eus_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_eus_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:8.6_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:9.0_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_arm64_eus:9.2_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:codeready_linux_builder_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:software_collections:1.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_desktop:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:8.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:8.8_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:7.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:8.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.6_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:8.8_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.2_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_big_endian:7.0_ppc64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:7.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:8.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.6_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:8.8_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.2_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_scientific_computing:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_tus:8.6:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_workstation:7.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5869"
+    },
+    {
+      "id": "CVE-2023-4693",
+      "published": "2023-10-25T18:17:41.817",
+      "modified": "2026-11-02T23:17:18.517",
+      "description": "An out-of-bounds read flaw was found on grub2's NTFS filesystem driver. This issue may allow a physically present attacker to present a specially crafted NTFS file system image to read arbitrary memory locations. A successful attack allows sensitive data cached in memory or EFI variable values to be leaked, presenting a high Confidentiality risk.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4693"
+    },
+    {
+      "id": "CVE-2023-4194",
+      "published": "2023-08-07T14:15:11.743",
+      "modified": "2026-11-02T23:17:18.260",
+      "description": "A flaw was found in the Linux kernel's TUN/TAP functionality. This issue could allow a local user to bypass network filters and gain unauthorized access to some resources. The original patches fixing CVE-2023-1076 are incorrect or incomplete. The problem is that the following upstream commits - a096ccca6e50 (\"tun: tun_chr_open(): correctly initialize socket uid\"), - 66b2c338adce (\"tap: tap_open(): correctly initialize socket uid\"), pass \"inode->i_uid\" to sock_init_data_uid() as the last parameter and that turns out to not be accurate.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.5:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.5:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.5:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:6.5:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:11.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:12.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-4194"
+    },
+    {
+      "id": "CVE-2023-36049",
+      "published": "2023-11-14T21:15:10.083",
+      "modified": "2026-11-02T23:17:17.080",
+      "description": ".NET, .NET Framework, and Visual Studio Elevation of Privilege Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:2.0:sp2:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2008",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "3.0",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:3.0:sp2:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "3.5",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:3.5:-:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2012",
+          "version": "r2",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.6.2",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.6.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.7",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.7:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.7.1",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.7.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.7.2",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.7.2:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1507",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1507:-:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.8",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.8:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 21h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "4.8.1",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:4.8.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 22h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net framework",
+          "version": "3.5.1",
+          "cpe": "cpe:2.3:a:microsoft:.net_framework:3.5.1:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2008",
+          "version": "r2",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:-:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": ".net",
+          "version": "8.0.0",
+          "cpe": "cpe:2.3:a:microsoft:.net:8.0.0:rc2:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_2022:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:.net_framework:2.0:sp2:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:-:sp2:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:.net_framework:3.0:sp2:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:3.5:-:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.6.2:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.7:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.7.1:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.7.2:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_1507:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1507:-:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:-:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.8:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:-:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_21h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net_framework:4.8.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:.net_framework:3.5.1:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2008:r2:sp1:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:-:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:.net:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:8.0.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:.net:8.0.0:rc2:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:visual_studio_2022:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.6,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36049"
+    },
+    {
+      "id": "CVE-2023-36009",
+      "published": "2023-12-12T18:15:21.430",
+      "modified": "2026-11-02T23:17:16.870",
+      "description": "Microsoft Word Information Disclosure Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office long term servicing channel",
+          "version": "2021",
+          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36009"
+    },
+    {
+      "id": "CVE-2023-25815",
+      "published": "2023-04-25T20:15:09.997",
+      "modified": "2026-11-02T23:17:15.373",
+      "description": "In Git for Windows, the Windows port of Git, no localized messages are shipped with the installer. As a consequence, Git is expected not to localize messages at all, and skips the gettext initialization. However, due to a change in MINGW-packages, the `gettext()` function's implicit initialization no longer uses the runtime prefix but uses the hard-coded path `C:\\mingw64\\share\\locale` to look for localized messages. And since any authenticated user has the permission to create folders in `C:\\` (and since `C:\\mingw64` does not typically exist), it is possible for low-privilege users to place fake messages in that location where `git.exe` will pick them up in version 2.40.1.\n\nThis vulnerability is relatively hard to exploit and requires social engineering. For example, a legitimate message at the end of a clone could be maliciously modified to ask the user to direct their web browser to a malicious website, and the user might think that the message comes from Git and is legitimate. It does require local write access by the attacker, though, which makes this attack vector less likely. Version 2.40.1 contains a patch for this issue. Some workarounds are available. Do not work on a Windows machine with shared accounts, or alternatively create a `C:\\mingw64` folder and leave it empty. Users who have administrative rights may remove the permission to create folders in `C:\\`.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:git_for_windows_project:git_for_windows:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 3.3,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25815"
+    },
+    {
+      "id": "CVE-2023-23384",
+      "published": "2023-04-11T21:15:18.047",
+      "modified": "2026-11-02T23:17:15.090",
+      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2008",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2012",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2014",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2017",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2022",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server:2008:r2_sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23384"
+    },
+    {
+      "id": "CVE-2023-22329",
+      "published": "2023-11-14T19:15:17.390",
+      "modified": "2026-11-02T23:17:13.827",
+      "description": "Improper input validation in the BIOS firmware for some Intel(R) Processors may allow an authenticated user to potentially enable denial of service via adjacent access.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:intel:atom_x6200fe_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6200fe:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6211e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6211e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6212re_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6212re:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6413e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6413e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6414re_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6414re:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6425e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6425e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6425re_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6425re:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:atom_x6427fe_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:atom_x6427fe:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1000m_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1000m:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1005m_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1005m:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1007u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1007u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1017u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1017u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1019y_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1019y:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1020e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1020e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1020m_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1020m:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1037u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1037u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_1047ue_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_1047ue:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2000e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2000e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2002e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2002e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2950m_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2950m:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2955u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2955u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2957u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2957u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2961y_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2961y:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2970m_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2970m:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2980u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2980u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_2981u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_2981u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3205u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3205u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3215u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3215u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3755u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3755u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3765u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3765u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3855u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3855u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3865u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3865u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3867u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3867u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3955u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3955u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3965u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3965u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_3965y_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_3965y:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_4205u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_4205u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_4305u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_4305u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_4305ue_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_4305ue:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_5205u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_5205u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_5305u_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_5305u:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_6305_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_6305:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_6305e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_6305e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_6600he_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_6600he:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_725c_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_725c:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_7300_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_7300:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_7305_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_7305:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_7305e_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_7305e:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_7305l_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_7305l:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:intel:celeron_787_firmware:-:*:*:*:*:*:*:*",
+        "cpe:2.3:h:intel:celeron_787:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 2.6,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:A/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22329"
+    },
+    {
+      "id": "CVE-2023-21713",
+      "published": "2023-02-14T20:15:14.127",
+      "modified": "2026-11-02T23:17:13.660",
+      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2012",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2014",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2017",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2022",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21713"
+    },
+    {
+      "id": "CVE-2023-21705",
+      "published": "2023-02-14T20:15:13.823",
+      "modified": "2026-11-02T23:17:13.497",
+      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2012",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2014",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2017",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2022",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21705"
+    },
+    {
+      "id": "CVE-2023-21704",
+      "published": "2023-02-14T20:15:13.753",
+      "modified": "2026-11-02T23:17:13.327",
+      "description": "Microsoft ODBC Driver for SQL Server Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2014",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2017",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2022",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21704"
+    },
+    {
+      "id": "CVE-2023-21568",
+      "published": "2023-02-14T20:15:11.913",
+      "modified": "2026-11-02T23:17:13.177",
+      "description": "Microsoft SQL Server Integration Service (VS extension) Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2019 integration services",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2019_integration_services:-:*:*:*:*:visual_studio:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server 2022 integration services",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:sql_server_2022_integration_services:-:*:*:*:*:visual_studio:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server_2019_integration_services:-:*:*:*:*:visual_studio:*:*",
+        "cpe:2.3:a:microsoft:sql_server_2022_integration_services:-:*:*:*:*:visual_studio:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21568"
+    },
+    {
+      "id": "CVE-2023-21528",
+      "published": "2023-02-14T20:15:11.637",
+      "modified": "2026-11-02T23:17:12.973",
+      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2008",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2012",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2014",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2017",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "sql server",
+          "version": "2022",
+          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21528"
+    },
+    {
+      "id": "CVE-2022-48564",
+      "published": "2023-08-22T19:16:31.927",
+      "modified": "2026-11-02T23:17:12.410",
+      "description": "read_ints in plistlib.py in Python through 3.9.1 is vulnerable to a potential DoS attack via CPU and RAM exhaustion when processing malformed Apple Property List files in binary format.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:python:python:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:vmware_vsphere:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:windows:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-48564"
+    },
+    {
+      "id": "CVE-2022-41083",
+      "published": "2022-10-11T19:15:21.217",
+      "modified": "2026-11-02T23:17:12.013",
+      "description": "Visual Studio Code Elevation of Privilege Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "jupyter",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:jupyter:*:*:*:*:*:visual_studio_code:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:jupyter:*:*:*:*:*:visual_studio_code:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41083"
+    },
+    {
+      "id": "CVE-2022-41042",
+      "published": "2022-10-11T19:15:20.980",
+      "modified": "2026-11-02T23:17:11.850",
+      "description": "Visual Studio Code Information Disclosure Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "visual studio code",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:visual_studio_code:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:visual_studio_code:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-41042"
+    },
+    {
+      "id": "CVE-2022-34717",
+      "published": "2022-08-09T20:15:11.720",
+      "modified": "2026-11-02T23:17:11.087",
+      "description": "Microsoft Office Remote Code Execution Vulnerability",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 apps",
+          "version": "-",
+          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office",
+          "version": "2013",
+          "cpe": "cpe:2.3:a:microsoft:office:2013:sp1:*:*:rt:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office",
+          "version": "2016",
+          "cpe": "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office",
+          "version": "2019",
+          "cpe": "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "office long term servicing channel",
+          "version": "2021",
+          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x86:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
+        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
+        "cpe:2.3:a:microsoft:office:2013:sp1:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office:2013:sp1:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office:2013:sp1:*:*:rt:*:*:*",
+        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*",
+        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x64:*",
+        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x86:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-34717"
+    },
     {
       "id": "CVE-2026-120338",
       "published": "2026-11-01T16:18:14.970",
@@ -61090,596 +62505,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54196"
-    },
-    {
-      "id": "CVE-2023-54203",
-      "published": "2025-12-30T13:16:08.420",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: fix slab-out-of-bounds in init_smb2_rsp_hdr\n\nWhen smb1 mount fails, KASAN detect slab-out-of-bounds in\ninit_smb2_rsp_hdr like the following one.\nFor smb1 negotiate(56bytes) , init_smb2_rsp_hdr() for smb2 is called.\nThe issue occurs while handling smb1 negotiate as smb2 server operations.\nAdd smb server operations for smb1 (get_cmd_val, init_rsp_hdr,\nallocate_rsp_buf, check_user_session) to handle smb1 negotiate so that\nsmb2 server operation does not handle it.\n\n[  411.400423] CIFS: VFS: Use of the less secure dialect vers=1.0 is\nnot recommended unless required for access to very old servers\n[  411.400452] CIFS: Attempting to mount \\\\192.168.45.139\\homes\n[  411.479312] ksmbd: init_smb2_rsp_hdr : 492\n[  411.479323] ==================================================================\n[  411.479327] BUG: KASAN: slab-out-of-bounds in\ninit_smb2_rsp_hdr+0x1e2/0x1f4 [ksmbd]\n[  411.479369] Read of size 16 at addr ffff888488ed0734 by task kworker/14:1/199\n\n[  411.479379] CPU: 14 PID: 199 Comm: kworker/14:1 Tainted: G\n OE      6.1.21 #3\n[  411.479386] Hardware name: ASUSTeK COMPUTER INC. Z10PA-D8\nSeries/Z10PA-D8 Series, BIOS 3801 08/23/2019\n[  411.479390] Workqueue: ksmbd-io handle_ksmbd_work [ksmbd]\n[  411.479425] Call Trace:\n[  411.479428]  <TASK>\n[  411.479432]  dump_stack_lvl+0x49/0x63\n[  411.479444]  print_report+0x171/0x4a8\n[  411.479452]  ? kasan_complete_mode_report_info+0x3c/0x200\n[  411.479463]  ? init_smb2_rsp_hdr+0x1e2/0x1f4 [ksmbd]\n[  411.479497]  kasan_report+0xb4/0x130\n[  411.479503]  ? init_smb2_rsp_hdr+0x1e2/0x1f4 [ksmbd]\n[  411.479537]  kasan_check_range+0x149/0x1e0\n[  411.479543]  memcpy+0x24/0x70\n[  411.479550]  init_smb2_rsp_hdr+0x1e2/0x1f4 [ksmbd]\n[  411.479585]  handle_ksmbd_work+0x109/0x760 [ksmbd]\n[  411.479616]  ? _raw_spin_unlock_irqrestore+0x50/0x50\n[  411.479624]  ? smb3_encrypt_resp+0x340/0x340 [ksmbd]\n[  411.479656]  process_one_work+0x49c/0x790\n[  411.479667]  worker_thread+0x2b1/0x6e0\n[  411.479674]  ? process_one_work+0x790/0x790\n[  411.479680]  kthread+0x177/0x1b0\n[  411.479686]  ? kthread_complete_and_exit+0x30/0x30\n[  411.479692]  ret_from_fork+0x22/0x30\n[  411.479702]  </TASK>",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.1,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54203"
-    },
-    {
-      "id": "CVE-2023-54206",
-      "published": "2025-12-30T13:16:08.750",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/sched: flower: fix filter idr initialization\n\nThe cited commit moved idr initialization too early in fl_change() which\nallows concurrent users to access the filter that is still being\ninitialized and is in inconsistent state, which, in turn, can cause NULL\npointer dereference [0]. Since there is no obvious way to fix the ordering\nwithout reverting the whole cited commit, alternative approach taken to\nfirst insert NULL pointer into idr in order to allocate the handle but\nstill cause fl_get() to return NULL and prevent concurrent users from\nseeing the filter while providing miss-to-action infrastructure with valid\nhandle id early in fl_change().\n\n[  152.434728] general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN\n[  152.436163] KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]\n[  152.437269] CPU: 4 PID: 3877 Comm: tc Not tainted 6.3.0-rc4+ #5\n[  152.438110] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014\n[  152.439644] RIP: 0010:fl_dump_key+0x8b/0x1d10 [cls_flower]\n[  152.440461] Code: 01 f2 02 f2 c7 40 08 04 f2 04 f2 c7 40 0c 04 f3 f3 f3 65 48 8b 04 25 28 00 00 00 48 89 84 24 00 01 00 00 48 89 c8 48 c1 e8 03 <0f> b6 04 10 84 c0 74 08 3c 03 0f 8e 98 19 00 00 8b 13 85 d2 74 57\n[  152.442885] RSP: 0018:ffff88817a28f158 EFLAGS: 00010246\n[  152.443851] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000\n[  152.444826] RDX: dffffc0000000000 RSI: ffffffff8500ae80 RDI: ffff88810a987900\n[  152.445791] RBP: ffff888179d88240 R08: ffff888179d8845c R09: ffff888179d88240\n[  152.446780] R10: ffffed102f451e48 R11: 00000000fffffff2 R12: ffff88810a987900\n[  152.447741] R13: ffffffff8500ae80 R14: ffff88810a987900 R15: ffff888149b3c738\n[  152.448756] FS:  00007f5eb2a34800(0000) GS:ffff88881ec00000(0000) knlGS:0000000000000000\n[  152.449888] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n[  152.450685] CR2: 000000000046ad19 CR3: 000000010b0bd006 CR4: 0000000000370ea0\n[  152.451641] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n[  152.452628] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n[  152.453588] Call Trace:\n[  152.454032]  <TASK>\n[  152.454447]  ? netlink_sendmsg+0x7a1/0xcb0\n[  152.455109]  ? sock_sendmsg+0xc5/0x190\n[  152.455689]  ? ____sys_sendmsg+0x535/0x6b0\n[  152.456320]  ? ___sys_sendmsg+0xeb/0x170\n[  152.456916]  ? do_syscall_64+0x3d/0x90\n[  152.457529]  ? entry_SYSCALL_64_after_hwframe+0x46/0xb0\n[  152.458321]  ? ___sys_sendmsg+0xeb/0x170\n[  152.458958]  ? __sys_sendmsg+0xb5/0x140\n[  152.459564]  ? do_syscall_64+0x3d/0x90\n[  152.460122]  ? entry_SYSCALL_64_after_hwframe+0x46/0xb0\n[  152.460852]  ? fl_dump_key_options.part.0+0xea0/0xea0 [cls_flower]\n[  152.461710]  ? _raw_spin_lock+0x7a/0xd0\n[  152.462299]  ? _raw_read_lock_irq+0x30/0x30\n[  152.462924]  ? nla_put+0x15e/0x1c0\n[  152.463480]  fl_dump+0x228/0x650 [cls_flower]\n[  152.464112]  ? fl_tmplt_dump+0x210/0x210 [cls_flower]\n[  152.464854]  ? __kmem_cache_alloc_node+0x1a7/0x330\n[  152.465592]  ? nla_put+0x15e/0x1c0\n[  152.466160]  tcf_fill_node+0x515/0x9a0\n[  152.466766]  ? tc_setup_offload_action+0xf0/0xf0\n[  152.467463]  ? __alloc_skb+0x13c/0x2a0\n[  152.468067]  ? __build_skb_around+0x330/0x330\n[  152.468814]  ? fl_get+0x107/0x1a0 [cls_flower]\n[  152.469503]  tc_del_tfilter+0x718/0x1330\n[  152.470115]  ? is_bpf_text_address+0xa/0x20\n[  152.470765]  ? tc_ctl_chain+0xee0/0xee0\n[  152.471335]  ? __kernel_text_address+0xe/0x30\n[  152.471948]  ? unwind_get_return_address+0x56/0xa0\n[  152.472639]  ? __thaw_task+0x150/0x150\n[  152.473218]  ? arch_stack_walk+0x98/0xf0\n[  152.473839]  ? __stack_depot_save+0x35/0x4c0\n[  152.474501]  ? stack_trace_save+0x91/0xc0\n[  152.475119]  ? security_capable+0x51/0x90\n[  152.475741]  rtnetlink_rcv_msg+0x2c1/0x9d0\n[  152.476387]  ? rtnl_calcit.isra.0+0x2b0/0x2b0\n[  152.477042]\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54206"
-    },
-    {
-      "id": "CVE-2023-54213",
-      "published": "2025-12-30T13:16:09.520",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nUSB: sisusbvga: Add endpoint checks\n\nThe syzbot fuzzer was able to provoke a WARNING from the sisusbvga driver:\n\n------------[ cut here ]------------\nusb 1-1: BOGUS urb xfer, pipe 3 != type 1\nWARNING: CPU: 1 PID: 26 at drivers/usb/core/urb.c:504 usb_submit_urb+0xed6/0x1880 drivers/usb/core/urb.c:504\nModules linked in:\nCPU: 1 PID: 26 Comm: kworker/1:1 Not tainted 6.2.0-rc5-syzkaller-00199-g5af6ce704936 #0\nHardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/12/2023\nWorkqueue: usb_hub_wq hub_event\nRIP: 0010:usb_submit_urb+0xed6/0x1880 drivers/usb/core/urb.c:504\nCode: 7c 24 18 e8 6c 50 80 fb 48 8b 7c 24 18 e8 62 1a 01 ff 41 89 d8 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7 60 b1 fa 8a e8 84 b0 be 03 <0f> 0b e9 58 f8 ff ff e8 3e 50 80 fb 48 81 c5 c0 05 00 00 e9 84 f7\nRSP: 0018:ffffc90000a1ed18 EFLAGS: 00010282\nRAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000\nRDX: ffff888012783a80 RSI: ffffffff816680ec RDI: fffff52000143d95\nRBP: ffff888079020000 R08: 0000000000000005 R09: 0000000000000000\nR10: 0000000080000000 R11: 0000000000000000 R12: 0000000000000003\nR13: ffff888017d33370 R14: 0000000000000003 R15: ffff888021213600\nFS:  0000000000000000(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00005592753a60b0 CR3: 0000000022899000 CR4: 00000000003506e0\nDR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\nDR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\nCall Trace:\n <TASK>\n sisusb_bulkout_msg drivers/usb/misc/sisusbvga/sisusbvga.c:224 [inline]\n sisusb_send_bulk_msg.constprop.0+0x904/0x1230 drivers/usb/misc/sisusbvga/sisusbvga.c:379\n sisusb_send_bridge_packet drivers/usb/misc/sisusbvga/sisusbvga.c:567 [inline]\n sisusb_do_init_gfxdevice drivers/usb/misc/sisusbvga/sisusbvga.c:2077 [inline]\n sisusb_init_gfxdevice+0x87b/0x4000 drivers/usb/misc/sisusbvga/sisusbvga.c:2177\n sisusb_probe+0x9cd/0xbe2 drivers/usb/misc/sisusbvga/sisusbvga.c:2869\n...\n\nThe problem was caused by the fact that the driver does not check\nwhether the endpoints it uses are actually present and have the\nappropriate types.  This can be fixed by adding a simple check of\nthe endpoints.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54213"
-    },
-    {
-      "id": "CVE-2023-54216",
-      "published": "2025-12-30T13:16:09.850",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/mlx5e: TC, Fix using eswitch mapping in nic mode\n\nCited patch is using the eswitch object mapping pool while\nin nic mode where it isn't initialized. This results in the\ntrace below [0].\n\nFix that by using either nic or eswitch object mapping pool\ndepending if eswitch is enabled or not.\n\n[0]:\n[  826.446057] ==================================================================\n[  826.446729] BUG: KASAN: slab-use-after-free in mlx5_add_flow_rules+0x30/0x490 [mlx5_core]\n[  826.447515] Read of size 8 at addr ffff888194485830 by task tc/6233\n\n[  826.448243] CPU: 16 PID: 6233 Comm: tc Tainted: G        W          6.3.0-rc6+ #1\n[  826.448890] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014\n[  826.449785] Call Trace:\n[  826.450052]  <TASK>\n[  826.450302]  dump_stack_lvl+0x33/0x50\n[  826.450650]  print_report+0xc2/0x610\n[  826.450998]  ? __virt_addr_valid+0xb1/0x130\n[  826.451385]  ? mlx5_add_flow_rules+0x30/0x490 [mlx5_core]\n[  826.451935]  kasan_report+0xae/0xe0\n[  826.452276]  ? mlx5_add_flow_rules+0x30/0x490 [mlx5_core]\n[  826.452829]  mlx5_add_flow_rules+0x30/0x490 [mlx5_core]\n[  826.453368]  ? __kmalloc_node+0x5a/0x120\n[  826.453733]  esw_add_restore_rule+0x20f/0x270 [mlx5_core]\n[  826.454288]  ? mlx5_eswitch_add_send_to_vport_meta_rule+0x260/0x260 [mlx5_core]\n[  826.455011]  ? mutex_unlock+0x80/0xd0\n[  826.455361]  ? __mutex_unlock_slowpath.constprop.0+0x210/0x210\n[  826.455862]  ? mapping_add+0x2cb/0x440 [mlx5_core]\n[  826.456425]  mlx5e_tc_action_miss_mapping_get+0x139/0x180 [mlx5_core]\n[  826.457058]  ? mlx5e_tc_update_skb_nic+0xb0/0xb0 [mlx5_core]\n[  826.457636]  ? __kasan_kmalloc+0x77/0x90\n[  826.458000]  ? __kmalloc+0x57/0x120\n[  826.458336]  mlx5_tc_ct_flow_offload+0x325/0xe40 [mlx5_core]\n[  826.458916]  ? ct_kernel_enter.constprop.0+0x48/0xa0\n[  826.459360]  ? mlx5_tc_ct_parse_action+0xf0/0xf0 [mlx5_core]\n[  826.459933]  ? mlx5e_mod_hdr_attach+0x491/0x520 [mlx5_core]\n[  826.460507]  ? mlx5e_mod_hdr_get+0x12/0x20 [mlx5_core]\n[  826.461046]  ? mlx5e_tc_attach_mod_hdr+0x154/0x170 [mlx5_core]\n[  826.461635]  mlx5e_configure_flower+0x969/0x2110 [mlx5_core]\n[  826.462217]  ? _raw_spin_lock_bh+0x85/0xe0\n[  826.462597]  ? __mlx5e_add_fdb_flow+0x750/0x750 [mlx5_core]\n[  826.463163]  ? kasan_save_stack+0x2e/0x40\n[  826.463534]  ? down_read+0x115/0x1b0\n[  826.463878]  ? down_write_killable+0x110/0x110\n[  826.464288]  ? tc_setup_action.part.0+0x9f/0x3b0\n[  826.464701]  ? mlx5e_is_uplink_rep+0x4c/0x90 [mlx5_core]\n[  826.465253]  ? mlx5e_tc_reoffload_flows_work+0x130/0x130 [mlx5_core]\n[  826.465878]  tc_setup_cb_add+0x112/0x250\n[  826.466247]  fl_hw_replace_filter+0x230/0x310 [cls_flower]\n[  826.466724]  ? fl_hw_destroy_filter+0x1a0/0x1a0 [cls_flower]\n[  826.467212]  fl_change+0x14e1/0x2030 [cls_flower]\n[  826.467636]  ? sock_def_readable+0x89/0x120\n[  826.468019]  ? fl_tmplt_create+0x2d0/0x2d0 [cls_flower]\n[  826.468509]  ? kasan_unpoison+0x23/0x50\n[  826.468873]  ? get_random_u16+0x180/0x180\n[  826.469244]  ? __radix_tree_lookup+0x2b/0x130\n[  826.469640]  ? fl_get+0x7b/0x140 [cls_flower]\n[  826.470042]  ? fl_mask_put+0x200/0x200 [cls_flower]\n[  826.470478]  ? __mutex_unlock_slowpath.constprop.0+0x210/0x210\n[  826.470973]  ? fl_tmplt_create+0x2d0/0x2d0 [cls_flower]\n[  826.471427]  tc_new_tfilter+0x644/0x1050\n[  826.471795]  ? tc_get_tfilter+0x860/0x860\n[  826.472170]  ? __thaw_task+0x130/0x130\n[  826.472525]  ? arch_stack_walk+0x98/0xf0\n[  826.472892]  ? cap_capable+0x9f/0xd0\n[  826.473235]  ? security_capable+0x47/0x60\n[  826.473608]  rtnetlink_rcv_msg+0x1d5/0x550\n[  826.473985]  ? rtnl_calcit.isra.0+0x1f0/0x1f0\n[  826.474383]  ? __stack_depot_save+0x35/0x4c0\n[  826.474779]  ? kasan_save_stack+0x2e/0x40\n[  826.475149]  ? kasan_save_stack+0x1e/0x40\n[  826.475518]  ? __kasan_record_aux_stack+0x9f/0xb0\n[  826.475939]  ? task_work_add+0x77/0x1c0\n[  826.476305]  netlink_rcv_skb+0xe0/0x210\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54216"
-    },
-    {
-      "id": "CVE-2023-54218",
-      "published": "2025-12-30T13:16:10.067",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: Fix load-tearing on sk->sk_stamp in sock_recv_cmsgs().\n\nKCSAN found a data race in sock_recv_cmsgs() where the read access\nto sk->sk_stamp needs READ_ONCE().\n\nBUG: KCSAN: data-race in packet_recvmsg / packet_recvmsg\n\nwrite (marked) to 0xffff88803c81f258 of 8 bytes by task 19171 on cpu 0:\n sock_write_timestamp include/net/sock.h:2670 [inline]\n sock_recv_cmsgs include/net/sock.h:2722 [inline]\n packet_recvmsg+0xb97/0xd00 net/packet/af_packet.c:3489\n sock_recvmsg_nosec net/socket.c:1019 [inline]\n sock_recvmsg+0x11a/0x130 net/socket.c:1040\n sock_read_iter+0x176/0x220 net/socket.c:1118\n call_read_iter include/linux/fs.h:1845 [inline]\n new_sync_read fs/read_write.c:389 [inline]\n vfs_read+0x5e0/0x630 fs/read_write.c:470\n ksys_read+0x163/0x1a0 fs/read_write.c:613\n __do_sys_read fs/read_write.c:623 [inline]\n __se_sys_read fs/read_write.c:621 [inline]\n __x64_sys_read+0x41/0x50 fs/read_write.c:621\n do_syscall_x64 arch/x86/entry/common.c:50 [inline]\n do_syscall_64+0x3b/0x90 arch/x86/entry/common.c:80\n entry_SYSCALL_64_after_hwframe+0x72/0xdc\n\nread to 0xffff88803c81f258 of 8 bytes by task 19183 on cpu 1:\n sock_recv_cmsgs include/net/sock.h:2721 [inline]\n packet_recvmsg+0xb64/0xd00 net/packet/af_packet.c:3489\n sock_recvmsg_nosec net/socket.c:1019 [inline]\n sock_recvmsg+0x11a/0x130 net/socket.c:1040\n sock_read_iter+0x176/0x220 net/socket.c:1118\n call_read_iter include/linux/fs.h:1845 [inline]\n new_sync_read fs/read_write.c:389 [inline]\n vfs_read+0x5e0/0x630 fs/read_write.c:470\n ksys_read+0x163/0x1a0 fs/read_write.c:613\n __do_sys_read fs/read_write.c:623 [inline]\n __se_sys_read fs/read_write.c:621 [inline]\n __x64_sys_read+0x41/0x50 fs/read_write.c:621\n do_syscall_x64 arch/x86/entry/common.c:50 [inline]\n do_syscall_64+0x3b/0x90 arch/x86/entry/common.c:80\n entry_SYSCALL_64_after_hwframe+0x72/0xdc\n\nvalue changed: 0xffffffffc4653600 -> 0x0000000000000000\n\nReported by Kernel Concurrency Sanitizer on:\nCPU: 1 PID: 19183 Comm: syz-executor.5 Not tainted 6.3.0-rc7-02330-gca6270c12e20 #2\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54218"
-    },
-    {
-      "id": "CVE-2023-54219",
-      "published": "2025-12-30T13:16:10.187",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nRevert \"IB/isert: Fix incorrect release of isert connection\"\n\nCommit: 699826f4e30a (\"IB/isert: Fix incorrect release of isert connection\") is\ncausing problems on OPA when DEVICE_REMOVAL is happening.\n\n ------------[ cut here ]------------\n WARNING: CPU: 52 PID: 2117247 at drivers/infiniband/core/cq.c:359\nib_cq_pool_cleanup+0xac/0xb0 [ib_core]\n Modules linked in: nfsd nfs_acl target_core_user uio tcm_fc libfc\nscsi_transport_fc tcm_loop target_core_pscsi target_core_iblock target_core_file\nrpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver nfs lockd grace fscache netfs\nrfkill rpcrdma rdma_ucm ib_srpt sunrpc ib_isert iscsi_target_mod target_core_mod\nopa_vnic ib_iser libiscsi ib_umad scsi_transport_iscsi rdma_cm ib_ipoib iw_cm\nib_cm hfi1(-) rdmavt ib_uverbs intel_rapl_msr intel_rapl_common sb_edac ib_core\nx86_pkg_temp_thermal intel_powerclamp coretemp i2c_i801 mxm_wmi rapl iTCO_wdt\nipmi_si iTCO_vendor_support mei_me ipmi_devintf mei intel_cstate ioatdma\nintel_uncore i2c_smbus joydev pcspkr lpc_ich ipmi_msghandler acpi_power_meter\nacpi_pad xfs libcrc32c sr_mod sd_mod cdrom t10_pi sg crct10dif_pclmul\ncrc32_pclmul crc32c_intel drm_kms_helper drm_shmem_helper ahci libahci\nghash_clmulni_intel igb drm libata dca i2c_algo_bit wmi fuse\n CPU: 52 PID: 2117247 Comm: modprobe Not tainted 6.5.0-rc1+ #1\n Hardware name: Intel Corporation S2600CWR/S2600CW, BIOS\nSE5C610.86B.01.01.0014.121820151719 12/18/2015\n RIP: 0010:ib_cq_pool_cleanup+0xac/0xb0 [ib_core]\n Code: ff 48 8b 43 40 48 8d 7b 40 48 83 e8 40 4c 39 e7 75 b3 49 83\nc4 10 4d 39 fc 75 94 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc <0f> 0b eb a1\n90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f\n RSP: 0018:ffffc10bea13fc80 EFLAGS: 00010206\n RAX: 000000000000010c RBX: ffff9bf5c7e66c00 RCX: 000000008020001d\n RDX: 000000008020001e RSI: fffff175221f9900 RDI: ffff9bf5c7e67640\n RBP: ffff9bf5c7e67600 R08: ffff9bf5c7e64400 R09: 000000008020001d\n R10: 0000000040000000 R11: 0000000000000000 R12: ffff9bee4b1e8a18\n R13: dead000000000122 R14: dead000000000100 R15: ffff9bee4b1e8a38\n FS:  00007ff1e6d38740(0000) GS:ffff9bfd9fb00000(0000) knlGS:0000000000000000\n CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n CR2: 00005652044ecc68 CR3: 0000000889b5c005 CR4: 00000000001706e0\n Call Trace:\n  <TASK>\n  ? __warn+0x80/0x130\n  ? ib_cq_pool_cleanup+0xac/0xb0 [ib_core]\n  ? report_bug+0x195/0x1a0\n  ? handle_bug+0x3c/0x70\n  ? exc_invalid_op+0x14/0x70\n  ? asm_exc_invalid_op+0x16/0x20\n  ? ib_cq_pool_cleanup+0xac/0xb0 [ib_core]\n  disable_device+0x9d/0x160 [ib_core]\n  __ib_unregister_device+0x42/0xb0 [ib_core]\n  ib_unregister_device+0x22/0x30 [ib_core]\n  rvt_unregister_device+0x20/0x90 [rdmavt]\n  hfi1_unregister_ib_device+0x16/0xf0 [hfi1]\n  remove_one+0x55/0x1a0 [hfi1]\n  pci_device_remove+0x36/0xa0\n  device_release_driver_internal+0x193/0x200\n  driver_detach+0x44/0x90\n  bus_remove_driver+0x69/0xf0\n  pci_unregister_driver+0x2a/0xb0\n  hfi1_mod_cleanup+0xc/0x3c [hfi1]\n  __do_sys_delete_module.constprop.0+0x17a/0x2f0\n  ? exit_to_user_mode_prepare+0xc4/0xd0\n  ? syscall_trace_enter.constprop.0+0x126/0x1a0\n  do_syscall_64+0x5c/0x90\n  ? syscall_exit_to_user_mode+0x12/0x30\n  ? do_syscall_64+0x69/0x90\n  ? syscall_exit_work+0x103/0x130\n  ? syscall_exit_to_user_mode+0x12/0x30\n  ? do_syscall_64+0x69/0x90\n  ? exc_page_fault+0x65/0x150\n  entry_SYSCALL_64_after_hwframe+0x6e/0xd8\n RIP: 0033:0x7ff1e643f5ab\n Code: 73 01 c3 48 8b 0d 75 a8 1b 00 f7 d8 64 89 01 48 83 c8 ff c3\n66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d 01 f0\nff ff 73 01 c3 48 8b 0d 45 a8 1b 00 f7 d8 64 89 01 48\n RSP: 002b:00007ffec9103cc8 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0\n RAX: ffffffffffffffda RBX: 00005615267fdc50 RCX: 00007ff1e643f5ab\n RDX: 0000000000000000 RSI: 0000000000000800 RDI: 00005615267fdcb8\n RBP: 00005615267fdc50 R08: 0000000000000000 R09: 0000000000000000\n R10: 00007ff1e659eac0 R11: 0000000000000206 R12: 00005615267fdcb8\n R13: 00000000000\n---truncated---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54219"
-    },
-    {
-      "id": "CVE-2023-54223",
-      "published": "2025-12-30T13:16:10.630",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/mlx5e: xsk: Fix invalid buffer access for legacy rq\n\nThe below crash can be encountered when using xdpsock in rx mode for\nlegacy rq: the buffer gets released in the XDP_REDIRECT path, and then\nonce again in the driver. This fix sets the flag to avoid releasing on\nthe driver side.\n\nXSK handling of buffers for legacy rq was relying on the caller to set\nthe skip release flag. But the referenced fix started using fragment\ncounts for pages instead of the skip flag.\n\nCrash log:\n general protection fault, probably for non-canonical address 0xffff8881217e3a: 0000 [#1] SMP\n CPU: 0 PID: 14 Comm: ksoftirqd/0 Not tainted 6.5.0-rc1+ #31\n Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014\n RIP: 0010:bpf_prog_03b13f331978c78c+0xf/0x28\n Code:  ...\n RSP: 0018:ffff88810082fc98 EFLAGS: 00010246\n RAX: 0000000000000000 RBX: ffff888138404901 RCX: c0ffffc900027cbc\n RDX: ffffffffa000b514 RSI: 00ffff8881217e32 RDI: ffff888138404901\n RBP: ffff88810082fc98 R08: 0000000000091100 R09: 0000000000000006\n R10: 0000000000000800 R11: 0000000000000800 R12: ffffc9000027a000\n R13: ffff8881217e2dc0 R14: ffff8881217e2910 R15: ffff8881217e2f00\n FS:  0000000000000000(0000) GS:ffff88852c800000(0000) knlGS:0000000000000000\n CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\n CR2: 0000564cb2e2cde0 CR3: 000000010e603004 CR4: 0000000000370eb0\n DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000\n DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400\n Call Trace:\n  <TASK>\n  ? die_addr+0x32/0x80\n  ? exc_general_protection+0x192/0x390\n  ? asm_exc_general_protection+0x22/0x30\n  ? 0xffffffffa000b514\n  ? bpf_prog_03b13f331978c78c+0xf/0x28\n  mlx5e_xdp_handle+0x48/0x670 [mlx5_core]\n  ? dev_gro_receive+0x3b5/0x6e0\n  mlx5e_xsk_skb_from_cqe_linear+0x6e/0x90 [mlx5_core]\n  mlx5e_handle_rx_cqe+0x55/0x100 [mlx5_core]\n  mlx5e_poll_rx_cq+0x87/0x6e0 [mlx5_core]\n  mlx5e_napi_poll+0x45e/0x6b0 [mlx5_core]\n  __napi_poll+0x25/0x1a0\n  net_rx_action+0x28a/0x300\n  __do_softirq+0xcd/0x279\n  ? sort_range+0x20/0x20\n  run_ksoftirqd+0x1a/0x20\n  smpboot_thread_fn+0xa2/0x130\n  kthread+0xc9/0xf0\n  ? kthread_complete_and_exit+0x20/0x20\n  ret_from_fork+0x1f/0x30\n  </TASK>\n Modules linked in: mlx5_ib mlx5_core rpcrdma rdma_ucm ib_iser libiscsi scsi_transport_iscsi ib_umad rdma_cm ib_ipoib iw_cm ib_cm ib_uverbs ib_core xt_conntrack xt_MASQUERADE nf_conntrack_netlink nfnetlink xt_addrtype iptable_nat nf_nat br_netfilter overlay zram zsmalloc fuse [last unloaded: mlx5_core]\n ---[ end trace 0000000000000000 ]---",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54223"
-    },
-    {
-      "id": "CVE-2023-54226",
-      "published": "2025-12-30T13:16:10.987",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\naf_unix: Fix data races around sk->sk_shutdown.\n\nKCSAN found a data race around sk->sk_shutdown where unix_release_sock()\nand unix_shutdown() update it under unix_state_lock(), OTOH unix_poll()\nand unix_dgram_poll() read it locklessly.\n\nWe need to annotate the writes and reads with WRITE_ONCE() and READ_ONCE().\n\nBUG: KCSAN: data-race in unix_poll / unix_release_sock\n\nwrite to 0xffff88800d0f8aec of 1 bytes by task 264 on cpu 0:\n unix_release_sock+0x75c/0x910 net/unix/af_unix.c:631\n unix_release+0x59/0x80 net/unix/af_unix.c:1042\n __sock_release+0x7d/0x170 net/socket.c:653\n sock_close+0x19/0x30 net/socket.c:1397\n __fput+0x179/0x5e0 fs/file_table.c:321\n ____fput+0x15/0x20 fs/file_table.c:349\n task_work_run+0x116/0x1a0 kernel/task_work.c:179\n resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]\n exit_to_user_mode_loop kernel/entry/common.c:171 [inline]\n exit_to_user_mode_prepare+0x174/0x180 kernel/entry/common.c:204\n __syscall_exit_to_user_mode_work kernel/entry/common.c:286 [inline]\n syscall_exit_to_user_mode+0x1a/0x30 kernel/entry/common.c:297\n do_syscall_64+0x4b/0x90 arch/x86/entry/common.c:86\n entry_SYSCALL_64_after_hwframe+0x72/0xdc\n\nread to 0xffff88800d0f8aec of 1 bytes by task 222 on cpu 1:\n unix_poll+0xa3/0x2a0 net/unix/af_unix.c:3170\n sock_poll+0xcf/0x2b0 net/socket.c:1385\n vfs_poll include/linux/poll.h:88 [inline]\n ep_item_poll.isra.0+0x78/0xc0 fs/eventpoll.c:855\n ep_send_events fs/eventpoll.c:1694 [inline]\n ep_poll fs/eventpoll.c:1823 [inline]\n do_epoll_wait+0x6c4/0xea0 fs/eventpoll.c:2258\n __do_sys_epoll_wait fs/eventpoll.c:2270 [inline]\n __se_sys_epoll_wait fs/eventpoll.c:2265 [inline]\n __x64_sys_epoll_wait+0xcc/0x190 fs/eventpoll.c:2265\n do_syscall_x64 arch/x86/entry/common.c:50 [inline]\n do_syscall_64+0x3b/0x90 arch/x86/entry/common.c:80\n entry_SYSCALL_64_after_hwframe+0x72/0xdc\n\nvalue changed: 0x00 -> 0x03\n\nReported by Kernel Concurrency Sanitizer on:\nCPU: 1 PID: 222 Comm: dbus-broker Not tainted 6.3.0-rc7-02330-gca6270c12e20 #2\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54226"
-    },
-    {
-      "id": "CVE-2023-54236",
-      "published": "2025-12-30T13:16:12.067",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/net_failover: fix txq exceeding warning\n\nThe failover txq is inited as 16 queues.\nwhen a packet is transmitted from the failover device firstly,\nthe failover device will select the queue which is returned from\nthe primary device if the primary device is UP and running.\nIf the primary device txq is bigger than the default 16,\nit can lead to the following warning:\neth0 selects TX queue 18, but real number of TX queues is 16\n\nThe warning backtrace is:\n[   32.146376] CPU: 18 PID: 9134 Comm: chronyd Tainted: G            E      6.2.8-1.el7.centos.x86_64 #1\n[   32.147175] Hardware name: Red Hat KVM, BIOS 1.10.2-3.el7_4.1 04/01/2014\n[   32.147730] Call Trace:\n[   32.147971]  <TASK>\n[   32.148183]  dump_stack_lvl+0x48/0x70\n[   32.148514]  dump_stack+0x10/0x20\n[   32.148820]  netdev_core_pick_tx+0xb1/0xe0\n[   32.149180]  __dev_queue_xmit+0x529/0xcf0\n[   32.149533]  ? __check_object_size.part.0+0x21c/0x2c0\n[   32.149967]  ip_finish_output2+0x278/0x560\n[   32.150327]  __ip_finish_output+0x1fe/0x2f0\n[   32.150690]  ip_finish_output+0x2a/0xd0\n[   32.151032]  ip_output+0x7a/0x110\n[   32.151337]  ? __pfx_ip_finish_output+0x10/0x10\n[   32.151733]  ip_local_out+0x5e/0x70\n[   32.152054]  ip_send_skb+0x19/0x50\n[   32.152366]  udp_send_skb.isra.0+0x163/0x3a0\n[   32.152736]  udp_sendmsg+0xba8/0xec0\n[   32.153060]  ? __folio_memcg_unlock+0x25/0x60\n[   32.153445]  ? __pfx_ip_generic_getfrag+0x10/0x10\n[   32.153854]  ? sock_has_perm+0x85/0xa0\n[   32.154190]  inet_sendmsg+0x6d/0x80\n[   32.154508]  ? inet_sendmsg+0x6d/0x80\n[   32.154838]  sock_sendmsg+0x62/0x70\n[   32.155152]  ____sys_sendmsg+0x134/0x290\n[   32.155499]  ___sys_sendmsg+0x81/0xc0\n[   32.155828]  ? _get_random_bytes.part.0+0x79/0x1a0\n[   32.156240]  ? ip4_datagram_release_cb+0x5f/0x1e0\n[   32.156649]  ? get_random_u16+0x69/0xf0\n[   32.156989]  ? __fget_light+0xcf/0x110\n[   32.157326]  __sys_sendmmsg+0xc4/0x210\n[   32.157657]  ? __sys_connect+0xb7/0xe0\n[   32.157995]  ? __audit_syscall_entry+0xce/0x140\n[   32.158388]  ? syscall_trace_enter.isra.0+0x12c/0x1a0\n[   32.158820]  __x64_sys_sendmmsg+0x24/0x30\n[   32.159171]  do_syscall_64+0x38/0x90\n[   32.159493]  entry_SYSCALL_64_after_hwframe+0x72/0xdc\n\nFix that by reducing txq number as the non-existent primary-dev does.",
-      "vendors": [
-        "Apple",
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54236"
-    },
-    {
-      "id": "CVE-2023-37524",
-      "published": "2026-06-27T02:16:27.603",
-      "modified": "2026-10-28T19:10:00.193",
-      "description": "HCL Traveler for Microsoft Outlook (HTMO) is susceptible to vulnerabilities due to .NET Framework 4.5 being out of service.  Since .NET Framework 4.5 has reached end-of-life and no longer receives security updates, it may expose the application to publicly known security weaknesses through vulnerable third-party components.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:hcltech:traveler_for_microsoft_outlook:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-37524"
-    },
-    {
-      "id": "CVE-2023-52356",
-      "published": "2024-01-25T20:15:39.063",
-      "modified": "2026-10-28T19:06:50.917",
-      "description": "A segment fault (SEGV) flaw was found in libtiff that could be triggered by passing a crafted tiff file to the TIFFReadRGBATileExt() API. This flaw allows a remote attacker to cause a heap-buffer overflow, leading to a denial of service.",
-      "vendors": [
-        "Apple",
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "ai inference server",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:ai_inference_server:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "ai inference server",
-          "version": "3.3.0",
-          "cpe": "cpe:2.3:a:redhat:ai_inference_server:3.3.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "codeready linux builder",
-          "version": "8.0",
-          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "codeready linux builder",
-          "version": "9.0",
-          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "codeready linux builder",
-          "version": "10.0",
-          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder:10.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "codeready linux builder eus",
-          "version": "9.6",
-          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_eus:9.6:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "codeready linux builder eus",
-          "version": "10.0",
-          "cpe": "cpe:2.3:a:redhat:codeready_linux_builder_eus:10.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "discovery",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:discovery:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "6.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "7.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux eus",
-          "version": "9.6",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.6:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux eus",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:debian:debian_linux:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:debian:debian_linux:11.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:libtiff:libtiff:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:ai_inference_server:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:ai_inference_server:3.3.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:codeready_linux_builder:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:codeready_linux_builder:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:codeready_linux_builder:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:codeready_linux_builder_eus:9.6:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:codeready_linux_builder_eus:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:discovery:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_eus:9.6:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux_eus:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "DOS"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-52356"
-    },
-    {
-      "id": "CVE-2026-113943",
-      "published": "2026-10-26T21:18:10.473",
-      "modified": "2026-10-28T19:03:10.530",
-      "description": "An out-of-bounds write issue was addressed with improved bounds checking. This issue is fixed in macOS Golden Gate 27.2. Mounting a maliciously crafted disk image may cause unexpected system termination or corrupt kernel memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "27.0",
-          "cpe": "cpe:2.3:o:apple:macos:27.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "27.0.1",
-          "cpe": "cpe:2.3:o:apple:macos:27.0.1:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:macos:27.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:27.0.1:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113943"
-    },
-    {
-      "id": "CVE-2026-101733",
-      "published": "2026-10-20T22:18:28.193",
-      "modified": "2026-10-28T18:54:43.440",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: JSON).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows low privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 6.5 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101733"
-    },
-    {
-      "id": "CVE-2026-101743",
-      "published": "2026-10-20T22:18:29.313",
-      "modified": "2026-10-28T18:53:41.967",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: GIS).  Supported versions that are affected are MySQL Server: 26.7.0-26.7.1; MySQL Cluster: 26.7.0-26.7.1. Easily exploitable vulnerability allows low privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 6.5 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101743"
-    },
-    {
-      "id": "CVE-2026-101747",
-      "published": "2026-10-20T22:18:29.750",
-      "modified": "2026-10-28T18:52:57.843",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: InnoDB).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows low privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 6.5 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101747"
-    },
-    {
-      "id": "CVE-2026-101748",
-      "published": "2026-10-20T22:18:29.860",
-      "modified": "2026-10-28T18:52:27.097",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Security: Audit).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows low privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 6.5 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101748"
-    },
-    {
-      "id": "CVE-2026-101749",
-      "published": "2026-10-20T22:18:29.973",
-      "modified": "2026-10-28T18:51:35.667",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Security: Encryption).  Supported versions that are affected are MySQL Server: 26.7.0-26.7.1; MySQL Cluster: 26.7.0-26.7.1. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.9 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101749"
-    },
-    {
-      "id": "CVE-2026-101750",
-      "published": "2026-10-20T22:18:30.083",
-      "modified": "2026-10-28T18:51:00.407",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Clone Plugin).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.9 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101750"
-    },
-    {
-      "id": "CVE-2026-101751",
-      "published": "2026-10-20T22:18:30.200",
-      "modified": "2026-10-28T18:50:09.227",
-      "description": "Vulnerability in the MySQL Server, MySQL Cluster product of Oracle MySQL (component: Server: Group Replication GCS).  Supported versions that are affected are MySQL Server: 8.4.0-8.4.12, 9.7.0-9.7.3, 26.7.0-26.7.1; MySQL Cluster: 8.0.0-8.0.49, 8.4.0-8.4.12, 9.7.0-9.7.3 and  26.7.0-26.7.1. Easily exploitable vulnerability allows high privileged attacker with network access via multiple protocols to compromise MySQL Server, MySQL Cluster.  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of MySQL Server, MySQL Cluster. CVSS 3.1 Base Score 4.9 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H).",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:oracle:mysql_cluster:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:oracle:mysql_server:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-101751"
     }
   ],
   "kev": [
@@ -63452,11 +64277,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 47,
-    "high": 541,
-    "medium": 345,
+    "critical": 45,
+    "high": 548,
+    "medium": 342,
     "kev": 6,
     "p1": 26,
-    "p2": 562
+    "p2": 567
   }
 }
