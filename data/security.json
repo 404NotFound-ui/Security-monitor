@@ -1,6 +1,292 @@
 {
-  "updated": "2026-11-04T23:19:57.516987+00:00",
+  "updated": "2026-11-05T03:38:24.271666+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-63339",
+      "published": "2026-10-30T23:17:13.537",
+      "modified": "2026-11-05T03:17:30.563",
+      "description": "IXP Manager is a full-stack web application for managing Internet Exchange Points. Prior to version 7.3.0, an authenticated, non-administrative user can elevate their privileges to administrator status. Restricting administrative functions reduces exposure but is not a complete fix. This issue is fixed in version 7.3.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63339"
+    },
+    {
+      "id": "CVE-2026-62990",
+      "published": "2026-10-30T21:17:16.030",
+      "modified": "2026-11-05T03:17:30.273",
+      "description": "Shopper is a Headless e-commerce Admin Panel. In versions from 2.0.0 prior to 2.10.1 and in the 3.0.0 prereleases beta.1 and beta.2, authenticated back-office staff with a content-upload permission can store executable media on the administrator's own origin. In the 2.x implementation, relevant upload permissions include `edit_products` or `add_brands`, and `packages/admin/config/media.php` allows `image/svg+xml` in every media collection, including image fields whose image/* validation also accepts SVG. The product files collection in `packages/admin/src/Livewire/Components/Products/Form/Files.php` has no MIME restriction and accepts `text/html` as well. Media is served inline from the `public` disk under `/storage/` with its own content type, without `Content-Disposition: attachment` or a `Content-Security-Policy`. When an administrator opens an uploaded HTML or SVG file, stored script executes in that administrator's session. In 2.x, the script can invoke `packages/admin/src/Livewire/SlideOvers/CreateTeamMember.php`, whose `store()` checks `access_setting` held by the viewing administrator but trusts client-supplied `role_id`, to create a new attacker-controlled administrator with a chosen password. This account persists after the uploaded file is deleted and gives access to customer data, orders, settings, and user/role management; the same script can exfiltrate data or grant permissions to the attacker's account. Direct account creation by the low-privileged uploader is blocked, so exploitation requires the administrator to open the file. The 3.x prerelease line already excludes SVG but still allows executable product files. This issue is fixed in versions 2.10.1 and 3.0.0-beta.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62990"
+    },
+    {
+      "id": "CVE-2026-122188",
+      "published": "2026-11-05T03:17:21.360",
+      "modified": "2026-11-05T03:17:21.520",
+      "description": "A flaw has been found in DeepGraphLearning KnowledgeGraphEmbedding up to 2e440e0f9c687314d5ff67ead68ce985dc446e3a. Impacted is the function override_config of the file codes/run.py of the component Checkpoint Loading. This manipulation of the argument data_path causes path traversal. The attack can be initiated remotely. The exploit has been published and may be used. Continious delivery with rolling releases is used by this product. Therefore, no version details of affected nor updated releases are available. The project was informed of the problem early through an issue report but has not responded yet.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122188"
+    },
+    {
+      "id": "CVE-2026-122159",
+      "published": "2026-11-05T03:17:20.920",
+      "modified": "2026-11-05T03:17:21.080",
+      "description": "A weakness has been identified in Edge0-AI Audio8_TTS up to 1d64afcc2da56222b41ddcf53de7b8bc54be1fb6. This affects the function ArkTtsRuntime.__init__ of the file onnx_runtime_0_1b_int8/arktts_runtime/runtime.py of the component Model Path Resolution. Executing a manipulation of the argument slow_decode_models can lead to path traversal. The attack may be performed from remote. The exploit has been made available to the public and could be used for attacks. This product utilizes a rolling release system for continuous delivery, and as such, version information for affected or updated releases is not disclosed. The project was informed of the problem early through an issue report but has not responded yet.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122159"
+    },
+    {
+      "id": "CVE-2026-114406",
+      "published": "2026-10-21T21:17:58.547",
+      "modified": "2026-11-05T03:17:18.173",
+      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
+    },
+    {
+      "id": "CVE-2012-0059",
+      "published": "2014-02-05T18:55:06.223",
+      "modified": "2026-11-05T03:17:17.353",
+      "description": "A flaw was found in Spacewalk-backend. This information disclosure vulnerability occurs when a system registration XML-RPC call fails, causing cleartext user passwords to be included in error messages. Remote administrators can exploit this by reading server logs and emails, leading to the unauthorized disclosure of user passwords.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "network proxy",
+          "version": "5.4",
+          "cpe": "cpe:2.3:a:redhat:network_proxy:5.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "5.4",
+          "cpe": "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:network_proxy:5.4:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-0059"
+    },
+    {
+      "id": "CVE-2011-1594",
+      "published": "2014-02-05T18:55:04.817",
+      "modified": "2026-11-05T03:17:17.120",
+      "description": "A flaw was found in Spacewalk, as used in Red Hat Network Satellite. This open redirect vulnerability allows remote attackers to redirect users to arbitrary web sites by manipulating a URL in the url_bounce parameter. This can enable attackers to conduct phishing attacks, potentially leading to unauthorized information disclosure or credential theft.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "network satellite",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:network_satellite:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "spacewalk",
+          "version": "1.6",
+          "cpe": "cpe:2.3:a:redhat:spacewalk:1.6:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:network_satellite:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:spacewalk:1.6:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-1594"
+    },
+    {
+      "id": "CVE-2026-9064",
+      "published": "2026-05-20T10:16:28.940",
+      "modified": "2026-11-05T01:17:25.933",
+      "description": "A flaw was found in 389-ds-base. The get_ldapmessage_controls_ext() function in the LDAP server does not enforce an upper bound on the number of controls per LDAP message. A remote, unauthenticated attacker can send a specially crafted LDAP request containing hundreds of thousands of minimal controls within the default maximum BER message size (2 MB), causing excessive CPU consumption and heap allocation on the server. Under concurrent exploitation, this leads to significant latency degradation, worker thread starvation, or out-of-memory termination, resulting in a denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "directory server",
+          "version": "11.0",
+          "cpe": "cpe:2.3:a:redhat:directory_server:11.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "directory server",
+          "version": "12.0",
+          "cpe": "cpe:2.3:a:redhat:directory_server:12.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "directory server",
+          "version": "13.0",
+          "cpe": "cpe:2.3:a:redhat:directory_server:13.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "389 directory server",
+          "version": "-",
+          "cpe": "cpe:2.3:o:redhat:389_directory_server:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:directory_server:11.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:directory_server:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:directory_server:13.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:389_directory_server:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9064"
+    },
+    {
+      "id": "CVE-2026-92574",
+      "published": "2026-09-21T10:17:17.360",
+      "modified": "2026-11-05T01:17:23.593",
+      "description": "A vulnerability in CRI-O checkpoint restore allows a user who can create a pod from a malicious checkpointed container to bypass the destination Kubernetes security context. The restored process may retain credentials, Linux capabilities, no_new_privs, and seccomp state from the checkpoint instead of enforcing the destination configuration. This can allow execution with elevated privileges across the container security boundary.\nAffected upstream supported versions are CRI-O 1.34 and later. Downstream Red Hat products are affected from OCP 4.17 onward. Fixes have been applied to supported branches but are not yet released.\nExploitation requires permission to create a pod from a malicious checkpoint image and checkpoint restore functionality to be available.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-92574"
+    },
     {
       "id": "CVE-2026-77372",
       "published": "2026-11-04T23:17:58.713",
@@ -3523,26 +3809,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-11610"
-    },
-    {
-      "id": "CVE-2026-114406",
-      "published": "2026-10-21T21:17:58.547",
-      "modified": "2026-11-04T22:17:49.130",
-      "description": "The system certificate authority (CA) store in Red Hat products, distributed via ca-certificates RPM packages, included multiple root CA certificates of authorities, which signed intermediate CA certificates with weak private keys issued by the eMudhra certificate authority. A man-in-the-middle attacker could use this flaw to issue certificates for arbitrary host names signed by the weak intermediate CA certificates, which would be considered trusted by a TLS/SSL client using system CA store and cause such clients to connect to malicious sites.\n\nDue to inability to only distrust specific intermediate certificates in all clients using the system CA store, root CA certificates of authorities that signed weak intermediate CA certificates are being removed.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.8,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114406"
     },
     {
       "id": "CVE-2026-112177",
@@ -24811,26 +25077,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63344"
     },
     {
-      "id": "CVE-2026-63339",
-      "published": "2026-10-30T23:17:13.537",
-      "modified": "2026-11-02T19:35:33.347",
-      "description": "IXP Manager is a full-stack web application for managing Internet Exchange Points. Prior to version 7.3.0, an authenticated, non-administrative user can elevate their privileges to administrator status. Restricting administrative functions reduces exposure but is not a complete fix. This issue is fixed in version 7.3.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63339"
-    },
-    {
       "id": "CVE-2026-63338",
       "published": "2026-10-30T23:17:13.377",
       "modified": "2026-11-02T19:35:33.347",
@@ -32716,26 +32962,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-58649"
     },
     {
-      "id": "CVE-2026-62990",
-      "published": "2026-10-30T21:17:16.030",
-      "modified": "2026-10-30T21:17:16.157",
-      "description": "Shopper is a Headless e-commerce Admin Panel. In versions from 2.0.0 prior to 2.10.1 and in the 3.0.0 prereleases beta.1 and beta.2, authenticated back-office staff with a content-upload permission can store executable media on the administrator's own origin. In the 2.x implementation, relevant upload permissions include `edit_products` or `add_brands`, and `packages/admin/config/media.php` allows `image/svg+xml` in every media collection, including image fields whose image/* validation also accepts SVG. The product files collection in `packages/admin/src/Livewire/Components/Products/Form/Files.php` has no MIME restriction and accepts `text/html` as well. Media is served inline from the `public` disk under `/storage/` with its own content type, without `Content-Disposition: attachment` or a `Content-Security-Policy`. When an administrator opens an uploaded HTML or SVG file, stored script executes in that administrator's session. In 2.x, the script can invoke `packages/admin/src/Livewire/SlideOvers/CreateTeamMember.php`, whose `store()` checks `access_setting` held by the viewing administrator but trusts client-supplied `role_id`, to create a new attacker-controlled administrator with a chosen password. This account persists after the uploaded file is deleted and gives access to customer data, orders, settings, and user/role management; the same script can exfiltrate data or grant permissions to the attacker's account. Direct account creation by the low-privileged uploader is blocked, so exploitation requires the administrator to open the file. The 3.x prerelease line already excludes SVG but still allows executable product files. This issue is fixed in versions 2.10.1 and 3.0.0-beta.3.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62990"
-    },
-    {
       "id": "CVE-2026-57201",
       "published": "2026-10-27T17:17:02.117",
       "modified": "2026-10-30T21:17:12.730",
@@ -34410,44 +34636,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-3427"
     },
     {
-      "id": "CVE-2012-0059",
-      "published": "2014-02-05T18:55:06.223",
-      "modified": "2026-10-30T19:17:25.430",
-      "description": "A flaw was found in Spacewalk-backend. This information disclosure vulnerability occurs when a system registration XML-RPC call fails, causing cleartext user passwords to be included in error messages. Remote administrators can exploit this by reading server logs and emails, leading to the unauthorized disclosure of user passwords.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "network proxy",
-          "version": "5.4",
-          "cpe": "cpe:2.3:a:redhat:network_proxy:5.4:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "satellite",
-          "version": "5.4",
-          "cpe": "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:network_proxy:5.4:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:satellite:5.4:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 4.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-0059"
-    },
-    {
       "id": "CVE-2011-4346",
       "published": "2011-12-10T17:55:01.477",
       "modified": "2026-10-30T19:17:25.150",
@@ -34608,45 +34796,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-2920"
-    },
-    {
-      "id": "CVE-2011-1594",
-      "published": "2014-02-05T18:55:04.817",
-      "modified": "2026-10-30T19:17:24.443",
-      "description": "A flaw was found in Spacewalk, as used in Red Hat Network Satellite. This open redirect vulnerability allows remote attackers to redirect users to arbitrary web sites by manipulating a URL in the url_bounce parameter. This can enable attackers to conduct phishing attacks, potentially leading to unauthorized information disclosure or credential theft.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "network satellite",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:network_satellite:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "spacewalk",
-          "version": "1.6",
-          "cpe": "cpe:2.3:a:redhat:spacewalk:1.6:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:network_satellite:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:spacewalk:1.6:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE",
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-1594"
     },
     {
       "id": "CVE-2009-4139",
@@ -40632,500 +40781,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83698"
-    },
-    {
-      "id": "CVE-2026-83696",
-      "published": "2026-10-13T19:20:12.987",
-      "modified": "2026-10-30T13:04:52.310",
-      "description": "Use after free in Windows Cloud Files Mini Filter Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83696"
-    },
-    {
-      "id": "CVE-2026-83697",
-      "published": "2026-10-13T19:20:13.137",
-      "modified": "2026-10-30T13:01:03.563",
-      "description": "Time-of-check time-of-use (toctou) race condition in Windows Modern Device Management (MDM) allows an authorized attacker to perform tampering locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83697"
-    },
-    {
-      "id": "CVE-2026-83695",
-      "published": "2026-10-13T19:20:12.783",
-      "modified": "2026-10-30T13:00:35.660",
-      "description": "Use of uninitialized resource in Windows Event Logging Service allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83695"
-    },
-    {
-      "id": "CVE-2026-83722",
-      "published": "2026-10-13T19:20:17.173",
-      "modified": "2026-10-30T12:59:21.580",
-      "description": "Use after free in Microsoft Local Security Authority Server (lsasrv) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83722"
     }
   ],
   "kev": [
@@ -42902,7 +42557,7 @@
     "total_relevant_cves": 1000,
     "critical": 67,
     "high": 514,
-    "medium": 344,
+    "medium": 342,
     "kev": 4,
     "p1": 31,
     "p2": 551
