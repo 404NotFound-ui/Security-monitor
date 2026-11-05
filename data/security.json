@@ -1,6 +1,121 @@
 {
-  "updated": "2026-11-05T03:38:24.271666+00:00",
+  "updated": "2026-11-05T11:32:54.853220+00:00",
   "cves": [
+    {
+      "id": "CVE-2023-5341",
+      "published": "2023-11-19T10:15:49.433",
+      "modified": "2026-11-05T11:16:36.707",
+      "description": "A heap use-after-free flaw was found in coders/bmp.c in ImageMagick.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:imagemagick:imagemagick:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:fedoraproject:extra_packages_for_enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5341"
+    },
+    {
+      "id": "CVE-2022-2127",
+      "published": "2023-07-20T15:15:11.183",
+      "modified": "2026-11-05T09:17:04.537",
+      "description": "An out-of-bounds read vulnerability was found in Samba due to insufficient length checks in winbindd_pam_auth_crap.c. When performing NTLM authentication, the client replies to cryptographic challenges back to the server. These replies have variable lengths, and Winbind fails to check the lan manager response length. When Winbind is used for NTLM authentication, a maliciously crafted request can trigger an out-of-bounds read in Winbind, possibly resulting in a crash.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "6.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:samba:samba:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:12.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-2127"
+    },
+    {
+      "id": "CVE-2020-25720",
+      "published": "2024-11-17T11:15:04.320",
+      "modified": "2026-11-05T09:17:03.223",
+      "description": "A vulnerability was found in Samba where a delegated administrator with permission to create objects in Active Directory can write to all attributes of the newly created object, including security-sensitive attributes, even after the object's creation. This issue occurs because the administrator owns the object due to the lack of an Access Control List (ACL) at the time of creation and later being recognized as the 'creator owner.' The retained significant rights of the delegated administrator may not be well understood, potentially leading to unintended privilege escalation or security risks.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-25720"
+    },
     {
       "id": "CVE-2026-63339",
       "published": "2026-10-30T23:17:13.537",
@@ -40331,456 +40446,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-52751"
-    },
-    {
-      "id": "CVE-2022-50457",
-      "published": "2025-10-01T12:15:38.967",
-      "modified": "2026-10-30T13:17:14.620",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmtd: core: Fix refcount error in del_mtd_device()\n\ndel_mtd_device() will call of_node_put() to mtd_get_of_node(mtd), which\nis mtd->dev.of_node. However, memset(&mtd->dev, 0) is called before\nof_node_put(). As the result, of_node_put() won't do anything in\ndel_mtd_device(), and causes the refcount leak.\n\ndel_mtd_device()\n    memset(&mtd->dev, 0, sizeof(mtd->dev) # clear mtd->dev\n    of_node_put()\n        mtd_get_of_node(mtd) # mtd->dev is cleared, can't locate of_node\n                             # of_node_put(NULL) won't do anything\n\nFix the error by caching the pointer of the device_node.\n\nOF: ERROR: memory leak, expected refcount 1 instead of 2,\nof_node_get()/of_node_put() unbalanced - destroy cset entry: attach\noverlay node /spi/spi-sram@0\nCPU: 3 PID: 275 Comm: python3 Tainted: G N 6.1.0-rc3+ #54\n    0d8a1edddf51f172ff5226989a7565c6313b08e2\nHardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS\nrel-1.15.0-0-g2dd4b9b3f840-prebuilt.qemu.org 04/01/2014\nCall Trace:\n<TASK>\n    dump_stack_lvl+0x67/0x83\n    kobject_get+0x155/0x160\n    of_node_get+0x1f/0x30\n    of_fwnode_get+0x43/0x70\n    fwnode_handle_get+0x54/0x80\n    fwnode_get_nth_parent+0xc9/0xe0\n    fwnode_full_name_string+0x3f/0xa0\n    device_node_string+0x30f/0x750\n    pointer+0x598/0x7a0\n    vsnprintf+0x62d/0x9b0\n    ...\n    cfs_overlay_release+0x30/0x90\n    config_item_release+0xbe/0x1a0\n    config_item_put+0x5e/0x80\n    configfs_rmdir+0x3bd/0x540\n    vfs_rmdir+0x18c/0x320\n    do_rmdir+0x198/0x330\n    __x64_sys_rmdir+0x2c/0x40\n    do_syscall_64+0x37/0x90\n    entry_SYSCALL_64_after_hwframe+0x63/0xcd\n\n[<miquel.raynal@bootlin.com>: Light reword of the commit log]",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-50457"
-    },
-    {
-      "id": "CVE-2026-29063",
-      "published": "2026-03-06T19:16:21.557",
-      "modified": "2026-10-30T13:16:36.640",
-      "description": "Immutable.js provides many Persistent Immutable data structures. Prior to versions 3.8.3, 4.3.7, and 5.1.5, Prototype Pollution is possible in immutable via the mergeDeep(), mergeDeepWith(), merge(), Map.toJS(), and Map.toObject() APIs. This issue has been patched in versions 3.8.3, 4.3.7, and 5.1.5.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "3scale api management platform",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:3scale_api_management_platform:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster management for kubernetes",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "advanced cluster security",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:advanced_cluster_security:*:*:*:*:*:kubernetes:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "ansible automation platform",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:ansible_automation_platform:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "build of apicurio registry",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:build_of_apicurio_registry:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "connectivity link",
-          "version": "1.0",
-          "cpe": "cpe:2.3:a:redhat:connectivity_link:1.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "developer hub",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:developer_hub:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "discovery",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:discovery:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "edge manager",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:edge_manager:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "logging subsystem for red hat openshift",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:logging_subsystem_for_red_hat_openshift:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "migration toolkit",
-          "version": "1.8",
-          "cpe": "cpe:2.3:a:redhat:migration_toolkit:1.8:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "migration toolkit for virtualization",
-          "version": "2.9.0",
-          "cpe": "cpe:2.3:a:redhat:migration_toolkit_for_virtualization:2.9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "migration toolkit for virtualization",
-          "version": "2.10.0",
-          "cpe": "cpe:2.3:a:redhat:migration_toolkit_for_virtualization:2.10.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "multicluster engine for kubernetes",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:multicluster_engine_for_kubernetes:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "network observability operator",
-          "version": "1.11.0",
-          "cpe": "cpe:2.3:a:redhat:network_observability_operator:1.11.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "network observability operator",
-          "version": "1.12.3",
-          "cpe": "cpe:2.3:a:redhat:network_observability_operator:1.12.3:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift cluster observability operator",
-          "version": "1.5.3",
-          "cpe": "cpe:2.3:a:redhat:openshift_cluster_observability_operator:1.5.3:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift container platform",
-          "version": "4.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift data foundation",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:openshift_data_foundation:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift data foundation",
-          "version": "4.17",
-          "cpe": "cpe:2.3:a:redhat:openshift_data_foundation:4.17:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift gitops",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift_gitops:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift lightspeed",
-          "version": "-",
-          "cpe": "cpe:2.3:a:redhat:openshift_lightspeed:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift pipelines",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:openshift_pipelines:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift service mesh",
-          "version": "2.6",
-          "cpe": "cpe:2.3:a:redhat:openshift_service_mesh:2.6:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift service mesh",
-          "version": "3.0",
-          "cpe": "cpe:2.3:a:redhat:openshift_service_mesh:3.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift service mesh",
-          "version": "3.1",
-          "cpe": "cpe:2.3:a:redhat:openshift_service_mesh:3.1:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift service mesh",
-          "version": "3.2",
-          "cpe": "cpe:2.3:a:redhat:openshift_service_mesh:3.2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift service mesh",
-          "version": "3.3",
-          "cpe": "cpe:2.3:a:redhat:openshift_service_mesh:3.3:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "openshift virtualization",
-          "version": "4",
-          "cpe": "cpe:2.3:a:redhat:openshift_virtualization:4:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "quay",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "quay",
-          "version": "3.18.0",
-          "cpe": "cpe:2.3:a:redhat:quay:3.18.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "satellite",
-          "version": "6.0",
-          "cpe": "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "satellite",
-          "version": "6.18",
-          "cpe": "cpe:2.3:a:redhat:satellite:6.18:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "self service automation portal",
-          "version": "2.0",
-          "cpe": "cpe:2.3:a:redhat:self-service_automation_portal:2.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "8.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "9.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "enterprise linux",
-          "version": "10.0",
-          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:immutable-js:immutable:*:*:*:*:*:node.js:*:*",
-        "cpe:2.3:a:redhat:3scale_api_management_platform:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:advanced_cluster_management_for_kubernetes:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:advanced_cluster_security:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:advanced_cluster_security:*:*:*:*:*:kubernetes:*:*",
-        "cpe:2.3:a:redhat:ansible_automation_platform:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:build_of_apicurio_registry:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:connectivity_link:1.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:developer_hub:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:discovery:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:edge_manager:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:logging_subsystem_for_red_hat_openshift:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:migration_toolkit:1.8:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:migration_toolkit_for_virtualization:2.9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:migration_toolkit_for_virtualization:2.10.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:multicluster_engine_for_kubernetes:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:network_observability_operator:1.11.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:network_observability_operator:1.12.3:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_cluster_observability_operator:1.5.3:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_data_foundation:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_data_foundation:4.17:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_gitops:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_lightspeed:-:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_pipelines:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_service_mesh:2.6:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_service_mesh:3.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_service_mesh:3.1:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_service_mesh:3.2:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_service_mesh:3.3:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:openshift_virtualization:4:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:quay:3.18.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:satellite:6.18:*:*:*:*:*:*:*",
-        "cpe:2.3:a:redhat:self-service_automation_portal:2.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
-        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-29063"
-    },
-    {
-      "id": "CVE-2026-83698",
-      "published": "2026-10-13T19:20:13.293",
-      "modified": "2026-10-30T13:08:53.323",
-      "description": "Heap-based buffer overflow in Windows Client-Side Caching (CSC) Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83698"
     }
   ],
   "kev": [
@@ -42556,10 +42221,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 67,
-    "high": 514,
-    "medium": 342,
+    "high": 513,
+    "medium": 343,
     "kev": 4,
     "p1": 31,
-    "p2": 551
+    "p2": 550
   }
 }
