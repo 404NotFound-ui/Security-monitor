@@ -1,6 +1,438 @@
 {
-  "updated": "2026-11-06T20:43:22.546991+00:00",
+  "updated": "2026-11-07T00:24:27.367071+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-75939",
+      "published": "2026-09-21T15:17:31.520",
+      "modified": "2026-11-06T23:17:22.553",
+      "description": "A flaw was found in openshift/oc-mirror. The tool incorrectly verifies PGP (Pretty Good Privacy) release image signatures by checking for signature errors before the entire signed body is processed, leading to a bypass of the signature verification. A remote attacker, by intercepting or manipulating network traffic to the signature endpoint, could exploit this to craft a PGP message with a valid Red Hat release key ID but a forged signature. This enables the `oc-mirror` tool to accept and mirror a malicious release payload into a disconnected registry, potentially compromising the integrity of software deployments.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-75939"
+    },
+    {
+      "id": "CVE-2026-71226",
+      "published": "2026-08-05T13:24:47.223",
+      "modified": "2026-11-06T23:17:22.343",
+      "description": "Memory Corruption via Uncanceled AIO Requests on Error: libkcapi's one-shot AIO path can return an error before all submitted IOCBs are drained, allowing later kernel writes into caller-owned output buffers.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "hardened images",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:hardened_images:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:smuellerdd:libkcapi:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-71226"
+    },
+    {
+      "id": "CVE-2024-6505",
+      "published": "2024-07-05T14:15:03.420",
+      "modified": "2026-11-06T23:17:18.967",
+      "description": "A flaw was found in the virtio-net device in QEMU. When enabling the RSS feature on the virtio-net network card, the indirections_table data within RSS becomes controllable. Setting excessively large values may cause an index out-of-bounds issue, potentially resulting in heap overflow access. This flaw allows a privileged user in the guest to crash the QEMU process on the host.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:advanced_virtualization:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:qemu:qemu:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:advanced_virtualization:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6505"
+    },
+    {
+      "id": "CVE-2026-83844",
+      "published": "2026-10-13T19:20:32.890",
+      "modified": "2026-11-06T22:17:59.927",
+      "description": "Out-of-bounds read in Windows Paint allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-83844"
+    },
+    {
+      "id": "CVE-2026-50240",
+      "published": "2026-11-06T22:17:58.757",
+      "modified": "2026-11-06T22:17:58.917",
+      "description": "A flaw was found in OpenShift Pipelines-as-Code (PAC). PAC does not verify whether the creator of a Repository custom resource has permission to create PipelineRuns. A namespace user with only Repository and Secret create/delete permissions can cause PAC to execute attacker-controlled PipelineRuns as the auto-provisioned pipeline ServiceAccount, which carries ClusterRole/edit by default. This results in namespace-scoped privilege escalation, enabling Secret read, resource creation/modification/deletion, and potential supply chain injection in CI/CD namespaces.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50240"
+    },
+    {
+      "id": "CVE-2024-4741",
+      "published": "2024-11-13T11:15:04.480",
+      "modified": "2026-11-06T22:17:46.797",
+      "description": "Issue summary: Calling the OpenSSL API function SSL_free_buffers may cause\nmemory to be accessed that was previously freed in some situations\n\nImpact summary: A use after free can have a range of potential consequences such\nas the corruption of valid data, crashes or execution of arbitrary code.\nHowever, only applications that directly call the SSL_free_buffers function are\naffected by this issue. Applications that do not call this function are not\nvulnerable. Our investigations indicate that this function is rarely used by\napplications.\n\nThe SSL_free_buffers function is used to free the internal OpenSSL buffer used\nwhen processing an incoming record from the network. The call is only expected\nto succeed if the buffer is not currently in use. However, two scenarios have\nbeen identified where the buffer is freed even when still in use.\n\nThe first scenario occurs where a record header has been received from the\nnetwork and processed by OpenSSL, but the full record body has not yet arrived.\nIn this case calling SSL_free_buffers will succeed even though a record has only\nbeen partially processed and the buffer is still in use.\n\nThe second scenario occurs where a full record containing application data has\nbeen received and processed by OpenSSL but the application has only read part of\nthis data. Again a call to SSL_free_buffers will succeed even though the buffer\nis still in use.\n\nWhile these scenarios could occur accidentally during normal operation a\nmalicious attacker could attempt to engineer a stituation where this occurs.\nWe are not aware of this issue being actively exploited.\n\nThe FIPS modules in 3.3, 3.2, 3.1 and 3.0 are not affected by this issue.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4741"
+    },
+    {
+      "id": "CVE-2026-54146",
+      "published": "2026-11-05T17:18:20.013",
+      "modified": "2026-11-06T21:41:14.180",
+      "description": "OpenHuman is an open-source agent harness available as a desktop application and Rust library. From 0.53.15 before 0.57.5 on macOS, core_process.rs in the Tauri desktop process publishes the per-launch OPENHUMAN_CORE_TOKEN bearer credential in its process environment even though the core now runs as an in-process task. Another process running as the same user can read that environment through the macOS KERN_PROCARGS2 process-inspection interface, recover the token together with the local host and port, and authenticate to the core JSON-RPC service with the authority of the desktop frontend. The attacker can read agent memory and integrated-account data, invoke privileged actions, change configuration, and stop or disrupt services without root access, developer mode, or changes to System Integrity Protection. This issue affects Intel and Apple Silicon macOS systems. This issue is fixed in version 0.57.5.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54146"
+    },
+    {
+      "id": "CVE-2026-112913",
+      "published": "2026-11-05T22:17:47.043",
+      "modified": "2026-11-06T21:40:43.450",
+      "description": "filelock is a platform-independent file lock for Python. From 3.20.4 until 4.2.1, ReadWriteLock and AsyncReadWriteLock on Windows use _connect to attach SQLite to the lock database by pathname, allowing another local account that can create adjacent names to place a database-wal or database-journal side file before acquisition. An undeletable WAL file makes each read or write acquisition fail immediately with sqlite3.OperationalError regardless of timeout. Separately, when the database contains at least one table, a hot journal that grants the lock account modify rights can cause SQLite recovery to delete a file named by that journal only when the lock account has permission to delete the target. The issue requires a directory writable by another account, such as a shared Windows temporary directory, and does not affect private directories. This issue is fixed in version 4.2.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.3,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112913"
+    },
+    {
+      "id": "CVE-2026-112910",
+      "published": "2026-11-05T22:17:46.877",
+      "modified": "2026-11-06T21:40:43.450",
+      "description": "filelock is a platform-independent file lock for Python. From 3.10.0 until 4.2.1, filelock on Windows ignores the mode argument for WindowsFileLock files and the ReadWriteLock SQLite database. A lock created with mode=0o600 receives the parent directory's inheritable ACL because _open_non_reparse_fd and _nt_open do not create an owner-only security descriptor. Another local account with inherited access can read holder metadata or the lock database, modify those files where the ACL permits writes, or take the byte-range lock after release and delay later acquisitions. UnixFileLock is not affected, and mutual exclusion between cooperating processes continues to hold. This issue is fixed in version 4.2.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112910"
+    },
+    {
+      "id": "CVE-2026-112907",
+      "published": "2026-11-05T22:17:46.513",
+      "modified": "2026-11-06T21:40:43.450",
+      "description": "filelock is a platform-independent file lock for Python. From 3.22.0 until 4.2.1, soft lock classes on Windows read an existing marker with _read_lock_file and remove a stale marker through break_lock_file using pathname operations that wait for an oplock break. Another local account with read access to an unheld marker can keep a Level 1 or batch oplock unanswered, causing SoftFileLock.acquire and related async or fallback locks to wait beyond timeout, blocking=False, and cancel_check. A stale marker under the oplock cannot be broken, but mutual exclusion remains intact and no file other than the marker is accessed. This issue is fixed in version 4.2.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.5,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112907"
+    },
+    {
+      "id": "CVE-2026-112917",
+      "published": "2026-11-03T19:17:53.727",
+      "modified": "2026-11-06T21:40:43.450",
+      "description": "In Docker Desktop for Windows with the WSL2 backend, an unprivileged Linux container can use 32-bit socketcall to bypass the default seccomp restriction on AF_VSOCK. This can expose host-facing services and Windows files accessible to the logged-in user. The issue affects x86-64 WSL2; LinuxKit-based backends are unaffected. The issue is fully fixed only with Docker Desktop 4.98.0 or later and WSL 3.0.3 or later. Docker Desktop 4.98.0 or later running on an older WSL remains affected.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.2,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112917"
+    },
+    {
+      "id": "CVE-2026-81828",
+      "published": "2026-11-05T15:17:26.833",
+      "modified": "2026-11-06T21:36:32.997",
+      "description": "Server-Side Request Forgery in SurveyWrapper in Apache OFBiz 24.09 before 24.09.08 on all platforms allows an authenticated back-office user holding catalog permission to cause the server to fetch and render attacker-controlled URLs — including internal network and cloud-metadata endpoints and local files via file:// — by setting an arbitrary URL as a product-store survey's template location, causing SurveyWrapper.getTemplate to call URL.openStream() on the resolved location and compile the fetched content as a FreeMarker template with no scheme or host validation, unlike the sibling widget location-loaders (ScreenFactory, FormFactory, GridFactory, MenuFactory, TreeFactory, ThemeFactory) which validate the resolved location before loading it. The fetched content is rendered into the HTTP response of any shopper who subsequently loads the affected product-store survey, making the disclosure non-blind. Users are recommended to upgrade to version 24.09.08, which fixes this issue.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81828"
+    },
+    {
+      "id": "CVE-2026-54144",
+      "published": "2026-11-05T17:18:19.680",
+      "modified": "2026-11-06T21:32:18.733",
+      "description": "OpenHuman is an open-source agent harness available as a desktop application and Rust library. Before 0.56.0 on macOS, the runtime injected into a supported remote account webview such as Google Meet allows page JavaScript to call getDisplayMedia without a live user gesture. Instead of rejecting the request, the shim falls through to native Chromium capture behavior, and the embedded CEF environment can auto-select the primary display because it lacks the normal desktop-media picker. If OpenHuman already has macOS Screen Recording permission and an attacker obtains JavaScript execution in an allowed embedded origin, the attacker can obtain a real desktop capture stream without a new user gesture. The stream can expose chats, documents, source code, email, meeting content, credentials, one-time codes, and other visible desktop information. The separate direct screen_share_begin_session IPC path failing origin validation does not prevent exploitation through getDisplayMedia. This issue is fixed in version 0.56.0.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54144"
+    },
+    {
+      "id": "CVE-2026-5345",
+      "published": "2026-11-06T14:17:13.407",
+      "modified": "2026-11-06T21:30:44.667",
+      "description": "HCL AION is affected by a missing encryption vulnerability in a second WebSocket connection defined in the GenAI web interface. The connection used the unencrypted WebSocket protocol (ws://test) instead of an encrypted (wss://) channel. This may allow data exchanged over the connection to be intercepted or read by an attacker on the network, potentially resulting in unintended behavior or security impact under certain conditions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5345"
+    },
+    {
+      "id": "CVE-2026-21849",
+      "published": "2026-11-06T14:17:11.183",
+      "modified": "2026-11-06T21:30:44.667",
+      "description": "HCL AION is affected by a missing encryption vulnerability in the WebSocket connection set up by the GenAI web interface. The connection used the unencrypted WebSocket protocol (ws://localhost:8000) instead of an encrypted (wss://) channel. This may allow data exchanged over the connection to be intercepted or read by an attacker on the network, potentially resulting in unintended behavior or security impact under certain conditions.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21849"
+    },
+    {
+      "id": "CVE-2026-102523",
+      "published": "2026-11-05T16:17:23.727",
+      "modified": "2026-11-06T21:29:48.800",
+      "description": "MariaDB server is a community developed fork of MySQL server. From 10.11.1 until 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, ALTER TABLE ... CONVERT ... PARTITION does not apply filename encoding to user-specified partition names before using them in filesystem path construction. An authenticated database user can use a partition name requiring filename escaping to make the conversion operate on table files the user is not authorized to access, allowing unauthorized table reads or modifications. This issue is fixed in versions 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102523"
+    },
+    {
+      "id": "CVE-2026-62365",
+      "published": "2026-11-04T23:17:56.583",
+      "modified": "2026-11-06T21:29:48.800",
+      "description": "Wazuh is an open-source security platform providing unified XDR and SIEM protection for endpoints and cloud workloads. DecodeWinevt in src/analysisd/decoders/winevtchannel.c accumulates unnamed Windows EventChannel Data element contents into the fixed 65,535-byte join_data heap buffer but passes the growing content length, rather than the OS_MAXSTR buffer capacity, as the snprintf size. An enrolled agent can submit an EventChannel message containing four maximum-sized unnamed Data elements, causing the fourth accumulation to write beyond join_data and corrupt adjacent heap metadata. The subsequent free of join_data2 causes the wazuh-analysisd process to terminate, stopping log ingestion for all agents handled by that manager. This vulnerability is fixed in 4.14.7.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62365"
+    },
+    {
+      "id": "CVE-2026-103938",
+      "published": "2026-11-05T20:17:38.353",
+      "modified": "2026-11-06T21:29:48.800",
+      "description": "OpenEMR is a free and open source electronic health records and medical practice management application. Prior to 8.3.0, interface/patient_file/pos_checkout_ippf.php performs state-changing void, voidall, and regen operations through GET requests without CSRF token validation. The form_checksum integrity check is conditional and is skipped when the parameter is omitted, allowing a cross-site request to force an authenticated billing user to void checkouts or regenerate invoice counters. The resulting changes can alter ledger state, financial reporting, and audit records. This issue is fixed in version 8.3.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103938"
+    },
     {
       "id": "CVE-2026-76580",
       "published": "2026-11-05T20:17:59.860",
@@ -2643,26 +3075,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113618"
     },
     {
-      "id": "CVE-2026-112913",
-      "published": "2026-11-05T22:17:47.043",
-      "modified": "2026-11-06T18:17:49.573",
-      "description": "filelock is a platform-independent file lock for Python. From 3.20.4 until 4.2.1, ReadWriteLock and AsyncReadWriteLock on Windows use _connect to attach SQLite to the lock database by pathname, allowing another local account that can create adjacent names to place a database-wal or database-journal side file before acquisition. An undeletable WAL file makes each read or write acquisition fail immediately with sqlite3.OperationalError regardless of timeout. Separately, when the database contains at least one table, a hot journal that grants the lock account modify rights can cause SQLite recovery to delete a file named by that journal only when the lock account has permission to delete the target. The issue requires a directory writable by another account, such as a shared Windows temporary directory, and does not affect private directories. This issue is fixed in version 4.2.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112913"
-    },
-    {
       "id": "CVE-2026-112670",
       "published": "2026-10-26T21:18:00.457",
       "modified": "2026-11-06T18:17:49.250",
@@ -4096,50 +4508,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112537"
-    },
-    {
-      "id": "CVE-2026-5345",
-      "published": "2026-11-06T14:17:13.407",
-      "modified": "2026-11-06T14:17:13.407",
-      "description": "HCL AION is affected by a missing encryption vulnerability in a second WebSocket connection defined in the GenAI web interface. The connection used the unencrypted WebSocket protocol (ws://test) instead of an encrypted (wss://) channel. This may allow data exchanged over the connection to be intercepted or read by an attacker on the network, potentially resulting in unintended behavior or security impact under certain conditions.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5345"
-    },
-    {
-      "id": "CVE-2026-21849",
-      "published": "2026-11-06T14:17:11.183",
-      "modified": "2026-11-06T14:17:11.183",
-      "description": "HCL AION is affected by a missing encryption vulnerability in the WebSocket connection set up by the GenAI web interface. The connection used the unencrypted WebSocket protocol (ws://localhost:8000) instead of an encrypted (wss://) channel. This may allow data exchanged over the connection to be intercepted or read by an attacker on the network, potentially resulting in unintended behavior or security impact under certain conditions.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.7,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-21849"
     },
     {
       "id": "CVE-2026-118598",
@@ -9519,46 +9887,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120434"
     },
     {
-      "id": "CVE-2026-112910",
-      "published": "2026-11-05T22:17:46.877",
-      "modified": "2026-11-05T22:17:46.877",
-      "description": "filelock is a platform-independent file lock for Python. From 3.10.0 until 4.2.1, filelock on Windows ignores the mode argument for WindowsFileLock files and the ReadWriteLock SQLite database. A lock created with mode=0o600 receives the parent directory's inheritable ACL because _open_non_reparse_fd and _nt_open do not create an owner-only security descriptor. Another local account with inherited access can read holder metadata or the lock database, modify those files where the ACL permits writes, or take the byte-range lock after release and delay later acquisitions. UnixFileLock is not affected, and mutual exclusion between cooperating processes continues to hold. This issue is fixed in version 4.2.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112910"
-    },
-    {
-      "id": "CVE-2026-112907",
-      "published": "2026-11-05T22:17:46.513",
-      "modified": "2026-11-05T22:17:46.513",
-      "description": "filelock is a platform-independent file lock for Python. From 3.22.0 until 4.2.1, soft lock classes on Windows read an existing marker with _read_lock_file and remove a stale marker through break_lock_file using pathname operations that wait for an oplock break. Another local account with read access to an unheld marker can keep a Level 1 or batch oplock unanswered, causing SoftFileLock.acquire and related async or fallback locks to wait beyond timeout, blocking=False, and cancel_check. A stale marker under the oplock cannot be broken, but mutual exclusion remains intact and no file other than the marker is accessed. This issue is fixed in version 4.2.1.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.5,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112907"
-    },
-    {
       "id": "CVE-2026-100355",
       "published": "2026-10-30T14:16:35.690",
       "modified": "2026-11-05T22:17:41.653",
@@ -10349,26 +10677,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-5260"
     },
     {
-      "id": "CVE-2026-54144",
-      "published": "2026-11-05T17:18:19.680",
-      "modified": "2026-11-05T21:18:51.123",
-      "description": "OpenHuman is an open-source agent harness available as a desktop application and Rust library. Before 0.56.0 on macOS, the runtime injected into a supported remote account webview such as Google Meet allows page JavaScript to call getDisplayMedia without a live user gesture. Instead of rejecting the request, the shim falls through to native Chromium capture behavior, and the embedded CEF environment can auto-select the primary display because it lacks the normal desktop-media picker. If OpenHuman already has macOS Screen Recording permission and an attacker obtains JavaScript execution in an allowed embedded origin, the attacker can obtain a real desktop capture stream without a new user gesture. The stream can expose chats, documents, source code, email, meeting content, credentials, one-time codes, and other visible desktop information. The separate direct screen_share_begin_session IPC path failing origin validation does not prevent exploitation through getDisplayMedia. This issue is fixed in version 0.56.0.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54144"
-    },
-    {
       "id": "CVE-2026-4426",
       "published": "2026-03-19T15:16:28.510",
       "modified": "2026-11-05T21:18:50.970",
@@ -10937,26 +11245,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110930"
-    },
-    {
-      "id": "CVE-2026-102523",
-      "published": "2026-11-05T16:17:23.727",
-      "modified": "2026-11-05T21:18:34.530",
-      "description": "MariaDB server is a community developed fork of MySQL server. From 10.11.1 until 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2, ALTER TABLE ... CONVERT ... PARTITION does not apply filename encoding to user-specified partition names before using them in filesystem path construction. An authenticated database user can use a partition name requiring filename escaping to make the conversion operate on table files the user is not authorized to access, allowing unauthorized table reads or modifications. This issue is fixed in versions 10.11.19, 11.4.13, 11.8.9, 12.3.3, and 13.0.2.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-102523"
     },
     {
       "id": "CVE-2026-102280",
@@ -14154,26 +14442,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112501"
-    },
-    {
-      "id": "CVE-2026-54146",
-      "published": "2026-11-05T17:18:20.013",
-      "modified": "2026-11-05T17:18:20.013",
-      "description": "OpenHuman is an open-source agent harness available as a desktop application and Rust library. From 0.53.15 before 0.57.5 on macOS, core_process.rs in the Tauri desktop process publishes the per-launch OPENHUMAN_CORE_TOKEN bearer credential in its process environment even though the core now runs as an in-process task. Another process running as the same user can read that environment through the macOS KERN_PROCARGS2 process-inspection interface, recover the token together with the local host and port, and authenticate to the core JSON-RPC service with the authority of the desktop frontend. The attacker can read agent memory and integrated-account data, invoke privileged actions, change configuration, and stop or disrupt services without root access, developer mode, or changes to System Integrity Protection. This issue affects Intel and Apple Silicon macOS systems. This issue is fixed in version 0.57.5.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54146"
     },
     {
       "id": "CVE-2026-2272",
@@ -20410,26 +20678,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-66758"
-    },
-    {
-      "id": "CVE-2026-62365",
-      "published": "2026-11-04T23:17:56.583",
-      "modified": "2026-11-04T23:17:56.583",
-      "description": "Wazuh is an open-source security platform providing unified XDR and SIEM protection for endpoints and cloud workloads. DecodeWinevt in src/analysisd/decoders/winevtchannel.c accumulates unnamed Windows EventChannel Data element contents into the fixed 65,535-byte join_data heap buffer but passes the growing content length, rather than the OS_MAXSTR buffer capacity, as the snprintf size. An enrolled agent can submit an EventChannel message containing four maximum-sized unnamed Data elements, causing the fourth accumulation to write beyond join_data and corrupt adjacent heap metadata. The subsequent free of join_data2 causes the wazuh-analysisd process to terminate, stopping log ingestion for all agents handled by that manager. This vulnerability is fixed in 4.14.7.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62365"
     },
     {
       "id": "CVE-2026-5201",
@@ -42976,586 +43224,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36049"
-    },
-    {
-      "id": "CVE-2023-36009",
-      "published": "2023-12-12T18:15:21.430",
-      "modified": "2026-11-02T23:17:16.870",
-      "description": "Microsoft Word Information Disclosure Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office long term servicing channel",
-          "version": "2021",
-          "cpe": "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office:2016:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office:2019:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_long_term_servicing_channel:2021:*:*:*:*:macos:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-36009"
-    },
-    {
-      "id": "CVE-2023-25815",
-      "published": "2023-04-25T20:15:09.997",
-      "modified": "2026-11-02T23:17:15.373",
-      "description": "In Git for Windows, the Windows port of Git, no localized messages are shipped with the installer. As a consequence, Git is expected not to localize messages at all, and skips the gettext initialization. However, due to a change in MINGW-packages, the `gettext()` function's implicit initialization no longer uses the runtime prefix but uses the hard-coded path `C:\\mingw64\\share\\locale` to look for localized messages. And since any authenticated user has the permission to create folders in `C:\\` (and since `C:\\mingw64` does not typically exist), it is possible for low-privilege users to place fake messages in that location where `git.exe` will pick them up in version 2.40.1.\n\nThis vulnerability is relatively hard to exploit and requires social engineering. For example, a legitimate message at the end of a clone could be maliciously modified to ask the user to direct their web browser to a malicious website, and the user might think that the message comes from Git and is legitimate. It does require local write access by the attacker, though, which makes this attack vector less likely. Version 2.40.1 contains a patch for this issue. Some workarounds are available. Do not work on a Windows machine with shared accounts, or alternatively create a `C:\\mingw64` folder and leave it empty. Users who have administrative rights may remove the permission to create folders in `C:\\`.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:a:git_for_windows_project:git_for_windows:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fedoraproject:fedora:37:*:*:*:*:*:*:*",
-        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:U/C:N/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25815"
-    },
-    {
-      "id": "CVE-2023-23384",
-      "published": "2023-04-11T21:15:18.047",
-      "modified": "2026-11-02T23:17:15.090",
-      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2008",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2012",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2014",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2017",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2022",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server:2008:r2_sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-23384"
-    },
-    {
-      "id": "CVE-2023-22329",
-      "published": "2023-11-14T19:15:17.390",
-      "modified": "2026-11-02T23:17:13.827",
-      "description": "Improper input validation in the BIOS firmware for some Intel(R) Processors may allow an authenticated user to potentially enable denial of service via adjacent access.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [
-        "cpe:2.3:o:intel:atom_x6200fe_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6200fe:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6211e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6211e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6212re_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6212re:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6413e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6413e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6414re_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6414re:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6425e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6425e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6425re_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6425re:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:atom_x6427fe_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:atom_x6427fe:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1000m_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1000m:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1005m_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1005m:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1007u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1007u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1017u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1017u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1019y_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1019y:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1020e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1020e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1020m_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1020m:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1037u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1037u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_1047ue_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_1047ue:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2000e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2000e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2002e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2002e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2950m_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2950m:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2955u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2955u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2957u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2957u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2961y_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2961y:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2970m_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2970m:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2980u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2980u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_2981u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_2981u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3205u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3205u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3215u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3215u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3755u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3755u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3765u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3765u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3855u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3855u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3865u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3865u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3867u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3867u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3955u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3955u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3965u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3965u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_3965y_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_3965y:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_4205u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_4205u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_4305u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_4305u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_4305ue_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_4305ue:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_5205u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_5205u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_5305u_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_5305u:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_6305_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_6305:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_6305e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_6305e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_6600he_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_6600he:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_725c_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_725c:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_7300_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_7300:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_7305_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_7305:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_7305e_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_7305e:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_7305l_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_7305l:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:intel:celeron_787_firmware:-:*:*:*:*:*:*:*",
-        "cpe:2.3:h:intel:celeron_787:-:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 2.6,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-22329"
-    },
-    {
-      "id": "CVE-2023-21713",
-      "published": "2023-02-14T20:15:14.127",
-      "modified": "2026-11-02T23:17:13.660",
-      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2012",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2014",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2017",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2022",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21713"
-    },
-    {
-      "id": "CVE-2023-21705",
-      "published": "2023-02-14T20:15:13.823",
-      "modified": "2026-11-02T23:17:13.497",
-      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2012",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2014",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2017",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2022",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21705"
-    },
-    {
-      "id": "CVE-2023-21704",
-      "published": "2023-02-14T20:15:13.753",
-      "modified": "2026-11-02T23:17:13.327",
-      "description": "Microsoft ODBC Driver for SQL Server Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2014",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2017",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2022",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21704"
-    },
-    {
-      "id": "CVE-2023-21568",
-      "published": "2023-02-14T20:15:11.913",
-      "modified": "2026-11-02T23:17:13.177",
-      "description": "Microsoft SQL Server Integration Service (VS extension) Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2019 integration services",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2019_integration_services:-:*:*:*:*:visual_studio:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2022 integration services",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2022_integration_services:-:*:*:*:*:visual_studio:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server_2019_integration_services:-:*:*:*:*:visual_studio:*:*",
-        "cpe:2.3:a:microsoft:sql_server_2022_integration_services:-:*:*:*:*:visual_studio:*:*"
-      ],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21568"
-    },
-    {
-      "id": "CVE-2023-21528",
-      "published": "2023-02-14T20:15:11.637",
-      "modified": "2026-11-02T23:17:12.973",
-      "description": "Microsoft SQL Server Remote Code Execution Vulnerability",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2008",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2012",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2014",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2017",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2019",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server",
-          "version": "2022",
-          "cpe": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server:2008:sp4:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2012:sp4:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2014:sp3:*:*:*:*:*:*",
-        "cpe:2.3:a:microsoft:sql_server:2016:sp3:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2017:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "RCE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-21528"
     }
   ],
   "kev": [
@@ -45166,6 +44834,7 @@
     "CVE-2026-18556",
     "CVE-2026-18577",
     "CVE-2026-19490",
+    "CVE-2026-19868",
     "CVE-2026-20045",
     "CVE-2026-20079",
     "CVE-2026-20122",
@@ -45330,11 +44999,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 49,
-    "high": 377,
+    "critical": 51,
+    "high": 376,
     "medium": 500,
     "kev": 4,
-    "p1": 23,
+    "p1": 24,
     "p2": 404
   }
 }
