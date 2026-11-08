@@ -1,6 +1,107 @@
 {
-  "updated": "2026-11-08T14:27:11.935641+00:00",
+  "updated": "2026-11-08T18:59:39.345985+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-42481",
+      "published": "2026-05-01T16:16:32.163",
+      "modified": "2026-11-08T16:10:00.183",
+      "description": "Open CASCADE Technology (OCCT) V8_0_0_rc5 contains multiple vulnerabilities in its IGES and STEP file parsers that can be triggered by crafted IGES or STEP files. These issues include an out-of-bounds read in Geom2d_BSplineCurve::EvalD0 during IGES B-spline curve evaluation, an out-of-bounds read in MakeBSplineCurveCommon during STEP B-spline curve construction, and infinite recursion in StepShape_OrientedEdge::EdgeStart when processing a self-referential OrientedEdge entity. Successful exploitation may result in denial of service or unintended memory disclosure.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:opencascade:open_cascade_technology:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:beta1:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:rc1:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:rc2:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:rc3:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:rc4:*:*:*:*:*:*",
+        "cpe:2.3:a:opencascade:open_cascade_technology:8.0.0:rc5:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42481"
+    },
+    {
+      "id": "CVE-2026-37526",
+      "published": "2026-05-01T17:16:22.440",
+      "modified": "2026-11-08T16:10:00.183",
+      "description": "AGL app-framework-binder (afb-daemon) through v19.90.0 allows any local process to execute privileged supervision commands (Exit, Do, Sclose, Config, Trace, Debug, Token, slist) without authentication via the abstract Unix socket @urn:AGL:afs:supervision:socket. The on_supervision_call function in src/afb-supervision.c dispatches all 8 commands without any credential verification. The abstract socket has no DAC protection, as acknowledged in the official CAUTION comment in src/afs-supervision.h. This allows a low-privileged local process to kill the daemon (DoS via Exit command), execute arbitrary API calls (via Do command), close arbitrary user sessions (via Sclose command), or leak the entire global configuration (via Config command). The vulnerability was introduced in commit b8c9d5de384efcfa53ebdb3f0053d7b3723777e1 on 2017-06-29.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linuxfoundation:automotive_grade_linux:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-37526"
+    },
+    {
+      "id": "CVE-2026-64235",
+      "published": "2026-07-24T16:16:52.737",
+      "modified": "2026-11-08T16:10:00.183",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nx86/ftrace: Relocate %rip-relative percpu refs in dynamic trampolines\n\nWith CONFIG_CALL_DEPTH_TRACKING enabled on an x86 retbleed-affected platform\n(eg: Skylake), with retbleed=stuff, registering a dynamic ftrace trampoline\ncrashes on the first call into the traced function:\n\n  BUG: unable to handle page fault for address: ffff88817ae18880\n  #PF: supervisor write access in kernel mode\n  #PF: error_code(0x0002) - not-present page\n  PGD 4b53067 P4D 4b53067 PUD 0\n  Oops: Oops: 0002 [#1] SMP PTI\n  CPU: 3 UID: 0 PID: 187 Comm: usleep Not tainted 7.0.10 #243 PREEMPT(full)\n  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.17.0-2-2 04/01/2014\n  Code: 24 78 00 00 00 00 48 89 ea 48 89 54 24 20 48 8b b4 24 b8 00 00 00 48 8b bc 24 b0 00 00 00 48 89 bc 24 80 00 00 00 48 83 ef 05 <65> 48 c1 3d 1f a8 b6 02 05 48 8b 15 f6 00 00 00 4c 89 3c 24 4c 89\n  Call Trace:\n   <TASK>\n   ? find_held_lock\n   ? exc_page_fault\n   ? lock_release\n   ? __x64_sys_clock_nanosleep\n   ? lockdep_hardirqs_on_prepare\n   ? trace_hardirqs_on\n   __x64_sys_clock_nanosleep\n   do_syscall_64\n   ? exc_page_fault\n   ? call_depth_return_thunk\n   entry_SYSCALL_64_after_hwframe\n  ...\n  Kernel panic - not syncing: Fatal exception\n\nThis small reproducer allows to easily trigger the crash:\n\n  # echo 'p __x64_sys_clock_nanosleep' > /sys/kernel/tracing/kprobe_events\n  # echo 1 > /sys/kernel/tracing/events/kprobes/p___x64_sys_clock_nanosleep_0/enable\n  # usleep 1\n\nMonitoring the crash under GDB points to the exact instruction in charge of\nincrementing the call depth:\n\n  sarq $5, %gs:__x86_call_depth(%rip)\n\nThis instruction matches the one inserted by the ftrace_regs_caller from\nftrace_64.S. This emitted code was likely working fine until the introduction\nof\n\n  59bec00ace28 (\"x86/percpu: Introduce %rip-relative addressing to PER_CPU_VAR()\"):\n\nit has made the call depth accounting addressing relative to $rip, instead of\nbeing based on an absolute address.\n\nAs this code exact location depends on where the trampoline lives in memory,\nthe corresponding displacement needs to be adjusted at runtime to actually\ncorrectly find the per-cpu __x86_call_depth value, otherwise the targeted\naddress is wrong, leading to the page fault seen above.\n\nFix the %rip-relative displacement of the copied CALL_DEPTH_ACCOUNT\ninstruction (from ftrace_regs_caller) by calling text_poke_apply_relocation(),\nas it is done for example by the x86 BPF JIT compiler through\nx86_call_depth_emit_accounting(). This corrects both CALL_DEPTH_ACCOUNT slots,\nin ftrace_caller and ftrace_regs_caller.\n\n  [ bp: Massage. ]",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc1:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc2:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc3:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc4:*:*:*:*:*:*",
+        "cpe:2.3:o:linux:linux_kernel:7.1:rc5:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64235"
+    },
+    {
+      "id": "CVE-2026-64247",
+      "published": "2026-07-24T16:16:54.147",
+      "modified": "2026-11-08T16:10:00.183",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86: hyper-v: Bound the bank index when querying sparse banks\n\nWhen checking if a VP ID is included in a sparse bank set, explicitly check\nthat the ID can actually be contained in a sparse bank (the TLFS allows for\na maximum of 64 banks of 64 vCPUs each).  When handling a paravirtual TLB\nflush for L2, the VP ID is copied verbatim from the enlightened VMCS,\nwithout any bounds check, i.e. isn't guaranteed to be under the limit of\n4096.\n\nFailure to check the bounds of the VP ID leads to an out-of-bounds read\nwhen testing the sparse bank, and super strictly speaking could lead to KVM\nperforming an unnecessary TLB flush for an L2 vCPU.\n\n  ==================================================================\n  BUG: KASAN: use-after-free in hv_is_vp_in_sparse_set+0x85/0x100 [kvm]\n  Read of size 8 at addr ffff88811ba5f598 by task hyperv_evmcs/2802\n\n  CPU: 12 UID: 1000 PID: 2802 Comm: hyperv_evmcs Not tainted 7.1.0-rc2 #7 PREEMPT\n  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015\n  Call Trace:\n   <TASK>\n   dump_stack_lvl+0x51/0x60\n   print_report+0xcb/0x5d0\n   kasan_report+0xb4/0xe0\n   kasan_check_range+0x35/0x1b0\n   hv_is_vp_in_sparse_set+0x85/0x100 [kvm]\n   kvm_hv_flush_tlb+0xe9e/0x16c0 [kvm]\n   kvm_hv_hypercall+0xe6b/0x1e60 [kvm]\n   vmx_handle_exit+0x485/0x1b60 [kvm_intel]\n   kvm_arch_vcpu_ioctl_run+0x22e3/0x5070 [kvm]\n   kvm_vcpu_ioctl+0x5d0/0x10c0 [kvm]\n   __x64_sys_ioctl+0x129/0x1a0\n   do_syscall_64+0xb9/0xcf0\n   entry_SYSCALL_64_after_hwframe+0x4b/0x53\n  RIP: 0033:0x7f0e62d1a9bf\n   </TASK>\n\n  The buggy address belongs to the physical page:\n  page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffffffffffffffff pfn:0x11ba5f\n  flags: 0x4000000000000000(zone=1)\n  raw: 4000000000000000 0000000000000000 00000000ffffffff 0000000000000000\n  raw: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000000\n  page dumped because: kasan: bad access detected\n\n  Memory state around the buggy address:\n   ffff88811ba5f480: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n   ffff88811ba5f500: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  >ffff88811ba5f580: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n                              ^\n   ffff88811ba5f600: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n   ffff88811ba5f680: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff\n  ==================================================================\n  Disabling lock debugging due to kernel taint\n\nOpportunistically add a compile time assertion to ensure the maximum number\nof sparse banks exactly matches the number of possible bits in the passed\nin mask.\n\n[sean: add KASAN splat, drop comment, add assert, massage changelog]",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64247"
+    },
     {
       "id": "CVE-2026-124438",
       "published": "2026-11-08T14:18:10.320",
@@ -44997,150 +45098,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-99262"
-    },
-    {
-      "id": "CVE-2026-86966",
-      "published": "2026-10-26T21:20:34.623",
-      "modified": "2026-11-03T20:18:18.220",
-      "description": "This issue was addressed with improved handling of symlinks. This issue is fixed in iOS 26.7.2 and iPadOS 26.7.2, iOS 27 and iPadOS 27, macOS Golden Gate 27, macOS Sequoia 15.8.2, macOS Tahoe 26.7.2, visionOS 27. An app may be able to modify protected parts of the file system.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-86966"
-    },
-    {
-      "id": "CVE-2026-54161",
-      "published": "2026-11-03T20:18:14.243",
-      "modified": "2026-11-03T20:18:14.243",
-      "description": "Network UPS Tools is a collection of programs which provide a common interface for monitoring and administering UPS, PDU and SCD hardware. From 2.8.3 to 2.8.5, upsmon in clients/upsmon.c inserts the server-supplied ups.alarm value into shell commands executed by notify(), async_notify(), and wall(). When a monitored device reports an ALARM state and an operator has configured NOTIFYCMD with EXEC in NOTIFYFLAG ALARM, shell metacharacters in the alarm text are evaluated on POSIX or Windows and can execute arbitrary operating-system commands as the upsmon account, which is commonly root. An attacker can control the value through a malicious or compromised upsd, a man-in-the-middle on a plaintext upsd to upsmon connection, or a compromised UPS device whose driver supplies the alarm upstream of upsd; TLS between upsd and upsmon does not mitigate the compromised-device path. This vulnerability is fixed in 2.8.6.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54161"
-    },
-    {
-      "id": "CVE-2026-113910",
-      "published": "2026-10-26T21:18:08.223",
-      "modified": "2026-11-03T20:18:10.750",
-      "description": "A memory initialization issue was addressed with improved memory handling. This issue is fixed in iOS 26.7.2 and iPadOS 26.7.2, iOS 27.2 and iPadOS 27.2, macOS Golden Gate 27.2, macOS Sequoia 15.8.2, macOS Tahoe 26.7.2, tvOS 27.2, visionOS 27.2, watchOS 27.2. An app may be able to disclose kernel memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "macos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "tvos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "visionos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "watchos",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:macos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:tvos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:visionos:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:watchos:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113910"
-    },
-    {
-      "id": "CVE-2026-113906",
-      "published": "2026-10-26T21:18:07.583",
-      "modified": "2026-11-03T20:18:10.567",
-      "description": "A null pointer dereference was addressed with improved validation. This issue is fixed in iOS 26.7.2 and iPadOS 26.7.2, iOS 27.2 and iPadOS 27.2. An attacker in physical proximity may be able to cause a denial-of-service.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [
-        {
-          "vendor": "Apple",
-          "product": "ipados",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Apple",
-          "product": "iphone os",
-          "version": "*",
-          "cpe": "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:apple:ipados:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:apple:iphone_os:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "DOS"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113906"
     }
   ],
   "kev": [
@@ -46917,10 +46874,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 49,
-    "high": 364,
-    "medium": 513,
+    "high": 366,
+    "medium": 511,
     "kev": 5,
     "p1": 22,
-    "p2": 392
+    "p2": 394
   }
 }
