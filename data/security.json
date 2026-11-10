@@ -1,6 +1,48 @@
 {
-  "updated": "2026-11-10T02:58:16.697287+00:00",
+  "updated": "2026-11-10T10:58:44.811679+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-50240",
+      "published": "2026-11-06T22:17:58.757",
+      "modified": "2026-11-10T09:17:22.533",
+      "description": "A flaw was found in OpenShift Pipelines-as-Code (PAC). PAC does not verify whether the creator of a Repository custom resource has permission to create PipelineRuns. A namespace user with only Repository and Secret create/delete permissions can cause PAC to execute attacker-controlled PipelineRuns as the auto-provisioned pipeline ServiceAccount, which carries ClusterRole/edit by default. This results in namespace-scoped privilege escalation, enabling Secret read, resource creation/modification/deletion, and potential supply chain injection in CI/CD namespaces.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50240"
+    },
+    {
+      "id": "CVE-2026-125652",
+      "published": "2026-11-10T08:16:41.273",
+      "modified": "2026-11-10T08:16:42.480",
+      "description": "A flaw was found in the keycloak-services component of Keycloak, which provides the core authentication and authorization logic for the identity provider. The issue occurs when a user initiates a login after visiting the password reset page, causing the system to skip mandatory security checks for Proof Key for Code Exchange (PKCE). This could allow an attacker who intercepts a login code to gain unauthorized access to the user's account without needing the required security verifier.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125652"
+    },
     {
       "id": "CVE-2026-109808",
       "published": "2026-11-10T01:17:15.200",
@@ -5605,28 +5647,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6505"
-    },
-    {
-      "id": "CVE-2026-50240",
-      "published": "2026-11-06T22:17:58.757",
-      "modified": "2026-11-06T22:17:58.917",
-      "description": "A flaw was found in OpenShift Pipelines-as-Code (PAC). PAC does not verify whether the creator of a Repository custom resource has permission to create PipelineRuns. A namespace user with only Repository and Secret create/delete permissions can cause PAC to execute attacker-controlled PipelineRuns as the auto-provisioned pipeline ServiceAccount, which carries ClusterRole/edit by default. This results in namespace-scoped privilege escalation, enabling Secret read, resource creation/modification/deletion, and potential supply chain injection in CI/CD namespaces.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "PRIVILEGE_ESCALATION"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-50240"
     },
     {
       "id": "CVE-2024-4741",
@@ -44884,28 +44904,6 @@
       ],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112467"
-    },
-    {
-      "id": "CVE-2026-121051",
-      "published": "2026-11-03T21:17:09.583",
-      "modified": "2026-11-03T21:17:09.687",
-      "description": "UI misrepresentation in iOSWeb in Google Chrome on on iOS prior to 157.0.8103.38 allowed a remote attacker to spoof address bar via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": null,
-        "severity": "UNKNOWN",
-        "vector": null
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121051"
     }
   ],
   "kev": [
@@ -46507,6 +46505,7 @@
     "CVE-2026-118527",
     "CVE-2026-119977",
     "CVE-2026-123158",
+    "CVE-2026-123218",
     "CVE-2026-12569",
     "CVE-2026-1281",
     "CVE-2026-1340",
@@ -46686,7 +46685,7 @@
     "total_relevant_cves": 1000,
     "critical": 50,
     "high": 372,
-    "medium": 503,
+    "medium": 504,
     "kev": 5,
     "p1": 24,
     "p2": 399
