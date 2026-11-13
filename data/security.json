@@ -1,6 +1,250 @@
 {
-  "updated": "2026-11-13T02:56:28.001378+00:00",
+  "updated": "2026-11-13T10:44:22.723338+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-128334",
+      "published": "2026-11-13T10:18:13.370",
+      "modified": "2026-11-13T10:18:13.513",
+      "description": "listmonk 6.2.0 before 7.0.0-beta.2 contains a missing authentication vulnerability that allows unauthenticated attackers to submit Azure Event Grid bounce webhooks when no shared secret is configured. Attackers can POST forged EmailDeliveryReportReceived events with Bounced status to /webhooks/service/azure to blocklist, unsubscribe, or delete arbitrary subscribers.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:N/VI:L/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128334"
+    },
+    {
+      "id": "CVE-2026-128049",
+      "published": "2026-11-13T10:18:10.820",
+      "modified": "2026-11-13T10:18:10.820",
+      "description": "OpenMage Magento LTS before 20.18.2 and 21.0.0-beta1 before 21.0.0-beta3 contains a cross-site request forgery vulnerability in the admin and storefront OAuth confirm and confirmSimple actions, which accept GET requests without form-key validation. Attackers holding OAuth consumer credentials can lure a logged-in administrator or customer to a crafted confirm URL that authorizes the attacker's request token, then exchange it at /oauth/token for a persistent REST API access token bound to the victim.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128049"
+    },
+    {
+      "id": "CVE-2026-126943",
+      "published": "2026-11-13T10:18:01.313",
+      "modified": "2026-11-13T10:18:01.313",
+      "description": "Zipline from 4.2.0 before 4.6.2 contains an information disclosure vulnerability that logs sensitive environment variable values, such as OAUTH_OIDC_CLIENT_SECRET, without redaction at startup. Attackers with access to system journal or docker logs can obtain OAuth2 client secrets and use them to exchange intercepted OAuth2 callbacks for valid tokens.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126943"
+    },
+    {
+      "id": "CVE-2026-126479",
+      "published": "2026-11-13T10:17:57.563",
+      "modified": "2026-11-13T10:17:57.677",
+      "description": "OpenEMR before 8.5.0 contains a missing authorization vulnerability in five Module Manager InstallerController actions that lack the admin/manage_modules ACL check and CSRF validation. Low-privilege users such as Front Office accounts can POST to saveConfig or SaveHooks to overwrite any module's configuration, retarget CCDA and HIE settings, and delete module hooks.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:H/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126479"
+    },
+    {
+      "id": "CVE-2026-126471",
+      "published": "2026-11-13T10:17:56.253",
+      "modified": "2026-11-13T10:17:56.380",
+      "description": "OpenEMR before 8.5.0 contains a missing authorization vulnerability in print_referral.php and trend_form.php that allows low-privileged Front Office users to access patient PHI without patients:med permission. Attackers can directly request these endpoints with arbitrary patient_id values to retrieve patient demographics, insurance data, and vitals history, enumerating IDs to expand disclosure.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126471"
+    },
+    {
+      "id": "CVE-2026-126457",
+      "published": "2026-11-13T10:17:53.997",
+      "modified": "2026-11-13T10:17:54.120",
+      "description": "OpenEMR before 8.5.0 contains a missing authorization vulnerability in InstallerController that allows any authenticated user to modify module administration settings without the admin/manage_modules permission. Low-privileged users such as Front Office clerks can POST to saveConfig, DeleteAcl, DeleteHooks and nickName actions to reconfigure or partially disable installed modules.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126457"
+    },
+    {
+      "id": "CVE-2026-126455",
+      "published": "2026-11-13T10:17:53.670",
+      "modified": "2026-11-13T10:17:53.790",
+      "description": "OpenEMR before 8.5.0 contains multiple missing authorization and SQL injection defects across report, portal, transaction, and immunization components. Low-privileged Front Office clerks can chain these to read arbitrary database tables including users_secure hashes, hijack patient portal identities, and forge approved clinical records.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126455"
+    },
+    {
+      "id": "CVE-2026-126449",
+      "published": "2026-11-13T10:17:52.667",
+      "modified": "2026-11-13T10:17:52.787",
+      "description": "OpenEMR before 8.5.0 contains a missing authorization vulnerability in immunizations.php, diagnosis_full.php, and billing_process.php that lets low-privileged users bypass ACL checks. Authenticated Front Office users can reuse their session CSRF token to add or delete immunizations, write encounter billing codes, and invoke the billing processor.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126449"
+    },
+    {
+      "id": "CVE-2026-126418",
+      "published": "2026-11-13T10:17:47.500",
+      "modified": "2026-11-13T10:17:47.627",
+      "description": "OpenEMR before 8.5.0 contains a stored cross-site scripting vulnerability in interface/billing/sl_eob_invoice.php, which escapes billing codes for HTML attributes but not for JavaScript strings in an inline onkeyup handler. Clinicians with encounter coding access can save crafted billing codes through diagnosis.php that execute script when a Back Office user enters a payment, exposing patient and financial data or performing actions as that user.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:A/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126418"
+    },
+    {
+      "id": "CVE-2026-126374",
+      "published": "2026-11-13T10:17:39.750",
+      "modified": "2026-11-13T10:17:39.880",
+      "description": "Vvveb through 1.0.8.6 contains an SQL injection vulnerability because the @KEYS(:each) macro emits PHP array keys as backtick-quoted INSERT column names without escaping, and several procedures in admin/sql/mysqli/product.sql and admin_auth_token.sql omit the @FILTER guard. Authenticated back-office users able to save products can submit product_<feature> POST array keys containing backticks to redirect bound values into unexposed columns or break SQL statements.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126374"
+    },
+    {
+      "id": "CVE-2026-126305",
+      "published": "2026-11-13T10:17:35.797",
+      "modified": "2026-11-13T10:17:35.933",
+      "description": "EspoCRM before 9.3.11 and 10.x before 10.0.9 contains a stored cross-site scripting vulnerability in Knowledge Base articles that lets users with Knowledge Base create or edit access attach a JavaScript file and add a crafted link to the article body. When an administrator clicks the link, the script runs in their session and can create an administrator account with attacker-chosen credentials.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126305"
+    },
+    {
+      "id": "CVE-2026-128824",
+      "published": "2026-11-13T09:17:34.560",
+      "modified": "2026-11-13T09:17:34.677",
+      "description": "A flaw was found in Red Hat Quay. The v1 registry API error handler reflects the attacker-supplied image_id path segment in a response served as text/html, allowing a reflected cross-site scripting (XSS) attack. By tricking a user into visiting a specially crafted URL, a remote attacker can execute arbitrary JavaScript in the victim's browser within the Quay origin, potentially compromising the user's session.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128824"
+    },
     {
       "id": "CVE-2026-81658",
       "published": "2026-08-27T13:18:42.037",
@@ -24407,258 +24651,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105575"
-    },
-    {
-      "id": "CVE-2026-105574",
-      "published": "2026-11-10T19:17:59.970",
-      "modified": "2026-11-10T21:17:47.830",
-      "description": "Use after free in Windows MIDI Service Module allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105574"
-    },
-    {
-      "id": "CVE-2026-105569",
-      "published": "2026-11-10T19:17:59.780",
-      "modified": "2026-11-10T21:17:47.670",
-      "description": "Out-of-bounds read in Windows Cloud Files Mini Filter Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105569"
-    },
-    {
-      "id": "CVE-2026-105568",
-      "published": "2026-11-10T19:17:59.587",
-      "modified": "2026-11-10T21:17:47.510",
-      "description": "Out-of-bounds read in Active Directory Domain Services allows an authorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105568"
-    },
-    {
-      "id": "CVE-2026-105567",
-      "published": "2026-11-10T19:17:59.430",
-      "modified": "2026-11-10T21:17:47.387",
-      "description": "Use after free in Windows Print Spooler Components allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105567"
-    },
-    {
-      "id": "CVE-2026-105566",
-      "published": "2026-11-10T19:17:59.237",
-      "modified": "2026-11-10T21:17:47.207",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105566"
-    },
-    {
-      "id": "CVE-2026-105565",
-      "published": "2026-11-10T19:17:59.087",
-      "modified": "2026-11-10T21:17:47.080",
-      "description": "Use after free in Windows MIDI Service Module allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105565"
-    },
-    {
-      "id": "CVE-2026-105562",
-      "published": "2026-11-10T19:17:58.937",
-      "modified": "2026-11-10T21:17:46.943",
-      "description": "Time-of-check time-of-use (toctou) race condition in Windows Container Manager Service allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105562"
-    },
-    {
-      "id": "CVE-2026-105561",
-      "published": "2026-11-10T19:17:58.740",
-      "modified": "2026-11-10T21:17:46.770",
-      "description": "Uncontrolled resource consumption in Windows Secure Socket Tunneling Protocol (SSTP) allows an unauthorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105561"
-    },
-    {
-      "id": "CVE-2026-105560",
-      "published": "2026-11-10T19:17:58.580",
-      "modified": "2026-11-10T21:17:46.643",
-      "description": "Release of invalid pointer or reference in Windows DHCP Server allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.2,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105560"
-    },
-    {
-      "id": "CVE-2026-105559",
-      "published": "2026-11-10T19:17:58.380",
-      "modified": "2026-11-10T21:17:46.467",
-      "description": "No cwe for this issue in Windows Active Directory allows an authorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105559"
-    },
-    {
-      "id": "CVE-2026-105558",
-      "published": "2026-11-10T19:17:58.203",
-      "modified": "2026-11-10T21:17:46.307",
-      "description": "Heap-based buffer overflow in Windows Deployment Services allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105558"
-    },
-    {
-      "id": "CVE-2026-105557",
-      "published": "2026-11-10T19:17:58.053",
-      "modified": "2026-11-10T21:17:46.170",
-      "description": "Exposure of sensitive system information to an unauthorized control sphere in Windows DHCP Server allows an unauthorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105557"
     }
   ],
   "kev": [
@@ -26444,11 +26436,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 34,
-    "high": 597,
-    "medium": 333,
+    "critical": 35,
+    "high": 595,
+    "medium": 334,
     "kev": 3,
     "p1": 16,
-    "p2": 616
+    "p2": 615
   }
 }
