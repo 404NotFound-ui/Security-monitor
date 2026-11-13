@@ -1,6 +1,326 @@
 {
-  "updated": "2026-11-12T22:40:29.472171+00:00",
+  "updated": "2026-11-13T02:56:28.001378+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-81658",
+      "published": "2026-08-27T13:18:42.037",
+      "modified": "2026-11-13T02:18:58.963",
+      "description": "A flaw was found in Foreman. The template revision endpoint does not enforce object-level authorization when retrieving an audited template revision. An authenticated, low privileged user with a template-related permission, such as view_ptables, can obtain historical template contents belonging to another organization or location by supplying the corresponding audit ID. This can result in unauthorized disclosure of historical template contents, which may contain sensitive configuration information, credentials, or other secrets. The REST API revision endpoints correctly restrict this lookup.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "satellite",
+          "version": "6.0",
+          "cpe": "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:satellite:6.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:theforeman:foreman:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81658"
+    },
+    {
+      "id": "CVE-2026-68548",
+      "published": "2026-11-12T20:18:51.307",
+      "modified": "2026-11-13T02:18:58.730",
+      "description": "Algernon is a small self-contained pure-Go web server. Prior to version 1.17.10, Algernon's URL-prefix authorization gate matches its protected prefixes (/admin, /repo, /data) with case-sensitive strings.HasPrefix, while the exact same raw req.URL.Path is later resolved against the filesystem. On case-insensitive filesystems (Windows NTFS — always; macOS APFS/HFS+ — default), a request for /Admin/secret.lua evades every protected-prefix check, falls through to the public-prefix accept branch, and then resolves on disk to admin/secret.lua. The result is an unauthenticated bypass of the /admin, /repo, and /data authorization boundary, enabling read (and, for Lua files, execution) of protected content. The permission system is active in the default configuration. This issue has been patched in version 1.17.10.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.4,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68548"
+    },
+    {
+      "id": "CVE-2026-67540",
+      "published": "2026-11-11T22:17:28.433",
+      "modified": "2026-11-13T02:18:58.270",
+      "description": "Heym builds and runs agentic systems and business-process automations on self-hosted infrastructure. Prior to version 0.0.70, get_workflow_template / get_node_template fetches a template by ID with no visibility / author / shared_with predicate, so any authenticated user can read (and use) any other tenant's private (visibility=specific_users) template — including its full node/edge graph and the email addresses it was shared with. The list endpoint enforces visibility correctly; the single-item get/use paths do not. This issue has been patched in version 0.0.70.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67540"
+    },
+    {
+      "id": "CVE-2026-128065",
+      "published": "2026-11-13T00:20:14.313",
+      "modified": "2026-11-13T02:18:56.263",
+      "description": "@grpc/grpc-js implements the core functionality of gRPC purely in JavaScript, without a C++ addon. From 1.14.0 through 1.14.1, XdsServer in @grpc/grpc-js-xds can acknowledge Route and VirtualHost resources while failing to apply their RBACPerRoute override configurations. The override parser is not registered under the override message type, override maps are stored under a type URL instead of the configured HTTP filter name, and VirtualHost override maps are not read. When experimental RBAC is enabled and a trusted xDS control plane supplies a broad top-level ALLOW policy with a stricter matching override, affected servers evaluate RPCs under the broad policy and can accept requests that should be denied. This issue is fixed in version 1.14.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128065"
+    },
+    {
+      "id": "CVE-2026-126641",
+      "published": "2026-11-12T11:17:11.317",
+      "modified": "2026-11-13T02:18:52.430",
+      "description": "A host key verification flaw was found in ansible-pylibssh and in the ansible.netcommon libssh connection plugin. When trust-on-first-use is enabled (host_key_auto_add on the libssh connection plugin, or AutoAddPolicy in ansible-pylibssh), a host that is already present in known_hosts but now presents a different key is accepted without warning. The pylibssh Session.verify_knownhost() method passes the SSH_KNOWN_HOSTS_CHANGED and SSH_KNOWN_HOSTS_OTHER states to the same missing_host_key() policy hook used for unknown hosts, and the bundled AutoAddPolicy/RejectPolicy classes (as well as ansible.netcommon's MyAddPolicy, which is modeled on paramiko's AutoAddPolicy) therefore add the changed key and continue the connection rather than aborting as paramiko's BadHostKeyException path would. As a result the controller authenticates to the substitute host, runs the play there, and appends the new key to known_hosts, which can disclose connection credentials to an attacker performing a machine-in-the-middle attack. Default configurations (host_key_checking enabled, host_key_auto_add unset) are not affected; non-interactive runs fail closed.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126641"
+    },
+    {
+      "id": "CVE-2026-126208",
+      "published": "2026-11-12T21:17:22.023",
+      "modified": "2026-11-13T02:18:51.653",
+      "description": "Loofah is a general library for manipulating and transforming HTML/XML documents and fragments, built on top of Nokogiri. Prior to 2.25.3, Loofah's SVG_ALLOW_LOCAL_HREF safelist lists textPath with lowercase spelling that does not match the HTML5 parser's element name and omits mpath, so external href and xlink:href values on those elements survive sanitization. Firefox fetches the attacker-chosen URL when a viewer renders the content, which can disclose the viewer's IP address, user agent, referrer, and access to hosts routable only from the viewer's network. Chrome and WebKit do not fetch these references, and the impact is a network request rather than script execution. The rails-html-sanitizer PermitScrubber reuses the affected safelist when SVG elements are permitted. This issue is fixed in version 2.25.3.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126208"
+    },
+    {
+      "id": "CVE-2026-126198",
+      "published": "2026-11-12T18:17:24.953",
+      "modified": "2026-11-13T02:18:51.523",
+      "description": "pgEdge Postgres MCP Server enables SQL queries against PostgreSQL databases through Model Context Protocol compatible clients. Prior to 1.1.0, the bundled clients, including the CLI and web client, decided whether to request write confirmation by checking only for the query_database tool name instead of server-published write annotations. Custom pl-do, pl-func, and writing sql tools therefore ran without confirmation on allow_writes connections, including when a model followed instructions in retrieved content. The affected control is a bundled-client warning rather than a server authorization boundary, and other MCP clients do not inherit that prompt. This issue is fixed in 1.1.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.1,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126198"
+    },
+    {
+      "id": "CVE-2026-123710",
+      "published": "2026-11-11T15:17:18.340",
+      "modified": "2026-11-13T02:18:50.590",
+      "description": "A flaw was found in Red Hat Quay. An unauthenticated client can obtain an anonymous registry token with an audience it controls, present that token to the service key rotation endpoint, and install its own approved signing key with no expiry. Registry tokens signed with that key are accepted for any repository, allowing read and write access to private images and replacement of repository tags.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123710"
+    },
+    {
+      "id": "CVE-2026-0455",
+      "published": "2026-11-12T20:18:14.237",
+      "modified": "2026-11-13T02:18:49.017",
+      "description": "The Versal™ AI Edge Series Gen 2 Peripheral Protection Unit (XPPU) for the inter-processor interrupt (IPI) buffers does not block unauthorized access as expected. This allows processors in the SoC with any IPI channel access the ability to both read and write to the entire IPI buffer register space as well as the IPI no-buffer register control space.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:A/VC:L/VI:L/VA:H/SC:L/SI:L/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0455"
+    },
+    {
+      "id": "CVE-2026-32591",
+      "published": "2026-04-08T18:26:00.107",
+      "modified": "2026-11-13T00:20:15.650",
+      "description": "A flaw was found in Red Hat Quay's Proxy Cache configuration feature. When an organization administrator configures an upstream registry for proxy caching, Quay makes a network connection to the specified registry hostname without verifying that it points to a legitimate external service. An attacker with organization administrator privileges could supply a crafted hostname to force the Quay server to make requests to internal network services, cloud infrastructure endpoints, or other resources that should not be accessible from the Quay application.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "mirror registry for red hat openshift",
+          "version": "-",
+          "cpe": "cpe:2.3:a:redhat:mirror_registry_for_red_hat_openshift:-:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "mirror registry for red hat openshift",
+          "version": "2.0",
+          "cpe": "cpe:2.3:a:redhat:mirror_registry_for_red_hat_openshift:2.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "quay",
+          "version": "3.0.0",
+          "cpe": "cpe:2.3:a:redhat:quay:3.0.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:mirror_registry_for_red_hat_openshift:-:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:mirror_registry_for_red_hat_openshift:2.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:quay:3.0.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:R/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32591"
+    },
+    {
+      "id": "CVE-2026-18963",
+      "published": "2026-08-18T17:16:57.083",
+      "modified": "2026-11-13T00:20:15.030",
+      "description": "A flaw was found in the reset-credentials flow of the keycloak-services component, which is the core engine for identity and access management in Red Hat Build of Keycloak. The issue allows an unauthenticated attacker to force the password reset process for any user without needing to click the required email verification link. This can result in the attacker gaining full control over target user accounts by directly setting new credentials.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.1,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-18963"
+    },
+    {
+      "id": "CVE-2026-126982",
+      "published": "2026-11-13T00:20:13.250",
+      "modified": "2026-11-13T00:20:13.250",
+      "description": "A type allow-list bypass in the BSON serialization library of the MongoDB C# Driver allows a type-restriction check to be circumvented when polymorphic data is deserialized into loosely typed members. An unauthorized party who can supply or plant BSON/JSON data that the application later deserializes can cause the application process to instantiate .NET types outside the intended allow-list and populate them with unauthorized party-controlled values. In applications that contain a suitable gadget type, this can lead to arbitrary code execution in the context of the application, with corresponding loss of confidentiality, integrity, and availability. No special privileges beyond the ability to introduce data the application reads are required.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126982"
+    },
+    {
+      "id": "CVE-2026-126355",
+      "published": "2026-11-13T00:20:10.447",
+      "modified": "2026-11-13T00:20:10.630",
+      "description": "Hono is a Web application framework that provides support for any JavaScript runtime. Prior to 4.13.16, csrf() limits origin validation to the content types normally sent by HTML forms and therefore does not validate text/ping requests generated by Chromium hyperlink auditing. Chrome and Edge can send a cross-origin credentialed POST without a CORS preflight through an &lt;a ping&gt; action, and the middleware then skips both Origin and Sec-Fetch-Site checks. The fixed request body limits exploitation to state-changing endpoints whose effect is selected by the path or query string and does not depend on submitted body data. The user's cookie must accompany the request, which generally requires a same-site origin or a cookie configured with SameSite=None, and Firefox does not send hyperlink-auditing pings by default. This issue is fixed in version 4.13.16.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126355"
+    },
+    {
+      "id": "CVE-2026-0435",
+      "published": "2026-11-10T23:17:19.340",
+      "modified": "2026-11-13T00:20:05.780",
+      "description": "Operation on a resource after expiration or release in the AMD Secure Encrypted Virtualization (SEV) firmware could allow an attacker with administrative privileges to swap out a guest device without the guest's knowledge, potentially resulting in a loss of confidentiality and integrity.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0435"
+    },
     {
       "id": "CVE-2026-96150",
       "published": "2026-11-10T19:22:12.063",
@@ -80,26 +400,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88217"
-    },
-    {
-      "id": "CVE-2026-126641",
-      "published": "2026-11-12T11:17:11.317",
-      "modified": "2026-11-12T22:19:20.967",
-      "description": "A host key verification flaw was found in ansible-pylibssh and in the ansible.netcommon libssh connection plugin. When trust-on-first-use is enabled (host_key_auto_add on the libssh connection plugin, or AutoAddPolicy in ansible-pylibssh), a host that is already present in known_hosts but now presents a different key is accepted without warning. The pylibssh Session.verify_knownhost() method passes the SSH_KNOWN_HOSTS_CHANGED and SSH_KNOWN_HOSTS_OTHER states to the same missing_host_key() policy hook used for unknown hosts, and the bundled AutoAddPolicy/RejectPolicy classes (as well as ansible.netcommon's MyAddPolicy, which is modeled on paramiko's AutoAddPolicy) therefore add the changed key and continue the connection rather than aborting as paramiko's BadHostKeyException path would. As a result the controller authenticates to the substitute host, runs the play there, and appends the new key to known_hosts, which can disclose connection credentials to an attacker performing a machine-in-the-middle attack. Default configurations (host_key_checking enabled, host_key_auto_add unset) are not affected; non-interactive runs fail closed.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126641"
     },
     {
       "id": "CVE-2026-63011",
@@ -549,26 +849,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123806"
-    },
-    {
-      "id": "CVE-2026-0455",
-      "published": "2026-11-12T20:18:14.237",
-      "modified": "2026-11-12T22:18:35.610",
-      "description": "The Versal™ AI Edge Series Gen 2 Peripheral Protection Unit (XPPU) for the inter-processor interrupt (IPI) buffers does not block unauthorized access as expected. This allows processors in the SoC with any IPI channel access the ability to both read and write to the entire IPI buffer register space as well as the IPI no-buffer register control space.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.9,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:A/VC:L/VI:L/VA:H/SC:L/SI:L/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0455"
     },
     {
       "id": "CVE-2026-113970",
@@ -1341,28 +1621,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126203"
     },
     {
-      "id": "CVE-2026-126208",
-      "published": "2026-11-12T21:17:22.023",
-      "modified": "2026-11-12T22:09:39.233",
-      "description": "Loofah is a general library for manipulating and transforming HTML/XML documents and fragments, built on top of Nokogiri. Prior to 2.25.3, Loofah's SVG_ALLOW_LOCAL_HREF safelist lists textPath with lowercase spelling that does not match the HTML5 parser's element name and omits mpath, so external href and xlink:href values on those elements survive sanitization. Firefox fetches the attacker-chosen URL when a viewer renders the content, which can disclose the viewer's IP address, user agent, referrer, and access to hosts routable only from the viewer's network. Chrome and WebKit do not fetch these references, and the impact is a network request rather than script execution. The rails-html-sanitizer PermitScrubber reuses the affected safelist when SVG elements are permitted. This issue is fixed in version 2.25.3.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.7,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126208"
-    },
-    {
       "id": "CVE-2026-125383",
       "published": "2026-11-10T00:17:11.510",
       "modified": "2026-11-12T21:36:06.743",
@@ -1902,27 +2160,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126799"
-    },
-    {
-      "id": "CVE-2026-68548",
-      "published": "2026-11-12T20:18:51.307",
-      "modified": "2026-11-12T20:18:51.520",
-      "description": "Algernon is a small self-contained pure-Go web server. Prior to version 1.17.10, Algernon's URL-prefix authorization gate matches its protected prefixes (/admin, /repo, /data) with case-sensitive strings.HasPrefix, while the exact same raw req.URL.Path is later resolved against the filesystem. On case-insensitive filesystems (Windows NTFS — always; macOS APFS/HFS+ — default), a request for /Admin/secret.lua evades every protected-prefix check, falls through to the public-prefix accept branch, and then resolves on disk to admin/secret.lua. The result is an unauthenticated bypass of the /admin, /repo, and /data authorization boundary, enabling read (and, for Lua files, execution) of protected content. The permission system is active in the default configuration. This issue has been patched in version 1.17.10.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.4,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68548"
     },
     {
       "id": "CVE-2026-50177",
@@ -2757,26 +2994,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63891"
     },
     {
-      "id": "CVE-2026-0435",
-      "published": "2026-11-10T23:17:19.340",
-      "modified": "2026-11-12T16:58:33.260",
-      "description": "Operation on a resource after expiration or release in the AMD Secure Encrypted Virtualization (SEV) firmware could allow an attacker with administrative privileges to swap out a guest device without the guest's knowledge, potentially resulting in a loss of confidentiality and integrity.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-0435"
-    },
-    {
       "id": "CVE-2026-127131",
       "published": "2026-11-12T16:19:07.807",
       "modified": "2026-11-12T16:19:07.980",
@@ -3001,26 +3218,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63821"
-    },
-    {
-      "id": "CVE-2026-123710",
-      "published": "2026-11-11T15:17:18.340",
-      "modified": "2026-11-12T14:17:26.927",
-      "description": "A flaw was found in Red Hat Quay. An unauthenticated client can obtain an anonymous registry token with an audience it controls, present that token to the service key rotation endpoint, and install its own approved signing key with no expiry. Registry tokens signed with that key are accepted for any repository, allowing read and write access to private images and replacement of repository tags.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123710"
     },
     {
       "id": "CVE-2026-119040",
@@ -5114,26 +5311,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-42264"
-    },
-    {
-      "id": "CVE-2026-67540",
-      "published": "2026-11-11T22:17:28.433",
-      "modified": "2026-11-11T22:17:28.577",
-      "description": "Heym builds and runs agentic systems and business-process automations on self-hosted infrastructure. Prior to version 0.0.70, get_workflow_template / get_node_template fetches a template by ID with no visibility / author / shared_with predicate, so any authenticated user can read (and use) any other tenant's private (visibility=specific_users) template — including its full node/edge graph and the email addresses it was shared with. The list endpoint enforces visibility correctly; the single-item get/use paths do not. This issue has been patched in version 0.0.70.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67540"
     },
     {
       "id": "CVE-2026-126255",
@@ -24482,151 +24659,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105557"
-    },
-    {
-      "id": "CVE-2026-105554",
-      "published": "2026-11-10T19:17:57.863",
-      "modified": "2026-11-10T21:17:46.010",
-      "description": "Heap-based buffer overflow in Windows Background Intelligent Transfer Service (BITS) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105554"
-    },
-    {
-      "id": "CVE-2026-105553",
-      "published": "2026-11-10T19:17:57.670",
-      "modified": "2026-11-10T21:17:45.860",
-      "description": "Stack-based buffer overflow in Windows Filtering Platform (WFP) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105553"
-    },
-    {
-      "id": "CVE-2026-105552",
-      "published": "2026-11-10T19:17:57.490",
-      "modified": "2026-11-10T21:17:45.707",
-      "description": "An information disclosure vulnerability exists when the Windows kernel improperly initializes objects in memory.\nTo exploit this vulnerability, an authenticated attacker could run a specially crafted application. An attacker who successfully exploited this vulnerability could obtain information to further compromise the user’s system.\nThe update addresses the vulnerability by correcting how the Windows kernel initializes objects in memory.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105552"
-    },
-    {
-      "id": "CVE-2026-105551",
-      "published": "2026-11-10T19:17:57.300",
-      "modified": "2026-11-10T21:17:45.537",
-      "description": "Heap-based buffer overflow in Windows NetBIOS allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Apple",
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105551"
-    },
-    {
-      "id": "CVE-2026-105549",
-      "published": "2026-11-10T19:17:57.107",
-      "modified": "2026-11-10T21:17:45.367",
-      "description": "Out-of-bounds read in Windows Smart Card allows an authorized attacker to disclose information with a physical attack.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105549"
-    },
-    {
-      "id": "CVE-2026-105547",
-      "published": "2026-11-10T19:17:56.900",
-      "modified": "2026-11-10T21:17:45.217",
-      "description": "Double free in Windows Setup and Deployment allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105547"
-    },
-    {
-      "id": "CVE-2026-105546",
-      "published": "2026-11-10T19:17:56.710",
-      "modified": "2026-11-10T21:17:45.057",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Management Instrumentation allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105546"
     }
   ],
   "kev": [
@@ -26412,11 +26444,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 33,
-    "high": 601,
-    "medium": 331,
+    "critical": 34,
+    "high": 597,
+    "medium": 333,
     "kev": 3,
     "p1": 16,
-    "p2": 619
+    "p2": 616
   }
 }
