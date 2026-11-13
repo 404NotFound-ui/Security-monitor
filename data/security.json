@@ -1,6 +1,403 @@
 {
-  "updated": "2026-11-13T18:08:25.355721+00:00",
+  "updated": "2026-11-13T23:35:36.778336+00:00",
   "cves": [
+    {
+      "id": "CVE-2024-58406",
+      "published": "2026-11-13T16:17:18.497",
+      "modified": "2026-11-13T23:10:00.153",
+      "description": "Huatian Dynamic OA8000 collaborative office system contains an unauthenticated path traversal vulnerability in /OAapp/jsp/trace/ntkodownload.jsp, where the filename request parameter is used to locate a file without restricting access to an intended directory or rejecting traversal sequences. Attackers can supply ../ sequences to read arbitrary files from the server, such as the Tomcat configuration at ROOT/WEB-INF/web.xml, exposing sensitive configuration, source, and credential material that can enable further compromise. Exploitation evidence was first observed by the Shadowserver Foundation on 2024-11-20.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58406"
+    },
+    {
+      "id": "CVE-2025-13353",
+      "published": "2025-12-02T11:15:47.437",
+      "modified": "2026-11-13T23:10:00.153",
+      "description": "In gokey versions <0.2.0,\n a flaw in the seed decryption logic resulted in passwords incorrectly \nbeing derived solely from the initial vector and the AES-GCM \nauthentication tag of the key seed.\n\n\nThis issue has been fixed in gokey version 0.2.0. This is a breaking change. The fix has invalidated any passwords/secrets that were derived from the seed file (using the -s option). Even if the input seed file stays the same, version 0.2.0 gokey will generate different secrets.\n\n\nImpact\nThis vulnerability impacts generated keys/secrets using a seed file as an entropy input (using the -s option). Keys/secrets generated just from the master password (without the -s\n option) are not impacted. The confidentiality of the seed itself is \nalso not impacted (it is not required to regenerate the seed itself). \nSpecific impact includes:\n\n\n\n  *  keys/secrets generated from a seed file may have lower entropy: it \nwas expected that the whole seed would be used to generate keys (240 \nbytes of entropy input), where in vulnerable versions only 28 bytes was \nused\n\n  *  a malicious entity could have recovered all passwords, generated \nfrom a particular seed, having only the seed file in possession without \nthe knowledge of the seed master password\n\n\n\n\nPatches\nThe code logic bug has been fixed in gokey version 0.2.0\n and above. Due to the deterministic nature of gokey, fixed versions \nwill produce different passwords/secrets using seed files, as all seed \nentropy will be used now.\n\n\nSystem secret rotation guidance\nIt is advised for users to regenerate passwords/secrets using the patched version of gokey (0.2.0\n and above), and provision/rotate these secrets into respective systems \nin place of the old secret. A specific rotation procedure is \nsystem-dependent, but most common patterns are described below.\n\n\nSystems that do not require the old password/secret for rotation\nSuch systems usually have a \"Forgot password\" facility or a\n similar facility allowing users to rotate their password/secrets by \nsending a unique \"magic\" link to the user's email or phone. In such \ncases users are advised to use this facility and input the newly \ngenerated password secret, when prompted by the system.\n\n\nSystems that require the old password/secret for rotation\nSuch systems usually have a modal password rotation window\n usually in the user settings section requiring the user to input the \nold and the new password sometimes with a confirmation. To \ngenerate/recover the old password in such cases users are advised to:\n\n\n\n  *  temporarily download  gokey version 0.1.3 https://github.com/cloudflare/gokey/releases/tag/v0.1.3  for their respective operating system to recover the old password\n\n  *  use gokey version 0.2.0 or above to generate the new password\n\n  *  populate the system provided password rotation form\n\n\n\n\nSystems that allow multiple credentials for the same account to be provisioned\nSuch systems usually require a secret or a cryptographic \nkey as a credential for access, but allow several credentials at the \nsame time. One example is SSH: a particular user may have several \nauthorized public keys configured on the SSH server for access. For such\n systems users are advised to:\n\n\n\n  *  generate a new secret/key/credential using gokey version 0.2.0 or above\n\n  *  provision the new secret/key/credential in addition to the existing credential on the system\n\n  *  verify that the access or required system operation is still possible with the new secret/key/credential\n\n  *  revoke authorization for the existing/old credential from the system\n\n\n\n\nCredit\nThis vulnerability was found by Théo Cusnir ( @mister_mime https://hackerone.com/mister_mime ) and responsibly disclosed through Cloudflare's bug bounty program.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:cloudflare:gokey:*:*:*:*:*:go:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-13353"
+    },
+    {
+      "id": "CVE-2025-10698",
+      "published": "2026-11-12T17:17:20.800",
+      "modified": "2026-11-13T23:10:00.153",
+      "description": "Incorrect default permissions and Product released in Non-Release configuration vulnerability in OpenText Identity Console on Windows, Linux, and 64 bit allows Retrieve Embedded Sensitive Data.\n\nThis issue affects Identity Console: from 1.8 through 25.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:N/AU:N/R:U/V:C/RE:L/U:Amber"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-10698"
+    },
+    {
+      "id": "CVE-2026-9661",
+      "published": "2026-11-13T22:17:27.467",
+      "modified": "2026-11-13T22:17:27.467",
+      "description": "Poste Italiane Postecert FIRMAOK! 1.6.29 on Windows contains a local privilege escalation vulnerability caused by an uncontrolled OpenSSL search path, where launcher.exe and dependent executables such as updater.exe and tslupdater.exe load OpenSSL configuration and library files from a hardcoded, user-writable directory that does not exist by default. A low-privileged local attacker can create this missing directory and place malicious OpenSSL configuration or library files inside it, causing the application to load and execute attacker-controlled code with the privileges of the user running it, enabling horizontal or, when a higher-privileged user runs the application, vertical privilege escalation up to full system compromise.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:H/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-9661"
+    },
+    {
+      "id": "CVE-2026-128087",
+      "published": "2026-11-13T19:19:31.477",
+      "modified": "2026-11-13T22:17:22.950",
+      "description": "russh is a Rust SSH client and server library that includes an SSH agent protocol implementation. From version 0.55.0 until version 0.65.1, the initial key exchange invokes client::Handler::kex_done() with the raw shared secret before check_server_key() accepts the server host key or certificate. A malicious SSH server can therefore trigger application-defined secondary-channel initialization or early data handling even when the server identity is subsequently rejected. Ordinary clients that keep the callback's no-op default or independently defer callback-derived actions until trust is confirmed are not affected. This issue is fixed in version 0.65.1.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.7,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128087"
+    },
+    {
+      "id": "CVE-2026-128082",
+      "published": "2026-11-13T19:19:30.743",
+      "modified": "2026-11-13T22:17:22.843",
+      "description": "AutoMapper is a convention-based object-object mapper in .NET. Prior to 15.1.4 and from 16.0.0 until 16.3.0, AutoMapper increments type depth only after creating the destination, so recursive mapping performed through constructor parameters occurs before MaxDepth is counted. Destinations built through positional records or other constructors, and recursive ConstructUsing mappings that call context.Mapper, can therefore bypass explicit MaxDepth values and the default limit of 64. Deep attacker-influenced input can throw an uncatchable StackOverflowException and terminate the process. This issue is fixed in versions 15.1.4 and 16.3.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128082"
+    },
+    {
+      "id": "CVE-2026-110195",
+      "published": "2026-11-13T22:17:20.627",
+      "modified": "2026-11-13T22:17:20.733",
+      "description": "IBM ContextForge MCP Gateway 1.0.0 through 1.0.11 could allow an authenticated caller to bypass upstream credential-level authorization policies due to an insufficiently specific cache key in the RFC 8693 token exchange cache, enabling reuse of cached upstream bearer tokens across different credentials belonging to the same user.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-110195"
+    },
+    {
+      "id": "CVE-2025-53700",
+      "published": "2026-11-13T22:17:18.963",
+      "modified": "2026-11-13T22:17:18.963",
+      "description": "CWE‑922 Insecure Storage of Sensitive Information vulnerability in Johnson Controls iSTAR Ultra, Johnson Controls iSTAR Ultra SE, Johnson Controls iSTAR Ultra G2, Johnson Controls iSTAR Ultra G2 SE, and Johnson Controls iSTAR Edge G2 allows CAPEC‑15 File Manipulation.\n\nThis issue affects iSTAR Ultra: before 6.9.2.CU02; iSTAR Ultra SE: before 6.9.2.CU02; iSTAR Ultra G2: before 6.9.2.CU02; iSTAR Ultra G2 SE: before 6.9.2.CU02; iSTAR Edge G2: before 6.9.2.CU02.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53700"
+    },
+    {
+      "id": "CVE-2025-53699",
+      "published": "2026-11-13T22:17:18.830",
+      "modified": "2026-11-13T22:17:18.830",
+      "description": "Missing protection mechanism for alternate hardware interface vulnerability in Johnson Controls iSTAR Ultra, Johnson Controls iSTAR Ultra SE, Johnson Controls iSTAR Ultra G2, Johnson Controls iSTAR Ultra G2 SE, and Johnson Controls iSTAR Edge G2 allows CAPEC‑554: Functionality Bypass.\n\nThis issue affects iSTAR Ultra: before 6.9.2.CU02; iSTAR Ultra SE: before 6.9.2.CU02; iSTAR Ultra G2: before 6.9.2.CU02; iSTAR Ultra G2 SE: before 6.9.2.CU02; iSTAR Edge G2: before 6.9.2.CU02.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53699"
+    },
+    {
+      "id": "CVE-2025-53697",
+      "published": "2026-11-13T22:17:18.553",
+      "modified": "2026-11-13T22:17:18.553",
+      "description": "Use of default credentials vulnerability in Johnson Controls iSTAR Ultra, Johnson Controls iSTAR Ultra SE, Johnson Controls iSTAR Ultra G2, Johnson Controls iSTAR Ultra G2 SE, and Johnson Controls iSTAR Edge G2 allows CAPEC‑560: Use of Default Credentials.\n\nThis issue affects iSTAR Ultra: before 2.9.2.CU02; iSTAR Ultra SE: before 6.9.2.CU02; iSTAR Ultra G2: before 6.9.2.CU02; iSTAR Ultra G2 SE: before 6.9.2.CU02; iSTAR Edge G2: before 6.9.2.CU02.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.4,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-53697"
+    },
+    {
+      "id": "CVE-2025-43874",
+      "published": "2026-11-13T22:17:18.410",
+      "modified": "2026-11-13T22:17:18.410",
+      "description": ": Improper Neutralization of Special Elements used in an OS Command vulnerability in Johnson Controls iSTAR Ultra, Johnson Controls iSTAR Ultra SE, Johnson Controls iSTAR Ultra G2, Johnson Controls iSTAR Ultra G2 SE, and Johnson Controls iSTAR Edge G2 allows : OS Command Injection.\n\nThis issue affects iSTAR Ultra: before 6.9.2.CU02; iSTAR Ultra SE: before 6.9.2.CU02; iSTAR Ultra G2: before 6.9.2.CU02; iSTAR Ultra G2 SE: before 6.9.2.CU02; iSTAR Edge G2: before 6.9.2.CU02.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.7,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-43874"
+    },
+    {
+      "id": "CVE-2026-123710",
+      "published": "2026-11-11T15:17:18.340",
+      "modified": "2026-11-13T21:17:39.150",
+      "description": "A flaw was found in Red Hat Quay. An unauthenticated client can obtain an anonymous registry token with an audience it controls, present that token to the service key rotation endpoint, and install its own approved signing key with no expiry. Registry tokens signed with that key are accepted for any repository, allowing read and write access to private images and replacement of repository tags.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "quay",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123710"
+    },
+    {
+      "id": "CVE-2026-120804",
+      "published": "2026-11-10T20:18:50.593",
+      "modified": "2026-11-13T21:17:37.970",
+      "description": "A flaw exists in the server-side SSPI Kerberos authentication handler on Windows Enterprise builds of MongoDB. When processing certain authentication requests, the server fails to properly release an underlying system resource due to an internal tracking error. An unauthenticated user can trigger this by repeatedly sending authentication requests using the Kerberos mechanism, eventually exhausting available resources and causing all subsequent Kerberos authentication attempts to fail. Server restart is required to recover.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120804"
+    },
+    {
+      "id": "CVE-2026-113970",
+      "published": "2026-11-09T22:18:26.903",
+      "modified": "2026-11-13T21:17:37.073",
+      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, tvOS 27.2.1, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to corrupt process memory.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113970"
+    },
+    {
+      "id": "CVE-2026-113969",
+      "published": "2026-11-09T22:18:26.800",
+      "modified": "2026-11-13T21:17:36.907",
+      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, tvOS 27.2.1, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker on the same network may be able to bypass the rate limit on AirPlay pairing code attempts.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113969"
+    },
+    {
+      "id": "CVE-2026-113968",
+      "published": "2026-11-09T22:18:26.627",
+      "modified": "2026-11-13T21:17:36.737",
+      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, tvOS 27.2.1, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to bypass the rate limit on pairing code attempts.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113968"
+    },
+    {
+      "id": "CVE-2026-113965",
+      "published": "2026-11-09T22:18:26.457",
+      "modified": "2026-11-13T21:17:36.570",
+      "description": "This issue was addressed with improved checks. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, tvOS 27.2.1, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. A malicious Bluetooth device may be able to establish a pairing without user interaction.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113965"
+    },
+    {
+      "id": "CVE-2026-113964",
+      "published": "2026-11-09T22:18:26.267",
+      "modified": "2026-11-13T21:17:36.400",
+      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, tvOS 27.2.1, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to bypass the rate limit on pairing code attempts and pair with a device without user interaction.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113964"
+    },
+    {
+      "id": "CVE-2026-113963",
+      "published": "2026-11-09T22:18:26.087",
+      "modified": "2026-11-13T21:17:36.227",
+      "description": "An authorization issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 27.2.1 and iPadOS 27.2.1, tvOS 27.2.1, visionOS 27.2.1, watchOS 27.2.1. An app may be able to access sensitive user data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113963"
+    },
     {
       "id": "CVE-2026-118711",
       "published": "2026-11-10T19:19:46.510",
@@ -1947,26 +2344,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125320"
     },
     {
-      "id": "CVE-2024-58406",
-      "published": "2026-11-13T16:17:18.497",
-      "modified": "2026-11-13T16:17:18.497",
-      "description": "Huatian Dynamic OA8000 collaborative office system contains an unauthenticated path traversal vulnerability in /OAapp/jsp/trace/ntkodownload.jsp, where the filename request parameter is used to locate a file without restricting access to an intended directory or rejecting traversal sequences. Attackers can supply ../ sequences to read arbitrary files from the server, such as the Tomcat configuration at ROOT/WEB-INF/web.xml, exposing sensitive configuration, source, and credential material that can enable further compromise. Exploitation evidence was first observed by the Shadowserver Foundation on 2024-11-20.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.7,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-58406"
-    },
-    {
       "id": "CVE-2026-113560",
       "published": "2026-11-10T21:18:49.823",
       "modified": "2026-11-13T16:13:27.593",
@@ -2783,35 +3160,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125382"
-    },
-    {
-      "id": "CVE-2026-123710",
-      "published": "2026-11-11T15:17:18.340",
-      "modified": "2026-11-13T15:17:33.953",
-      "description": "A flaw was found in Red Hat Quay. An unauthenticated client can obtain an anonymous registry token with an audience it controls, present that token to the service key rotation endpoint, and install its own approved signing key with no expiry. Registry tokens signed with that key are accepted for any repository, allowing read and write access to private images and replacement of repository tags.",
-      "vendors": [
-        "Red Hat"
-      ],
-      "products": [
-        {
-          "vendor": "Red Hat",
-          "product": "quay",
-          "version": "*",
-          "cpe": "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:redhat:quay:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 9.8,
-        "severity": "CRITICAL",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123710"
     },
     {
       "id": "CVE-2026-114406",
@@ -3763,128 +4111,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123806"
-    },
-    {
-      "id": "CVE-2026-113970",
-      "published": "2026-11-09T22:18:26.903",
-      "modified": "2026-11-12T22:18:22.690",
-      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to corrupt process memory.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113970"
-    },
-    {
-      "id": "CVE-2026-113969",
-      "published": "2026-11-09T22:18:26.800",
-      "modified": "2026-11-12T22:18:22.460",
-      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker on the same network may be able to bypass the rate limit on AirPlay pairing code attempts.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113969"
-    },
-    {
-      "id": "CVE-2026-113968",
-      "published": "2026-11-09T22:18:26.627",
-      "modified": "2026-11-12T22:18:22.223",
-      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to bypass the rate limit on pairing code attempts.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113968"
-    },
-    {
-      "id": "CVE-2026-113965",
-      "published": "2026-11-09T22:18:26.457",
-      "modified": "2026-11-12T22:18:21.980",
-      "description": "This issue was addressed with improved checks. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. A malicious Bluetooth device may be able to establish a pairing without user interaction.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113965"
-    },
-    {
-      "id": "CVE-2026-113964",
-      "published": "2026-11-09T22:18:26.267",
-      "modified": "2026-11-12T22:18:21.733",
-      "description": "A logic issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 18.7.12 and iPadOS 18.7.12, iOS 26.7.3 and iPadOS 26.7.3, iOS 27.2.1 and iPadOS 27.2.1, macOS Golden Gate 27.2.1, macOS Sequoia 15.8.3, macOS Tahoe 26.7.3, visionOS 27.2.1, watchOS 26.6.1, watchOS 27.2.1. An attacker in Bluetooth range may be able to bypass the rate limit on pairing code attempts and pair with a device without user interaction.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.4,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113964"
-    },
-    {
-      "id": "CVE-2026-113963",
-      "published": "2026-11-09T22:18:26.087",
-      "modified": "2026-11-12T22:18:21.503",
-      "description": "An authorization issue was addressed with improved state management. This issue is fixed in HomeView Software Version 27.2, iOS 27.2.1 and iPadOS 27.2.1, visionOS 27.2.1, watchOS 27.2.1. An app may be able to access sensitive user data.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113963"
     },
     {
       "id": "CVE-2026-113961",
@@ -18959,26 +19185,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109803"
     },
     {
-      "id": "CVE-2026-120804",
-      "published": "2026-11-10T20:18:50.593",
-      "modified": "2026-11-10T22:08:59.707",
-      "description": "A flaw exists in the server-side SSPI Kerberos authentication handler on Windows Enterprise builds of MongoDB. When processing certain authentication requests, the server fails to properly release an underlying system resource due to an internal tracking error. An unauthenticated user can trigger this by repeatedly sending authentication requests using the Kerberos mechanism, eventually exhausting available resources and causing all subsequent Kerberos authentication attempts to fail. Server restart is required to recover.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.2,
-        "severity": "HIGH",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120804"
-    },
-    {
       "id": "CVE-2026-120808",
       "published": "2026-11-10T20:18:51.180",
       "modified": "2026-11-10T22:08:59.707",
@@ -25678,226 +25884,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109499"
-    },
-    {
-      "id": "CVE-2026-109498",
-      "published": "2026-11-10T19:18:18.847",
-      "modified": "2026-11-10T21:18:11.107",
-      "description": "Heap-based buffer overflow in Microsoft Office Access allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109498"
-    },
-    {
-      "id": "CVE-2026-109497",
-      "published": "2026-11-10T19:18:18.697",
-      "modified": "2026-11-10T21:18:10.920",
-      "description": "Improper neutralization of input during web page generation ('cross-site scripting') in Microsoft Office SharePoint allows an authorized attacker to perform spoofing over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109497"
-    },
-    {
-      "id": "CVE-2026-109496",
-      "published": "2026-11-10T19:18:18.557",
-      "modified": "2026-11-10T21:18:10.750",
-      "description": "Heap-based buffer overflow in Microsoft Office Visio allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109496"
-    },
-    {
-      "id": "CVE-2026-109495",
-      "published": "2026-11-10T19:18:18.393",
-      "modified": "2026-11-10T21:18:10.537",
-      "description": "Missing authorization in Microsoft Office SharePoint allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109495"
-    },
-    {
-      "id": "CVE-2026-109494",
-      "published": "2026-11-10T19:18:18.227",
-      "modified": "2026-11-10T21:18:10.333",
-      "description": "Heap-based buffer overflow in Microsoft Office Visio allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109494"
-    },
-    {
-      "id": "CVE-2026-109493",
-      "published": "2026-11-10T19:18:18.060",
-      "modified": "2026-11-10T21:18:10.140",
-      "description": "Heap-based buffer overflow in Microsoft Office Access allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109493"
-    },
-    {
-      "id": "CVE-2026-109492",
-      "published": "2026-11-10T19:18:17.917",
-      "modified": "2026-11-10T21:18:09.720",
-      "description": "Authorization bypass through user-controlled key in Microsoft MCP Gateway allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109492"
-    },
-    {
-      "id": "CVE-2026-109491",
-      "published": "2026-11-10T19:18:17.767",
-      "modified": "2026-11-10T21:18:09.430",
-      "description": "Use after free in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109491"
-    },
-    {
-      "id": "CVE-2026-109487",
-      "published": "2026-11-10T19:18:17.593",
-      "modified": "2026-11-10T21:18:09.243",
-      "description": "Use after free in Microsoft Office PowerPoint allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109487"
-    },
-    {
-      "id": "CVE-2026-109485",
-      "published": "2026-11-10T19:18:17.430",
-      "modified": "2026-11-10T21:18:09.060",
-      "description": "Server-side request forgery (ssrf) in Microsoft 365 Agents SDK allows an authorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109485"
     }
   ],
   "kev": [
@@ -27496,11 +27482,13 @@
     "CVE-2026-111560",
     "CVE-2026-111793",
     "CVE-2026-114625",
+    "CVE-2026-114713",
     "CVE-2026-11645",
     "CVE-2026-116606",
     "CVE-2026-116779",
     "CVE-2026-118527",
     "CVE-2026-119977",
+    "CVE-2026-123039",
     "CVE-2026-123158",
     "CVE-2026-123218",
     "CVE-2026-124194",
@@ -27684,10 +27672,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 38,
-    "high": 607,
-    "medium": 323,
+    "high": 605,
+    "medium": 324,
     "kev": 3,
     "p1": 19,
-    "p2": 627
+    "p2": 625
   }
 }
