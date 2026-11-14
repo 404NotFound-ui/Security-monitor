@@ -1,6 +1,108 @@
 {
-  "updated": "2026-11-13T23:35:36.778336+00:00",
+  "updated": "2026-11-14T03:36:57.928357+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-63653",
+      "published": "2026-11-10T17:17:46.307",
+      "modified": "2026-11-14T03:17:30.333",
+      "description": "Group-Office is an enterprise customer relationship management and groupware tool. Prior to version 26.0.37, go/modules/community/bookmarks/controller/Bookmark.php's description() action takes a fully attacker-controlled url parameter and passes it, unvalidated, to \\GO\\Base\\Util\\HttpClient::request(). HttpClient::_initRequest() sets CURLOPT_URL directly from this value with no host/IP validation at all. This can result in SSRF via Bookmark/description JMAP action. This issue has been patched in version 26.0.37.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63653"
+    },
+    {
+      "id": "CVE-2026-125389",
+      "published": "2026-11-10T00:17:12.480",
+      "modified": "2026-11-14T03:17:27.200",
+      "description": "Intermesh Group-Office before 6.8.181, 25.0.116, and 26.0.58 contains a stored cross-site scripting vulnerability in the email viewer due to a flawed regex in StringHelper::filterXSS. Remote attackers can send emails containing tags like svg/onload, which MessagePanel.js renders raw, executing script in the recipient's session when opened.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125389"
+    },
+    {
+      "id": "CVE-2026-125322",
+      "published": "2026-11-10T18:17:33.560",
+      "modified": "2026-11-14T03:17:25.590",
+      "description": "pgEdge Postgres MCP Server enables SQL queries against PostgreSQL databases through Model Context Protocol compatible clients. Prior to 1.1.0, the where parameter of the count_rows tool accepted subqueries against tables other than the table named in the tool call. A caller could use predicates and the returned row count as an inference oracle to extract data from any other table that the connected database role could read. The database privilege boundary remained intact, and the flaw did not grant access to tables outside that role's existing SELECT privileges. This issue is fixed in version 1.1.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125322"
+    },
+    {
+      "id": "CVE-2026-125124",
+      "published": "2026-11-10T17:17:26.910",
+      "modified": "2026-11-14T03:17:25.010",
+      "description": "compose-lint is a Docker Compose security linter that identifies dangerous misconfigurations before deployment. In version 0.31.0, compose-lint does not neutralize the Azure Pipelines ##vso[ logging-command opener on any output path. A pull request can place that opener in a Compose value or file name, allowing output from the package, pre-commit hook, or Docker image to issue logging commands when printed to an Azure Pipelines job log. The maintainer did not reproduce the behavior on an Azure Pipelines agent. The GitHub Action is not affected because it runs only on GitHub Actions, and releases before 0.31.0 are outside this advisory because they did not claim Azure Pipelines coverage. This issue is fixed in version 0.32.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.3,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125124"
+    },
+    {
+      "id": "CVE-2026-125114",
+      "published": "2026-11-09T23:17:21.587",
+      "modified": "2026-11-14T03:17:24.730",
+      "description": "Novu provides an API for sending notifications through multiple channels. Prior to 3.15.0, the conditions filter webhook in libs/application-generic/src/usecases/conditions-filter/conditions-filter.usecase.ts passes the user-configured child.webhookUrl directly to axios.post without calling validateUrlSsrf. Evaluating a workflow condition can therefore make the worker send a POST request to a private or link-local service and return the response data for condition evaluation. The response is stored in execution details and exposed through GET /execution-details, which can disclose credentials from POST-capable metadata services or data from internal services, although metadata endpoints that require GET are not reachable through this path. This issue is fixed in version 3.15.0.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125114"
+    },
     {
       "id": "CVE-2024-58406",
       "published": "2026-11-13T16:17:18.497",
@@ -3825,66 +3927,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125323"
     },
     {
-      "id": "CVE-2026-125322",
-      "published": "2026-11-10T18:17:33.560",
-      "modified": "2026-11-12T22:18:51.470",
-      "description": "pgEdge Postgres MCP Server enables SQL queries against PostgreSQL databases through Model Context Protocol compatible clients. Prior to 1.1.0, the where parameter of the count_rows tool accepted subqueries against tables other than the table named in the tool call. A caller could use predicates and the returned row count as an inference oracle to extract data from any other table that the connected database role could read. The database privilege boundary remained intact, and the flaw did not grant access to tables outside that role's existing SELECT privileges. This issue is fixed in version 1.1.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125322"
-    },
-    {
-      "id": "CVE-2026-63653",
-      "published": "2026-11-10T17:17:46.307",
-      "modified": "2026-11-12T22:18:51.470",
-      "description": "Group-Office is an enterprise customer relationship management and groupware tool. Prior to version 26.0.37, go/modules/community/bookmarks/controller/Bookmark.php's description() action takes a fully attacker-controlled url parameter and passes it, unvalidated, to \\GO\\Base\\Util\\HttpClient::request(). HttpClient::_initRequest() sets CURLOPT_URL directly from this value with no host/IP validation at all. This can result in SSRF via Bookmark/description JMAP action. This issue has been patched in version 26.0.37.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.0,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63653"
-    },
-    {
-      "id": "CVE-2026-125124",
-      "published": "2026-11-10T17:17:26.910",
-      "modified": "2026-11-12T22:18:51.470",
-      "description": "compose-lint is a Docker Compose security linter that identifies dangerous misconfigurations before deployment. In version 0.31.0, compose-lint does not neutralize the Azure Pipelines ##vso[ logging-command opener on any output path. A pull request can place that opener in a Compose value or file name, allowing output from the package, pre-commit hook, or Docker image to issue logging commands when printed to an Azure Pipelines job log. The maintainer did not reproduce the behavior on an Azure Pipelines agent. The GitHub Action is not affected because it runs only on GitHub Actions, and releases before 0.31.0 are outside this advisory because they did not claim Azure Pipelines coverage. This issue is fixed in version 0.32.0.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 2.3,
-        "severity": "LOW",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:N/VI:L/VA:N/SC:N/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125124"
-    },
-    {
       "id": "CVE-2026-102927",
       "published": "2026-11-05T18:16:59.140",
       "modified": "2026-11-12T22:18:51.470",
@@ -5116,28 +5158,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125388"
-    },
-    {
-      "id": "CVE-2026-125389",
-      "published": "2026-11-10T00:17:12.480",
-      "modified": "2026-11-12T21:09:09.470",
-      "description": "Intermesh Group-Office before 6.8.181, 25.0.116, and 26.0.58 contains a stored cross-site scripting vulnerability in the email viewer due to a flawed regex in StringHelper::filterXSS. Remote attackers can send emails containing tags like svg/onload, which MessagePanel.js renders raw, executing script in the recipient's session when opened.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.3,
-        "severity": "MEDIUM",
-        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125389"
     },
     {
       "id": "CVE-2026-125753",
@@ -25862,28 +25882,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109500"
-    },
-    {
-      "id": "CVE-2026-109499",
-      "published": "2026-11-10T19:18:18.987",
-      "modified": "2026-11-10T21:18:11.530",
-      "description": "Access of resource using incompatible type ('type confusion') in Microsoft Office SharePoint allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-109499"
     }
   ],
   "kev": [
