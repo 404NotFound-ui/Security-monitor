@@ -1,6 +1,691 @@
 {
-  "updated": "2026-11-18T17:35:26.535374+00:00",
+  "updated": "2026-11-18T23:36:30.198278+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-68522",
+      "published": "2026-11-18T22:17:23.133",
+      "modified": "2026-11-18T22:17:23.133",
+      "description": "QPixel is a Q&A-based community knowledge-sharing software. Prior to 0.13.0, the unauthenticated comments#show action in app/controllers/comments_controller.rb resolves user-controlled comment IDs with Comment.unscoped, bypassing the Comment community default scope, and performs no deletion or post-visibility authorization check. A remote unauthenticated attacker can enumerate sequential IDs and read the full content of comments belonging to other communities, soft-deleted comments, and comments under access-restricted categories. The JSON response exposes the stored comment columns because the model has no limiting as_json override. This issue is fixed in version 0.13.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68522"
+    },
+    {
+      "id": "CVE-2026-132637",
+      "published": "2026-11-18T21:17:57.840",
+      "modified": "2026-11-18T22:17:20.980",
+      "description": "MISP contains an authorization bypass in the correlations/eventCorrelations endpoint and the underlying correlation engines (Default and OnDemand). The CorrelationsController::eventCorrelations action did not verify that the requesting user was permitted to view the event specified by the event ID parameter. Any authenticated user could supply the ID of an event belonging to another organisation (distribution level 0, organisation-only) and receive its full correlation results, including attribute identifiers and values. Additionally, for events the user could partially view, the correlation engines filtered only the related (target) side of each correlation row and did not vet the queried event's own source attributes. As a result, correlations keyed by attributes hidden from the user (organisation-only attributes, attributes in sharing groups the user is not a member of, or attributes inside organisation-only objects) were returned with their IDs and values. The Default engine's related-event listing (used in events/view) also included events related solely through such hidden attributes. The vulnerability was reported by ENISA. Successful exploitation requires a valid authenticated session with any role and knowledge or enumeration of a target event ID. The security impact is disclosure of threat-intelligence attribute values (IP addresses, domain names, etc.) and attribute identifiers that the user is not authorised to see, as well as confirmation of the existence of otherwise invisible events.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132637"
+    },
+    {
+      "id": "CVE-2026-126699",
+      "published": "2026-11-18T16:18:08.100",
+      "modified": "2026-11-18T22:17:17.937",
+      "description": "The Majestic Support – The Leading-Edge Help Desk & Customer Support Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'mjsupport_message' parameter in all versions up to, and including, 1.2.4 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. Successful exploitation requires that a staff member or administrator opens the affected ticket and clicks the attacker-planted link on the ticket-detail screen, as the VenoBox payload is triggered on click rather than on page load. Successful exploitation additionally requires an action by an administrator — the attacker cannot trigger the vulnerability on their own.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126699"
+    },
+    {
+      "id": "CVE-2026-121720",
+      "published": "2026-11-18T22:17:17.587",
+      "modified": "2026-11-18T22:17:17.587",
+      "description": "OpenVPN 2.4.0 through 2.6.23 and 2.7_alpha1 through 2.7.8 on Windows allows local authenticated users to execute arbitrary code via a privileged service using user-controlled environment variables.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:L/SA:L/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-121720"
+    },
+    {
+      "id": "CVE-2026-63819",
+      "published": "2026-07-19T12:16:54.980",
+      "modified": "2026-11-18T22:07:12.927",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nf2fs: fix to do sanity check on f2fs_get_node_folio_ra()\n\nkernel BUG at fs/f2fs/file.c:845!\nOops: invalid opcode: 0000 [#1] SMP KASAN NOPTI\nCPU: 0 UID: 0 PID: 5336 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full)\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014\nRIP: 0010:f2fs_do_truncate_blocks+0x1115/0x1140 fs/f2fs/file.c:845\nCode: fc fc 90 0f 0b e8 8b 9d 9a fd 90 0f 0b e8 83 9d 9a fd 48 89 df 48 c7 c6 60 d1 1a 8c e8 54 f1 fc fc 90 0f 0b e8 6c 9d 9a fd 90 <0f> 0b e8 64 9d 9a fd 90 0f 0b 90 e9 93 fd ff ff e8 56 9d 9a fd 90\nRSP: 0018:ffffc9000e4474c0 EFLAGS: 00010283\nRAX: ffffffff842b1d34 RBX: 0000000000000003 RCX: 0000000000100000\nRDX: ffffc9000f03a000 RSI: 0000000000035503 RDI: 0000000000035504\nRBP: ffffc9000e447608 R08: ffff8880123b0000 R09: 0000000000000002\nR10: 00000000fffffffe R11: 0000000000000002 R12: 0000000000000001\nR13: 0000000000000000 R14: 1ffff92001c88ea0 R15: 00000000ffff039c\nFS:  00007f7e02ee36c0(0000) GS:ffff88808c887000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 00007ff0305c4000 CR3: 0000000012d4c000 CR4: 0000000000352ef0\nCall Trace:\n <TASK>\n f2fs_truncate_blocks+0x10a/0x300 fs/f2fs/file.c:882\n f2fs_truncate+0x471/0x7c0 fs/f2fs/file.c:940\n f2fs_evict_inode+0xa3f/0x1ac0 fs/f2fs/inode.c:907\n evict+0x61e/0xb10 fs/inode.c:841\n f2fs_fill_super+0x5f43/0x78f0 fs/f2fs/super.c:5224\n get_tree_bdev_flags+0x431/0x4f0 fs/super.c:1694\n vfs_get_tree+0x92/0x2a0 fs/super.c:1754\n fc_mount fs/namespace.c:1193 [inline]\n do_new_mount_fc fs/namespace.c:3758 [inline]\n do_new_mount+0x341/0xd30 fs/namespace.c:3834\n do_mount fs/namespace.c:4167 [inline]\n __do_sys_mount fs/namespace.c:4383 [inline]\n __se_sys_mount+0x31d/0x420 fs/namespace.c:4360\n do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]\n do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94\n entry_SYSCALL_64_after_hwframe+0x77/0x7f\n\n\tcount = ADDRS_PER_PAGE(dn.node_folio, inode);\n\n\tcount -= dn.ofs_in_node;\n\tf2fs_bug_on(sbi, count < 0);\n\nThe fuzz test will trigger above bug_on in f2fs.\n\nThe root cause should be: in the corrupted inode, there is a direct node\nwhich has the same ino and nid in its footer, so in f2fs_do_truncate_blocks(),\nafter f2fs_get_dnode_of_data() finds such dnode:\n1) ADDRS_PER_PAGE(dn.node_folio, inode) will return 923\n2) once dn.ofs_in_node points to addr[923, 1017]\nThen it will trigger the system panic.\n\nLet's introduce NODE_TYPE_NON_IXNODE to indicate current node should\nnot be an inode or xattr node, and then use it in below path to detect\ninconsistent node chain in inode mapping table:\n\n- f2fs_do_truncate_blocks\n - f2fs_get_dnode_of_data\n  - f2fs_get_node_folio_ra\n   -  __get_node_folio\n    - f2fs_sanity_check_node_footer\n     - case NODE_TYPE_NON_IXNODE -> check whether it is inode|xnode",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63819"
+    },
+    {
+      "id": "CVE-2026-64483",
+      "published": "2026-07-25T10:17:33.957",
+      "modified": "2026-11-18T21:50:36.327",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nALSA: firewire: isight: bound the sample count to the packet payload\n\nisight_packet() takes the frame count from the device iso packet and\nchecks it only against the device claimed iso length.\n\n\tcount = be32_to_cpu(payload->sample_count);\n\tif (likely(count <= (length - 16) / 4))\n\t\tisight_samples(isight, payload->samples, count);\n\nlength is the iso header data_length. It can be up to 0xffff. So the\ngate allows a count up to about 16379. isight_samples() then copies\ncount frames out of payload->samples into the PCM DMA buffer.\n\npayload->samples holds only 2 * MAX_FRAMES_PER_PACKET values. The\ndevice multiplexes two samples per frame. A count past\nMAX_FRAMES_PER_PACKET reads past the payload. A count past the buffer\nsize writes past runtime->dma_area. The smallest PCM buffer is larger\nthan MAX_FRAMES_PER_PACKET. Bounding the count to MAX_FRAMES_PER_PACKET\nkeeps both the read and the write in range.\n\nA malicious or faulty Apple iSight on the FireWire bus reaches this\nduring a normal capture.\n\nAdd the MAX_FRAMES_PER_PACKET bound to the gate.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-64483"
+    },
+    {
+      "id": "CVE-2026-104044",
+      "published": "2026-10-06T02:17:03.760",
+      "modified": "2026-11-18T21:47:59.423",
+      "description": "A flaw was found in sssd. A local attacker can trigger a Denial of Service (DoS) by sending a specially crafted Pluggable Authentication Module (PAM) request when passkey authentication is enabled. Due to a missing state validation check in passkey Kerberos handling, the PAM responder dereferences an uninitialized pointer and crashes. This failure disrupts authentication services on the host.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:fedoraproject:sssd:2.12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104044"
+    },
+    {
+      "id": "CVE-2026-105729",
+      "published": "2026-10-13T19:18:01.037",
+      "modified": "2026-11-18T21:41:51.297",
+      "description": "Untrusted pointer dereference in SysInternals allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows sysinternals process monitor",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:windows_sysinternals_process_monitor:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:windows_sysinternals_process_monitor:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105729"
+    },
+    {
+      "id": "CVE-2026-105731",
+      "published": "2026-10-13T19:18:01.170",
+      "modified": "2026-11-18T21:40:14.780",
+      "description": "Use of uninitialized resource in Microsoft Graphics Component allows an authorized attacker to disclose information locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "365 copilot",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:365_copilot:*:*:*:*:*:android:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:365_copilot:*:*:*:*:*:android:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105731"
+    },
+    {
+      "id": "CVE-2026-105732",
+      "published": "2026-10-13T19:18:01.300",
+      "modified": "2026-11-18T21:39:51.660",
+      "description": "Stack-based buffer overflow in SysInternals allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "sysinternals pipelist",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:sysinternals_pipelist:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:sysinternals_pipelist:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105732"
+    },
+    {
+      "id": "CVE-2026-108400",
+      "published": "2026-10-13T19:18:05.300",
+      "modified": "2026-11-18T21:38:42.380",
+      "description": "Integer overflow or wraparound in Microsoft Windows Codecs Library allows an unauthorized attacker to execute code over a network.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "hevc video extensions",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:hevc_video_extensions:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "hevc video extensions for licensed applications",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:hevc_video_extensions_for_licensed_applications:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "hevc video extensions from device manufacturer",
+          "version": "*",
+          "cpe": "cpe:2.3:a:microsoft:hevc_video_extensions_from_device_manufacturer:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:microsoft:hevc_video_extensions:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:hevc_video_extensions_for_licensed_applications:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:microsoft:hevc_video_extensions_from_device_manufacturer:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 8.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-108400"
+    },
+    {
+      "id": "CVE-2026-131063",
+      "published": "2026-11-17T21:18:05.687",
+      "modified": "2026-11-18T21:38:38.190",
+      "description": "Use after free in CameraCapture in Google Chrome on on Windows prior to 158.0.8127.36 allowed a remote attacker leveraging social engineering to execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131063"
+    },
+    {
+      "id": "CVE-2026-131062",
+      "published": "2026-11-17T21:18:05.553",
+      "modified": "2026-11-18T21:36:55.943",
+      "description": "Concurrent execution with improper synchronization in ScreenCapture in Google Chrome on on Mac prior to 158.0.8127.36 allowed a remote attacker leveraging social engineering to obtain sensitive information via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [
+        {
+          "vendor": "Apple",
+          "product": "macos",
+          "version": "-",
+          "cpe": "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:apple:macos:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131062"
+    },
+    {
+      "id": "CVE-2026-130987",
+      "published": "2026-11-17T21:17:55.370",
+      "modified": "2026-11-18T21:22:43.683",
+      "description": "Race condition in Downloads in Google Chrome on on Windows prior to 158.0.8127.36 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows",
+          "version": "-",
+          "cpe": "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:google:chrome:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 8.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130987"
+    },
+    {
+      "id": "CVE-2026-90817",
+      "published": "2026-09-20T13:17:44.973",
+      "modified": "2026-11-18T21:18:04.643",
+      "description": "An unauthenticated Remote Code Execution vulnerability was found in the survey passthrough routing and Data Import processing logic, in which a malicious user could potentially exploit it by manipulating HTTP requests to access an unintended controller route from a public survey context and by supplying a crafted file-path/stream parameter during import handling. If successfully exploited, this could allow the attacker to remotely execute arbitrary code on the REDCap server. The attacker does not have to be authenticated in order to exploit this, but exploitation requires knowledge of a valid public survey hash. This vulnerability exists in REDCap 13.3.0 and higher.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE",
+        "REMOTE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90817"
+    },
+    {
+      "id": "CVE-2026-87789",
+      "published": "2026-11-18T12:17:23.593",
+      "modified": "2026-11-18T21:18:04.057",
+      "description": "Latvijas Valsts radio un televīzijas centrs (LVRTC)\neParakstītājs 3.0 version 1.10.0 for macOS allows an unauthenticated remote\nattacker to execute arbitrary commands with the privileges of the current user\nby convincing the user to open a PDF with a crafted filename and select Send.\nThe application embeds the attachment path in AppleScript source without\nneutralizing AppleScript syntax, allowing injected do shell script expressions\nto execute.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.6,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-87789"
+    },
+    {
+      "id": "CVE-2026-76100",
+      "published": "2026-11-18T21:18:02.883",
+      "modified": "2026-11-18T21:18:02.883",
+      "description": "OwnPay is a self-hosted open-source payment gateway automation platform. In 0.2.0 and earlier, modules/gateways/alipay/AlipayGateway.php fails open when an Alipay callback lacks a signature or the merchant has no configured public key because verify(array $callbackData, array $credentials) falls back to an undefined mode credential that defaults to test mode, while verifyWebhook() returns true unconditionally. An unauthenticated request to POST /webhook/{gateway} can provide a pending order reference and matching amount, pass both verification gates without a valid payment signature, and cause the order and corresponding payment-received ledger entries to be marked completed. No fixed version is available as of this review.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.2,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76100"
+    },
+    {
+      "id": "CVE-2026-63483",
+      "published": "2026-11-18T20:19:10.703",
+      "modified": "2026-11-18T21:18:00.917",
+      "description": "X-Road is open-source data exchange layer software. Prior to 7.8.2 and 7.7.3, the Configuration Proxy uses attacker-controlled Content-location metadata from a validly signed federated global configuration part when constructing an output path without verifying that the resulting path remains inside the intended configuration output directory. A malicious or compromised federated ecosystem can provide an absolute path or directory traversal sequence during the normal refresh cycle, causing the Configuration Proxy to create a new file with attacker-controlled content under the permissions of the non-privileged xroad process. The vulnerability can poison downstream global configuration or create files in other writable locations, but it does not overwrite existing files. This issue is fixed in versions 7.8.2 and 7.7.3.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.6,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:N/I:H/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-63483"
+    },
+    {
+      "id": "CVE-2026-59975",
+      "published": "2026-11-18T21:18:00.500",
+      "modified": "2026-11-18T21:18:00.500",
+      "description": "SharpIppNext is a .NET Standard library for building Internet Printing Protocol clients and servers. Prior to 4.1.0, server-side SharpIppNext implementations using SharpIppServer.ReceiveRequestAsync or SharpIppServer.ReceiveRawRequestAsync pass incoming data to IppProtocol.ReadIppRequestAsync in SharpIpp/Protocol/IppProtocol.cs, where ReadDocumentStream is enabled by default and the remaining document body is copied with CopyToAsync into a MemoryStream without a size limit. An unauthenticated remote client can send an arbitrarily large IPP document body, exhausting process memory and causing an out-of-memory failure or service termination. Client-only implementations using SharpIppClient are not affected. This issue is fixed in version 4.1.0.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59975"
+    },
+    {
+      "id": "CVE-2026-132641",
+      "published": "2026-11-18T21:17:58.077",
+      "modified": "2026-11-18T21:17:58.200",
+      "description": "MISP's EventDelegationsController delegateEvent method accepted a user-supplied sharing_group_id parameter without verifying that the requesting user was a member of the referenced sharing group. When a delegation request was submitted with distribution set to 4 (sharing-group distribution), the raw sharing_group_id value was stored directly into the EventDelegation record. The delegation view subsequently rendered the stored sharing group's name back to the requester. Because no authorization check was performed, any authenticated user with delegation permission could enumerate sharing group identifiers (by guessing sequential IDs or other values) and read the names of sharing groups to which their organisation did not belong, including hidden or restricted groups. Hidden, missing, and malformed identifiers were not distinguished in the response, but the successful case still leaked the group name. The vulnerability required an authenticated session with the perm_delegate capability and knowledge of a valid event ID to delegate. The security impact is limited to disclosure of sharing group names (a low-impact confidentiality breach) and does not grant access to the group's contents or modify any data.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132641"
+    },
+    {
+      "id": "CVE-2026-132069",
+      "published": "2026-11-18T11:17:38.853",
+      "modified": "2026-11-18T21:17:55.217",
+      "description": "MISP (Malware Information Sharing Platform) contains an authorization bypass in the SharingGroup model's captureSGExisting method. The authorization check used a logical AND condition that effectively exempted users with the sync permission (perm_sync) from the membership verification. Specifically, the original condition 'if (!checkIfAuthorised(...) && !perm_sync) return false' meant that any user holding the sync role would pass the check regardless of whether they were actually a member of the target sharing group.\n\nA sync user who knows or can discover the UUID of a non-local sharing group could exploit this flaw through the /sharing_groups/add endpoint or by embedding a SharingGroup object in pushed sync data. The attacker could rewrite the sharing group record to add their own organisation as a member or insert an all_orgs server entry for their MISP instance, thereby gaining read access to all events contained in that group. This exposes threat intelligence data that was intended to be restricted to the group's legitimate members.\n\nThe vulnerability requires an authenticated account with the sync role and knowledge of a valid sharing group UUID. No user interaction is required. The impact is unauthorized disclosure of shared threat intelligence events and limited integrity modification of the sharing group record.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132069"
+    },
+    {
+      "id": "CVE-2026-128974",
+      "published": "2026-11-18T21:17:48.497",
+      "modified": "2026-11-18T21:17:48.497",
+      "description": "Cleartext storage of the WhatsApp Noise static private key in the shared application container (cck.dat) in WhatsApp Messenger for iOS allows an attacker with access to a full filesystem extraction or equivalent application data copy to recover long-term authentication material and impersonate the victim account.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:L/SC:H/SI:H/SA:L/E:U/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-128974"
+    },
+    {
+      "id": "CVE-2026-114938",
+      "published": "2026-11-17T22:18:23.777",
+      "modified": "2026-11-18T21:17:47.250",
+      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: Compiler).  Supported versions that are affected are Oracle Java SE: 8u511b33-perf, 17.0.21.0.3, 21.0.13.0.3, 25.0.5.0.3, 27.0.1.0.3; Oracle GraalVM for JDK: 17.0.21.0.3 and  21.0.13.0.3; Oracle GraalVM Enterprise Edition: 21.3.20.0.3. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in takeover of Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition. Note: This vulnerability can only be exploited by supplying data to APIs in the specified Component without using Untrusted Java Web Start applications or Untrusted Java applets, such as through a web service. CVSS 3.1 Base Score 8.1 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.1,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114938"
+    },
     {
       "id": "CVE-2026-111303",
       "published": "2026-11-10T19:18:28.180",
@@ -1563,26 +2248,6 @@
       "signals": [],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130068"
-    },
-    {
-      "id": "CVE-2026-126699",
-      "published": "2026-11-18T16:18:08.100",
-      "modified": "2026-11-18T16:18:08.223",
-      "description": "The Majestic Support – The Leading-Edge Help Desk & Customer Support Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'mjsupport_message' parameter in all versions up to, and including, 1.2.4 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. Successful exploitation requires that a staff member or administrator opens the affected ticket and clicks the attacker-planted link on the ticket-detail screen, as the VenoBox payload is triggered on click rather than on page load. Successful exploitation additionally requires an action by an administrator — the attacker cannot trigger the vulnerability on their own.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.1,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-126699"
     },
     {
       "id": "CVE-2026-120472",
@@ -8284,28 +8949,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131092"
     },
     {
-      "id": "CVE-2026-131063",
-      "published": "2026-11-17T21:18:05.687",
-      "modified": "2026-11-17T22:19:17.033",
-      "description": "Use after free in CameraCapture in Google Chrome on on Windows prior to 158.0.8127.36 allowed a remote attacker leveraging social engineering to execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131063"
-    },
-    {
       "id": "CVE-2026-131050",
       "published": "2026-11-17T21:18:04.083",
       "modified": "2026-11-17T22:19:15.727",
@@ -8348,28 +8991,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131039"
-    },
-    {
-      "id": "CVE-2026-130987",
-      "published": "2026-11-17T21:17:55.370",
-      "modified": "2026-11-17T22:19:13.153",
-      "description": "Race condition in Downloads in Google Chrome on on Windows prior to 158.0.8127.36 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.3,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-130987"
     },
     {
       "id": "CVE-2026-130969",
@@ -8700,28 +9321,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114939"
-    },
-    {
-      "id": "CVE-2026-114938",
-      "published": "2026-11-17T22:18:23.777",
-      "modified": "2026-11-17T22:18:23.777",
-      "description": "Vulnerability in the Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: Compiler).  Supported versions that are affected are Oracle Java SE: 8u511b33-perf, 17.0.21.0.3, 21.0.13.0.3, 25.0.5.0.3, 27.0.1.0.3; Oracle GraalVM for JDK: 17.0.21.0.3 and  21.0.13.0.3; Oracle GraalVM Enterprise Edition: 21.3.20.0.3. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition.  Successful attacks of this vulnerability can result in takeover of Oracle Java SE, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition. Note: This vulnerability can only be exploited by supplying data to APIs in the specified Component without using Untrusted Java Web Start applications or Untrusted Java applets, such as through a web service. CVSS 3.1 Base Score 8.1 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114938"
     },
     {
       "id": "CVE-2023-54400",
@@ -31820,424 +32419,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124185"
-    },
-    {
-      "id": "CVE-2026-124176",
-      "published": "2026-11-10T19:20:45.303",
-      "modified": "2026-11-10T21:19:07.433",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124176"
-    },
-    {
-      "id": "CVE-2026-124174",
-      "published": "2026-11-10T19:20:44.780",
-      "modified": "2026-11-10T21:19:07.283",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124174"
-    },
-    {
-      "id": "CVE-2026-124170",
-      "published": "2026-11-10T19:20:44.530",
-      "modified": "2026-11-10T21:19:07.133",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124170"
-    },
-    {
-      "id": "CVE-2026-123394",
-      "published": "2026-11-10T19:20:43.187",
-      "modified": "2026-11-10T21:19:06.233",
-      "description": "Heap-based buffer overflow in Microsoft Office Word allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123394"
-    },
-    {
-      "id": "CVE-2026-123390",
-      "published": "2026-11-10T19:20:42.837",
-      "modified": "2026-11-10T21:19:06.117",
-      "description": "Deserialization of untrusted data in Microsoft Office SharePoint allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123390"
-    },
-    {
-      "id": "CVE-2026-123385",
-      "published": "2026-11-10T19:20:42.053",
-      "modified": "2026-11-10T21:19:05.970",
-      "description": "Stack-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123385"
-    },
-    {
-      "id": "CVE-2026-123384",
-      "published": "2026-11-10T19:20:41.907",
-      "modified": "2026-11-10T21:19:05.843",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123384"
-    },
-    {
-      "id": "CVE-2026-123383",
-      "published": "2026-11-10T19:20:41.763",
-      "modified": "2026-11-10T21:19:05.720",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123383"
-    },
-    {
-      "id": "CVE-2026-123382",
-      "published": "2026-11-10T19:20:41.617",
-      "modified": "2026-11-10T21:19:05.600",
-      "description": "Untrusted pointer dereference in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123382"
-    },
-    {
-      "id": "CVE-2026-123381",
-      "published": "2026-11-10T19:20:41.470",
-      "modified": "2026-11-10T21:19:05.470",
-      "description": "Stack-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123381"
-    },
-    {
-      "id": "CVE-2026-123380",
-      "published": "2026-11-10T19:20:41.317",
-      "modified": "2026-11-10T21:19:05.340",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123380"
-    },
-    {
-      "id": "CVE-2026-123379",
-      "published": "2026-11-10T19:20:41.180",
-      "modified": "2026-11-10T21:19:05.230",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123379"
-    },
-    {
-      "id": "CVE-2026-123378",
-      "published": "2026-11-10T19:20:41.043",
-      "modified": "2026-11-10T21:19:05.100",
-      "description": "Integer overflow or wraparound in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123378"
-    },
-    {
-      "id": "CVE-2026-123377",
-      "published": "2026-11-10T19:20:40.893",
-      "modified": "2026-11-10T21:19:04.977",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123377"
-    },
-    {
-      "id": "CVE-2026-123376",
-      "published": "2026-11-10T19:20:40.737",
-      "modified": "2026-11-10T21:19:04.873",
-      "description": "Heap-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123376"
-    },
-    {
-      "id": "CVE-2026-123375",
-      "published": "2026-11-10T19:20:40.590",
-      "modified": "2026-11-10T21:19:04.750",
-      "description": "Stack-based buffer overflow in Microsoft Office Outlook allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123375"
-    },
-    {
-      "id": "CVE-2026-122475",
-      "published": "2026-11-10T19:20:37.417",
-      "modified": "2026-11-10T21:19:04.487",
-      "description": "Untrusted pointer dereference in Windows Storage Spaces Controller allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122475"
-    },
-    {
-      "id": "CVE-2026-122198",
-      "published": "2026-11-10T19:20:36.843",
-      "modified": "2026-11-10T21:19:04.363",
-      "description": "Heap-based buffer overflow in Microsoft Office allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122198"
-    },
-    {
-      "id": "CVE-2026-122194",
-      "published": "2026-11-10T19:20:36.467",
-      "modified": "2026-11-10T21:19:04.237",
-      "description": "Null pointer dereference in Microsoft Defender allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-122194"
     }
   ],
   "kev": [
@@ -34026,11 +34207,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 51,
-    "high": 573,
-    "medium": 339,
+    "critical": 52,
+    "high": 562,
+    "medium": 349,
     "kev": 4,
-    "p1": 24,
-    "p2": 601
+    "p1": 25,
+    "p2": 590
   }
 }
