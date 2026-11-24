@@ -1,6 +1,900 @@
 {
-  "updated": "2026-11-24T00:25:00.227874+00:00",
+  "updated": "2026-11-24T10:16:10.929917+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-135055",
+      "published": "2026-11-23T11:17:00.207",
+      "modified": "2026-11-24T09:17:08.383",
+      "description": "A flaw was found in the GLib DMA-BUF path of WebKitGTK. The UIProcess trusted fds.size() as the DMA-BUF plane count when handling AcceleratedBackingStore::DidCreateDMABufBuffer and copied offsets and strides without verifying that those vectors had the same length. A compromised WebProcess can send mismatched vector lengths, causing an out-of-bounds read in the privileged UIProcess. This can disclose UIProcess memory and crash the UIProcess, and may be used as part of a Web Content sandbox-escape chain.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 8.0,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135055"
+    },
+    {
+      "id": "CVE-2026-112177",
+      "published": "2026-10-20T08:16:42.507",
+      "modified": "2026-11-24T09:17:05.787",
+      "description": "A flaw was found in Ghostscript as shipped with Red Hat Enterprise Linux 8. The correction for CVE-2019-14869 was omitted during the rebase from version 9.25 to 9.27, leaving privileged .forceput operations in the .charkeys procedure insufficiently protected. Processing a specially crafted PostScript file may allow an attacker to bypass -dSAFER restrictions and access files outside the permitted paths or execute commands with the permissions of the Ghostscript process.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.3,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112177"
+    },
+    {
+      "id": "CVE-2025-26466",
+      "published": "2025-02-28T22:15:40.080",
+      "modified": "2026-11-24T09:17:05.233",
+      "description": "A flaw was found in the OpenSSH package. For each ping packet the SSH server receives, a pong packet is allocated in a memory buffer and stored in a queue of packages. It is only freed when the server/client key exchange has finished. A malicious client may keep sending such packages, leading to an uncontrolled increase in memory consumption on the server side. Consequently, the server may become unavailable, resulting in a denial of service attack.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:openbsd:openssh:9.5:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.6:-:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.6:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.7:-:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.7:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.8:-:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.8:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.9:-:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.9:p1:*:*:*:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:24.04:*:*:*:lts:*:*:*",
+        "cpe:2.3:o:canonical:ubuntu_linux:24.10:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:11.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:13.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-26466"
+    },
+    {
+      "id": "CVE-2025-26465",
+      "published": "2025-02-18T19:15:29.230",
+      "modified": "2026-11-24T09:17:04.903",
+      "description": "A vulnerability was found in OpenSSH when the VerifyHostKeyDNS option is enabled. A machine-in-the-middle attack can be performed by a malicious machine impersonating a legit server. This issue occurs due to how OpenSSH mishandles error codes in specific conditions when verifying the host key. For an attack to be considered successful, the attacker needs to manage to exhaust the client's memory resource first, turning the attack complexity high.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:openbsd:openssh:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:6.8:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.9:-:*:*:*:*:*:*",
+        "cpe:2.3:a:openbsd:openssh:9.9:p1:*:*:*:*:*:*",
+        "cpe:2.3:a:netapp:active_iq_unified_manager:-:*:*:*:*:vmware_vsphere:*:*",
+        "cpe:2.3:a:netapp:ontap:9:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:11.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:debian:debian_linux:12.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-26465"
+    },
+    {
+      "id": "CVE-2026-135779",
+      "published": "2026-11-24T08:17:06.147",
+      "modified": "2026-11-24T08:17:06.147",
+      "description": "Reliance on an untrusted source of the client address in the WebSocket listener of the NetBird relay server (relay/server/listener/ws) in NetBird versions 0.31.1 through 0.74.7 allows an attacker with an enrolled peer to spoof the source address of their relay connection. The listener used the values of the X-Real-Ip and X-Real-Port request headers as the remote address of the connection unconditionally, without checking that the request came from a trusted upstream proxy. A WebSocket client that sends both headers makes the relay record and use an arbitrary address for its connection, including in the relay connection log, so a client can hide its real address or attribute its connection to another host. Only the relay server is affected; the NetBird client, including the Android and iOS apps, does not run the relay listener. The issue is fixed in version 0.75.0, which honours these headers only for requests whose direct connection address is in a configured set of trusted proxies and ignores them by default.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135779"
+    },
+    {
+      "id": "CVE-2026-120947",
+      "published": "2026-11-24T08:17:05.127",
+      "modified": "2026-11-24T08:17:05.127",
+      "description": "A potential stack-based buffer overflow exists in ADM Defender Firewall configuration handling. Before the fix, firewall policy processing used string operations without sufficient destination-size checks and did not consistently validate array bounds. Malformed or oversized configuration data may cause an out-of-bounds write and corrupt stack memory.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RY62 as well as from ADM 5.0.0 through ADM 5.1.4.RM62.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120947"
+    },
+    {
+      "id": "CVE-2026-105431",
+      "published": "2026-11-24T08:17:04.130",
+      "modified": "2026-11-24T08:17:04.130",
+      "description": "A protection mechanism failure in the userspace firewall of the NetBird client (client/firewall/uspfilter) in NetBird versions 0.55.0 through 0.74.6 allows an attacker who controls an enrolled peer to bypass the access control rules of another peer by sending IP-fragmented packets. The packet filter returned an allow verdict for any IPv4 fragment, and for any IPv6 packet carrying a Fragment extension header, before evaluating the ACL rules. This applied to the leading fragment as well as to continuation fragments, so no part of a fragmented datagram was filtered and ports denied by policy could be reached. The userspace filter is the packet filter wherever the client does not program the kernel firewall, which includes the Android and iOS apps. The issue is fixed in version 0.74.7, in the Android app from version 0.6.0 and in the iOS app from version 0.3.3, which evaluate fragments against the same ACL rules as unfragmented packets.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 2.1,
+        "severity": "LOW",
+        "vector": "CVSS:4.0/AV:A/AC:L/AT:P/PR:L/UI:N/VC:L/VI:L/VA:L/SC:L/SI:L/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-105431"
+    },
+    {
+      "id": "CVE-2025-12105",
+      "published": "2025-10-23T10:15:32.043",
+      "modified": "2026-11-24T07:17:18.530",
+      "description": "A flaw was found in the asynchronous message queue handling of the libsoup library, widely used by GNOME and WebKit-based applications to manage HTTP/2 communications. When network operations are aborted at specific timing intervals, an internal message queue item may be freed twice due to missing state synchronization. This leads to a use-after-free memory access, potentially crashing the affected application. Attackers could exploit this behavior remotely by triggering specific HTTP/2 read and cancel sequences, resulting in a denial-of-service condition.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12105"
+    },
+    {
+      "id": "CVE-2025-0689",
+      "published": "2025-03-03T15:15:16.147",
+      "modified": "2026-11-24T07:17:17.750",
+      "description": "When reading data from disk, the grub's UDF filesystem module utilizes the user controlled data length metadata to allocate its internal buffers. In certain scenarios, while iterating through disk sectors, it assumes the read size from the disk is always smaller than the allocated buffer size which is not guaranteed. A crafted filesystem image may lead to a heap-based buffer overflow resulting in critical data to be corrupted, resulting in the risk of arbitrary code execution by-passing secure boot protections.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0689"
+    },
+    {
+      "id": "CVE-2025-0678",
+      "published": "2025-03-03T17:15:14.053",
+      "modified": "2026-11-24T07:17:17.043",
+      "description": "A flaw was found in grub2. When reading data from a squash4 filesystem, grub's squash4 fs module uses user-controlled parameters from the filesystem geometry to determine the internal buffer size, however, it improperly checks for integer overflows. A maliciously crafted filesystem may lead some of those buffer size calculations to overflow, causing it to perform a grub_malloc() operation with a smaller size than expected. As a result, the direct_read() will perform a heap based out-of-bounds write during data reading. This flaw may be leveraged to corrupt grub's internal critical data and may result in arbitrary code execution, by-passing secure boot protections.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0678"
+    },
+    {
+      "id": "CVE-2025-0622",
+      "published": "2025-02-18T20:15:23.570",
+      "modified": "2026-11-24T07:17:16.760",
+      "description": "A flaw was found in command/gpg. In some scenarios, hooks created by loaded modules are not removed when the related module is unloaded. This flaw allows an attacker to force grub2 to call the hooks once the module that registered it was unloaded, leading to a use-after-free vulnerability. If correctly exploited, this vulnerability may result in arbitrary code execution, eventually allowing the attacker to bypass secure boot protections.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "RCE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0622"
+    },
+    {
+      "id": "CVE-2024-9676",
+      "published": "2024-10-15T16:15:06.933",
+      "modified": "2026-11-24T07:17:14.487",
+      "description": "A vulnerability was found in Podman, Buildah, and CRI-O. A symlink traversal vulnerability in the containers/storage library can cause Podman, Buildah, and CRI-O to hang and result in a denial of service via OOM kill when running a malicious image using an automatically assigned user namespace (`--userns=auto` in Podman and Buildah). The containers/storage library will read /etc/passwd inside the container, but does not properly validate if that file is a symlink, which can be used to cause the library to read an arbitrary file on the host.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.17",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for arm64",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for arm64",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for arm64",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for arm64",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for arm64",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for ibm z",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for ibm z",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for ibm z",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for ibm z",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for ibm z",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for linuxone",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform for power",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux eus",
+          "version": "9.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_eus:9.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64",
+          "version": "9.0_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:9.0_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for arm 64 eus",
+          "version": "9.4_aarch64",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.4_aarch64:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems",
+          "version": "9.0_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for ibm z systems eus",
+          "version": "9.4_s390x",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.4_s390x:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian",
+          "version": "9.0_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux for power little endian eus",
+          "version": "9.4_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.4_ppc64le:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server aus",
+          "version": "9.4",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.4:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux server for power little endian update services for sap solutions",
+          "version": "9.4_ppc64le",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.4_ppc64le:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_arm64:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_ibm_z:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_linuxone:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform_for_power:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_eus:9.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64:9.0_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_arm_64_eus:9.4_aarch64:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems:9.0_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_ibm_z_systems_eus:9.4_s390x:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian:9.0_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_for_power_little_endian_eus:9.4_ppc64le:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_aus:9.4:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux_server_for_power_little_endian_update_services_for_sap_solutions:9.4_ppc64le:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9676"
+    },
+    {
+      "id": "CVE-2024-9341",
+      "published": "2024-10-01T19:15:09.500",
+      "modified": "2026-11-24T07:17:11.567",
+      "description": "A flaw was found in Go. When FIPS mode is enabled on a system, container runtimes may incorrectly handle certain file paths due to improper validation in the containers/common Go library. This flaw allows an attacker to exploit symbolic links and trick the system into mounting sensitive host directories inside a container. This issue also allows attackers to access critical host files, bypassing the intended isolation between containers and the host system.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.12",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.13",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.14",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.15",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.16",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.17",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:containers:common:*:*:*:*:*:go:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.12:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.13:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.14:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.15:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.16:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.17:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:-:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9341"
+    },
+    {
+      "id": "CVE-2024-8445",
+      "published": "2024-09-05T15:15:16.927",
+      "modified": "2026-11-24T07:17:11.100",
+      "description": "The fix for CVE-2024-2199 in 389-ds-base was insufficient to cover all scenarios. In certain product versions, an authenticated user may cause a server crash while modifying `userPassword` using malformed input.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8445"
+    },
+    {
+      "id": "CVE-2024-8235",
+      "published": "2024-08-30T17:15:15.783",
+      "modified": "2026-11-24T07:17:10.743",
+      "description": "A flaw was found in libvirt. A refactor of the code fetching the list of interfaces for multiple APIs introduced a corner case on platforms where allocating 0 bytes of memory results in a NULL pointer. This corner case would lead to a NULL-pointer dereference and subsequent crash of virtinterfaced. This issue could allow clients connecting to the read-only socket to crash the virtinterfaced daemon.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "libvirt",
+          "version": "*",
+          "cpe": "cpe:2.3:a:redhat:libvirt:*:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:redhat:libvirt:*:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8235"
+    },
+    {
+      "id": "CVE-2024-45782",
+      "published": "2025-03-03T17:15:12.900",
+      "modified": "2026-11-24T07:17:10.070",
+      "description": "A flaw was found in the HFS filesystem. When reading an HFS volume's name at grub_fs_mount(), the HFS filesystem driver performs a strcpy() using the user-provided volume name as input without properly validating the volume name's length. This issue may read to a heap-based out-of-bounds writer, impacting grub's sensitive data integrity and eventually leading to a secure boot protection bypass.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45782"
+    },
+    {
+      "id": "CVE-2024-45778",
+      "published": "2025-03-03T17:15:12.700",
+      "modified": "2026-11-24T07:17:09.527",
+      "description": "A stack overflow flaw was found when reading a BFS file system. A crafted BFS filesystem may lead to an uncontrolled loop, causing grub2 to crash.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift container platform",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift_container_platform:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 4.1,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45778"
+    },
+    {
+      "id": "CVE-2024-45777",
+      "published": "2025-02-19T18:15:23.210",
+      "modified": "2026-11-24T07:17:09.330",
+      "description": "A flaw was found in grub2. The calculation of the translation buffer when reading a language .mo file in grub_gettext_getstr_from_position() may overflow, leading to a Out-of-bound write. This issue can be leveraged by an attacker to overwrite grub2's sensitive heap data, eventually leading to the circumvention of secure boot protections.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "openshift",
+          "version": "4.0",
+          "cpe": "cpe:2.3:a:redhat:openshift:4.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "7.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "8.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "10.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:a:gnu:grub2:*:*:*:*:*:*:*:*",
+        "cpe:2.3:a:redhat:openshift:4.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:7.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:8.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:10.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 6.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45777"
+    },
+    {
+      "id": "CVE-2024-45775",
+      "published": "2025-02-18T20:15:19.177",
+      "modified": "2026-11-24T07:17:09.080",
+      "description": "A flaw was found in grub2 where the grub_extcmd_dispatcher() function calls grub_arg_list_alloc() to allocate memory for the grub's argument list. However, it fails to check in case the memory allocation fails. Once the allocation fails, a NULL point will be processed by the parse_option() function, leading grub to crash or, in some rare scenarios, corrupt the IVT data.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.2,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:L/I:L/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-45775"
+    },
     {
       "id": "CVE-2026-123710",
       "published": "2026-11-11T15:17:18.340",
@@ -1175,26 +2069,6 @@
       ],
       "priority": "P1",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-113824"
-    },
-    {
-      "id": "CVE-2026-135055",
-      "published": "2026-11-23T11:17:00.207",
-      "modified": "2026-11-23T11:17:00.343",
-      "description": "A flaw was found in the GLib DMA-BUF path of WebKitGTK. The UIProcess trusted fds.size() as the DMA-BUF plane count when handling AcceleratedBackingStore::DidCreateDMABufBuffer and copied offsets and strides without verifying that those vectors had the same length. A compromised WebProcess can send mismatched vector lengths, causing an out-of-bounds read in the privileged UIProcess. This can disclose UIProcess memory and crash the UIProcess, and may be used as part of a Web Content sandbox-escape chain.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135055"
     },
     {
       "id": "CVE-2026-128979",
@@ -34913,1334 +35787,6 @@
       ],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88249"
-    },
-    {
-      "id": "CVE-2026-88244",
-      "published": "2026-11-10T19:21:33.937",
-      "modified": "2026-11-10T22:21:13.690",
-      "description": "Use after free in Windows Link Layer Topology Discovery Protocol allows an unauthorized attacker to execute code over an adjacent network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88244"
-    },
-    {
-      "id": "CVE-2026-88111",
-      "published": "2026-11-10T19:21:26.700",
-      "modified": "2026-11-10T22:21:13.170",
-      "description": "Heap-based buffer overflow in SQL Server allows an authorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-88111"
-    },
-    {
-      "id": "CVE-2026-85893",
-      "published": "2026-09-15T23:19:12.110",
-      "modified": "2026-11-10T22:21:11.940",
-      "description": "Use after free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "edge chromium",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:edge_chromium:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:edge_chromium:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85893"
-    },
-    {
-      "id": "CVE-2026-85839",
-      "published": "2026-11-10T19:21:25.460",
-      "modified": "2026-11-10T22:21:11.090",
-      "description": "Heap-based buffer overflow in Microsoft WDAC OLE DB provider for SQL allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85839"
-    },
-    {
-      "id": "CVE-2026-85838",
-      "published": "2026-11-10T19:21:25.250",
-      "modified": "2026-11-10T22:21:10.900",
-      "description": "Heap-based buffer overflow in Microsoft WDAC OLE DB provider for SQL allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-85838"
-    },
-    {
-      "id": "CVE-2026-73013",
-      "published": "2026-09-08T18:20:30.473",
-      "modified": "2026-11-10T22:20:49.347",
-      "description": "Heap-based buffer overflow in Windows Imaging Component allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73013"
-    },
-    {
-      "id": "CVE-2026-72998",
-      "published": "2026-11-10T19:21:21.277",
-      "modified": "2026-11-10T22:20:47.767",
-      "description": "Use after free in Windows DHCP Server allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.1,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-72998"
-    },
-    {
-      "id": "CVE-2026-70094",
-      "published": "2026-11-10T19:21:20.410",
-      "modified": "2026-11-10T22:20:30.860",
-      "description": "Untrusted search path in Visual Studio Code allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-70094"
-    },
-    {
-      "id": "CVE-2026-69807",
-      "published": "2026-09-08T18:19:52.320",
-      "modified": "2026-11-10T22:20:24.310",
-      "description": "Improper link resolution before file access ('link following') in Windows PowerShell allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69807"
-    },
-    {
-      "id": "CVE-2026-69610",
-      "published": "2026-09-08T18:19:32.343",
-      "modified": "2026-11-10T22:20:08.743",
-      "description": "Buffer over-read in Windows Win32K allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69610"
-    },
-    {
-      "id": "CVE-2026-69609",
-      "published": "2026-09-08T18:19:32.167",
-      "modified": "2026-11-10T22:20:08.527",
-      "description": "Out-of-bounds read in Windows Win32K allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69609"
-    },
-    {
-      "id": "CVE-2026-69576",
-      "published": "2026-09-08T18:19:27.073",
-      "modified": "2026-11-10T22:20:05.117",
-      "description": "Use after free in Graphic Fonts allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:*:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69576"
-    },
-    {
-      "id": "CVE-2026-69499",
-      "published": "2026-09-08T18:19:16.760",
-      "modified": "2026-11-10T22:19:55.837",
-      "description": "Integer overflow or wraparound in Windows Imaging Component allows an unauthorized attacker to execute code over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69499"
-    },
-    {
-      "id": "CVE-2026-68880",
-      "published": "2026-09-08T18:18:35.257",
-      "modified": "2026-11-10T22:19:29.870",
-      "description": "Heap-based buffer overflow in Windows Win32K allows an authorized attacker to elevate privileges over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1607",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 1809",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 21h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 10 22h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 23h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 24h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 25h2",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows 11 26h1",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "-",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2012",
-          "version": "r2",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2016",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "windows server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
-        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:-:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*",
-        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 8.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68880"
-    },
-    {
-      "id": "CVE-2026-68807",
-      "published": "2026-08-11T17:19:04.780",
-      "modified": "2026-11-10T22:19:24.700",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "excel",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2019",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68807"
-    },
-    {
-      "id": "CVE-2026-68800",
-      "published": "2026-08-11T17:19:03.657",
-      "modified": "2026-11-10T22:19:24.050",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "excel",
-          "version": "2016",
-          "cpe": "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2019",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:excel:2016:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:office_2019:-:*:*:*:*:*:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68800"
-    },
-    {
-      "id": "CVE-2026-68798",
-      "published": "2026-08-11T17:19:03.400",
-      "modified": "2026-11-10T22:19:23.800",
-      "description": "Heap-based buffer overflow in Microsoft Office Excel allows an unauthorized attacker to execute code locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "365 apps",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "microsoft 365",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2021",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "office 2024",
-          "version": "-",
-          "cpe": "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x64:*",
-        "cpe:2.3:a:microsoft:365_apps:-:*:*:*:enterprise:*:x86:*",
-        "cpe:2.3:a:microsoft:microsoft_365:-:*:*:*:*:macos:*:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2021:-:*:*:*:ltsc:macos:-:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x64:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:-:x86:*",
-        "cpe:2.3:a:microsoft:office_2024:-:*:*:*:ltsc:macos:-:*"
-      ],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68798"
-    },
-    {
-      "id": "CVE-2026-68781",
-      "published": "2026-09-08T18:18:25.720",
-      "modified": "2026-11-10T22:19:22.253",
-      "description": "Out-of-bounds read in SQL Server allows an authorized attacker to disclose information over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2017",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2019",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2022",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*"
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "sql server 2025",
-          "version": "*",
-          "cpe": "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
-        }
-      ],
-      "cpes": [
-        "cpe:2.3:a:microsoft:sql_server_2017:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server_2019:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server_2022:*:*:*:*:*:*:x64:*",
-        "cpe:2.3:a:microsoft:sql_server_2025:*:*:*:*:*:*:x64:*"
-      ],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-68781"
     }
   ],
   "kev": [
@@ -38040,10 +37586,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 70,
-    "high": 543,
-    "medium": 344,
+    "high": 532,
+    "medium": 354,
     "kev": 4,
     "p1": 37,
-    "p2": 576
+    "p2": 565
   }
 }
