@@ -1,6 +1,928 @@
 {
-  "updated": "2026-11-25T14:08:19.307472+00:00",
+  "updated": "2026-11-25T23:06:02.012379+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-127930",
+      "published": "2026-11-25T22:17:16.637",
+      "modified": "2026-11-25T22:17:16.637",
+      "description": "Incorrect authorization in affected versions of network-manager in Ubuntu allows a local attacker with code execution as the whoopsie user to invoke root-restricted D-Bus methods via an Ubuntu-specific D-Bus policy, disrupting network connectivity or altering network configuration.\n\n  An Ubuntu-specific D-Bus policy configuration in NetworkManager granted the whoopsie user unrestricted send access to org.freedesktop.NetworkManager, overriding the default deny-list for root-only methods (SetLogging, Sleep, LoadConnections, and ReloadConnections). A local attacker able to execute code as the whoopsie user could exploit this to disrupt system networking or alter NetworkManager logging and connection configurations.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:P/PR:L/UI:N/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-127930"
+    },
+    {
+      "id": "CVE-2024-28834",
+      "published": "2024-03-21T14:15:07.547",
+      "modified": "2026-11-25T22:17:15.417",
+      "description": "A flaw was found in GnuTLS. The Minerva attack is a cryptographic vulnerability that exploits deterministic behavior in systems like GnuTLS, leading to side-channel leaks. In specific scenarios, such as when using the GNUTLS_PRIVKEY_FLAG_REPRODUCIBLE flag, it can result in a noticeable step in nonce size from 513 to 512 bits, exposing a potential timing side-channel.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.3,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-28834"
+    },
+    {
+      "id": "CVE-2026-133311",
+      "published": "2026-11-19T17:18:52.740",
+      "modified": "2026-11-25T21:17:17.920",
+      "description": "A vulnerability in the Audio, Web, and Video Conferencing (AWV) component of Mitel MiCollab through 10.3 (10.3.0.18) could allow an unauthenticated attacker, with knowledge of a specific system-generated random identifier or pre-staged content, to conduct an unauthorized access attack due to improper authentication mechanisms. A successful exploit could allow an attacker to obtain sensitive information. The vulnerability is limited to the affected functionality and does not provide unrestricted access to arbitrary files elsewhere on the system. This is MTLVULN-1863.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [
+        "cpe:2.3:a:mitel:micollab:*:*:*:*:*:-:*:*"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": true,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133311"
+    },
+    {
+      "id": "CVE-2026-131827",
+      "published": "2026-11-25T21:17:17.227",
+      "modified": "2026-11-25T21:17:17.227",
+      "description": "RustDesk Client for Windows reg_recovery Missing Authorization Local Privilege Escalation Vulnerability. This vulnerability allows local attackers to escalate privileges on affected installations of RustDesk Client for Windows. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability.\n\nThe specific flaw exists within the main IPC endpoint exposed by the RustDesk service. The issue results from the lack of authorization prior to allowing access to functionality. An attacker can leverage this vulnerability to escalate privileges and execute arbitrary code in the context of SYSTEM. Was ZDI-CAN-34805.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "PRIVILEGE_ESCALATION"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131827"
+    },
+    {
+      "id": "CVE-2026-95893",
+      "published": "2026-11-10T19:21:42.603",
+      "modified": "2026-11-25T20:21:50.377",
+      "description": "Use of uninitialized resource in Windows Win32K allows an authorized attacker to disclose information locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95893"
+    },
+    {
+      "id": "CVE-2026-95894",
+      "published": "2026-11-10T19:21:42.790",
+      "modified": "2026-11-25T20:20:32.170",
+      "description": "Heap-based buffer overflow in Windows Task Scheduler allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95894"
+    },
+    {
+      "id": "CVE-2026-95895",
+      "published": "2026-11-10T19:21:42.973",
+      "modified": "2026-11-25T20:19:33.397",
+      "description": "Use after free in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95895"
+    },
+    {
+      "id": "CVE-2026-82446",
+      "published": "2026-11-24T11:17:21.350",
+      "modified": "2026-11-25T20:18:47.870",
+      "description": "Description\n\nWhen StormCrawler fetches a host's `/robots.txt` and receives a redirect, `HttpRobotRulesParser`\nresolves the `Location` header and re-fetches the target for up to five hops. The loop checks neither\nthe scheme, the host nor the port of the resolved target, and it is not governed by\n`http.allow.redirects`, which only affects the page fetch. A crawled site can therefore point the\nrobots.txt fetch at any address reachable from the fetcher worker, including loopback interfaces,\nprivate ranges and cloud metadata endpoints. Every crawled URL triggers a robots.txt fetch on a cache\nmiss, so no unusual configuration is required to reach the loop.\n\nThe fetched body is only parsed as robots rules and is not returned to the caller, so the read itself\nis blind. The more direct impact is on credentials: the okhttp protocol applies its configured request\nheaders, including the `Authorization` header built from `http.basicauth.user` and\n`http.basicauth.password` and anything in `http.custom.headers`, to every request it makes. Because\nStormCrawler follows the redirect itself and issues a new request, okhttp's own removal of the\n`Authorization` header across a host change does not apply, and the operator's crawl credentials are\ndelivered to the host the redirect names.\n\nThe connection-time IP filter, `http.filter.ipaddress.include` and `http.filter.ipaddress.exclude`, is\ninstalled as an okhttp network interceptor on the same client and does apply to these hops when it is\nconfigured. It ships with no rules, which is why the path is reachable in a default configuration. URL\nfiltering never applies, because the robots.txt fetch does not pass through the outlink filter chain.\n\nMitigation\n\nUpgrade to 4.0.0, where a robots.txt redirect is followed only when the target uses http or https and\nshares scheme, host and port with the URL it was reached from. Deployments that legitimately serve\nrobots.txt through a cross-host redirect can restore the previous behaviour with\n`http.robots.redirect.crosshost.allow`.\n\nUsers who cannot upgrade immediately should set `http.filter.ipaddress.exclude` to cover loopback,\nprivate, link-local and CGNAT ranges, which is enforced after DNS resolution and therefore also on\nredirect hops. Operators who configure `http.basicauth.*` or `http.custom.headers` for a crawl should\nassume those credentials may have been sent to third-party hosts and rotate them, and should scope\ncredentials by running a separate topology per origin.\n\nCredit\n\nIndependently reported to the Apache StormCrawler PMC by n0mi1k, with a proof of concept.\n\nAlso found by the ASF -- using Claude agents to study the security of open-source projects, validated\nand reported by Apache StormCrawler.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 4.7,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82446"
+    },
+    {
+      "id": "CVE-2026-137070",
+      "published": "2026-11-25T20:18:41.940",
+      "modified": "2026-11-25T20:18:41.940",
+      "description": "GEOS 3.13.0 before 3.15.1 contains an uncontrolled recursion vulnerability in RectangleContains::isContainedInBoundary that recurses indefinitely on curved geometries returned by getGeometryN. Attackers can supply crafted WKT or WKB CircularString, CompoundCurve, or CurvePolygon geometries tested via PreparedGeometry::contains or GEOSPreparedContains against a prepared rectangle to crash the process with a stack overflow.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137070"
+    },
+    {
+      "id": "CVE-2026-134894",
+      "published": "2026-11-24T10:17:49.830",
+      "modified": "2026-11-25T20:18:36.780",
+      "description": "An SQL injection vulnerability exists in the firewall management component of ADM Defender due to insufficient validation and improper handling of input data in SQLite queries. This vulnerability may allow an attacker with access to the affected functionality to manipulate database queries, potentially resulting in unauthorized access to or modification of firewall-related data.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RY62 as well as from ADM 5.0.0 through ADM 5.1.4.RM62.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.0,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:L/VI:H/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134894"
+    },
+    {
+      "id": "CVE-2026-118879",
+      "published": "2026-11-24T10:17:46.283",
+      "modified": "2026-11-25T20:18:30.670",
+      "description": "Z80 Ultra is affected by an information disclosure vulnerability in service interfaces related to application scenarios. Successful exploitation of this vulnerability may result in an impact on confidentiality.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 3.3,
+        "severity": "LOW",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "INFORMATION_DISCLOSURE"
+      ],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118879"
+    },
+    {
+      "id": "CVE-2026-135403",
+      "published": "2026-11-25T17:17:45.720",
+      "modified": "2026-11-25T20:17:56.077",
+      "description": "Ever Gauzy is an open source business management platform for ERP, CRM, HRM, ATS, and project management. Prior to 111.44.2, getTracker in packages/core/src/lib/throttler/throttler-behind-proxy.guard.ts accepts CF-Connecting-IP without verifying that a trusted Cloudflare edge supplied it; when CF-Connecting-IP is absent, app.set('trust proxy', true) can let an attacker-controlled X-Forwarded-For value determine req.ip. In deployments where a trusted intermediary does not overwrite these headers, or where the firewall permits direct API access, varying the applicable header on repeated POST /auth/login requests gives an unauthenticated remote attacker a distinct throttle bucket for each attempt, so the five-attempts-per-60-seconds limit does not trigger and no account lockout, CAPTCHA, or exponential backoff limits password guessing. This issue is fixed in version 111.44.2.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.4,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-135403"
+    },
+    {
+      "id": "CVE-2026-62151",
+      "published": "2026-11-25T17:17:56.907",
+      "modified": "2026-11-25T20:16:05.627",
+      "description": "mysql_fdw builds string literals for queries sent to the remote MySQL server with an escaping routine that is not character-set aware. When the connection uses a multi-byte character set such as GBK, SJIS or Big5 and MySQL's default backslash escaping is in effect, a crafted value whose trailing byte is 0x5C absorbs the escaping backslash and leaves the following quote unescaped. The routine handles every pushed-down string constant, including ordinary WHERE-clause literals, so an authenticated user with only SELECT on a foreign table can break out of the literal and run arbitrary SQL on the remote MySQL server with the credentials of the user mapping. The issue is fixed in mysql_fdw 2.10.0. From mysql_fdw 2.10.0, mysql_fdw forces NO_BACKSLASH_ESCAPES into the session sql_mode and escapes string literals by doubling single quotes.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62151"
+    },
+    {
+      "id": "CVE-2026-62152",
+      "published": "2026-11-25T17:17:57.060",
+      "modified": "2026-11-25T20:16:05.627",
+      "description": "mysql_fdw accepts several security-sensitive connection options from roles that are not superusers. A role with USAGE on the mysql_fdw foreign data wrapper can set init_command, which runs arbitrary SQL on the remote MySQL server at every connection, including connections made with other users' mappings on a shared foreign server. The same role can set mysql_default_file, ssl_key, ssl_cert, ssl_ca and ssl_capath, which name files read from the PostgreSQL server host, allowing server-side file reads and connection redirection. The issue is fixed in mysql_fdw 2.10.0. From mysql_fdw 2.10.0, only superusers can set init_command, mysql_default_file, ssl_key, ssl_cert, ssl_ca and ssl_capath.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 5.8,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:L/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62152"
+    },
+    {
+      "id": "CVE-2026-62153",
+      "published": "2026-11-25T17:17:57.203",
+      "modified": "2026-11-25T20:16:05.627",
+      "description": "mysql_fdw inserts several values into statements sent to the remote MySQL server without escaping them: the dbname and table_name options in ANALYZE, the remote schema name and the LIMIT TO and EXCEPT table names in IMPORT FOREIGN SCHEMA, and the sql_mode option in the SET sql_mode command. A user who can create or alter foreign tables or foreign servers, or run IMPORT FOREIGN SCHEMA, can break out of the string literal and run arbitrary SQL on the remote MySQL server with the credentials of the user mapping. The issue is fixed in mysql_fdw 2.10.0. From mysql_fdw 2.10.0, mysql_fdw escapes these names and accepts only letters, digits, underscores and commas in sql_mode.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.4,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62153"
+    },
+    {
+      "id": "CVE-2026-62154",
+      "published": "2026-11-25T17:17:57.340",
+      "modified": "2026-11-25T20:16:05.627",
+      "description": "During IMPORT FOREIGN SCHEMA, mysql_fdw copies column metadata returned by the remote MySQL server into the CREATE FOREIGN TABLE statements it runs locally without quoting it. The COLUMN_DEFAULT value is placed directly in the DEFAULT clause, and the name of the generated ENUM type is inserted unquoted. A malicious or compromised MySQL server, or an attacker who can tamper with the connection, can return crafted information_schema metadata and run arbitrary SQL in the local PostgreSQL session of the user who runs IMPORT FOREIGN SCHEMA. The issue is fixed in mysql_fdw 2.10.0. From mysql_fdw 2.10.0, mysql_fdw quotes these values before building the statements.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 7.5,
+        "severity": "HIGH",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-62154"
+    },
+    {
+      "id": "CVE-2026-81407",
+      "published": "2026-11-25T18:18:55.340",
+      "modified": "2026-11-25T20:15:25.900",
+      "description": "Nmap before 7.992 contains a hardcoded cryptographic key vulnerability in the DHCAST128 login of the NSE afp.lua library, which uses a fixed, publicly known Diffie-Hellman private exponent. A passive observer of the network traffic between Nmap and an Apple Filing Protocol server can compute the shared secret from the hardcoded exponent and the server's public value and decrypt the password supplied to scripts such as afp-showmount.nse and afp-brute.nse through the afp.username and afp.password arguments, without man-in-the-middle access or cryptanalysis.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81407"
+    },
+    {
+      "id": "CVE-2026-81417",
+      "published": "2026-11-25T18:18:56.870",
+      "modified": "2026-11-25T20:15:25.900",
+      "description": "Nmap before 7.992 contains an infinite loop vulnerability in the dispatcher of the NSE tftp.lua library, which removes completed coroutines but not ones that ended in an error, leaving a zero-yield spin. A malicious TFTP exchange reached by snmp-ios-config.nse after an SNMP write sequence can leave a dead coroutine that freezes the entire Nmap invocation, before port scanning begins for any target in the run; the hang is prevented when the script-timeout option is set.",
+      "vendors": [
+        "Apple",
+        "Microsoft"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 6.0,
+        "severity": "MEDIUM",
+        "vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:P/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-81417"
+    },
+    {
+      "id": "CVE-2026-95896",
+      "published": "2026-11-10T19:21:43.140",
+      "modified": "2026-11-25T20:07:45.223",
+      "description": "Heap-based buffer overflow in Windows Microsoft DirectMusic allows an authorized attacker to execute code locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95896"
+    },
+    {
+      "id": "CVE-2026-95898",
+      "published": "2026-11-10T19:21:43.327",
+      "modified": "2026-11-25T20:06:15.123",
+      "description": "Heap-based buffer overflow in Windows iSCSI allows an authorized attacker to elevate privileges locally.",
+      "vendors": [
+        "Microsoft"
+      ],
+      "products": [
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1607",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 1809",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 21h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 10 22h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 23h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 24h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 25h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h1",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows 11 26h2",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2016",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2019",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2022",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*"
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "windows server 2025",
+          "version": "*",
+          "cpe": "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1607:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_1809:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_21h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_10_22h2:*:*:*:*:*:*:x86:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_23h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_24h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_25h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h1:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:arm64:*",
+        "cpe:2.3:o:microsoft:windows_11_26h2:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2016:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2019:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2022:*:*:*:*:*:*:x64:*",
+        "cpe:2.3:o:microsoft:windows_server_2025:*:*:*:*:*:*:x64:*"
+      ],
+      "cvss": {
+        "score": 7.8,
+        "severity": "HIGH",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95898"
+    },
     {
       "id": "CVE-2026-95871",
       "published": "2026-11-10T19:21:39.963",
@@ -6580,28 +7502,6 @@
       "signals": [],
       "priority": "P4",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-112605"
-    },
-    {
-      "id": "CVE-2026-118879",
-      "published": "2026-11-24T10:17:46.283",
-      "modified": "2026-11-24T17:56:30.220",
-      "description": "Z80 Ultra is affected by an information disclosure vulnerability in service interfaces related to application scenarios. Successful exploitation of this vulnerability may result in an impact on confidentiality.",
-      "vendors": [
-        "Apple"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 3.3,
-        "severity": "LOW",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [
-        "INFORMATION_DISCLOSURE"
-      ],
-      "priority": "P4",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-118879"
     },
     {
       "id": "CVE-2026-128979",
@@ -36313,26 +37213,6 @@
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95910"
     },
     {
-      "id": "CVE-2026-95893",
-      "published": "2026-11-10T19:21:42.603",
-      "modified": "2026-11-11T02:17:18.083",
-      "description": "Use of uninitialized resource in Windows Win32K allows an authorized attacker to disclose information locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 5.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95893"
-    },
-    {
       "id": "CVE-2026-95889",
       "published": "2026-11-10T19:21:42.220",
       "modified": "2026-11-11T02:17:17.913",
@@ -37980,366 +38860,6 @@
       "signals": [],
       "priority": "P2",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96028"
-    },
-    {
-      "id": "CVE-2026-96027",
-      "published": "2026-11-10T19:21:59.353",
-      "modified": "2026-11-11T01:17:35.313",
-      "description": "Use after free in Windows Installer allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96027"
-    },
-    {
-      "id": "CVE-2026-96019",
-      "published": "2026-11-10T19:21:58.467",
-      "modified": "2026-11-11T01:17:34.770",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Installer allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96019"
-    },
-    {
-      "id": "CVE-2026-96016",
-      "published": "2026-11-10T19:21:57.993",
-      "modified": "2026-11-11T01:17:34.630",
-      "description": "Heap-based buffer overflow in Windows Local Security Authority Subsystem Service (LSASS) allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96016"
-    },
-    {
-      "id": "CVE-2026-96008",
-      "published": "2026-11-10T19:21:57.573",
-      "modified": "2026-11-11T01:17:34.447",
-      "description": "Use after free in Windows Installer allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96008"
-    },
-    {
-      "id": "CVE-2026-96005",
-      "published": "2026-11-10T19:21:57.197",
-      "modified": "2026-11-11T01:17:34.100",
-      "description": "Heap-based buffer overflow in Windows USB Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96005"
-    },
-    {
-      "id": "CVE-2026-96004",
-      "published": "2026-11-10T19:21:57.007",
-      "modified": "2026-11-11T01:17:33.910",
-      "description": "Use after free in Windows Installer allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96004"
-    },
-    {
-      "id": "CVE-2026-95999",
-      "published": "2026-11-10T19:21:56.483",
-      "modified": "2026-11-11T01:17:33.740",
-      "description": "Out-of-bounds read in Windows USB Hub Driver allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95999"
-    },
-    {
-      "id": "CVE-2026-95997",
-      "published": "2026-11-10T19:21:56.143",
-      "modified": "2026-11-11T01:17:33.577",
-      "description": "Use after free in Windows Event Logging Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95997"
-    },
-    {
-      "id": "CVE-2026-95991",
-      "published": "2026-11-10T19:21:55.717",
-      "modified": "2026-11-11T01:17:33.400",
-      "description": "Use after free in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95991"
-    },
-    {
-      "id": "CVE-2026-95988",
-      "published": "2026-11-10T19:21:55.347",
-      "modified": "2026-11-11T01:17:33.093",
-      "description": "Incorrect authorization in Windows Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95988"
-    },
-    {
-      "id": "CVE-2026-95987",
-      "published": "2026-11-10T19:21:55.117",
-      "modified": "2026-11-11T01:17:32.910",
-      "description": "Use after free in Windows User Manager Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95987"
-    },
-    {
-      "id": "CVE-2026-95983",
-      "published": "2026-11-10T19:21:54.890",
-      "modified": "2026-11-11T01:17:32.750",
-      "description": "Untrusted pointer dereference in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.8,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95983"
-    },
-    {
-      "id": "CVE-2026-95979",
-      "published": "2026-11-10T19:21:54.697",
-      "modified": "2026-11-11T01:17:32.613",
-      "description": "Use after free in Windows Brokering File System allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95979"
-    },
-    {
-      "id": "CVE-2026-95976",
-      "published": "2026-11-10T19:21:54.347",
-      "modified": "2026-11-11T01:17:32.487",
-      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Diagnostic Policy Service allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95976"
-    },
-    {
-      "id": "CVE-2026-95974",
-      "published": "2026-11-10T19:21:53.980",
-      "modified": "2026-11-11T01:17:32.313",
-      "description": "Heap-based buffer overflow in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95974"
-    },
-    {
-      "id": "CVE-2026-95973",
-      "published": "2026-11-10T19:21:53.800",
-      "modified": "2026-11-11T01:17:32.133",
-      "description": "Untrusted pointer dereference in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95973"
-    },
-    {
-      "id": "CVE-2026-95971",
-      "published": "2026-11-10T19:21:53.610",
-      "modified": "2026-11-11T01:17:31.960",
-      "description": "Untrusted pointer dereference in Windows Graphics Kernel allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95971"
-    },
-    {
-      "id": "CVE-2026-95968",
-      "published": "2026-11-10T19:21:53.417",
-      "modified": "2026-11-11T01:17:31.783",
-      "description": "Use after free in Windows Smart Card allows an authorized attacker to elevate privileges locally.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.0,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-95968"
     }
   ],
   "kev": [
@@ -39433,6 +39953,8 @@
     "CVE-2023-25280",
     "CVE-2023-2533",
     "CVE-2023-25717",
+    "CVE-2023-25914",
+    "CVE-2023-25915",
     "CVE-2023-26083",
     "CVE-2023-26359",
     "CVE-2023-26360",
@@ -39836,6 +40358,7 @@
     "CVE-2025-40551",
     "CVE-2025-40602",
     "CVE-2025-41244",
+    "CVE-2025-41450",
     "CVE-2025-42599",
     "CVE-2025-42884",
     "CVE-2025-42999",
@@ -39925,6 +40448,7 @@
     "CVE-2026-102490",
     "CVE-2026-102764",
     "CVE-2026-102895",
+    "CVE-2026-103406",
     "CVE-2026-104286",
     "CVE-2026-104935",
     "CVE-2026-105133",
@@ -39959,6 +40483,12 @@
     "CVE-2026-131914",
     "CVE-2026-132165",
     "CVE-2026-132224",
+    "CVE-2026-133275",
+    "CVE-2026-133303",
+    "CVE-2026-133311",
+    "CVE-2026-133323",
+    "CVE-2026-133324",
+    "CVE-2026-133469",
     "CVE-2026-133968",
     "CVE-2026-1340",
     "CVE-2026-134624",
@@ -40142,10 +40672,10 @@
   "statistics": {
     "total_relevant_cves": 1000,
     "critical": 88,
-    "high": 479,
-    "medium": 384,
-    "kev": 5,
-    "p1": 44,
-    "p2": 523
+    "high": 469,
+    "medium": 394,
+    "kev": 6,
+    "p1": 45,
+    "p2": 513
   }
 }
