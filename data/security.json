@@ -1,6 +1,82 @@
 {
-  "updated": "2026-11-26T23:57:27.050254+00:00",
+  "updated": "2026-11-27T08:01:44.952136+00:00",
   "cves": [
+    {
+      "id": "CVE-2026-77682",
+      "published": "2026-11-27T07:17:03.603",
+      "modified": "2026-11-27T07:17:03.603",
+      "description": "A code injection vulnerability exists in Epiphany when the user invokes form autofill from the context menu on a page containing a malicious HTML form.\n\nIn embed/web-process-extension/resources/js/ephy_autofill.js, getSelector() builds a CSS selector by directly interpolating an element's id attribute:\n\n    path.unshift(`#${el.id}`);\n\nWhen the user selects an autofill entry, the browser process in embed/ephy-web-view.c previously constructed JavaScript using sprintf with the selector embedded in single quotes:\n\n    EphyAutofill.fill(PAGE_ID, 'SELECTOR', FILL_CHOICE);\n\nBecause SELECTOR comes from attacker-controlled page content and is not escaped, a crafted id such as a'); PAYLOAD; var _=(' breaks out of the string literal and executes arbitrary JavaScript when the script is evaluated.\n\nThe injected code runs in Epiphany's private autofill script world, which hosts EphyAutofill credential APIs and password manager save/request handlers. The reporter demonstrated a proof of concept that injects credentials into another domain and uses Ephy.permissionsManager to enumerate domains with special permissions. Full exfiltration of all saved passwords was not demonstrated but may be possible given the privileges of this context.\n\nExploitation requires the victim to visit a malicious page, right-click on a form field, and choose an Autofill context menu item. This is a deliberate user action but does not require installing software or entering credentials manually.\n\nAffected versions: Epiphany >= 47.beta.\nFixed upstream in epiphany 50.6 and 49.9 via merge request !2147, which replaces sprintf-based script evaluation with a WebKit user message and jsc_value_object_invoke_method() passing the selector as a typed string argument.\nUpstream report: https://gitlab.gnome.org/GNOME/epiphany/-/issues/2921",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": null,
+        "severity": "UNKNOWN",
+        "vector": null
+      },
+      "kev": false,
+      "signals": [],
+      "priority": "P4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-77682"
+    },
+    {
+      "id": "CVE-2026-137738",
+      "published": "2026-11-27T06:17:09.867",
+      "modified": "2026-11-27T06:17:09.867",
+      "description": "In RealVNC Server before 7.19.1, UDP-based connections could potentially be exploited without authentication to execute code remotely or cause the software to crash. This could allow an attacker to remotely execute code as root on certain platforms or perform a denial of service attack. This issue affects RealVNC Viewer: from 8.4.0 through 8.6.1; RealVNC Classic Viewer: from 6.4.0 through 7.18.2; RealVNC Server: from 6.4.0 through 7.19.0; RealVNC Connect App: through 8.6.1; RealVNC iOS Viewer: from 3.7.0 through 4.9.5; RealVNC Android Viewer: from 3.5.0 through 4.9.5; RealVNC iOS Server: through 2.8.1; RealVNC Android Server: through 2.8.3; On-Demand Assist: through 3.4.1.",
+      "vendors": [
+        "Apple"
+      ],
+      "products": [],
+      "cpes": [],
+      "cvss": {
+        "score": 9.8,
+        "severity": "CRITICAL",
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "REMOTE",
+        "DOS"
+      ],
+      "priority": "P1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-137738"
+    },
+    {
+      "id": "CVE-2023-6679",
+      "published": "2023-12-11T19:15:09.440",
+      "modified": "2026-11-27T05:18:57.387",
+      "description": "A null pointer dereference vulnerability was found in dpll_pin_parent_pin_set() in drivers/dpll/dpll_netlink.c in the Digital Phase Locked Loop (DPLL) subsystem in the  Linux kernel. This issue could be exploited to trigger a denial of service.",
+      "vendors": [
+        "Red Hat"
+      ],
+      "products": [
+        {
+          "vendor": "Red Hat",
+          "product": "enterprise linux",
+          "version": "9.0",
+          "cpe": "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+        }
+      ],
+      "cpes": [
+        "cpe:2.3:o:linux:linux_kernel:-:*:*:*:*:*:*:*",
+        "cpe:2.3:o:fedoraproject:fedora:38:*:*:*:*:*:*:*",
+        "cpe:2.3:o:redhat:enterprise_linux:9.0:*:*:*:*:*:*:*"
+      ],
+      "cvss": {
+        "score": 5.5,
+        "severity": "MEDIUM",
+        "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
+      },
+      "kev": false,
+      "signals": [
+        "DOS"
+      ],
+      "priority": "P3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-6679"
+    },
     {
       "id": "CVE-2026-81658",
       "published": "2026-08-27T13:18:42.037",
@@ -42886,70 +42962,6 @@
       ],
       "priority": "P3",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96086"
-    },
-    {
-      "id": "CVE-2026-96082",
-      "published": "2026-11-10T19:22:06.610",
-      "modified": "2026-11-11T02:17:21.273",
-      "description": "Out-of-bounds read in Windows Kerberos allows an authorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 6.5,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96082"
-    },
-    {
-      "id": "CVE-2026-96077",
-      "published": "2026-11-10T19:22:06.010",
-      "modified": "2026-11-11T02:17:21.103",
-      "description": "Null pointer dereference in Windows TCP/IP allows an unauthorized attacker to deny service over a network.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 7.5,
-        "severity": "HIGH",
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-      },
-      "kev": false,
-      "signals": [
-        "REMOTE"
-      ],
-      "priority": "P2",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96077"
-    },
-    {
-      "id": "CVE-2026-96058",
-      "published": "2026-11-10T19:22:03.543",
-      "modified": "2026-11-11T02:17:20.790",
-      "description": "Out-of-bounds read in Windows Kernel allows an unauthorized attacker to disclose information with a physical attack.",
-      "vendors": [
-        "Microsoft"
-      ],
-      "products": [],
-      "cpes": [],
-      "cvss": {
-        "score": 4.6,
-        "severity": "MEDIUM",
-        "vector": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
-      },
-      "kev": false,
-      "signals": [],
-      "priority": "P3",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96058"
     }
   ],
   "kev": [
@@ -44761,11 +44773,11 @@
   ],
   "statistics": {
     "total_relevant_cves": 1000,
-    "critical": 93,
-    "high": 470,
-    "medium": 387,
+    "critical": 94,
+    "high": 469,
+    "medium": 386,
     "kev": 6,
-    "p1": 48,
-    "p2": 516
+    "p1": 49,
+    "p2": 515
   }
 }
